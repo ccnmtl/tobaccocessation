@@ -1,0 +1,63 @@
+{% extends "assist/base_assist.html" %}
+{% load smartif %}
+
+{% block css %}
+   {{ block.super }}
+   <link href="/assist/media/css/treatment.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block js %}
+   {{ block.super }}
+   <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/MochiKit.js"></script>
+   <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/Visual.js"></script>
+   <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/DragAndDrop.js"></script>
+   <script type="text/javascript" src="/assist/media/js/treatment.js"></script>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }} 
+    <h3>ACTIVITY: TREATMENT CHOICES</h3>
+    Instructions: select appropriate treatment options for smokers with the following daily cigarette consumption habits.
+    <br />
+    	<div id="treatment_leftcol">
+		  <h6>Patient Smokes</h6>
+		  <div class="smoker_quantity">
+		    <img src="/assist/media/images/halfpack.jpg"/>
+		    <div class="footer">1/2 pack per day</div>
+		   </div>
+		  <div class="smoker_quantity">
+		    <img src="/assist/media/images/onepack.jpg"/>
+		    <div class="footer">1 pack per day</div>
+		  </div>
+		  <div class="smoker_quantity">
+		     <img src="/assist/media/images/twopacks.jpg"/>
+		     <div class="footer">2 packs per day</div>
+		  </div>
+		</div>
+		
+		<!--  DROP TARGETS -->
+		<div id="treatment_centercol">
+		  <h6>Best Treatment Choices</h6>
+		  <div id="treatment_light_smoker" class="treatment_choice">&nbsp;</div>
+		  <div id="treatment_moderate_smoker" class="treatment_choice">&nbsp;</div>
+		  <div id="treatment_heavy_smoker" class="treatment_choice">&nbsp;</div>
+		</div>
+		
+		<!-- DRAGGABLE ITEMS -->
+		<div id="treatment_rightcol">
+		    <h6>Available Medications</h6>
+		    
+          <table id="treatments" class="treatments" cellpadding="0">
+             <tr><td colspan="2" style="border: 0; height: 6px;" /></td>
+             <tr>
+                {% for treatment in treatments %}
+				        {% if forloop.counter0|divisibleby:"2" %}<tr>{% endif %}
+		                   <td class="treatment" style="background-image: url(/assist/media/images/{{ treatment }}.jpg)"><span id="{{treatment}}" class="treatment_draggable {{ treatment }}"><img src="/assist/media/images/{{ treatment }}.jpg"></span></td>
+		                {% if forloop.counter|divisibleby:"2" %}</tr>{% endif %}
+		          {% endfor %}
+		       </tr>
+		       <tr><td colspan="2" style="border: 0; height: 6px;" /></td>
+          </table>
+		</div>
+    
+{% endblock %}

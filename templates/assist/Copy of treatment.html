@@ -1,0 +1,48 @@
+{% extends "assist/base_assist.html" %}
+
+{% block css %}
+   {{ block.super }}
+   <link href="/assist/media/css/treatment.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block js %}
+   {{ block.super }}
+   <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/MochiKit.js"></script>
+   <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/Visual.js"></script>
+   <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/DragAndDrop.js"></script>
+   <script type="text/javascript" src="/assist/media/js/treatment.js"></script>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }} 
+    <h2>ACTIVITY: TREATMENT CHOICES</h2>
+    Instructions: select appropriate treatment options for smokers with the following daily cigarette consumption habits.
+    <br /><br />
+    	<div id="treatment_leftcol">
+		  <h3>Patient Smokes</h3>
+		  <div class="smoker_quantity">Fewer than 10 cigarettes per day starting after breakfast</div>
+		  <div class="smoker_quantity">Up to a pack a day OR first cigarette before breakfast</div>
+		  <div class="smoker_quantity">1-2 or more packs per day</div>
+		</div>
+		
+		<!--  DROP TARGETS -->
+		<div id="treatment_centercol">
+		  <h3>Best Treatment Choices</h3>
+		  <div id="treatment_light_smoker" class="treatment_choice">Drag best treatment choices here from options below</div>
+		  <div id="treatment_moderate_smoker" class="treatment_choice">Drag best treatment choices here from options below</div>
+		  <div id="treatment_heavy_smoker" class="treatment_choice">Drag best treatment choices here from options below</div>
+		</div>
+
+      <!-- DRAGGABLE ITEMS -->
+		<div id="treatment_rightcol">
+		    <h3>Available Medications</h3>
+		    
+		    <!--  to do setup a model for the treatments, then iterate over them and specify the bkimage in the div rather than in the css -->
+		    <div class="chantix_background">
+			    <span id="chantix" class="treatment_draggable chantix">
+	            <img src="/assist/media/images/chantix.jpg">
+	          </span>
+          </div>
+		</div>
+    
+{% endblock %}
