@@ -61,13 +61,11 @@
 
 			{% block primarynavtabs %}
 			<ul>
-				<li><a href="/welcome">Welcome</a></li>
-				<li><a href="/resources">Resources</a></li>
-				<li><a href="#">Ask</a></li>
-				<li><a href="#">Advise</a></li>
-				<li><a href="#">Assess</a></li>
-				<li><a href="/assist/">Assist</a></li>
-				<li><a href="#">Arrange</a></li>
+{% for section in root.get_children %}
+  <li
+{% ifequal section.id module.id %}class="active"{% endifequal %}
+><div><a href="{{section.get_absolute_url}}">{{section.label}}</a></div></li>
+{% endfor %}
 			</ul><!-- id="primarynavtabs" -->
 			{% endblock %}
 			
@@ -94,6 +92,10 @@
 					{% block pagetitle %}{% endblock %}
 				   
 					{% block content %}{% endblock %}
+					
+					<div class="content-nav">
+                  {% block content-nav %}{% endblock %}
+               </div>
 
 				<!-- ###### Don't touch this ###### -->
 				<div class="visualclear"></div><!-- id="visualclear" -->				

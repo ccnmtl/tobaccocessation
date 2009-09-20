@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if needs_submit %}
+<form action="." method="post">
+{% endif %}
+
+<h2>{{ section.label }}</h2>
+{% for block in section.pageblock_set.all %}
+{% if block.label %}<h3>{{block.label}}</h3>{% endif %}
+{{ block.render }}
+{% endfor %}
+
+
+{% if needs_submit %}
+<input type="submit" value="submit" />
+</form>
+{% endif %}
+
+{% endblock %}
+
+{% block subnav %}
+<!--  @todo: make this include generic or put into pagetree area -->
+{% include "siteeditor/menu.html" %}
+{% endblock %}
+
+{% block content-nav %}
+
+{% if section.get_previous %}
+<a href="{{section.get_previous.get_absolute_url}}" id="previous">« {{section.get_previous.label}}</a>
+{% endif %}
+
+{% if section.get_next %}
+<a href="{{section.get_next.get_absolute_url}}" id="next">{{section.get_next.label}} »</a>
+{% endif %}
+{% endblock %}

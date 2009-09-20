@@ -31,6 +31,11 @@
 		<!-- Project title/logo --><h1 id="logo_project"><a href="./" title="Project Title: Project Django"><span>Project Title: Project Django </span></a></h1>	
 		{% block standardnav %}
 		<ul id="standardnav">
+		   {% if user.is_authenticated %}
+            <li><a href="/logout">Logout</a></li>
+         {% else %}
+            <li><a href="/accounts/login/?next=/welcome/">Login</a></li>
+         {% endif %}
 			<li><a href="#">About</a></li>
 			<li><a href="#">Help</a></li>
 			<li><a href="#">Contact</a></li>
@@ -56,10 +61,11 @@
 
 			{% block primarynavtabs %}
 			<ul>
-				<li><a href="#">Item 1</a></li>
-				<li><a href="#">Item 2</a></li>
-				<li><a href="#">Item 3</a></li>
-				<li><a href="#">Item 4</a></li>
+			{% for section in root.get_children %}
+			  <li
+			{% ifequal section.id module.id %}class="active"{% endifequal %}
+			><div><a href="{{section.get_absolute_url}}">{{section.label}}</a></div></li>
+			{% endfor %}
 			</ul><!-- id="primarynavtabs" -->
 			{% endblock %}
 			
@@ -71,6 +77,9 @@
 
 {% comment %} not using this now <div id="breadcrumbs">{% block breadcrumbs %}{% endblock %}</div> {% endcomment %}
 
+<div id="subnav">
+   {% block subnav %}{% endblock %}
+</div>
 
 	<!-- ###### Page: Sidebars and Content ###### -->
 	<div id="pagebody">
@@ -89,6 +98,10 @@
 					{% block pagetitle %}{% endblock %}
 				
 					{% block content %}{% endblock %}
+					 
+               <div class="content-nav">
+                  {% block content-nav %}{% endblock %}
+               </div>
 
 				<!-- ###### Don't touch this ###### -->
 				<div class="visualclear"></div><!-- id="visualclear" -->				
