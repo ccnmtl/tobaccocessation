@@ -1,5 +1,4 @@
-
-{% extends "admin/base_site.html" %}
+{% extends "project_base_admin_site.html" %}
 {% load i18n %}
 
 {% block stylesheet %}{% load adminmedia %}{% admin_media_prefix %}css/login.css{% endblock %}
@@ -22,7 +21,7 @@
 login through WIND with it</p>
 <input type="submit" value="Here" />
 </form>
-<p>otherwise: </p>
+<p>otherwise:</p>
 
 <form action="{{ app_path }}" method="post" id="login-form">
   <div class="form-row">

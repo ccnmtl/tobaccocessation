@@ -1,37 +1,45 @@
-{% extends "base.html" %}
+{% extends "project_two_col_left.html" %}
+
+{% block sidebarleft %}
+   <ul>
+   {% ifequal section.depth 2 %}
+      {% with section as parent %}
+         {% include "siteeditor/level_menu.html" %}
+      {% endwith %}
+   {% endifequal %}
+   
+   {% ifequal section.depth 3 %}
+      {% with section.get_parent as parent %}
+       {% include "siteeditor/level_menu.html" %}
+    {% endwith %}
+   {% endifequal %}
+   </ul>
+{% endblock %}
 
 {% block content %}
-
-{% if needs_submit %}
-<form action="." method="post">
-{% endif %}
-
-<h2>{{ section.label }}</h2>
-{% for block in section.pageblock_set.all %}
-{% if block.label %}<h3>{{block.label}}</h3>{% endif %}
-{{ block.render }}
-{% endfor %}
-
-
-{% if needs_submit %}
-<input type="submit" value="submit" />
-</form>
-{% endif %}
-
-{% endblock %}
-
-{% block subnav %}
-<!--  @todo: make this include generic or put into pagetree area -->
-{% include "siteeditor/menu.html" %}
-{% endblock %}
-
-{% block content-nav %}
-
-{% if section.get_previous %}
-<a href="{{section.get_previous.get_absolute_url}}" id="previous">« {{section.get_previous.label}}</a>
-{% endif %}
-
-{% if section.get_next %}
-<a href="{{section.get_next.get_absolute_url}}" id="next">{{section.get_next.label}} »</a>
-{% endif %}
+	{% if needs_submit %}
+	<form action="." method="post">
+	{% endif %}
+	
+	<h2>{{ section.label }}</h2>
+	<br />
+	{% for block in section.pageblock_set.all %}
+	{% if block.label %}<h3>{{block.label}}</h3>{% endif %}
+	{{ block.render }}
+	{% endfor %}
+	
+	{% if needs_submit %}
+	<input type="submit" value="submit" />
+	</form>
+	{% endif %}
+	
+	<div class="content-nav">
+	  {% if section.get_previous %}
+	     <a href="{{section.get_previous.get_absolute_url}}" id="previous">« {{section.get_previous.label}}</a>
+	   {% endif %}
+	   
+	   {% if section.get_next %}
+	     <a href="{{section.get_next.get_absolute_url}}" id="next">{{section.get_next.label}} »</a>
+	   {% endif %}
+	</div>
 {% endblock %}

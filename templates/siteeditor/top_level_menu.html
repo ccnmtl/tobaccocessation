@@ -1,0 +1,7 @@
+	<ul>
+	 {% for s in root.get_children %}
+	   <li
+	 {% ifequal s.id module.id %}class="active"{% endifequal %}
+	 ><div><a href="{{s.get_absolute_url}}">{{s.label}}</a></div></li>
+	 {% endfor %}
+	</ul><!-- id="primarynavtabs" -->

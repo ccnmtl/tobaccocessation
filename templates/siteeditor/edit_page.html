@@ -1,4 +1,4 @@
-{% extends "base_two_col_left.html" %}
+{% extends "project_two_col_left.html" %}
 
 {% block js %}
 <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/MochiKit.js"></script>
@@ -53,20 +53,6 @@ var saveOrderOfPageBlocks = function() {
 }
 
 </script>
-{% endblock %}
-
-{% block sidebarleft %}
-   <div id="fadetop"></div>
-   <div class="block">
-	   <h3>Sections</h3>
-	   
-	   {% with "/edit" as menu_base %}
-		   <!--  @todo: make this include generic or put into pagetree area -->
-		   {% include "siteeditor/menu.html" %}
-		{% endwith %}
-	</div>
-	<div id="fadebottom"></div>
-   
 {% endblock %}
 
 {% block content %}
@@ -157,6 +143,8 @@ var saveOrderOfPageBlocks = function() {
 <input type="submit" value="add pullquote block" />
 </form>
 
+
+
 </div>
 
 <div id="edit-page" class="tabbertab" title="edit section" />
@@ -176,12 +164,7 @@ var saveOrderOfPageBlocks = function() {
 </div>
 </div>
 
-{% endblock %}
-
-
-
-{% block content-nav %}
-
+<div class="content-nav">
 {% if section.get_previous %}
 <a href="/edit{{section.get_previous.get_absolute_url}}" id="previous">« {{section.get_previous.label}}</a>
 {% endif %}
@@ -189,4 +172,14 @@ var saveOrderOfPageBlocks = function() {
 {% if section.get_next %}
 <a href="/edit{{section.get_next.get_absolute_url}}" id="next">{{section.get_next.label}} »</a>
 {% endif %}
+</div>
+
 {% endblock %}
+
+{% block sidebarleft %}
+{% with "/edit" as menu_base %}
+{% include "siteeditor/menu.html" %}
+{% endwith %}
+{% endblock %}
+
+

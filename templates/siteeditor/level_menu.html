@@ -1,0 +1,13 @@
+<!--  prints the next level of children given a "passed in" parent node -->
+<!--  "section" is assumed to be the currently active node -->
+{% for s in parent.get_descendents %}
+   {% ifequal s.id parent.id %}
+   {% else %}
+      {% with parent.depth|add:"1" as depth %}
+	      {% ifequal s.depth depth  %}
+	         <li class="menu-{{s.depth}}">{% ifnotequal s.id section.id %}<a href="{{menu_base}}{{s.get_absolute_url}}">{%else%}<b>{% endifnotequal %}{{s.label}}{% ifnotequal s.id section.id %}</a>{%else%}</b>{% endifnotequal %}
+	      {% endifequal %}
+	   {% endwith %}
+      </li>
+   {% endifequal %}
+{% endfor %}

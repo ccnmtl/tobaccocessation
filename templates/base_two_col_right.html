@@ -13,7 +13,7 @@
 	{% block js %}{% endblock %}
 	{% block feeds %}{% endblock %}
 </head>
-<body class="two_columns_right {% block widthtype %}fixed{% endblock %}">
+<body class="two_columns_right {% block widthtype %}fluid{% endblock %}">
 {% comment %}
 ###### FOR WIDTH TYPE--
    fixed : fixed width, doesn't change with browser resize
@@ -70,6 +70,10 @@
 {% endblock %}
 
 {% comment %} not using this now <div id="breadcrumbs">{% block breadcrumbs %}{% endblock %}</div> {% endcomment %}
+
+<div id="subnav">
+   {% block subnav %}{% endblock %}
+</div>
 
 
 	<!-- ###### Page: Sidebars and Content ###### -->

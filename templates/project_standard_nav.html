@@ -1,0 +1,10 @@
+   <ul id="standardnav">
+      {% if user.is_authenticated %}
+           <li><a href="/logout">Logout</a></li>
+        {% else %}
+           <li><a href="/accounts/login/?next=/welcome/">Login</a></li>
+        {% endif %}
+      <li><a href="#">About</a></li>
+      <li><a href="#">Help</a></li>
+      <li><a href="#">Contact</a></li>
+   </ul>
