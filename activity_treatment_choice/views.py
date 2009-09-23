@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def root(request):
-    return render_to_response("assist/index.html", dict(user=request.user))
+    return render_to_response("activity_treatment_choice/index.html", dict(user=request.user))
 
 @login_required
 def treatment(request):
@@ -17,5 +17,5 @@ def treatment(request):
        'treatments': treatments,
     })
     
-    template = loader.get_template('assist/treatment.html')
+    template = loader.get_template('activity_treatment_choice/treatment.html')
     return HttpResponse(template.render(ctx))
