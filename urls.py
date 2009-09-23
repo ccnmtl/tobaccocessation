@@ -9,7 +9,6 @@ site_media_root = os.path.join(os.path.dirname(__file__),"media")
 urlpatterns = patterns('',
                        (r'^$','siteeditor.views.index'),
                        (r'^logout/$', 'django.contrib.auth.views.logout', {'template_name': 'logged_out.html'}),
-                       (r'^assist/', include('tobaccocessation.assist.urls')),
                        (r'^activity/treatment/', include('tobaccocessation.activity_treatment_choice.urls')),
                        ('^accounts/',include('djangowind.urls')),
                        (r'^admin/(.*)', admin.site.root),
