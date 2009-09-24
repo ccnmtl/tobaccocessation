@@ -54,7 +54,7 @@
              <tr>
                 {% for treatment in treatments %}
 				        {% if forloop.counter0|divisibleby:"2" %}<tr>{% endif %}
-		                   <td class="treatment" style="background-image: url(/activity/treatment/media/images/{{ treatment }}.jpg)"><span id="{{treatment}}" class="treatment_draggable {{ treatment }}"><img src="/activity/treatment/media/images/{{ treatment }}.jpg"></span></td>
+		                   <td class="treatment" style="background-image: url(/activity/treatment/media/images/{{ treatment }}.jpg)"><span id="{{treatment}}" class="{{ treatment }} treatment_draggable"><img src="/activity/treatment/media/images/{{ treatment }}.jpg"></span></td>
 		                {% if forloop.counter|divisibleby:"2" %}</tr>{% endif %}
 		          {% endfor %}
 		       </tr>

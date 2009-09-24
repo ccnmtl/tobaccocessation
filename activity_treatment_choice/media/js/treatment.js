@@ -4,6 +4,36 @@ function debug(string)
       log("DEBUG " + string)
 }
 
+function removeClassFromAcceptList(element, node)
+{
+   clazzName = String(element.className.split(' ', 1))
+   
+   for (i=0; i < _droppables.length; i++)
+   {
+      if (_droppables[i].element.id == node.id)
+      {
+         _droppables[i].options.accept.splice(_droppables[i].options.accept.indexOf(clazzName), 1);
+         
+         debug("removeClassFromAcceptList " + clazzName + " [" + _droppables[i].options.accept + "]")
+      }
+   }
+}
+
+function addClassToAcceptList(element, node)
+{
+   clazzName = element.className.split(' ', 1)
+   
+   for (i=0; i < _droppables.length; i++)
+   {
+      if (_droppables[i].element.id == node.id)
+      {
+         _droppables[i].options.accept.push(clazzName);
+         
+         debug("addClassToAcceptList " + clazzName + " [" + _droppables[i].options.accept + "]")
+      }
+   }   
+}
+
 _dropped = false;
 _counter = 5;
 _droppables = null;
@@ -31,19 +61,19 @@ function treatmentDropHandler(element, onto, event)
 {
    debug("treatmentDropHandler");
    
-   // copy the dragged node (element) and place it in its new position
-   // ONLY if it doesn't exist yet
-   //exists = false;
-   //for (i=0; i<onto.childNodes.length; i++)
-  //{
-  //    if (hasElementClass(onto.childNodes[i], element.id))
-  //        exists = true;
-  // }
-   
-   exists = false;
-   
-   if (!exists)
+   if (hasElementClass(element, "treatment_trashable"))
    {
+      debug("dropping a trashable element. just copy from source to destination")
+      
+      source = element.parentNode
+      addClassToAcceptList(element, source)
+      
+      onto.appendChild(element)
+      //source.removeChild(element)
+   }
+   else
+   {
+      debug("dropping an element directly from the toolbox.")
       var newnode = element.cloneNode(true)
       id = _counter++
       newnode.id = "treatment_" + id
@@ -60,23 +90,18 @@ function treatmentDropHandler(element, onto, event)
          revert: true, 
          reverteffect: reverteffect
       });
-      
-      // remove this item from the accept list
-      for (i=0; i < _droppables.length; i++)
-      {
-         if (_droppables[i].element.id == onto.id)
-         {
-            _droppables[i].options.accept.splice(_droppables[i].options.accept.indexOf(element.id), 1);
-         }
-      }
    }
+   
+   // remove the elements' class from the destination's accept list
+   removeClassFromAcceptList(element, onto)
+   
    _dropped = true;
 }
 
 //On successful drop, copy the source node to the destination
 function treatmentTrashHandler(element, onto, event)
 {
-   debug("treatmentTrashHandler");
+   debug("treatmentTrashHandler: dropping " + element.id + " onto " + onto.id );
 
    // readd this item from the accept list
    for (i=0; i < _droppables.length; i++)
