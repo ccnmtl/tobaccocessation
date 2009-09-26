@@ -6,7 +6,5 @@ media_root = os.path.join(os.path.dirname(__file__),"media")
 
 urlpatterns = patterns('',
                        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': media_root}),
-                       (r'^$', 'tobaccocessation.activity_treatment_choice.views.root'),
-                       (r'^load/$', 'tobaccocessation.activity_treatment_choice.views.loadstate'),
-                       (r'^save/$', 'tobaccocessation.activity_treatment_choice.views.savestate')
+                       (r'^$', 'tobaccocessation.activity_prescription_writing.views.root'),
 )

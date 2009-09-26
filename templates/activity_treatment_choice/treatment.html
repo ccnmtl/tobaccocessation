@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "project_base.html" %}
 {% load smartif %}
 
 {% block title %}Activity - Treatment Choice{% endblock %}
@@ -13,11 +13,13 @@
    <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/MochiKit.js"></script>
    <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/Visual.js"></script>
    <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/DragAndDrop.js"></script>
+   <script type="text/javascript" src="/site_media/js/json2.js"></script>
    <script type="text/javascript" src="/activity/treatment/media/js/treatment.js"></script>
 {% endblock %}
 
 {% block content %}
     {{ block.super }} 
+    <a href="#" onclick="saveState(); return true">Save</a> (@todo - trigger save on page exit)&nbsp;|&nbsp;<a href="http://www.google.com">Google</a><br />
     <h3>ACTIVITY: TREATMENT CHOICES</h3>
     Instructions: select appropriate treatment options for smokers with the following daily cigarette consumption habits.
     <br />
@@ -40,9 +42,9 @@
 		<!--  DROP TARGETS -->
 		<div id="treatment_centercol">
 		  <h6>Best Treatment Choices</h6>
-		  <div id="treatment_light_smoker" class="treatment_choice">&nbsp;</div>
-		  <div id="treatment_moderate_smoker" class="treatment_choice">&nbsp;</div>
-		  <div id="treatment_heavy_smoker" class="treatment_choice">&nbsp;</div>
+		  <div id="treatment_light_smoker" class="treatment_choice"></div>
+		  <div id="treatment_moderate_smoker" class="treatment_choice"></div>
+		  <div id="treatment_heavy_smoker" class="treatment_choice"></div>
 		</div>
 		
 		<!-- DRAGGABLE ITEMS -->
@@ -61,5 +63,8 @@
 		       <tr><td colspan="2" style="border: 0; height: 6px;" /></td>
           </table>
 		</div>
+		
+		<span id="treatment_template" style="display: none"><img src="/activity/treatment/media/images/"></span>
+		
     
 {% endblock %}
