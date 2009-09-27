@@ -40,6 +40,8 @@ _droppables = null
 
 function checkForSuccess()
 {
+   debug("checkForSuccess")
+   
    // If each smoker quantity div has an empty accept list, then the answers are correct.
    smoker_quantity_divs = ['treatment_light_smoker', 'treatment_moderate_smoker', 'treatment_heavy_smoker']
                             
@@ -54,7 +56,7 @@ function checkForSuccess()
        }
     }
    
-   alert("@todo: show a success overlay")
+   appear($('success_overlay'), {'to': '.9'})
 }
 
 
