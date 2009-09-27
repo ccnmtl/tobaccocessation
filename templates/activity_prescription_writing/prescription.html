@@ -1,0 +1,33 @@
+{% extends "project_base.html" %}
+{% load smartif %}
+
+{% block title %}Activity - Prescription Writing{% endblock %}
+
+{% block css %}
+   {{ block.super }}
+   <link href="/activity/treatment/media/css/treatment_choice.css" rel="stylesheet" type="text/css" />
+   <link href="/activity/prescription/media/css/prescription.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block js %}
+   {{ block.super }}
+   <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/MochiKit.js"></script>
+   <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/Visual.js"></script>
+   <script type="text/javascript" src="/activity/prescription/media/js/prescription.js"></script>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }} 
+    
+    <div id="blankrx">
+      <form>
+         <input type="text" id="medication_name"></input><br />
+         <input type="text" id="disp"></input><br />
+         <textarea rows="4" cols="22" id="sig"></textarea><br />
+         <input type="text" id="refills" maxlength="1" onblur="numeric(this)";></input>
+      </form>
+      </div>
+ 
+    </div>
+    
+{% endblock %}
