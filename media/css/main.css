@@ -567,8 +567,8 @@ img, img a
 	margin: 0;
 	padding: 0 0;
 	border: 0;
-	width: 498px;
 	z-index: 5;
+	width: 900px;
 }
 
 #squish

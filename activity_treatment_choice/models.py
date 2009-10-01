@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.utils import simplejson
 
 class ActivityState (models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, related_name="treatment_choice_user")
     json = models.TextField(blank=True)
     
     def __json__(self):
