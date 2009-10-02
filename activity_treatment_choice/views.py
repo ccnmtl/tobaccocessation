@@ -19,8 +19,6 @@ def root(request):
 
 @login_required
 def loadstate(request):
-    print("loadstate: " + request.user.username)
-    
     try: 
         state = ActivityState.objects.get(user=request.user)
         print state
@@ -33,8 +31,6 @@ def loadstate(request):
     
 @login_required
 def savestate(request):
-    print("savestate: " + request.user.username)
-    
     json = request.POST['json']
     
     try: 
@@ -46,6 +42,5 @@ def savestate(request):
         
     response = {}
     response['success'] = 1
-    print("savestate response: " + simplejson.dumps(response))
         
     return HttpResponse(simplejson.dumps(response), 'application/json')
