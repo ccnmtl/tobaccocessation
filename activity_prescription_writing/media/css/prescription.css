@@ -1,103 +1,20 @@
-#blankrx {
-   height: 600px;
-   background-image: url(/activity/prescription/media/images/blankrx.jpg);
-   background-repeat: no-repeat;
-   background-position: center;
-}
-
 .callout {
 	font-size: 80%;
 	line-height: 150%;
    background-color: #fff;
-   border: 1px dotted #f00;
+   border: 3px dotted #f00;
    margin: 3px 3px 3px 3px;
    padding: 3px 3px 3px 3px;
 }
 
 .correct_answer {
    font-size: 80%;
+   line-height: 150%;
    background-color: #ddd;
    color: #4F8A10;
    border: 1px solid #4F8A10;
    padding-left: 3px;
 }
-
-#dosage {
-	position: absolute;
-   width: 185px;
-	left: 275px;
-   top: 600px;
-}
-
-#dosage_correct {
-   position: absolute;
-   width: 185px;
-   left: 475px;
-   top: 600px;
-}
-
-#dosage_callout {
-   position: absolute;  
-   width: 150px;
-   left: 710px;
-   top: 590px; 
-}
-
-#disp {
-   position: absolute;	
-   width: 185px;
-   left: 275px;
-   top: 625px;
-}
-
-#disp_correct {
-   position: absolute;  
-   width: 185px;
-   left: 475px;
-   top: 625px;
-}
-
-#disp_callout {
-   position: absolute;  
-   width: 150px;
-   left: 50px;
-   top: 620px; 
-}
-
-#sig {
-   position: absolute;  
-   left: 275px;
-   top: 652px;	
-}
-
-#refills {
-   position: absolute;  
-	width: 45px;
-   left: 349px;
-   top: 773px; 
-}
-
-#refills_correct {
-   position: absolute;  
-   width: 75px;
-   left: 410px;
-   top: 773px; 
-}
-
-#refills_callout {
-   position: absolute;  
-   width: 200px;
-   left: 710px;
-   top: 760px; 
-}
-
-#rxsubmit {
-   position: absolute;  
-	width: 100px;
-   left: 710px;
-   top: 830px; 
-}
-
 
 .connecting_line
 {

@@ -14,37 +14,58 @@ function setfocus()
 
 function connectCallouts()
 {
-   // dosage
-   var elemPos = getElementPosition('dosage_correct')
-   var elemDim = getElementDimensions('dosage_correct')
+   if (getElement("dosage_2"))
+   {
+      connectCalloutsDouble()
+   }
+   else
+   {  
+      connectCalloutsSingle()
+   }
+}
+
+function connectCalloutsDouble()
+{
+   horizontal_line(getElement('dosage_callout'), getElement('dosage'))  
+   horizontal_line(getElement('refills_2'), getElement('refills_callout'))
+   horizontal_line(getElement('disp_callout'), getElement('disp_2'))
    
-   x = elemPos.x + elemDim.w
-   y = elemPos.y + elemDim.h/2
-   x2 = getElementPosition('dosage_callout').x
-   log(x2)
-   drawlines(x, y, x2, y, 700)
-   
-   // disp
-   elemPos = getElementPosition('disp')
-   elemDim = getElementDimensions('disp')
-   
-   x = elemPos.x
-   y = elemPos.y + elemDim.h/2
-   x2 = getElementPosition('disp_callout').x + getElementDimensions('disp_callout').w
-   drawlines(x2, y, x, y, 250)
-   
-   // refills
-   elemPos = getElementPosition('refills_correct')
-   elemDim = getElementDimensions('refills_correct')
-   
-   x = elemPos.x + elemDim.w
-   y = elemPos.y + elemDim.h/2
-   x2 = getElementPosition('refills_callout').x
-   drawlines(x, y, x2, y, 500)
+}
+
+function connectCalloutsSingle()
+{
+   vertical_line(getElement('dosage_callout'), getElement('dosage'))
+   vertical_line(getElement('disp_correct'), getElement('disp_callout'))
+   vertical_line(getElement('refills_callout'), getElement('refills'))
 }
 
 MochiKit.Signal.connect(window, "onload", setfocus)
 MochiKit.Signal.connect(window, "onload", connectCallouts)
+
+function horizontal_line(topElement, bottomElement)
+{
+   bottomPos = getElementPosition(bottomElement)
+   bottomDim = getElementDimensions(bottomElement)
+   
+   topPos = getElementPosition(topElement)
+   topDim = getElementDimensions(topElement)
+   
+   fromx = topPos.x + topDim.w/2
+   fromy = topPos.y + topDim.h
+   tox = bottomPos.x + bottomDim.w/2
+   toy = bottomPos.y
+   drawlines(fromx, fromy, tox, toy, fromx)
+
+}
+
+function vertical_line(leftElement, rightElement)
+{
+   x = getElementPosition(leftElement).x + getElementDimensions(leftElement).w
+   x2 = getElementPosition(rightElement).x
+   y = getElementPosition(rightElement).y + getElementDimensions(rightElement).h/2
+   
+   drawlines(x, y, x2, y, x2)
+}
 
 function drawlines (from_x, from_y, to_x, to_y, x_break) {
     // make the left hline go all the way to the right edge of the center vline. Add 2 pixels, if necessary.

@@ -6,7 +6,7 @@
 {% block css %}
    {{ block.super }}
    <link href="/activity/prescription/media/css/prescription.css" rel="stylesheet" type="text/css" />
-   <link href="/activity/prescription/media/css/single_prescription.css" rel="stylesheet" type="text/css" />
+   <link href="/activity/prescription/media/css/double_prescription.css" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block js %}
@@ -17,16 +17,21 @@
 
 {% block content %}
     <h1>{{ current_medication.0.name}}</h1>
-    Fill out the prescription form below and click submit.<br /><br />
+    Fill out the prescription form below and click submit.<br />
     
     <form action="." method="POST">
 	    <div id="blankrx">
-	      <input id="dosage" name='dosage' type='text'></input>
-	      <input id="disp" name='disp' type='text'></input>
-	      <textarea id="sig" name='sig' rows="4" cols="22" ></textarea>
-	      <input id="refills" name='refills' type='text'  maxlength="1" ></input>
-	      <input id="rxsubmit" type="submit" value="Submit"/>        
-	    </div>
+	      <input id="dosage" name="dosage" type="text"></input>
+	      <input id="disp" name="disp" type="text"></input>
+	      <textarea id="sig" name="sig" rows="3" cols="18" ></textarea>
+	      <input id="refills" name="refills" type="text"  maxlength="1" ></input>
+         <input id="dosage_2" name="dosage_2" type="text"></input>
+         <input id="disp_2" name="disp_2" type="text"></input>
+         <textarea id="sig_2" name="sig_2" rows="3" cols="18" ></textarea>
+         <input id="refills_2" name="refills_2" type="text"  maxlength="1" ></input>
+                  
+       </div>
+       <center><input id="rxsubmit" type="submit" value="Submit">
    </form>  
    
    <div class="content-nav">

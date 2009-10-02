@@ -48,12 +48,12 @@ def rx(request, ordinal=None):
        'prev': prev
     })
     
-    template = 'activity_prescription_writing/blank_prescription.html'
+    template = 'blank_prescription.html'
     medication_state = None
         
     if request.method == 'POST':
         # store the medication_state given, then redisplay the form with the correct answers.
-        template = 'activity_prescription_writing/prescription.html'
+        template = 'prescription.html'
         if current_medication[0].name in json_state_object:
             medication_state = json_state_object[current_medication[0].name]
         else:
@@ -74,7 +74,7 @@ def rx(request, ordinal=None):
         user_state.json = simplejson.dumps(json_state_object)
         user_state.save()
     elif current_medication[0].name in json_state_object:
-        template = 'activity_prescription_writing/prescription.html'
+        template = 'prescription.html'
         medication_state = json_state_object[current_medication[0].name]
         
     if medication_state:
@@ -87,6 +87,9 @@ def rx(request, ordinal=None):
         ctx['sig_2'] = medication_state['sig_2']
         ctx['refills_2'] = medication_state['refills_2']
         
-    template = loader.get_template(template)
+    if (current_medication.count() > 1):
+        template = 'double_' + template
+        
+    template = loader.get_template('activity_prescription_writing/' + template)
     return HttpResponse(template.render(ctx))
 

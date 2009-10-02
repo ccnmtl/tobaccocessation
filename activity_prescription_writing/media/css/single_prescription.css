@@ -1,0 +1,93 @@
+#blankrx {
+   height: 600px;
+   background-image: url(/activity/prescription/media/images/blankrx.jpg);
+   background-repeat: no-repeat;
+   background-position: center;
+}
+
+#dosage {
+	position: absolute;
+   width: 185px;
+	left: 275px;
+   top: 600px;
+}
+
+#dosage_correct {
+   position: absolute;
+   width: 185px;
+   left: 475px;
+   top: 600px;
+}
+
+#dosage_callout {
+   position: absolute;  
+   width: 150px;
+   left: 50px;
+   top: 588px; 
+}
+
+#disp {
+   position: absolute;	
+   width: 185px;
+   left: 275px;
+   top: 625px;
+}
+
+#disp_correct {
+   position: absolute;  
+   width: 185px;
+   left: 475px;
+   top: 625px;
+}
+
+#disp_callout {
+   position: absolute;  
+   width: 150px;
+   left: 710px;
+   top: 610px; 
+}
+
+#sig {
+   position: absolute;  
+   left: 275px;
+   top: 652px;	
+}
+
+#sig_correct {
+   position: absolute;  
+   left: 475px;
+   top: 652px;
+   width: 185px; 
+}
+
+#refills {
+   position: absolute;  
+	width: 45px;
+   left: 349px;
+   top: 773px; 
+   text-align: right;
+}
+
+#refills_correct {
+   position: absolute;  
+   width: 25px;
+   left: 410px;
+   top: 775px; 
+}
+
+#refills_callout {
+   position: absolute;  
+   width: 150px;
+   left: 50px;
+   top: 725px; 
+}
+
+#rxsubmit {
+   position: absolute;  
+	width: 100px;
+   left: 710px;
+   top: 830px; 
+}
+
+
+
