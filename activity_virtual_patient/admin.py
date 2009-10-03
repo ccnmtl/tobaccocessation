@@ -24,3 +24,22 @@ class MedicationAdmin(admin.ModelAdmin):
     ]
 admin.site.register(Medication, MedicationAdmin)
 
+admin.site.register(TreatmentClassification)
+    
+class TreatmentOptionInline(admin.TabularInline):
+    model = TreatmentOption
+    extra = 3
+    
+class TreatmentFeedbackInline(admin.TabularInline):
+    model = TreatmentFeedback
+    max_num = 5
+    extra = 5
+    
+class PatientAdmin(admin.ModelAdmin):
+    inlines = [ 
+        TreatmentOptionInline,
+        TreatmentFeedbackInline
+    ]
+    
+admin.site.register(Patient, PatientAdmin)
+
