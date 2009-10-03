@@ -1,0 +1,75 @@
+{% extends "project_base.html" %}
+{% load smartif %}
+
+{% block title %}Activity - VirtualPatient{% endblock %}
+
+{% block css %}
+   {{ block.super }}
+   <link href="/activity/virtualpatient/media/css/virtualpatient.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block js %}
+   {{ block.super }}
+   <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/MochiKit.js"></script>
+   <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/Visual.js"></script>
+   <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/DragAndDrop.js"></script>
+   <script type="text/javascript" src="/site_media/js/json2.js"></script>
+   <script type="text/javascript" src="/activity/treatment/media/js/virtualpatient.js"></script>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }} 
+    <h3>ACTIVITY: VIRTUAL PATIENT</h3>
+    
+    <br />
+    	<div id="treatment_leftcol">
+		  <h6>Patient Smokes</h6>
+		  <div class="smoker_quantity">
+		    <img src="/activity/treatment/media/images/halfpack.jpg"/>
+		    <div class="footer">1/2 pack per day</div>
+		   </div>
+		  <div class="smoker_quantity">
+		    <img src="/activity/treatment/media/images/onepack.jpg"/>
+		    <div class="footer">1 pack per day</div>
+		  </div>
+		  <div class="smoker_quantity">
+		     <img src="/activity/treatment/media/images/twopacks.jpg"/>
+		     <div class="footer">2 packs per day</div>
+		  </div>
+		</div>
+		
+		<!--  DROP TARGETS -->
+		<div id="treatment_centercol">
+		  <h6>Best Treatment Choices</h6>
+		  <div id="treatment_light_smoker" class="treatment_choice"></div>
+		  <div id="treatment_moderate_smoker" class="treatment_choice"></div>
+		  <div id="treatment_heavy_smoker" class="treatment_choice"></div>
+		</div>
+		
+		<!-- DRAGGABLE ITEMS -->
+		<div id="treatment_rightcol">
+		    <h6>Available Medications</h6>
+		    
+          <table id="treatments" class="treatments" cellpadding="0">
+             <tr><td colspan="2" style="border: 0; height: 6px;" /></td>
+             <tr>
+                {% for treatment in treatments %}
+				        {% if forloop.counter0|divisibleby:"2" %}<tr>{% endif %}
+		                   <td class="treatment" style="background-image: url(/activity/treatment/media/images/{{ treatment }}.jpg)"><span id="{{treatment}}" class="{{ treatment }} treatment_draggable"><img src="/activity/treatment/media/images/{{ treatment }}.jpg"></span></td>
+		                {% if forloop.counter|divisibleby:"2" %}</tr>{% endif %}
+		          {% endfor %}
+		       </tr>
+		       <tr><td colspan="2" style="border: 0; height: 6px;" /></td>
+          </table>
+		</div>
+		
+		<span id="treatment_template" style="display: none;"><img src="/activity/treatment/media/images/"></span>
+		
+		<center>
+			<div id="success_overlay" style="display: none;">
+			   <h1>Congratulations!</h1>
+			   You've successfully completed the exercise.<br /><br />
+			   <a href="#">Continue</a> >>
+			</div>
+      </center>
+{% endblock %}
