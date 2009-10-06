@@ -233,23 +233,6 @@ function loadState()
 MochiKit.Signal.connect(window, "onload", setupTreatmentDropZones)
 MochiKit.Signal.connect(window, "onload", loadState)
 
-
-function saveStateSuccess(doc)
-{
-   // @todo -- find a nice place to put the state save notification. or decide just to save this quietly.
-   // var myObject = JSON.parse(doc.responseText, null)
-   // debug("saveMapSuccess: " + myObject.mapid)
-   // $('errorMsg').innerHTML = "Map saved"
-   debug("saveStateSuccess")
-}
-
-function saveStateError(err)
-{
-   // @todo: find a nice place to put the state save error notification. or decide just to fail quietly
-   // $('errorMsg').innerHTML = "An error occurred saving your map (" + err + "). Please try again."
-   debug("saveStateError")
-}
-
 function saveState()
 {
    debug("saveState")

@@ -1,0 +1,68 @@
+{% extends "project_base.html" %}
+{% load smartif %}
+
+{% block title %}Activity - VirtualPatient{% endblock %}
+
+{% block css %}
+   {{ block.super }}
+   <link href="/activity/virtualpatient/media/css/virtualpatient.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block js %}
+   {{ block.super }}
+   <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/MochiKit.js"></script>
+   <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/Visual.js"></script>
+   <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/DragAndDrop.js"></script>
+   <script type="text/javascript" src="/site_media/js/json2.js"></script>
+   <script type="text/javascript" src="/activity/virtualpatient/media/js/option.js"></script>
+   <script type="text/javascript" src="/activity/virtualpatient/media/js/virtualpatient.js"></script>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }} 
+    <h6>Virtual Patient >> Classify Treatment Options</h6>
+      
+    <div id="patient">
+      <div id="patient_description">
+         <center>
+            <h3>{{patient.name}}</h3>
+            <table cellpadding="10" cellspacing="10">
+                <tr><td><img src="/activity/virtualpatient/media/images/patient_{{patient.id}}.jpg"/></td><td>{% autoescape off %}{{ patient.description }}{% endautoescape %}</td></tr>
+             </table>
+         </center>
+      </div>
+      <div id="patient_history">{% autoescape off %}{{patient.history}}{% endautoescape %}</div>
+      <input type="hidden" id="patient_id" name="patient_id" value="{{patient.id}}"/>
+    </div>
+    
+    <div id="treatment_types">
+	    <div id='best_treatment_box' class="treatment_type_box"><center><strong>BEST TREATMENT CHOICE</strong><div id="best_treatment" class="treatment_type treatment_droppable"></div></center></div>
+	    <div id='reasonable_treatment_box' class="treatment_type_box"><center><strong>REASONABLE, NOT OPTIMAL</strong><div id="reasonable_treatment" class="treatment_type treatment_droppable"></div></center></div>
+	    <div id='ineffective_treatment_box' class="treatment_type_box"><center><strong>UNLIKELY TO BE EFFECTIVE</strong><div id="ineffective_treatment" class="treatment_type treatment_droppable"></div></center></div>
+	    <div id='harmful_treatment_box' class="treatment_type_box"><center><strong>POTENTIALLY HARMFUL</strong><div id="harmful_treatment" class="treatment_type treatment_droppable"></div></center></div>
+	 </div>
+	 
+	 <br />
+	 <br />
+	 
+	 <div id="available_treatments_box">
+		 <strong>AVAILABLE TREATMENTS</strong>   
+	    <div id="available_treatments" class="treatment_droppable">
+	    
+	      {% for med in medications %}
+	         <span id='{{med.tag}}' class='{{med.tag}} treatment_draggable'>
+	            <img src='/activity/virtualpatient/media/images/{{ med.tag }}.jpg'>
+	         </span>
+	      {% endfor %}
+	      
+	      <span id="combination" class="combination treatment_draggable">
+	         <img src="/activity/virtualpatient/media/images/combination.jpg">
+	      </span>
+	    </div>
+	    
+	    <div id="next_navigation">
+	       <input id='next_button' type='submit' value='Submit' disabled='true' onclick="setupSelection();return false;"></input>
+	    </div>
+	 </div>
+
+{% endblock %}

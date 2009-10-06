@@ -6,6 +6,8 @@ from django.utils import simplejson
 class Medication(models.Model):
     name = models.CharField(max_length=25)
     instructions = models.TextField()
+    display_order = models.IntegerField()
+    tag = models.CharField(max_length=25)
     
     def __unicode__(self):
         return "%s" % (self.name)
@@ -64,4 +66,11 @@ class TreatmentFeedback(models.Model):
     def __unicode__(self):
         return "Feedback: %s %s" % (self.patient, self.classification.description)
     
+class ActivityState (models.Model):
+    user = models.ForeignKey(User, related_name="virtual_patient_user")
+    json = models.TextField()
+
     
+class PageState(models.Model):
+    path = models.CharField(max_length=255)
+    json = models.TextField()
