@@ -168,7 +168,7 @@ function setupTreatmentDropZones()
       ondrop: treatmentDropHandler
    })
    
-   new Droppable('treatments', { 
+   new Droppable('content', { 
       accept: [ 'treatment_trashable' ],
       ondrop: treatmentTrashHandler
    })
@@ -244,9 +244,9 @@ function saveState()
       'smoker_quantity_state': []
    }
 
-   smoker_quanitity_divs = ['treatment_light_smoker', 'treatment_moderate_smoker', 'treatment_heavy_smoker']
+   smoker_quantity_divs = ['treatment_light_smoker', 'treatment_moderate_smoker', 'treatment_heavy_smoker']
               
-   forEach(smoker_quanitity_divs,
+   forEach(smoker_quantity_divs,
            function(div) {
               parent = getElement(div)
               state = {}
@@ -272,4 +272,50 @@ function saveState()
 
 // @todo -- save state on page navigation. Unsure how this works!
 MochiKit.Signal.connect(window, "onunload", saveState)
+
+function saveStateSuccess()
+{
+   debug("saveStateSuccess")
+   setStyle($('success_overlay'), {'display': 'none'})
+}
+
+function saveStateError()
+{
+   debug("saveStateError")
+   setStyle($('success_overlay'), {'display': 'none'})
+}
+
+function clearState()
+{
+   debug("saveState")
+   url = 'http://' + location.hostname + ':' + location.port + "/activity/treatment/save/"
+ 
+   doc = 
+   {
+      'version': 1,
+      'smoker_quantity_state': []
+   }
+
+   smoker_quantity_divs = ['treatment_light_smoker', 'treatment_moderate_smoker', 'treatment_heavy_smoker']
+              
+   forEach(smoker_quantity_divs,
+           function(div) {
+              // remove all the children
+              parent = getElement(div)
+              children = getElementsByTagAndClassName(null, 'treatment_trashable', parent)
+              forEach(children, 
+                      function(child) 
+                      {
+                         removeElement(child)
+                      })
+           })
+           
+   // contact the server and save the clearedstate
+  deferred = doXHR(url, 
+        { 
+           method: 'POST', 
+           sendContent: queryString({'json': JSON.stringify(doc, null)})
+        });
+  deferred.addCallbacks(saveStateSuccess, saveStateError);
+}
 
