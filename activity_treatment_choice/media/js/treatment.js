@@ -168,7 +168,7 @@ function setupTreatmentDropZones()
       ondrop: treatmentDropHandler
    })
    
-   new Droppable('content', { 
+   new Droppable('treatments', { 
       accept: [ 'treatment_trashable' ],
       ondrop: treatmentTrashHandler
    })
@@ -277,6 +277,11 @@ function saveStateSuccess()
 {
    debug("saveStateSuccess")
    setStyle($('success_overlay'), {'display': 'none'})
+   _droppables[0].options.accept = ['patch', 'gum', 'lozenge', 'inhaler', 'nasalspray'], // Array of CSS classes
+   
+   _droppables[1].options.accept = ['patch', 'chantix', 'bupropion']
+   
+   _droppables[2].options.accept = ['combination', 'chantix']
 }
 
 function saveStateError()
