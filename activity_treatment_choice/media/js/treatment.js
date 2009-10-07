@@ -167,11 +167,6 @@ function setupTreatmentDropZones()
       accept: ['combination', 'chantix'],
       ondrop: treatmentDropHandler
    })
-   
-   new Droppable('treatments', { 
-      accept: [ 'treatment_trashable' ],
-      ondrop: treatmentTrashHandler
-   })
 }
 
 function loadStateSuccess(doc)
