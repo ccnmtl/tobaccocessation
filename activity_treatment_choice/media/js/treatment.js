@@ -56,7 +56,8 @@ function checkForSuccess()
        }
     }
    
-   appear($('success_overlay'), {'to': '.9'})
+   setStyle('next', {'display': 'inline'})
+   pulsate($('next'))
 }
 
 
@@ -101,12 +102,6 @@ function treatmentDropHandler(element, onto, event)
       setStyle(newnode, {'position': 'relative', 'left': '', 'top': '', 'zindex': '', 'opacity': '1'})
       removeElementClass(newnode, 'treatment_draggable')
       addElementClass(newnode, 'treatment_trashable')
-      
-      // This item is also draggable, and can be trashed in the treatments window
-      new Draggable(newnode, { 
-         revert: true, 
-         reverteffect: reverteffect
-      })
    }
    
    // remove the elements' class from the destination's accept list
@@ -265,24 +260,24 @@ function saveState()
    sync_req.send(queryString({'json':JSON.stringify(doc, null)}));
 }
 
-// @todo -- save state on page navigation. Unsure how this works!
-MochiKit.Signal.connect(window, "onunload", saveState)
+MochiKit.Signal.connect(window, "onbeforeunload", saveState)
 
 function saveStateSuccess()
 {
    debug("saveStateSuccess")
-   setStyle($('success_overlay'), {'display': 'none'})
+   
    _droppables[0].options.accept = ['patch', 'gum', 'lozenge', 'inhaler', 'nasalspray'], // Array of CSS classes
    
    _droppables[1].options.accept = ['patch', 'chantix', 'bupropion']
    
    _droppables[2].options.accept = ['combination', 'chantix']
+                                    
+   setStyle('next', {'display':'none'})
 }
 
 function saveStateError()
 {
    debug("saveStateError")
-   setStyle($('success_overlay'), {'display': 'none'})
 }
 
 function clearState()

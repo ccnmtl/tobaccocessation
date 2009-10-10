@@ -69,8 +69,3 @@ class TreatmentFeedback(models.Model):
 class ActivityState (models.Model):
     user = models.ForeignKey(User, related_name="virtual_patient_user")
     json = models.TextField()
-
-    
-class PageState(models.Model):
-    path = models.CharField(max_length=255)
-    json = models.TextField()

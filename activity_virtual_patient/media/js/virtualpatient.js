@@ -75,17 +75,48 @@ function setupDragDrop()
          })
 }
 
-function setupSelection()
+//////////////////////////////////////////////////////////////////////////////
+
+function saveStateSuccess(response)
 {
-   saveStateAsynchronous()
-   setStyle($('reasonable_treatment_box'), { 'display':'none' })
-   setStyle($('ineffective_treatment_box'), { 'display':'none' })
-   setStyle($('harmful_treatment_box'), { 'display':'none' })
-   setStyle($('available_treatments_box'), { 'display':'none' })
+   debug("saveStateSuccess")
+   doc = JSON.parse(response.responseText, null)
+   window.location = doc.redirect 
 }
 
-MochiKit.Signal.connect(window, "onload", loadState)
-MochiKit.Signal.connect(window, "onunload", saveStateSynchronous)
+function saveStateError(err)
+{
+   debug("saveStateError")
+}
+
+function saveStateAsynch()
+{
+   url = 'http://' + location.hostname + ':' + location.port + "/activity/virtualpatient/post/" + $('page_id').value + "/" + $('patient_id').value + "/"
+
+   jsontxt = get_state() // defined by page
+   
+   deferred = doXHR(url, 
+         { 
+            method: 'POST', 
+            sendContent: queryString({'json': jsontxt})
+         });
+   deferred.addCallbacks(saveStateSuccess, saveStateError);
+}
+
+function saveStateSynch()
+{
+   url = 'http://' + location.hostname + ':' + location.port + "/activity/virtualpatient/post/" + $('page_id').value + "/" + $('patient_id').value + "/"
+
+   jsontxt = get_state() // defined by page
+      
+   var sync_req = new XMLHttpRequest();  
+   sync_req.onreadystatechange= function() { if (sync_req.readyState!=4) return false; }         
+   sync_req.open("POST", url, false);
+   sync_req.send(queryString({'json':jsontxt}));
+}
+
+MochiKit.Signal.connect(window, "onbeforeunload", saveStateSynch)
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -93,10 +124,8 @@ function loadStateSuccess(doc)
 {
    debug("loadStateSuccess")
    
-   if (doc.html != undefined)
-   {
-      $('content').innerHTML = doc.html
-   }
+   set_state(doc) // defined in the per page view
+   
    setupDragDrop()
    maybeAllowUserToContinue()
 }
@@ -110,54 +139,12 @@ function loadStateError(err)
 function loadState()
 {
    debug("loadState")
-   url = 'http://' + location.hostname + ':' + location.port + "/activity/virtualpatient/load/"
+   url = 'http://' + location.hostname + ':' + location.port + "/activity/virtualpatient/load/" + $('page_id').value + "/" + $('patient_id').value + "/"
    
    deferred = loadJSONDoc(url, {'url': location.pathname});
    deferred.addCallbacks(loadStateSuccess, loadStateError);
 }
 
-function saveStateAsynchronous()
-{
-   debug("saveStateAsynchronous")
-   doc = get_state()
-   url = 'http://' + location.hostname + ':' + location.port + "/activity/virtualpatient/save/"
-   deferred = doXHR(url, 
-      { 
-         method: 'POST', 
-         sendContent: queryString({'json': doc})
-      });
-   deferred.addCallbacks(saveStateSuccess, saveStateError);
-}
+MochiKit.Signal.connect(window, "onload", loadState)
 
-function saveStateSynchronous()
-{
-   debug("saveStateSynchronous")
-   doc = get_state()
-   url = 'http://' + location.hostname + ':' + location.port + "/activity/virtualpatient/save/"
 
-   // save state via a synchronous request. 
-   var sync_req = new XMLHttpRequest();  
-   sync_req.onreadystatechange= function() { if (sync_req.readyState!=4) return false; }         
-   sync_req.open("POST", url, false);
-   sync_req.send(queryString({'json':JSON.stringify(doc, null)}));
-}
-
-function saveStateSuccess(doc)
-{
-   debug("saveStateSuccess")
-}
-
-function saveStateError(err)
-{
-   debug('saveStateError')
-}
-
-function get_state()
-{
-   doc = 
-   {
-      'url': location.pathname,
-      'html': strip($('content').innerHTML),
-   }
-   return JSON.stringify(doc, null)   
-}

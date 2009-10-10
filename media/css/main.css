@@ -902,6 +902,14 @@ body.fluid #content
    text-decoration: none;
 }
 
+#content .content-nav-block
+{
+	clear: both;
+	width: 100%;
+   height: 1.5em;
+}
+
+
 #content .content-nav
 {
    height: 1.5em;

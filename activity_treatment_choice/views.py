@@ -12,6 +12,8 @@ def root(request):
     ctx = Context({
        'user': request.user,
        'treatments': treatments,
+       'prev': 'Previous',
+       'next': 'Next'
     })
     
     template = loader.get_template('activity_treatment_choice/treatment.html')

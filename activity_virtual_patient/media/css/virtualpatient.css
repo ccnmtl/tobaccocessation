@@ -43,17 +43,22 @@
    border: 1px solid #aaa;
    height: 120px;
 }
+
+#available_treatments_box {
+   float: left;
+   height: 96px;
+}
     
 #available_treatments {
 	float: left;
-	width: 85%;
+	width: 750px;
 	height: 96px;
    border: 1px solid #000;
 }
 
 #next_navigation {
 	float: left;
-	width: 10%;
+	width: 75px;
 	height: 94px;
 	border: 1px solid #000;
 	margin-left: 25px;

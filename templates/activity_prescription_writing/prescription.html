@@ -49,14 +49,14 @@
        <div id="refills_callout" class="callout">{{current_medication.0.refills_callout}}</div>
 
    </div>    
-              
-   <div class="content-nav">
-      {% if prev %}
-        <a href="{% url activity_prescription_writing.views.rx prev.0.sort_order %}" id="previous">« {{prev.0.name}}</a>
-      {% endif %}
-      
-      {% if next %}
-          <a href="{% url activity_prescription_writing.views.rx next.0.sort_order %}" id="next">{{next.0.name}} »</a>
-      {% endif %}
-  </div>
+{% endblock %}
+
+{% block contentnav %}      
+   {% if prev %}
+     <a href="{% url activity_prescription_writing.views.rx prev.0.sort_order %}" id="previous">« {{prev.0.name}}</a>
+   {% endif %}
+   
+   {% if next %}
+       <a href="{% url activity_prescription_writing.views.rx next.0.sort_order %}" id="next">{{next.0.name}} »</a>
+   {% endif %}
 {% endblock %}

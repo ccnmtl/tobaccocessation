@@ -28,12 +28,10 @@
 	      <input id="rxsubmit" type="submit" value="Submit"/>        
 	    </div>
    </form>  
-   
-   <div class="content-nav">
-       {% if prev %}
-         <a href="{% url activity_prescription_writing.views.rx prev.0.sort_order %}" id="previous">« {{prev.0.name}}</a>
-       {% endif %}
-   </div>
-     
-    
+{% endblock %}
+
+{% block contentnav %}
+  {% if prev %}
+    <a href="{% url activity_prescription_writing.views.rx prev.0.sort_order %}" id="previous">« {{prev.0.name}}</a>
+  {% endif %}
 {% endblock %}

@@ -164,16 +164,17 @@ var saveOrderOfPageBlocks = function() {
 </div>
 </div>
 
-<div class="content-nav">
-{% if section.get_previous %}
-<a href="/edit{{section.get_previous.get_absolute_url}}" id="previous">« {{section.get_previous.label}}</a>
-{% endif %}
 
-{% if section.get_next %}
-<a href="/edit{{section.get_next.get_absolute_url}}" id="next">{{section.get_next.label}} »</a>
-{% endif %}
-</div>
+{% endblock %}
 
+{% block contentnav %}
+	{% if section.get_previous %}
+	<a href="/edit{{section.get_previous.get_absolute_url}}" id="previous">« {{section.get_previous.label}}</a>
+	{% endif %}
+	
+	{% if section.get_next %}
+	<a href="/edit{{section.get_next.get_absolute_url}}" id="next">{{section.get_next.label}} »</a>
+	{% endif %}
 {% endblock %}
 
 {% block sidebarleft %}

@@ -95,7 +95,13 @@
 					{% block content %}{% endblock %}
 
 				<!-- ###### Don't touch this ###### -->
-				<div class="visualclear"></div><!-- id="visualclear" -->				
+				<div class="visualclear"></div><!-- id="visualclear" -->	
+				
+				<div class="content-nav">
+               {% block contentnav %}
+               {% endblock %}
+            </div>
+                     			
 
 				</div><!-- class="block" -->
 			</div><!-- id="squish" -->
