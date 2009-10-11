@@ -118,17 +118,17 @@ function get_state()
    debug("get_state")
    doc = {}
    
-   doc['prescribe'] = ""
+   doc['prescribe'] = {}
    elem = getFirstElementByTagAndClassName("*", "highlight", parent='best_treatment')
    if (elem)
-      doc['prescribe'] = elem.id
+      doc['prescribe'][elem.id] = {}
            
    elems = getElementsByTagAndClassName("*", 'highlight', parent='available_treatments')
-   doc['combination'] = []
+   doc['combination'] = {}
    forEach(elems,
            function(elem)
            {
-              doc['combination'].push(elem.id)
+              doc['combination'][elem.id] = {}
            })
            
    jsontxt = JSON.stringify(doc, null)
@@ -138,11 +138,18 @@ function get_state()
 function set_state(doc)
 {
    debug("selection: set_state: ")
+   
+   selected = ""
+   if (doc['prescribe'])
+   {   
+      for (x in doc['prescribe'])
+         selected = x
+   }
 
    template = getElement('medication_template')
    forEach(doc['best_treatment'], 
            function(med) {
-               
+              
               // create elements for each of the meds
               newnode = template.cloneNode(true)
               newnode.id = med
@@ -155,23 +162,16 @@ function set_state(doc)
               
               $('best_treatment').appendChild(newnode)
               
-              if (doc['prescribe'] == med)
-              {
+              if (med == selected)
                  addElementClass(med, 'highlight')
-              }
-              else if (doc['prescribe'].length > 0)
-              {
+              else if (selected.length > 0)
                  setOpacity(med, .5)
-              }
-           })
-   
-   if (doc['prescribe'] == 'combination')
-   {
-      forEach(doc['combination'],
-            function(med)
-            {
-               addElementClass(med, 'highlight')
             })
+   
+   if (selected == "combination")
+   {
+      for (med in doc['combination'])
+         addElementClass(med, 'highlight')
       showCombinationView()
    }
    checkMaxHighlighted()

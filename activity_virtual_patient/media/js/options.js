@@ -123,7 +123,7 @@ function get_state()
    debug("options: get_state")
    
    // setup a post block with the relevant information & send it up to the server
-   doc = { }
+   doc = { "prescribe": {}, "combination": {} }
    divs = ['best_treatment', 'reasonable_treatment', 'ineffective_treatment', 'harmful_treatment', 'available_treatments']
    forEach(divs,
            function(div) {
@@ -137,8 +137,9 @@ function get_state()
               doc[div] = medications
             })
             
+     
+            
    jsontxt = JSON.stringify(doc, null)
-
    return jsontxt
 }
 
@@ -156,28 +157,22 @@ function set_state(doc)
       {
          forEach(doc[item],
                  function(med) {
-                    debug("1")
                     // create elements for each of the meds
                     newnode = template.cloneNode(true)
                     newnode.id = med
                     setStyle(newnode, {'display': 'inline'})
                     addElementClass(newnode, med)
                     
-                    debug("2")
                     // fix the src on the image
                     image = getFirstElementByTagAndClassName("img", "", parent=newnode)
                     image.src = image.src + med + ".jpg"
                     
-                    debug("3")
                     $(item).appendChild(newnode)
    
-                    debug("4")
                     // remove from the available treatments
                     node = getFirstElementByTagAndClassName(null, med, parent=$('available_treatments'))
                     if (node)
                        removeElement(node)
-                    
-                    debug("5")
                  })
       }
    }
