@@ -14,7 +14,7 @@
    <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/Visual.js"></script>
    <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/DragAndDrop.js"></script>
    <script type="text/javascript" src="/site_media/js/json2.js"></script>
-   <script type="text/javascript" src="/activity/virtualpatient/media/js/options.js"></script>
+   <script type="text/javascript" src="/activity/virtualpatient/media/js/option.js"></script>
    <script type="text/javascript" src="/activity/virtualpatient/media/js/virtualpatient.js"></script>
 {% endblock %}
 
@@ -32,9 +32,8 @@
          </center>
       </div>
       <div id="patient_history">{% autoescape off %}{{patient.history}}{% endautoescape %}</div>
-      <input type="hidden" id="patient_id" name="patient_id" value="{{patient.id}}"></input>
-      <input type="hidden" id="page_id" name="page_id" value="{{page_id}}"></input>
-      <input type="hidden" id="foo" value="bar"></input>
+      <input type="hidden" id="patient_id" name="patient_id" value="{{patient.id}}"/>
+      <input type="hidden" id="page_id" name="page_id" value="1"/>
     </div>
     
     <div id="treatment_types">
@@ -49,7 +48,7 @@
 	 
 	 <div>
 		 <strong>AVAILABLE TREATMENTS</strong>   
-	    <span id="available_treatments" class="treatment_droppable">
+	    <div id="available_treatments" class="treatment_droppable">
 	    
 	      {% for med in medications %}
 	         <span id='{{med.tag}}' class='{{med.tag}} treatment_draggable'>
@@ -60,19 +59,11 @@
 	      <span id="combination" class="combination treatment_draggable">
 	         <img src="/activity/virtualpatient/media/images/combination.jpg">
 	      </span>
-	    </span>
+	    </div>
+	    
+	    <div id="next_navigation">
+	       <input id='next_button' type='submit' value='Submit' disabled='true' onclick="go();return false;"></input>
+	    </div>
 	 </div>
-	 
-	 <span  id="medication_template" style="display: none; position: relative;" class="treatment_draggable">
-      <img src="/activity/virtualpatient/media/images/">
-    </span>
 
-{% endblock %}
-
-{% block contentnav %}
-   {% if prev %}
-     <a href="#" id="previous"> {{prev}}</a>
-   {% endif %}
-
-   <a id='next' href="#" style="display: none" onclick="gotoSelection(); return false;">Next</a>          
 {% endblock %}

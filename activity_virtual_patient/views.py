@@ -24,13 +24,32 @@ def load(request, page_id, patient_id):
     if patient_id in user_state['patients']:
         doc = user_state['patients'][patient_id]
 
-    print simplejson.dumps(doc)
+    # this nav resets current page state
+    user_state['current_page'] = int(page_id)
+    save_user_state(request, user_state)
+    
     return HttpResponse(simplejson.dumps(doc), 'application/json')
 
 @login_required
+def save(request, page_id, patient_id):
+    save_page_state(request, int(page_id), patient_id)
+    doc = { 'success': '1' }
+    return HttpResponse(simplejson.dumps(doc), 'application/json')
+    
+
+@login_required
 def post(request, page_id, patient_id):
-    page = int(page_id)
-    next_page = page + 1
+    current_page = int(page_id) + 1
+    
+    save_page_state(request, current_page, patient_id)
+    
+    doc = {}
+    doc['redirect'] = reverse('virtual_patient_page', args=[str(current_page), patient_id])
+    return HttpResponse(simplejson.dumps(doc), 'application/json')
+
+def save_page_state(request, current_page, patient_id):
+    if (len(request.POST['json']) < 1):
+        return
     
     user_state = get_user_state(request)
 
@@ -39,13 +58,10 @@ def post(request, page_id, patient_id):
     for item in updated_state:
         user_state['patients'][patient_id][item] = updated_state[item]
     
-    user_state['current_page'] = next_page
+    user_state['current_page'] = current_page
     
     save_user_state(request, user_state)
-    
-    doc = {}
-    doc['redirect'] = reverse('virtual_patient_page', args=[str(next_page), patient_id])
-    return HttpResponse(simplejson.dumps(doc), 'application/json')
+
 
 @login_required
 def page(request, page_id, patient_id):
