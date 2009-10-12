@@ -2,17 +2,17 @@ from tobaccocessation.activity_virtual_patient.models import *
 from django.contrib import admin
 
 class MedicationDosageChoiceInline(admin.TabularInline):
-    model = MedicationDosageChoice
+    model = DosageChoice
     max_num = 4
     extra = 4
     
 class MedicationRefillChoiceInline(admin.TabularInline):
-    model = MedicationRefillChoice
+    model = RefillChoice
     max_num = 4
     extra = 4
 
 class MedicationConcentrationChoiceInline(admin.TabularInline):
-    model = MedicationConcentrationChoice
+    model = ConcentrationChoice
     max_num = 4
     extra = 4
 

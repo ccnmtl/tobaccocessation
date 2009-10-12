@@ -12,19 +12,19 @@ class Medication(models.Model):
     def __unicode__(self):
         return "%s" % (self.name)
     
-class MedicationConcentrationChoice(models.Model):
+class ConcentrationChoice(models.Model):
     medication = models.ForeignKey(Medication)
     concentration = models.CharField(max_length=50)
     correct = models.BooleanField()
     display_order = models.IntegerField()
     
-class MedicationDosageChoice(models.Model):
+class DosageChoice(models.Model):
     medication = models.ForeignKey(Medication)
     dosage = models.CharField(max_length=50)
     correct = models.BooleanField()
     display_order = models.IntegerField()
     
-class MedicationRefillChoice(models.Model):
+class RefillChoice(models.Model):
     medication = models.ForeignKey(Medication)
     refill = models.CharField(max_length=50)
     correct = models.BooleanField()

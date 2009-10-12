@@ -17,38 +17,37 @@
 {% endblock %}
 
 {% block content %}
-    <h1>{{ current_medication.0.name }}</h1>
-    Fill out the prescription form below and click submit.<br /><br />
-
-	 <div id="blankrx">
-       <input id="dosage" name='dosage' type='text' value="{{dosage}}" readonly="readonly"></input>
-         <span id="dosage_correct" class="correct_answer">
-            <img src="/activity/prescription/media/images/correct.png"/>
-              {{current_medication.0.name}}, {{current_medication.0.dosage}}
-          </span>
-          <div id="dosage_callout" class="callout">{{current_medication.0.dosage_callout}}</div>       
-          
-       <input id="disp" type="text" value="{{disp}}" readonly="readonly"></input>
-       <span id="disp_correct" class="correct_answer">
-          <img src="/activity/prescription/media/images/correct.png"/>
-              {{current_medication.0.dispensing}}
-       </span>
-       <div id="disp_callout" class="callout">{{current_medication.0.dispensing_callout}}</div>
-        
-       <textarea rows="4" cols="22" id="sig" readonly="readonly">{{sig}}</textarea>
-       <span id="sig_correct" class="correct_answer">
-          <img src="/activity/prescription/media/images/correct.png"/>
-          {{current_medication.0.signature}}
-       </span> 
-       
-       <input id="refills" type="text" maxlength="1" value="{{refills}}" readonly="readonly"></input>
-       <span id="refills_correct" class="correct_answer">
-          <img src="/activity/prescription/media/images/correct.png"/>
-          {{current_medication.0.refills}}
-       </span> 
-       <div id="refills_callout" class="callout">{{current_medication.0.refills_callout}}</div>
-
-   </div>    
+    <div>{{ medication.name }}</div>
+    
+    <form action="{% url activity_virtual_patient.views.rx {{medication.id}}" method="POST">
+      Dosage: <select>
+          {% for dosage in medication.dosagechoice_set.all' %}
+            <option value="{{dosage}}">{{dosage}}</option>
+          {% endfor %}
+      </select>
+      
+      Quantity to Dispense: <select>
+          {% for concentration in medication.concentrationchoice_set.all %}
+            <option value="{{concentration}}">{{concentration}}</option>
+          {% endfor %}
+      </select>
+      
+      Refills: 
+      {% if medication.refillchoice_set.count > 1 %}
+         <select>
+            {% for refill in medication.refillchoice_set.all %}
+               <option value="{{refill}}">{{refill}}</option>
+            {% endfor %}
+         </select>
+      {% else %}
+          {{ medication.refillchoice_set.0 }}
+      {% endif %}
+      
+      Patient Instructions:
+      {{ medication.instructions }}
+      
+      <input id="rxsubmit" type="submit" value="Submit"/>        
+    </form>
 {% endblock %}
 
 {% block contentnav %}      

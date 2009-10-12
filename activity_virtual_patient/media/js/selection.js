@@ -23,12 +23,11 @@ function onXHRSuccess(response)
 
 function onXHRError(err)
 {
-
 }
 
 function gotoPrescribe()
 {
-   url = 'http://' + location.hostname + ':' + location.port + "/activity/virtualpatient/post/" + $('page_id').value + "/" + $('patient_id').value + "/"
+   url = 'http://' + location.hostname + ':' + location.port + "/activity/virtualpatient/navigate/" + $('page_id').value + "/" + $('patient_id').value + "/"
    
    jsontxt = get_state()
       

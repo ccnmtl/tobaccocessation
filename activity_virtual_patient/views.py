@@ -10,7 +10,7 @@ from django.core.urlresolvers import reverse
 @login_required
 def root(request):
     # dump the user back where they were when they left
-    user_state = get_user_state(request)
+    user_state = _get_user_state(request)
     
     url = '/activity/virtualpatient/%s/%s' % (user_state['current_page'], user_state['current_patient'])
     
@@ -18,107 +18,91 @@ def root(request):
 
 @login_required        
 def load(request, page_id, patient_id):
-    user_state = get_user_state(request)
+    user_state = _get_user_state(request)
     
     doc = {}
     if patient_id in user_state['patients']:
         doc = user_state['patients'][patient_id]
 
-    # this nav resets current page state
-    user_state['current_page'] = int(page_id)
-    save_user_state(request, user_state)
+    # reloading a page, resets the current page state
+    user_state['current_page'] = page_id
+
+    stored_state = ActivityState.objects.get(user=request.user)
+    stored_state.json = simplejson.dumps(user_state)
+    stored_state.save()
     
     return HttpResponse(simplejson.dumps(doc), 'application/json')
 
 @login_required
 def save(request, page_id, patient_id):
-    save_page_state(request, int(page_id), patient_id)
+    _save_user_state(request, page_id, patient_id)
     doc = { 'success': '1' }
     return HttpResponse(simplejson.dumps(doc), 'application/json')
     
 
 @login_required
-def post(request, page_id, patient_id):
-    current_page = int(page_id) + 1
+def navigate(request, page_id, patient_id):
+    _save_user_state(request, page_id, patient_id)
     
-    save_page_state(request, current_page, patient_id)
+    next_page = _get_next_page(page_id)
     
     doc = {}
-    doc['redirect'] = reverse('virtual_patient_page', args=[str(current_page), patient_id])
+    doc['redirect'] = reverse(next_page, args=[patient_id])
     return HttpResponse(simplejson.dumps(doc), 'application/json')
 
-def save_page_state(request, current_page, patient_id):
-    if (len(request.POST['json']) < 1):
-        return
-    
-    user_state = get_user_state(request)
-
-    # add the posted information to the user_state
-    updated_state = simplejson.loads(request.POST['json'])
-    for item in updated_state:
-        user_state['patients'][patient_id][item] = updated_state[item]
-    
-    user_state['current_page'] = current_page
-    
-    save_user_state(request, user_state)
-
-
 @login_required
-def page(request, page_id, patient_id):
-    page = int(page_id)
-    if (page == 1):
-        return options(request, patient_id)
-    elif (page == 2):
-        return selection(request, patient_id) 
-    elif (page == 3):
-        return prescription(request, patient_id)
-    else:
-        return results(request, patient_id) 
-
 def options(request, patient_id):
     ctx = Context({
        'user': request.user,
        'patient': Patient.objects.get(id=patient_id),
        'medications': Medication.objects.all().order_by('display_order'),
-       'page_id': "1",
+       'page_id': "options",
     })
         
     template = loader.get_template('activity_virtual_patient/options.html')
     return HttpResponse(template.render(ctx))
 
+@login_required
 def selection(request, patient_id):
     ctx = Context({
        'user': request.user,
        'patient': Patient.objects.get(id=patient_id),
        'medications': Medication.objects.all().order_by('display_order'),
-       'page_id': "2",
+       'page_id': "selection",
     })
         
     template = loader.get_template('activity_virtual_patient/selection.html')
     return HttpResponse(template.render(ctx))
     
+@login_required
 def prescription(request, patient_id):
     ctx = Context({
        'user': request.user,
        'patient': Patient.objects.get(id=patient_id),
-       'page_id': 3,
+       'page_id': "prescription",
     })
         
     template = loader.get_template('activity_virtual_patient/prescription.html')
     return HttpResponse(template.render(ctx))
+
+@login_required
+def prescription_post(request):
+    print "prescription_post" 
     
+@login_required
 def results(request, patient_id):
     ctx = Context({
        'user': request.user,
        'patient': Patient.objects.get(id=patient_id),
        'medications': Medication.objects.all().order_by('display_order'),
-       'page_id': 4,
+       'page_id': "results",
     })
         
     template = loader.get_template('activity_virtual_patient/results.html')
     return HttpResponse(template.render(ctx))
     
-def get_user_state(request):
+###################################################################################
+def _get_user_state(request):
     try:    
         stored_state = ActivityState.objects.get(user=request.user)
     except ActivityState.DoesNotExist:
@@ -127,7 +111,7 @@ def get_user_state(request):
         state = {}
         state['version'] = 1
         state['current_patient'] = patients[0].id
-        state['current_page'] = 1
+        state['current_page'] = 'options'
         
         blank_patient_state = {}
         for p in patients:
@@ -138,8 +122,32 @@ def get_user_state(request):
 
     return simplejson.loads(stored_state.json)
 
-def save_user_state(request, new_user_state):
+def _save_user_state(request, current_page, patient_id):
+    if (len(request.POST['json']) < 1):
+        return
+    
+    user_state = _get_user_state(request)
+
+    # add the posted information to the user_state
+    updated_state = simplejson.loads(request.POST['json'])
+    for item in updated_state:
+        user_state['patients'][patient_id][item] = updated_state[item]
+    
+    user_state['current_page'] = current_page
+    
     stored_state = ActivityState.objects.get(user=request.user)
-    stored_state.json = simplejson.dumps(new_user_state)
+    stored_state.json = simplejson.dumps(user_state)
     stored_state.save()
+    
+###################################################################################
+
+def _get_next_page(page_id):
+    next_page = ""
+    if (page_id == "options"):
+        next_page = "selection"
+    elif (page_id == "selection"):
+        next_page = "prescription"
+    elif (page_id == "prescription"):
+        next_page = "results"
+    return next_page
     

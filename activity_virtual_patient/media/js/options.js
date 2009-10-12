@@ -106,7 +106,7 @@ function onXHRError(err)
 
 function gotoSelection()
 {
-   url = 'http://' + location.hostname + ':' + location.port + "/activity/virtualpatient/post/" + $('page_id').value + "/" + $('patient_id').value + "/"
+   url = 'http://' + location.hostname + ':' + location.port + "/activity/virtualpatient/navigate/" + $('page_id').value + "/" + $('patient_id').value + "/"
 
    jsontxt = get_state()
    

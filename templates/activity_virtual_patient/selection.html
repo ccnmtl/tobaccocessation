@@ -63,7 +63,7 @@
 {% endblock %}
 
 {% block contentnav %}
-   <a  id="previous" href="{% url activity_virtual_patient.views.page 1 patient.id %}">Previous</a>
+   <a id="previous" href="{% url activity_virtual_patient.views.options patient.id %}">Previous</a>
 
    <a id='next' href="#" style="display: none" onclick="gotoPrescribe(); return false;">Next</a>          
 {% endblock %}
