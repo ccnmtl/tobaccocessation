@@ -177,23 +177,22 @@ img, img a
 {
 	display: block;
 	width: 900px;
-	height: 100px;
+	height: 120px;
 	min-width: 900px;
-	overflow: hidden;
 	margin: 0;
 	padding: 0;
 	border: 0;
-	background: #fffbc7 url('../img/bg_header.jpg') left top no-repeat;
+	background-color: #fff;
 }
 
 #header #logo_project
 {
 	display: block;
 	float: left;
-	width: 430px;
-	height: 90px;
+	width: 271px;
+	height: 120px;
 	overflow: hidden;
-	margin: 5px 0 0 0;
+	margin: 0;
 	padding: 0;
 	border: 0;
 }
@@ -201,8 +200,8 @@ img, img a
 #header #logo_project a
 {
 	display: block;
-	width: 430px;
-	height: 90px;
+	width: 271px;
+	height: 114px;
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -214,8 +213,8 @@ img, img a
 	display: block;
 	clear: right;
 	float: right;
-	width: 146px;
-	height: 33px;
+	width: 477px;
+	height: 77px;
 	overflow: hidden;
 	/* margin: 34px 10px 0 0;*/
 	margin: 0 10px 0 0;
@@ -227,8 +226,8 @@ img, img a
 #header #logo_ccnmtl a
 {
 	display: block;
-	width: 146px;
-	height: 33px;
+	width: 477px;
+	height: 77px;
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -282,8 +281,7 @@ img, img a
 	margin: 0;
 	padding: 0;
 	border: 0;
-	border-top: 1px solid #fc6;
-	background-color: #c30;
+	background: #333 url('../img/primarynav_bg.jpg') left top repeat-x;
 }
 
 #primarynav div.encase
@@ -316,28 +314,35 @@ img, img a
 {
 	display: block;
 	float: left;
-	margin: 3px;
-	padding: 0 0.5em;
+	margin: 3px 10px 0 0px;
+	padding: 3px 10px;
 	border: 0;
-	background-color: #fc6;
-	line-height: 24px;
+	height: 24px;
+	background-image: url(../img/pn_tabbg_left_off.gif);
+	background-position: 0px 0px;
+	background-repeat: none;
 }
 
 #primarynav li:hover
 {
-	background-color: #fc9;
+	background-image: url(../img/pn_tabbg_left_on.gif);
 }
 
 #primarynav a
 {
-	color: #900;
+	color: #ccc;
 	text-decoration: none;
+	background-image: url(../img/pn_tabbg_rt_off.gif);
+	display: block;
+	height: 22px;
+
 }
 
 #primarynav a:hover
 {
-	color: #c00;
+	color: #000;
 	text-decoration: none;
+	background-image: url(../img/pn_tabbg_rt_on.gif);
 }
 
 #primarynav #usernav li
@@ -842,8 +847,7 @@ body.fluid #content
    margin: 0;
    padding: 0;
    border: 0;
-   border-top: 1px solid #fc6;
-   background-color: #c30;
+   background-color: #eaa141;
    font-size: 65%;
    
 }
