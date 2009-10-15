@@ -17,7 +17,8 @@ urlpatterns = patterns('',
                        url(r'^selection/(?P<patient_id>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.selection', name='selection'),
                        
                        url(r'^prescription/(?P<patient_id>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.prescription', name='prescription'),
-                       (r'^prescription/post/$', 'tobaccocessation.activity_virtual_patient.views.prescription_post'),
+                       url(r'^prescription/(?P<patient_id>\d+)/(?P<medication_idx>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.prescription', name='next_prescription'),
+                       url(r'^prescription/post/$', 'tobaccocessation.activity_virtual_patient.views.prescription_post', name='prescription_post'),
                        
                        url(r'^results/(?P<patient_id>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.results', name='results'),
 )

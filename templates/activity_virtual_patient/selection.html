@@ -15,7 +15,6 @@
    <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/DragAndDrop.js"></script>
    <script type="text/javascript" src="/site_media/js/json2.js"></script>
    <script type="text/javascript" src="/activity/virtualpatient/media/js/selection.js"></script>
-   <script type="text/javascript" src="/activity/virtualpatient/media/js/virtualpatient.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -34,7 +33,6 @@
       <div id="patient_history">{% autoescape off %}{{patient.history}}{% endautoescape %}</div>
       <input type="hidden" id="patient_id" name="patient_id" value="{{patient.id}}"></input>
       <input type="hidden" id="page_id" name="page_id" value="{{page_id}}"></input>
-      <input type="hidden" id="foo" value="bar"></input>
     </div>
     
     <div id="treatment_types">

@@ -19,7 +19,7 @@
 {% block content %}
     <h1>{{ current_medication.0.name }}</h1>
     Fill out the prescription form below and click submit.<br /><br />
-
+    {{tag}}
 	 <div id="blankrx">
        <input id="dosage" name='dosage' type='text' value="{{dosage}}" readonly="readonly"></input>
          <span id="dosage_correct" class="correct_answer">
