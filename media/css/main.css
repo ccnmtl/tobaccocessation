@@ -294,7 +294,7 @@ img, img a
 {
 	float: left;
 	height: 30px;
-	margin: 0 10px;
+	margin: 0 20px;
 	padding: 0;
 	border: 0;
 	list-style: none;
@@ -314,35 +314,64 @@ img, img a
 {
 	display: block;
 	float: left;
-	margin: 3px 10px 0 0px;
-	padding: 3px 10px;
 	border: 0;
-	height: 24px;
-	background-image: url(../img/pn_tabbg_left_off.gif);
-	background-position: 0px 0px;
-	background-repeat: none;
+	height: 21px;
+	background-image: url(../img/pn_tabbg_rt_off.png);
+	background-position: right top;
+	background-repeat: no-repeat;
+	margin:3px 20px 0 -10px;
+	padding:3px 10px;
+}
+
+#primarynav li.selected
+{
+
+	background-image: url(../img/pn_tabbg_rt_on.png);
+
 }
 
 #primarynav li:hover
 {
-	background-image: url(../img/pn_tabbg_left_on.gif);
+	background-image: url(../img/pn_tabbg_rt_on.png);
 }
 
 #primarynav a
 {
 	color: #ccc;
 	text-decoration: none;
-	background-image: url(../img/pn_tabbg_rt_off.gif);
+	background-image: url(../img/pn_tabbg_left_off.png);
 	display: block;
-	height: 22px;
+	height:24px;
+	margin:-3px 0 0 -10px;
+	padding:3px 5px 0 13px;
+	background-repeat: no-repeat;
+	min-width: 60px;
+	text-align: center;
 
 }
+
+#primarynav b
+{
+	color: #ccc;
+	text-decoration: none;
+	background-image: url(../img/pn_tabbg_left_on.png);
+	display: block;
+	height:24px;
+	margin:-3px 0 0 -10px;
+	padding:3px 5px 0 13px;
+	background-repeat: no-repeat;
+	min-width: 60px;
+	text-align: center;
+	color: #333;
+
+}
+
 
 #primarynav a:hover
 {
 	color: #000;
 	text-decoration: none;
-	background-image: url(../img/pn_tabbg_rt_on.gif);
+	background-image: url(../img/pn_tabbg_left_on.png);
 }
 
 #primarynav #usernav li
@@ -751,6 +780,12 @@ ul.tabbernav li.tabberactive a:hover
 /* ########## FOR FLUID WIDTH CSS ############### */
 /* ########## Blocks style definitions ########## */
 
+body.fluid
+{
+	width: auto;
+
+}
+
 body.fluid #container
 {
 	margin: 0 10px;
@@ -759,6 +794,11 @@ body.fluid #container
 
 /* ---- Header block elements ---------- */
 body.fluid #header
+{
+	width: 100%;
+}
+
+body.fluid #subnav
 {
 	width: 100%;
 }
@@ -848,7 +888,7 @@ body.fluid #content
    padding: 0;
    border: 0;
    background-color: #eaa141;
-   font-size: 65%;
+   font-size: 85%;
    
 }
 
@@ -882,10 +922,10 @@ body.fluid #content
 {
    display: block;
    float: left;
-   margin: 3px;
+   margin: 0;
    padding: 0 0.5em;
    border: 0;
-   background-color: #fc6;
+   background-color: #EAA141;
    line-height: 24px;
 }
 
