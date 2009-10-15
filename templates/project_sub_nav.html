@@ -1,10 +1,12 @@
 <ul>
    {% with module as parent %}
-   
-	   {% if parent.get_children %}
-	      <li class="menu-{{parent.depth}}">{% ifnotequal parent.id section.id %}<a href="{{menu_base}}{{parent.get_absolute_url}}">{%else%}<b>{% endifnotequal %}Intro{% ifnotequal parent.id section.id %}</a>{%else%}</b>{% endifnotequal %}
-	   {% endif %}
-	   
-      {% include "siteeditor/level_menu.html" %}
+      {% with "secondary_nav_selected" as style_class %}
+      
+		   {% if parent.get_children %}
+		      <li class="menu-{{parent.depth}}">{% ifnotequal parent.id section.id %}<a href="{{menu_base}}{{parent.get_absolute_url}}">{%else%}<span class="{{style_class}}">{% endifnotequal %}Intro{% ifnotequal parent.id section.id %}</a>{%else%}</span>{% endifnotequal %}
+		   {% endif %}
+		   
+	      {% include "siteeditor/level_menu.html" %}
+	   {% endwith %}
    {% endwith %}
 </ul>         

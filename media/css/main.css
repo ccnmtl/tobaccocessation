@@ -988,5 +988,15 @@ body.fluid #content
 
 .invisible { display: none; }
 
+.primary_nav_selected
+{
+	color: red;
+	font-weight: bold;
+}
 
+.secondary_nav_selected
+{
+	color: green;
+	font-weight: bold;
+}
 

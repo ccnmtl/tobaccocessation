@@ -1,5 +1,7 @@
 <ul>
    {% with root as parent %}
-      {% include "siteeditor/level_menu.html" %}
+      {% with "primary_nav_selected" as style_class %}
+         {% include "siteeditor/level_menu.html" %}
+      {% endwith %}
    {% endwith %}
 </ul>         
