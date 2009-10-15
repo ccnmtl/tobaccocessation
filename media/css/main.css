@@ -330,6 +330,23 @@ img, img a
 
 }
 
+#primarynav li.selected .selected
+{
+
+	background-image: url(../img/pn_tabbg_left_on.png);
+	color: #333;
+	text-decoration: none;
+	display: block;
+	height:24px;
+	margin:-3px 0 0 -10px;
+	padding:3px 5px 0 13px;
+	background-repeat: no-repeat;
+	min-width: 60px;
+	text-align: center;
+	font-weight: bold;
+
+}
+
 #primarynav li:hover
 {
 	background-image: url(../img/pn_tabbg_rt_on.png);
@@ -888,7 +905,7 @@ body.fluid #content
    padding: 0;
    border: 0;
    background-color: #eaa141;
-   font-size: 85%;
+   font-size: 90%;
    
 }
 
@@ -902,7 +919,7 @@ body.fluid #content
 {
    float: left;
    height: 30px;
-   margin: 0 10px;
+   margin: 3px 10px 0 20px;
    padding: 0;
    border: 0;
    list-style: none;
@@ -920,18 +937,42 @@ body.fluid #content
 
 #subnav li
 {
-   display: block;
-   float: left;
-   margin: 0;
-   padding: 0 0.5em;
-   border: 0;
-   background-color: #EAA141;
-   line-height: 24px;
+	display: block;
+	float: left;
+	margin: 0 1px;
+	padding: 0 0.5em;
+	border: 0;
+	line-height: 24px;
+
+}
+
+#subnav li.selected
+{
+    display: block;
+    height: 25px;
+   color: #333;
+   font-weight: bold;
+   	background-image: url(../img/sn_button_rt_on.png);
+	background-repeat: no-repeat;
+	background-position: top right;
+
+}
+
+
+#subnav li.selected .selected
+{
+	display: block;
+	background-repeat: no-repeat;
+	height: 25px;
+	background-position: top left;
+	background-image: url(../img/sn_button_left_on.png);
+	margin:0 0 0 -20px;
+	padding:0 5px 0 10px;
 }
 
 #subnav li:hover
 {
-   background-color: #fc9;
+   color: #fc9;
 }
 
 #subnav a
@@ -988,15 +1029,5 @@ body.fluid #content
 
 .invisible { display: none; }
 
-.primary_nav_selected
-{
-	color: red;
-	font-weight: bold;
-}
 
-.secondary_nav_selected
-{
-	color: green;
-	font-weight: bold;
-}
 
