@@ -23,12 +23,13 @@
     
     <div>{{ medication.name }}</div>
     <br />
-    <form action="{% url activity_virtual_patient.views.prescription_post" method="POST">
+    <form>
       <input type="hidden" id="medication_idx" value="{{ medication_idx }}"></input>
       <input type="hidden" id="medication_tag" value="{{ medication.tag }}"></input>
       <input type="hidden" id="patient_id" name="patient_id" value="{{patient.id}}"></input>
       <input type="hidden" id="page_id" name="page_id" value="{{page_id}}"></input>
 
+      <!--  First Prescription -->
       Dosage: <select id="concentration">
           
           {% for cc in medication.concentrationchoice_set.all %}
@@ -54,26 +55,65 @@
       <br />
       <br />
       Refills: 
-      {% if medication.refillchoice_set.count > 1 %}
-         <select id="refill">
-            {% for rc in medication.refillchoice_set.all %}
-               {% ifequal rc.id refill_idx %}
-                  <option selected="selected" value="{{rc.id}}">{{rc.refill}}</option>
-               {% else %}
-                  <option value="{{rc.id}}">{{rc.refill}}</option>
-               {% endifequal %}
-            {% endfor %}
-         </select>
-      {% else %}
-          {{ medication.refillchoice_set.all.0.refill }}
-      {% endif %}
+	      <select id="refill">
+	         {% for rc in medication.refillchoice_set.all %}
+	            {% ifequal rc.id refill_idx %}
+	               <option selected="selected" value="{{rc.id}}">{{rc.refill}}</option>
+	            {% else %}
+	               <option value="{{rc.id}}">{{rc.refill}}</option>
+	            {% endifequal %}
+	         {% endfor %}
+	      </select>
       <br />
       <br />
       Patient Instructions:
       {% autoescape off %}
       {{ medication.instructions }}
       {% endautoescape %}
-    </form>
+    
+    <!--  Second Prescription if needed -->
+    {% ifequal medication.rx_count 2 %}
+      Dosage: <select id="concentration2">
+          {% for cc in medication.concentrationchoice_set.all %}
+            {% ifequal cc.id concentration_idx %}
+               <option selected="selected" value="{{cc.id}}">{{cc.concentration}}</option>
+            {% else %}
+               <option value="{{cc.id}}">{{cc.concentration}}</option>
+            {% endifequal %}
+          {% endfor %}
+      </select>
+      <br />
+      <br />
+      
+     Quantity to Dispense: <select id="dosage2">
+          {% for dc in medication.dosagechoice_set.all %}
+             {% ifequal dc.id dosage_idx %}
+               <option selected="selected" value="{{dc.id}}">{{dc.dosage}}</option>
+             {% else %}
+               <option value="{{dc.id}}">{{dc.dosage}}</option>
+             {% endifequal %}
+          {% endfor %}
+      </select>
+      <br />
+      <br />
+      Refills: 
+	      <select id="refill2">
+	         {% for rc in medication.refillchoice_set.all %}
+	            {% ifequal rc.id refill_idx %}
+	               <option selected="selected" value="{{rc.id}}">{{rc.refill}}</option>
+	            {% else %}
+	               <option value="{{rc.id}}">{{rc.refill}}</option>
+	            {% endifequal %}
+	         {% endfor %}
+	      </select>
+      <br />
+      <br />
+      Patient Instructions:
+      {% autoescape off %}
+      {{ medication.instructions }}
+      {% endautoescape %}
+     {% endifequal %}
+   </form>    
 {% endblock %}
 
 {% block contentnav %}

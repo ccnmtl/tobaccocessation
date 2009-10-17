@@ -69,8 +69,8 @@
 {% endblock %}
 
 {% block contentnav %}
-   {% if prev %}
-     <a href="#" id="previous"> {{prev}}</a>
+   {% if previous_url %}
+     <a href="{{previous_url}}" id="previous">Previous</a>
    {% endif %}
 
    <a id='next' href="#" style="display: none" onclick="gotoSelection(); return false;">Next</a>          

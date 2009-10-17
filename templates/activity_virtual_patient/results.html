@@ -114,13 +114,24 @@
           <center>
              <strong>POTENTIALLY HARMFUL</strong>
              <div id="harmful_treatment" class="treatment_type">
-             <!-- {% for med in harmful_treatment_options %}
-                <span id='{{med.tag}}' class='{{med.tag}}'>
-                  <img src='/activity/virtualpatient/media/images/{{ med.tag }}.jpg'>
-                </span>
-             {% endfor %}  -->
+             {% for to in harmful_treatment_options %}
+                {% if to.combination %}
+                   <span id='combination'>
+                     <img src='/activity/virtualpatient/media/images/combination.jpg'>
+                   </span>
+                {% else %}
+                   <span id='{{to.medication.tag}}'>
+                     <img src='/activity/virtualpatient/media/images/{{ to.medication.tag }}.jpg'>
+                   </span>
+                {% endif %}
+             {% endfor %}
               </div>
            </center>
+           <div class="treatment_reasoning">
+              {% for to in harmful_treatment_options %}
+                 {% autoescape off %}{{ to.reasoning }}{% endautoescape %}
+              {% endfor %}
+           </div>
        </div>
 	 </div>
 	 
@@ -148,5 +159,7 @@
 {% block contentnav %}
    <a id="previous" href="{{previous_url}}">Previous</a>
 
-   <a id='next' href="{{next_url}}">Next</a>          
+   {% if next_url %}
+      <a id='next' href="{{next_url}}">Next</a>
+   {% endif %}          
 {% endblock %}

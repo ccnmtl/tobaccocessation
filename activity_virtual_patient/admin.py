@@ -32,7 +32,7 @@ class TreatmentOptionReasoningInline(admin.TabularInline):
     
 class TreatmentOptionInline(admin.TabularInline):
     model = TreatmentOption
-    extra = 3
+    extra = 6
     
 class TreatmentFeedbackInline(admin.TabularInline):
     model = TreatmentFeedback

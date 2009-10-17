@@ -8,6 +8,7 @@ class Medication(models.Model):
     instructions = models.TextField()
     display_order = models.IntegerField()
     tag = models.CharField(max_length=25)
+    rx_count = models.IntegerField(default=1)
     
     def __unicode__(self):
         return "%s" % (self.name)
