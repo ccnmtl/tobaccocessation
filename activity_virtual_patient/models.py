@@ -51,11 +51,20 @@ class TreatmentOption(models.Model):
     classification = models.ForeignKey(TreatmentClassification)
     medication_one = models.ForeignKey(Medication, related_name="medication_one")
     medication_two = models.ForeignKey(Medication, related_name="medication_two", blank=True, null=True)
-    reasoning = models.TextField()
     
     def __unicode__(self):
         return "Option: %s [%s, %s]" % (self.classification.description, self.medication_one, self.medication_two)
     
+class TreatmentOptionReasoning(models.Model):
+    patient = models.ForeignKey(Patient)
+    classification = models.ForeignKey(TreatmentClassification)
+    medication = models.ForeignKey(Medication, blank=True, null=True)
+    combination = models.BooleanField(blank=True)
+    reasoning = models.TextField()
+    
+    def __unicode__(self):
+        return "OptionReasoning: %s [%s, %s]" % (self.classification.description, self.medication, self.reasoning)
+      
 class TreatmentFeedback(models.Model):
     patient = models.ForeignKey(Patient)
     classification = models.ForeignKey(TreatmentClassification)

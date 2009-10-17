@@ -1,12 +1,11 @@
-from django.template import Context, loader
-from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
-from django.template import Context, loader
-from django.shortcuts import render_to_response
-from django.contrib.auth.decorators import login_required
-from tobaccocessation.activity_virtual_patient.models import *
-from django.utils import simplejson
-from django.core.urlresolvers import reverse
 from StdSuites.Type_Names_Suite import null
+from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
+from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
+from django.shortcuts import render_to_response
+from django.template import Context, loader, Context, loader
+from django.utils import simplejson
+from tobaccocessation.activity_virtual_patient.models import *
 
 @login_required
 def root(request):
@@ -146,17 +145,97 @@ def prescription_post(request):
     
 @login_required
 def results(request, patient_id):
+    user_state = _get_user_state(request)
+    patient_state = user_state['patients'][patient_id]
+    prescription = None
+    
+    # pickup the feedback based on the user's answers
+    # query for the treatment option the user selected based on the prescribed drugs
+    # grade the user's rx(s)
+    to = None
+    correct_rx = False
+    combination = False
+    if (_is_combination(user_state, patient_id)):
+        combination = True
+        med_tag_one =  patient_state['combination'][0]
+        med_tag_two =  patient_state['combination'][1]
+        
+        to = TreatmentOption.objects.get(patient__id=patient_id, medication_one__tag=med_tag_one, medication_two__tag=med_tag_two)
+        cc1 = ConcentrationChoice.objects.get(id=patient_state[med_tag_one]['concentration'])
+        cc2 = ConcentrationChoice.objects.get(id=patient_state[med_tag_two]['concentration'])
+        dc1 = DosageChoice.objects.get(id=patient_state[med_tag_one]['dosage'])
+        dc2 = DosageChoice.objects.get(id=patient_state[med_tag_two]['dosage'])
+        
+        rc1 = None
+        rc2 = None
+        if (patient_state[med_tag_one].has_key('refill')):
+            rc1 = RefillChoice.objects.get(id=patient_state[med_tag_one]['refill'])
+        if (patient_state[med_tag_two].has_key('refill')):
+            rc2 = RefillChoice.objects.get(id=patient_state[med_tag_two]['refill'])
+        
+        prescription1 = "%s %s %s" % (med_tag_one, cc1.concentration, dc1.dosage)
+        prescription2 = "%s %s %s" % (med_tag_two, cc2.concentration, dc2.dosage) 
+            
+        correct_rx = cc1.correct and cc2.correct and dc1.correct and dc2.correct
+        if (rc1):
+            correct_rx = correct_rx and rc1.correct
+            prescription1 = prescription1 + " " + rc1.refill
+        if (rc2):
+            correct_rx = correct_rx and rc2.correct
+            prescription2 = prescription2 + " " + rc2.refill
+            
+        prescription = prescription1 + " " + prescription2
+        
+    else:
+        med_tag_one =  patient_state['prescribe']
+        to = TreatmentOption.objects.get(patient__id=patient_id, medication_one__tag=med_tag_one, medication_two=None)
+        cc1 = ConcentrationChoice.objects.get(id=patient_state[med_tag_one]['concentration'])
+        dc1 = DosageChoice.objects.get(id=patient_state[med_tag_one]['dosage'])
+        rc1 = None
+        if (patient_state[med_tag_one].has_key('refill')):
+            rc1 = RefillChoice.objects.get(id=patient_state[med_tag_one]['refill'])
+
+        prescription = "%s %s %s" % (med_tag_one, cc1.concentration, dc1.dosage)
+        correct_rx = cc1.correct and dc1.correct
+        
+        if (rc1):
+            correct_rx = correct_rx and rc1.correct
+            prescription = prescription + " " + rc1.refill
+
+    #todo - is there a better way to model this? 
+    tf = TreatmentFeedback.objects.filter(patient__id=patient_id, classification=to.classification, correct_dosage=correct_rx)
+    if (tf.count() > 1):
+        tf = TreatmentFeedback.objects.filter(patient__id=patient_id, classification=to.classification, correct_dosage=correct_rx, combination_therapy=combination)
+    
+    if (_is_combination(user_state, patient_id)):
+        previous_url = reverse('next_prescription', args=[patient_id, '1'])
+    else:
+        previous_url = reverse('next_prescription', args=[patient_id, '0'])
+        
+    next_url = None
+    next_patient = _get_next_patient(patient_id)
+    if (next_patient):
+        next_url = reverse('options', args=[next_patient.id])
+
     ctx = Context({
        'user': request.user,
        'patient': Patient.objects.get(id=patient_id),
-       'medications': Medication.objects.all().order_by('display_order'),
+       'feedback': tf[0].feedback,
        'page_id': "results",
+       'best_treatment_options': TreatmentOptionReasoning.objects.filter(patient__id=patient_id, classification__rank=1),
+       'reasonable_treatment_options': TreatmentOptionReasoning.objects.filter(patient__id=patient_id, classification__rank=2),
+       'ineffective_treatment_options': TreatmentOptionReasoning.objects.filter(patient__id=patient_id, classification__rank=3),
+       #'harmful_treatment_options': TreatmentOptionReasoning.objects.get(patient__id=patient_id, classification__rank=4),
+       'previous_url': previous_url,
+       'next_url': next_url,
+       'prescription': prescription
     })
         
     template = loader.get_template('activity_virtual_patient/results.html')
     return HttpResponse(template.render(ctx))
     
 ###################################################################################
+
 def _get_user_state(request):
     try:    
         stored_state = ActivityState.objects.get(user=request.user)
@@ -210,4 +289,13 @@ def _get_next_page(page_id):
     elif (page_id == "prescription"):
         next_page = "results"
     return next_page
+
+def _get_next_patient(patient_id):
+    try:
+        current_patient = Patient.objects.get(id=patient_id)
+        next_patient = Patient.objects.get(display_order = current_patient.display_order + 1)
+        return next_patient
+    except Patient.DoesNotExist:
+        return None
+        
     

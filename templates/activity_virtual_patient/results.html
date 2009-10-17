@@ -31,30 +31,107 @@
              </table>
          </center>
       </div>
-      <div id="patient_history">{% autoescape off %}{{patient.history}}{% endautoescape %}</div>
+      <div id="treatment_feedback">
+         You prescribed: {{ prescription }}
+         <br />
+         <br />
+         {% autoescape off %}{{feedback}}{% endautoescape %}
+      </div>
       <input type="hidden" id="patient_id" name="patient_id" value="{{patient.id}}"/>
       <input type="hidden" id="page_id" name="page_id" value="1"/>
     </div>
-    
     <div id="treatment_types">
-	    <div class="treatment_type_box"><center><strong>BEST TREATMENT CHOICE</strong><div id="best_treatment" class="treatment_type treatment_droppable"></div></center></div>
-	    <div class="treatment_type_box"><center><strong>REASONABLE, NOT OPTIMAL</strong><div id="reasonable_treatment" class="treatment_type treatment_droppable"></div></center></div>
-	    <div class="treatment_type_box"><center><strong>UNLIKELY TO BE EFFECTIVE</strong><div id="ineffective_treatment" class="treatment_type treatment_droppable"></div></center></div>
-	    <div class="treatment_type_box"><center><strong>POTENTIALLY HARMFUL</strong><div id="harmful_treatment" class="treatment_type treatment_droppable"></div></center></div>
+	    <div class="treatment_type_box">
+	       <center>
+		       <strong>BEST TREATMENT CHOICE</strong>
+		       <div id="best_treatment" class="treatment_type">
+		       {% for to in best_treatment_options %}
+		          {% if to.combination %}
+		             <span id='combination'>
+                     <img src='/activity/virtualpatient/media/images/combination.jpg'>
+                   </span>
+		          {% else %}
+				       <span id='{{to.medication.tag}}'>
+		               <img src='/activity/virtualpatient/media/images/{{ to.medication.tag }}.jpg'>
+		             </span>
+	             {% endif %}
+		       {% endfor %}
+		        </div>
+		     </center>
+		     <div class="treatment_reasoning">
+                {% for to in best_treatment_options %}
+                   {% autoescape off %}{{ to.reasoning }}{% endautoescape %}
+                {% endfor %}
+           </div>
+		 </div>
+       <div class="treatment_type_box">
+          <center>
+             <strong>REASONABLE, NOT OPTIMAL</strong>
+             <div id="reasonable_treatment" class="treatment_type">
+             {% for to in reasonable_treatment_options %}
+                {% if to.combination %}
+                   <span id='combination'>
+                     <img src='/activity/virtualpatient/media/images/combination.jpg'>
+                   </span>
+                {% else %}
+                   <span id='{{to.medication.tag}}'>
+                     <img src='/activity/virtualpatient/media/images/{{ to.medication.tag }}.jpg'>
+                   </span>
+                {% endif %}
+             {% endfor %}
+              </div>
+           </center>
+           <div class="treatment_reasoning">
+                {% for to in reasonable_treatment_options %}
+                   {% autoescape off %}{{ to.reasoning }}{% endautoescape %}
+                {% endfor %}
+           </div>
+       </div>
+       <div class="treatment_type_box">
+          <center>
+             <strong>UNLIKELY TO BE EFFECTIVE</strong>
+             <div id="ineffective_treatment" class="treatment_type">
+             {% for to in ineffective_treatment_options %}
+                {% if to.combination %}
+                   <span id='combination'>
+                     <img src='/activity/virtualpatient/media/images/combination.jpg'>
+                   </span>
+                {% else %}
+                   <span id='{{to.medication.tag}}'>
+                     <img src='/activity/virtualpatient/media/images/{{ to.medication.tag }}.jpg'>
+                   </span>
+                {% endif %}
+             {% endfor %}
+              </div>
+           </center>
+           <div class="treatment_reasoning">
+              {% for to in ineffective_treatment_options %}
+                 {% autoescape off %}{{ to.reasoning }}{% endautoescape %}
+              {% endfor %}
+           </div>
+       </div>
+       <div class="treatment_type_box">
+          <center>
+             <strong>POTENTIALLY HARMFUL</strong>
+             <div id="harmful_treatment" class="treatment_type">
+             <!-- {% for med in harmful_treatment_options %}
+                <span id='{{med.tag}}' class='{{med.tag}}'>
+                  <img src='/activity/virtualpatient/media/images/{{ med.tag }}.jpg'>
+                </span>
+             {% endfor %}  -->
+              </div>
+           </center>
+       </div>
 	 </div>
 	 
 	 <br />
 	 <br />
 	 
-	 <div>
+	 <div style="display: none">
 		 <strong>AVAILABLE TREATMENTS</strong>   
 	    <div id="available_treatments" class="treatment_droppable">
 	    
-	      {% for med in medications %}
-	         <span id='{{med.tag}}' class='{{med.tag}} treatment_draggable'>
-	            <img src='/activity/virtualpatient/media/images/{{ med.tag }}.jpg'>
-	         </span>
-	      {% endfor %}
+
 	      
 	      <span id="combination" class="combination treatment_draggable">
 	         <img src="/activity/virtualpatient/media/images/combination.jpg">
@@ -66,4 +143,10 @@
 	    </div>
 	 </div>
 
+{% endblock %}
+
+{% block contentnav %}
+   <a id="previous" href="{{previous_url}}">Previous</a>
+
+   <a id='next' href="{{next_url}}">Next</a>          
 {% endblock %}

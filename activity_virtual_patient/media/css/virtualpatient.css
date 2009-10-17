@@ -25,6 +25,18 @@
    overflow:auto;
 }
 
+#treatment_feedback {
+   float: left;
+   width: 450px;
+   border: 1px solid #000;
+   height: 150px;
+   padding: 10px 10px 10px 10px;
+   margin:  10px 10px 10px 10px;
+   border-spacing: 5px; 
+   overflow:auto;
+}
+
+
 #treatment_types {
 }
 
@@ -65,5 +77,10 @@
 
 .highlight {
 	border: 3px solid #f00;
+}
+
+#treatment_reasoning {
+   align: left;
+   	
 }
 

@@ -25,6 +25,10 @@ class MedicationAdmin(admin.ModelAdmin):
 admin.site.register(Medication, MedicationAdmin)
 
 admin.site.register(TreatmentClassification)
+
+class TreatmentOptionReasoningInline(admin.TabularInline):
+    model = TreatmentOptionReasoning
+    extra = 3
     
 class TreatmentOptionInline(admin.TabularInline):
     model = TreatmentOption
@@ -38,7 +42,8 @@ class TreatmentFeedbackInline(admin.TabularInline):
 class PatientAdmin(admin.ModelAdmin):
     inlines = [ 
         TreatmentOptionInline,
-        TreatmentFeedbackInline
+        TreatmentFeedbackInline,
+        TreatmentOptionReasoningInline,
     ]
     
 admin.site.register(Patient, PatientAdmin)
