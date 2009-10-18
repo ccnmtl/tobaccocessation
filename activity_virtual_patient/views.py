@@ -1,4 +1,3 @@
-from StdSuites.Type_Names_Suite import null
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
@@ -10,6 +9,7 @@ from django.db.models import Q
 
 @login_required
 def root(request):
+
     # dump the user back where they were when they left
     user_state = _get_user_state(request)
     
