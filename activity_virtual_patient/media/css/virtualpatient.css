@@ -38,10 +38,11 @@
 
 
 #treatment_types {
+	float: left;
 }
 
 .treatment_type_box {
-   float: left;
+	float: left;
    width: 205px;
    margin-right: 15px;
    margin-top: 15px;
@@ -61,11 +62,13 @@
    margin-right: 15px;
    margin-top: 15px;
    margin-bottom: 15px;
+   width: 500px;
 }
 
 #available_treatments_box {
    float: left;
    height: 96px;
+   width: 900px;
 }
     
 #available_treatments {
