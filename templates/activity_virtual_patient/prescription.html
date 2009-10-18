@@ -15,6 +15,7 @@
    <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/DragAndDrop.js"></script>
    <script type="text/javascript" src="/site_media/js/json2.js"></script>
    <script type="text/javascript" src="/activity/virtualpatient/media/js/prescription.js"></script>
+   <script type="text/javascript" src="/activity/virtualpatient/media/js/virtualpatient.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -75,7 +76,7 @@
     {% ifequal medication.rx_count 2 %}
       Dosage: <select id="concentration2">
           {% for cc in medication.concentrationchoice_set.all %}
-            {% ifequal cc.id concentration_idx %}
+            {% ifequal cc.id concentration2_idx %}
                <option selected="selected" value="{{cc.id}}">{{cc.concentration}}</option>
             {% else %}
                <option value="{{cc.id}}">{{cc.concentration}}</option>
@@ -87,7 +88,7 @@
       
      Quantity to Dispense: <select id="dosage2">
           {% for dc in medication.dosagechoice_set.all %}
-             {% ifequal dc.id dosage_idx %}
+             {% ifequal dc.id dosage2_idx %}
                <option selected="selected" value="{{dc.id}}">{{dc.dosage}}</option>
              {% else %}
                <option value="{{dc.id}}">{{dc.dosage}}</option>
@@ -99,7 +100,7 @@
       Refills: 
 	      <select id="refill2">
 	         {% for rc in medication.refillchoice_set.all %}
-	            {% ifequal rc.id refill_idx %}
+	            {% ifequal rc.id refill2_idx %}
 	               <option selected="selected" value="{{rc.id}}">{{rc.refill}}</option>
 	            {% else %}
 	               <option value="{{rc.id}}">{{rc.refill}}</option>
@@ -119,5 +120,5 @@
 {% block contentnav %}
    <a id="previous" href="{{previous_url}}">Previous</a>
 
-   <a id='next' href="#" onclick="gotoPrescribeOrResults(); return false;">Next</a>          
+   <a id='next' href="#" onclick="navigate(); return false;">Next</a>          
 {% endblock %}

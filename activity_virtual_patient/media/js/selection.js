@@ -1,50 +1,41 @@
-function debug(string)
+function get_state()
 {
-   if (true)
-      log("DEBUG " + string)
+   debug("get_state")
+   doc = {}
+   
+   doc['prescribe'] = ""
+   elem = getFirstElementByTagAndClassName("*", "highlight", parent='best_treatment')
+   if (elem)
+      doc['prescribe'] = elem.id
+           
+   elems = getElementsByTagAndClassName("*", 'highlight', parent='available_treatments')
+   doc['combination'] = []
+   forEach(elems,
+           function(elem)
+           {
+              idx = elem.id.lastIndexOf('_')
+              doc['combination'].push(elem.id.slice(0, idx))
+           })
+           
+   jsontxt = JSON.stringify(doc, null)
+   return jsontxt
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////
 
-_combination = false
+function setupPage()
+{
+   debug("setupPage")
+   checkMaxHighlighted()
+}
+
+MochiKit.Signal.connect(window, "onload", setupPage)
+
+///////////////////////////////////////////////////////////////////////////////////
+// controlling the combination eccentricities here
+
 MAX_COMBOTREATMENT_COUNT = 2
 MAX_TREATMENT_COUNT = 1
-
-function loadStateSuccess(doc)
-{
-   debug("loadStateSuccess")
-   
-   set_state(doc) // defined in the per page view
-}
-
-function loadStateError(err)
-{
-   debug("loadStateError")
-   // ignore?
-}
-
-function onXHRSuccess(response)
-{
-   doc = JSON.parse(response.responseText, null)
-   window.location = doc.redirect 
-}
-
-function onXHRError(err)
-{
-}
-
-function gotoPrescribe()
-{
-   url = 'http://' + location.hostname + ':' + location.port + "/activity/virtualpatient/navigate/" + $('page_id').value + "/" + $('patient_id').value + "/"
-   
-   jsontxt = get_state()
-      
-   deferred = doXHR(url, 
-         { 
-            method: 'POST', 
-            sendContent: queryString({'json': jsontxt})
-         });
-   deferred.addCallbacks(onXHRSuccess, onXHRError);
-}
 
 function onSelectBestTreatment(elem)
 {
@@ -53,12 +44,14 @@ function onSelectBestTreatment(elem)
    // are we at the maximum treatments allowed? max treatments varies based
    // on whether we're dealing with a combination situation or not
    highlightCount = getElementsByTagAndClassName("*", "highlight").length
+   debug(highlightCount)
    if (highlightCount >= MAX_TREATMENT_COUNT && !hasElementClass(elem, 'highlight'))
       return
       
+   debug('1')
    // nope, highlight the treatment
    toggleElementClass('highlight', elem)
-   
+   debug('2')
    if (elem.id == "combination")
    {
       if (hasElementClass(elem, 'highlight'))
@@ -119,106 +112,10 @@ function onSelectCombinationTreatment(elem)
    checkMaxHighlighted()
 }
 
-function get_state()
-{
-   debug("get_state")
-   doc = {}
-   
-   doc['prescribe'] = ""
-   elem = getFirstElementByTagAndClassName("*", "highlight", parent='best_treatment')
-   if (elem)
-      doc['prescribe'] = elem.id
-           
-   elems = getElementsByTagAndClassName("*", 'highlight', parent='available_treatments')
-   doc['combination'] = []
-   forEach(elems,
-           function(elem)
-           {
-              idx = elem.id.lastIndexOf('_')
-              doc['combination'].push(elem.id.slice(0, idx))
-           })
-           
-   jsontxt = JSON.stringify(doc, null)
-   return jsontxt
-}
-
-function set_state(doc)
-{
-   debug("selection: set_state: ")
-   debug("Prescribe: " + doc['prescribe'])
-   
-   selected = doc['prescribe']
-   
-   template = getElement('medication_template')
-   forEach(doc['best_treatment'], 
-           function(med) {
-              
-              // create elements for each of the meds
-              newnode = template.cloneNode(true)
-              newnode.id = med
-              setStyle(newnode, {'display': 'inline'})
-              addElementClass(newnode, med)
-              
-              // fix the src on the image
-              image = getFirstElementByTagAndClassName("img", "", parent=newnode)
-              image.src = image.src + med + ".jpg"
-              
-              $('best_treatment').appendChild(newnode)
-              
-              if (selected.length > 0)
-              {
-                 if (med == selected)
-                    addElementClass(med, 'highlight')
-                 else if (selected.length > 0)
-                    setOpacity(med, .5)
-              }
-            })
-   
-   if (selected == "combination")
-   {
-      for (i = 0; i < doc['combination'].length; i++)
-         addElementClass(doc['combination'][i] + "_combo", 'highlight')
-      showCombinationView()
-   }
-   checkMaxHighlighted()
-}
-
-//////////////////////////////////////////////////////////////////////////////
-
-function saveStateSynch()
-{
-   url = 'http://' + location.hostname + ':' + location.port + "/activity/virtualpatient/save/" + $('page_id').value + "/" + $('patient_id').value + "/"
-
-   jsontxt = get_state() // defined by page
-      
-   var sync_req = new XMLHttpRequest();  
-   sync_req.onreadystatechange= function() { if (sync_req.readyState!=4) return false; }         
-   sync_req.open("POST", url, false);
-   sync_req.send(queryString({'json':jsontxt}));
-}
-
-MochiKit.Signal.connect(window, "onbeforeunload", saveStateSynch)
-
-///////////////////////////////////////////////////////////////////////////////////////////
-
-function loadState()
-{
-   debug("loadState")
-   url = 'http://' + location.hostname + ':' + location.port + "/activity/virtualpatient/load/" + $('page_id').value + "/" + $('patient_id').value + "/"
-   
-   deferred = loadJSONDoc(url, {'url': location.pathname});
-   deferred.addCallbacks(loadStateSuccess, loadStateError); // handlers defined by each page
-}
-
-MochiKit.Signal.connect(window, "onload", loadState)
-
-///////////////////////////////////////////////////////////////////////////////////
-// controlling the combination eccentricities here
-
-
 function checkMaxHighlighted()
 {
-   maxHighlight = _combination ? 3 : 1;
+   combination = getStyle('available_treatments_box', 'display') != 'none'
+   maxHighlight = combination ? 3 : 1;
    highlightCount = getElementsByTagAndClassName("*", "highlight").length
            
    if (highlightCount == maxHighlight)
@@ -235,7 +132,6 @@ function checkMaxHighlighted()
 function showCombinationView()
 {
    debug('showCombinationView')
-   _combination = true
    
    // show the treatments box
    setStyle($('available_treatments_box'), {'display':'block'})
@@ -279,7 +175,6 @@ function showCombinationView()
 function hideCombinationView()
 {
    debug('hideCombinationView')
-   _combination = false
    
    setStyle($('available_treatments_box'), {'display':'none'})
    

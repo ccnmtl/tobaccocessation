@@ -9,8 +9,7 @@ urlpatterns = patterns('',
                        (r'^$', 'tobaccocessation.activity_virtual_patient.views.root'),
                        
                        (r'^navigate/(?P<page_id>.*)/(?P<patient_id>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.navigate'),
-                       (r'^save/(?P<page_id>.*)/(?P<patient_id>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.save'),
-                       (r'^load/(?P<page_id>.*)/(?P<patient_id>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.load'),
+                       (r'^save/(?P<patient_id>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.save'),
                        
                        url(r'^options/(?P<patient_id>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.options', name='options'),
                        
@@ -18,7 +17,6 @@ urlpatterns = patterns('',
                        
                        url(r'^prescription/(?P<patient_id>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.prescription', name='prescription'),
                        url(r'^prescription/(?P<patient_id>\d+)/(?P<medication_idx>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.prescription', name='next_prescription'),
-                       url(r'^prescription/post/$', 'tobaccocessation.activity_virtual_patient.views.prescription_post', name='prescription_post'),
                        
                        url(r'^results/(?P<patient_id>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.results', name='results'),
 )

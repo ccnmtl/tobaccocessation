@@ -1,9 +1,3 @@
-function debug(string)
-{
-   if (true)
-      log("DEBUG " + string)
-}
-
 _dropped = false
 
 //On successful drop, "snap" the element back into place immediately, 
@@ -82,46 +76,18 @@ function setupDragDrop()
          })
 }
 
-function loadStateSuccess(doc)
+///////////////////////////////////////////////////////////////////////////////////////////
+
+function setupPage(doc)
 {
-   debug("loadStateSuccess")
-   
-   set_state(doc) // defined in the per page view
+   debug("setupPage")
    
    setupDragDrop()
    maybeAllowUserToContinue()
 }
+MochiKit.Signal.connect(window, "onload", setupPage)
 
-function loadStateError(err)
-{
-   debug("loadStateError")
-   // ignore?
-}
-
-function onXHRSuccess(response)
-{
-   doc = JSON.parse(response.responseText, null)
-   window.location = doc.redirect 
-}
-
-function onXHRError(err)
-{
-
-}
-
-function gotoSelection()
-{
-   url = 'http://' + location.hostname + ':' + location.port + "/activity/virtualpatient/navigate/" + $('page_id').value + "/" + $('patient_id').value + "/"
-
-   jsontxt = get_state()
-   
-   deferred = doXHR(url, 
-         { 
-            method: 'POST', 
-            sendContent: queryString({'json': jsontxt})
-         });
-   deferred.addCallbacks(onXHRSuccess, onXHRError);
-}
+///////////////////////////////////////////////////////////////////////////////////////////
 
 function get_state()
 {
@@ -141,73 +107,6 @@ function get_state()
                       })
               doc[div] = medications
             })
-            
-     
-            
    jsontxt = JSON.stringify(doc, null)
    return jsontxt
 }
-
-function set_state(doc)
-{
-   debug("options: set_state")
-   template = getElement('medication_template')
-      
-   divs = ['best_treatment', 'reasonable_treatment', 'ineffective_treatment', 'harmful_treatment', 'available_treatments']
-   
-   for (i=0; i < divs.length; i++)
-   {
-      item = divs[i]
-      if (doc[item])
-      {
-         forEach(doc[item],
-                 function(med) {
-                    // create elements for each of the meds
-                    newnode = template.cloneNode(true)
-                    newnode.id = med
-                    setStyle(newnode, {'display': 'inline'})
-                    addElementClass(newnode, med)
-                    
-                    // fix the src on the image
-                    image = getFirstElementByTagAndClassName("img", "", parent=newnode)
-                    image.src = image.src + med + ".jpg"
-                    
-                    $(item).appendChild(newnode)
-   
-                    // remove from the available treatments
-                    node = getFirstElementByTagAndClassName(null, med, parent=$('available_treatments'))
-                    if (node)
-                       removeElement(node)
-                 })
-      }
-   }
-}
-
-//////////////////////////////////////////////////////////////////////////////
-
-function saveStateSynch()
-{
-   url = 'http://' + location.hostname + ':' + location.port + "/activity/virtualpatient/save/" + $('page_id').value + "/" + $('patient_id').value + "/"
-
-   jsontxt = get_state() // defined by page
-      
-   var sync_req = new XMLHttpRequest();  
-   sync_req.onreadystatechange= function() { if (sync_req.readyState!=4) return false; }         
-   sync_req.open("POST", url, false);
-   sync_req.send(queryString({'json':jsontxt}));
-}
-
-MochiKit.Signal.connect(window, "onbeforeunload", saveStateSynch)
-
-///////////////////////////////////////////////////////////////////////////////////////////
-
-function loadState()
-{
-   debug("loadState")
-   url = 'http://' + location.hostname + ':' + location.port + "/activity/virtualpatient/load/" + $('page_id').value + "/" + $('patient_id').value + "/"
-   
-   deferred = loadJSONDoc(url, {'url': location.pathname});
-   deferred.addCallbacks(loadStateSuccess, loadStateError); // handlers defined by each page
-}
-
-MochiKit.Signal.connect(window, "onload", loadState)

@@ -14,8 +14,6 @@
    <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/Visual.js"></script>
    <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/DragAndDrop.js"></script>
    <script type="text/javascript" src="/site_media/js/json2.js"></script>
-   <script type="text/javascript" src="/activity/virtualpatient/media/js/option.js"></script>
-   <script type="text/javascript" src="/activity/virtualpatient/media/js/virtualpatient.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -32,7 +30,7 @@
          </center>
       </div>
       <div id="treatment_feedback">
-         You prescribed: {{ prescription }}
+         {{ prescription }}
          <br />
          <br />
          {% autoescape off %}{{feedback}}{% endautoescape %}

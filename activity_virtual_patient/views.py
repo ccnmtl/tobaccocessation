@@ -16,51 +16,48 @@ def root(request):
     if (user_state.has_key('path')):
         url = user_state['path']
     else:
-        url = '/activity/virtualpatient/options/1'
+        first_patient = Patient.objects.get(display_order=1)
+        url = '/activity/virtualpatient/options/%s' % (first_patient.id) 
     
     return HttpResponseRedirect(url)
 
-@login_required        
-def load(request, page_id, patient_id):
-    user_state = _get_user_state(request)
-    
-    doc = {}
-    if patient_id in user_state['patients']:
-        doc = user_state['patients'][patient_id]
-
-    return HttpResponse(simplejson.dumps(doc), 'application/json')
-
 @login_required
-def save(request, page_id, patient_id):
+def save(request, patient_id):
     _save_user_state(request, patient_id)
     doc = { 'success': '1' }
     return HttpResponse(simplejson.dumps(doc), 'application/json')
 
 @login_required
 def navigate(request, page_id, patient_id):
-    _save_user_state(request, patient_id)
+    user_state = _save_user_state(request, patient_id)
     
-    next_page = _get_next_page(page_id)
+    next_url = _get_next_page(page_id, patient_id, user_state)
     
     doc = {}
-    doc['redirect'] = reverse(next_page, args=[patient_id])
+    doc['redirect'] = next_url
     return HttpResponse(simplejson.dumps(doc), 'application/json')
 
 @login_required
 def options(request, patient_id):
-    _save_my_place(request)
+    user_state = _save_my_place(request)
     
-    previous_url = ""
-    prev_patient = _get_previous_patient(patient_id)
-    if (prev_patient):
-        previous_url = reverse('results', args=[prev_patient.id])
+    # setup new patient
+    if (not user_state['patients'].has_key(patient_id)):
+        user_state['patients'][patient_id] = {}
+        user_state['patients'][patient_id]['available_treatments'] = _get_available_treatments()
+        _save(request, user_state)
+    
+    # setup previous url
+    previous_url = _get_previous_page('options', patient_id, user_state)  
+        
+    # next_url is "navigate" setup here or in the js?
     
     ctx = Context({
        'user': request.user,
        'patient': Patient.objects.get(id=patient_id),
-       'medications': Medication.objects.all().order_by('display_order'),
-       'page_id': "options",
-       'previous_url': previous_url
+       'page_id': 'options',
+       'previous_url': previous_url, 
+       'patient_state': user_state['patients'][patient_id],
     })
         
     template = loader.get_template('activity_virtual_patient/options.html')
@@ -68,13 +65,17 @@ def options(request, patient_id):
 
 @login_required
 def selection(request, patient_id):
-    _save_my_place(request)
+    user_state = _save_my_place(request)
+    
+    previous_url = _get_previous_page('selection', patient_id, user_state)
     
     ctx = Context({
        'user': request.user,
        'patient': Patient.objects.get(id=patient_id),
        'medications': Medication.objects.all().order_by('display_order'),
-       'page_id': "selection",
+       'page_id': 'selection',
+       'patient_state': user_state['patients'][patient_id],
+       'previous_url': previous_url,
     })
         
     template = loader.get_template('activity_virtual_patient/selection.html')
@@ -82,15 +83,11 @@ def selection(request, patient_id):
     
 @login_required
 def prescription(request, patient_id, medication_idx='0'):
-    _save_my_place(request)
+    user_state = _save_my_place(request)
     
-    user_state = _get_user_state(request)
     idx = int(medication_idx)
     
-    if (idx == 0):
-        previous_url = reverse('selection', args=[patient_id])
-    else:
-        previous_url = reverse('next_prescription', args=[patient_id, '0'])
+    previous_url = _get_previous_page('prescription', patient_id, user_state, idx)
         
     if (_is_combination(user_state, patient_id)):
         tag = user_state['patients'][patient_id]['combination'][idx]
@@ -119,7 +116,6 @@ def prescription(request, patient_id, medication_idx='0'):
             dosage2_idx = int(rx['dosage2'])
             concentration2_idx = int(rx['concentration2'])
             refill2_idx = int(rx['refill2'])
-            
     
     ctx = Context({
        'user': request.user,
@@ -131,36 +127,13 @@ def prescription(request, patient_id, medication_idx='0'):
        'dosage_idx': dosage_idx,
        'concentration_idx': concentration_idx,
        'refill_idx': refill_idx,
+       'dosage2_idx': dosage2_idx,
+       'concentration2_idx': concentration2_idx,
+       'refill2_idx': refill2_idx,
     })
         
     template = loader.get_template('activity_virtual_patient/prescription.html')
     return HttpResponse(template.render(ctx))
-
-@login_required
-def prescription_post(request):
-    # the other views are using "navigate" for this functionality
-    # it might be possible to remove the special casing here and localize it to other places.
-    # e.g. the next/prev url can take place in get_next_page / get_prev_page
-    
-    user_state = _get_user_state(request)
-    update = simplejson.loads(request.POST['json'])
-    patient_id = update['patient_id']
-    
-    # save the data out
-    medication_tag = update['medication_tag']
-    user_state['patients'][patient_id][medication_tag] = update[medication_tag]
-    _save(request, user_state)
-    
-    # navigate to the next view
-    idx = int(update['medication_idx'])
-    if (_is_combination(user_state, patient_id) and idx == 0):
-        next_url = reverse('next_prescription', args=[patient_id, '1'])
-    else:
-        next_url = reverse('results', args=[patient_id])
-            
-    doc = {}
-    doc['redirect'] = next_url
-    return HttpResponse(simplejson.dumps(doc), 'application/json')
     
 @login_required
 def results(request, patient_id):
@@ -192,8 +165,6 @@ def results(request, patient_id):
         rc1 = RefillChoice.objects.get(id=patient_state[med_tag_one]['refill'])
         rc2 = RefillChoice.objects.get(id=patient_state[med_tag_two]['refill'])
         
-        prescription = "Combination: %s %s %s %s refills, %s %s %s %s refills" % (med_tag_one, cc1.concentration, dc1.dosage, rc1.refill, med_tag_two, cc2.concentration, dc2.dosage, rc2.refill) 
-            
         correct_rx = cc1.correct and cc2.correct and dc1.correct and dc2.correct and rc1.correct and rc2.correct
     else:
         med_tag_one =  patient_state['prescribe']
@@ -202,23 +173,12 @@ def results(request, patient_id):
         dc1 = DosageChoice.objects.get(id=patient_state[med_tag_one]['dosage'])
         rc1 = RefillChoice.objects.get(id=patient_state[med_tag_one]['refill'])
 
-        prescription = "%s %s %s %s" % (med_tag_one, cc1.concentration, dc1.dosage, rc1.refill)
         correct_rx = cc1.correct and dc1.correct and rc1.correct
 
     #todo - is there a better way to model this? 
     tf = TreatmentFeedback.objects.filter(patient__id=patient_id, classification=to.classification, correct_dosage=correct_rx)
     if (tf.count() > 1):
         tf = TreatmentFeedback.objects.filter(patient__id=patient_id, classification=to.classification, correct_dosage=correct_rx, combination_therapy=combination)
-    
-    if (_is_combination(user_state, patient_id)):
-        previous_url = reverse('next_prescription', args=[patient_id, '1'])
-    else:
-        previous_url = reverse('next_prescription', args=[patient_id, '0'])
-        
-    next_url = None
-    next_patient = _get_next_patient(patient_id)
-    if (next_patient):
-        next_url = reverse('options', args=[next_patient.id])
 
     ctx = Context({
        'user': request.user,
@@ -229,9 +189,9 @@ def results(request, patient_id):
        'reasonable_treatment_options': TreatmentOptionReasoning.objects.filter(patient__id=patient_id, classification__rank=2),
        'ineffective_treatment_options': TreatmentOptionReasoning.objects.filter(patient__id=patient_id, classification__rank=3),
        'harmful_treatment_options': TreatmentOptionReasoning.objects.filter(patient__id=patient_id, classification__rank=4),
-       'previous_url': previous_url,
-       'next_url': next_url,
-       'prescription': prescription
+       'previous_url': _get_previous_page('results', patient_id, user_state),
+       'next_url': _get_next_page('results', patient_id, user_state),
+       'prescription': "Prescription Summary Here"
     })
         
     template = loader.get_template('activity_virtual_patient/results.html')
@@ -258,9 +218,6 @@ def _save_user_state(request, patient_id):
         return
     
     user_state = _get_user_state(request)
-    
-    if (not user_state['patients'].has_key(patient_id)):
-        user_state['patients'][patient_id] = {}
 
     # add the posted information to the user_state
     updated_state = simplejson.loads(request.POST['json'])
@@ -268,11 +225,13 @@ def _save_user_state(request, patient_id):
         user_state['patients'][patient_id][item] = updated_state[item]
     
     _save(request, user_state)
+    return user_state
     
 def _save_my_place(request):
     user_state = _get_user_state(request)
     user_state['path'] = request.path
     _save(request, user_state)
+    return user_state
     
 def _save(request, user_state):
     stored_state = ActivityState.objects.get(user=request.user)
@@ -285,15 +244,46 @@ def _is_combination(user_state, patient_id):
     
 ###################################################################################
 
-def _get_next_page(page_id):
-    next_page = ""
+def _get_next_page(page_id, patient_id, user_state):
+    next_url = None
     if (page_id == "options"):
-        next_page = "selection"
+        next_url = reverse('selection', args=[patient_id])
     elif (page_id == "selection"):
-        next_page = "prescription"
+        next_url = reverse('prescription', args=[patient_id])
     elif (page_id == "prescription"):
-        next_page = "results"
-    return next_page
+        idx = int(user_state['patients'][patient_id]['medication_idx'])
+        if (_is_combination(user_state, patient_id) and idx == 0):
+            next_url = reverse('next_prescription', args=[patient_id, '1'])
+        else:
+            next_url = reverse('results', args=[patient_id])
+    elif (page_id == 'results'):
+        next_patient = _get_next_patient(patient_id)
+        if (next_patient):
+            next_url = reverse('options', args=[next_patient.id])
+
+    return next_url
+
+def _get_previous_page(page_id, patient_id, user_state, idx=-1):
+    previous_url = None
+    if (page_id == 'options'):
+        prev_patient = _get_previous_patient(patient_id)
+        if (prev_patient):
+            previous_url = reverse('results', args=[prev_patient.id])
+    elif (page_id == 'selection'):
+        previous_url = reverse('options', args=[patient_id])
+    elif (page_id == 'prescription'):
+        if (idx == 0):
+            previous_url = reverse('selection', args=[patient_id])
+        else: 
+            previous_url = reverse('next_prescription', args=[patient_id, '0'])
+    elif (page_id == 'results'):
+        if (_is_combination(user_state, patient_id)):
+            previous_url = reverse('next_prescription', args=[patient_id, '1'])
+        else:
+            previous_url = reverse('next_prescription', args=[patient_id, '0'])
+    
+    return previous_url
+
 
 def _get_next_patient(patient_id):
     try:
@@ -310,3 +300,11 @@ def _get_previous_patient(patient_id):
         return next_patient
     except Patient.DoesNotExist:
         return None    
+    
+def _get_available_treatments():
+    a = [] 
+    for med in Medication.objects.all().order_by('display_order'):
+        a.append(med.tag)
+    a.append('combination')
+    return a
+        
