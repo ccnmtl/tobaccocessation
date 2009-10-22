@@ -448,7 +448,7 @@ img, img a
 {
 	display: block;
 	float: left;
-	width: 200px;
+	width: 182px;
 	margin: 0;
 	padding: 0 0;
 	border: 0;
@@ -638,7 +638,7 @@ img, img a
 .two_columns_right #content
 {
 	display: block;
-	width: 699px;
+	width: 760px;
 }
 
 .two_columns_right #squish
@@ -834,6 +834,27 @@ body.fluid #pagebody
 	width: 100%;
 }
 
+/* ---- sidebar block elements ---------- */
+body.fluid #pagebody #sidebar_left {
+display:block;
+margin: 1em;
+float: left;
+}
+
+body.fluid #pagebody #sidebar_left ul {
+	list-style: none;
+	font-size: 84%;
+	border: 1px solid #ccc;
+	border-bottom: none;
+}
+
+body.fluid #pagebody #sidebar_left ul li{
+	padding: 5px;
+	border-bottom: 1px solid #ccc;
+}
+
+
+
 /* ---- Footer block elements ---------- */
 body.fluid #footer
 {
@@ -841,32 +862,22 @@ body.fluid #footer
 }
 
 /* ---- Content block elements ---------- */
-body.fluid #content
-{
-	margin: 0 -205px;
-	width: 100%;
-}
+
 
 .three_columns.fluid #squish
 {
 	margin: 0 210px;
 }
 
-.two_columns_left.fluid #content,
-.two_columns_right.fluid #content
-{
-	display: block;
-	width: 100%;
-}
 
 .two_columns_left.fluid #content
 {
-	margin-right: 0;
+float: left;
 }
 
 .two_columns_left.fluid #squish
 {
-	margin: 0 0 0 210px;
+	margin: 0;
 }
 
 .two_columns_right.fluid #content
@@ -876,7 +887,7 @@ body.fluid #content
 
 .two_columns_right.fluid #squish
 {
-	margin: 0 210px 0 10px;
+	margin: 0;
 }
 
 .one_column.fluid #content
@@ -905,7 +916,7 @@ body.fluid #content
    padding: 0;
    border: 0;
    background-color: #eaa141;
-   font-size: 90%;
+   font-size: 84%;
    
 }
 
@@ -939,7 +950,7 @@ body.fluid #content
 {
 	display: block;
 	float: left;
-	margin: 0 15px 0 0;
+	margin: 0 16px 0 -8px;
 	padding: 0;
 	border: 0;
 	line-height: 24px;
@@ -952,12 +963,11 @@ body.fluid #content
     display: block;
     height: 25px;
    color: #333;
-   font-weight: bold;
    	background-image: url(../img/sn_button_rt_on.png);
 	background-repeat: no-repeat;
 	background-position: top right;
-	padding-right: 5px;
-	min-width: 71px;
+	padding-right: 8px;
+
 
 }
 
@@ -970,8 +980,8 @@ body.fluid #content
 	background-position: 0px 0px ;
 	background-image: url(../img/sn_button_left_on.png);
 	margin:0;
-	padding-left: 5px;
-	min-width: 71px;
+	padding-left: 8px;
+
 	
 }
 
