@@ -100,7 +100,7 @@ td
 ol, ul
 {
 	display: block;
-	margin: 0 4em 0.7em 4em;
+	margin: 0 0 0.7em 1em;
 	padding: 0;
 	border: 0;
 	font-size: 100%;

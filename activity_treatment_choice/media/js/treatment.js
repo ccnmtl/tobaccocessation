@@ -1,6 +1,6 @@
 function debug(string)
 {
-   if (true)
+   if (false)
       log("DEBUG " + string)
 }
 
@@ -51,6 +51,7 @@ function checkForSuccess()
        {
           if (_droppables[i].element.id == smoker_quantity_divs[j] && _droppables[i].options.accept.length > 0)
           {
+             setStyle('next', {'display': 'none'})
              return false
           }
        }
@@ -58,6 +59,7 @@ function checkForSuccess()
    
    setStyle('next', {'display': 'inline'})
    pulsate($('next'))
+   return true
 }
 
 
@@ -231,7 +233,8 @@ function saveState()
    doc = 
    {
       'version': 1,
-      'smoker_quantity_state': []
+      'smoker_quantity_state': [],
+      'complete': checkForSuccess(),
    }
 
    smoker_quantity_divs = ['treatment_light_smoker', 'treatment_moderate_smoker', 'treatment_heavy_smoker']

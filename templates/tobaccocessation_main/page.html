@@ -1,16 +1,16 @@
-{% extends "project_two_col_left.html" %}
+{% extends "project_base.html" %}
 
 {% block sidebarleft %}
    <ul>
    {% ifequal section.depth 2 %}
       {% with section as parent %}
-         {% include "siteeditor/level_menu.html" %}
+         {% include "tobaccocessation_main/level_menu.html" %}
       {% endwith %}
    {% endifequal %}
    
    {% ifequal section.depth 3 %}
       {% with section.get_parent as parent %}
-       {% include "siteeditor/level_menu.html" %}
+       {% include "tobaccocessation_main/level_menu.html" %}
     {% endwith %}
    {% endifequal %}
    </ul>

@@ -1,0 +1,8 @@
+<ul>
+{% for s in root.get_descendents %}
+	<li class="menu-{{s.depth}}">{% ifnotequal s.id section.id %}<a href="{{menu_base}}{{s.get_absolute_url}}">{%else%}<b>{% endifnotequal %}{{s.label}}{% ifnotequal s.id section.id %}</a>{%else%}</b>{% endifnotequal %}
+	{% if s.get_children %}<ul>{% endif %}
+	{% if not s.get_children and s.is_last_child %}</ul>{% endif %}
+	</li>
+{% endfor %}
+</ul>

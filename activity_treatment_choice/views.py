@@ -6,20 +6,6 @@ from django.contrib.auth.decorators import login_required
 from tobaccocessation.activity_treatment_choice.models import * 
 
 @login_required
-def root(request):
-    treatments = [ 'patch', 'gum', 'inhaler', 'lozenge', 'nasalspray', 'chantix', 'bupropion', 'combination'  ]
-    
-    ctx = Context({
-       'user': request.user,
-       'treatments': treatments,
-       'prev': 'Previous',
-       'next': 'Next'
-    })
-    
-    template = loader.get_template('activity_treatment_choice/treatment.html')
-    return HttpResponse(template.render(ctx))
-
-@login_required
 def loadstate(request):
     try: 
         state = ActivityState.objects.get(user=request.user)
