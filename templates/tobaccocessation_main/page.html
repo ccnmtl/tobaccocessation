@@ -1,4 +1,4 @@
-{% extends "project_base.html" %}
+{% extends "project_two_col_left.html" %}
 
 {% block sidebarleft %}
    <ul>
@@ -24,8 +24,8 @@
 	<h2>{{ section.label }}</h2>
 	<br />
 	{% for block in section.pageblock_set.all %}
-	{% if block.label %}<h3>{{block.label}}</h3>{% endif %}
-	{{ block.render }}
+		{% if block.label %}<h3>{{block.label}}</h3>{% endif %}
+		{{ block.render }}
 	{% endfor %}
 	
 	{% if needs_submit %}
@@ -42,5 +42,4 @@
   {% if section.get_next %}
     <a href="{{section.get_next.get_absolute_url}}" id="next">{{section.get_next.label}} »</a>
   {% endif %}
-      
 {% endblock %}
