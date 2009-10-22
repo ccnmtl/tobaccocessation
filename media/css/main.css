@@ -114,17 +114,17 @@ li
 
 a
 {
-	color: #06c;
+	color: #84240a;
 }
 
 a:hover
 {
-	color: #69c;
+	color: #c00;
 }
 
 a:visited
 {
-	color: #900;
+	color: #5b1a00;
 }
 
 img, img a
@@ -258,6 +258,7 @@ img, img a
 	padding:  0 0 0 0.5em;
 	border: 0;
 	font-size: 0.9em;
+	font-weight: bold;
 }
 
 #standardnav a
@@ -267,8 +268,7 @@ img, img a
 
 #standardnav a:hover
 {
-	color: #c00;
-	text-decoration: none;
+
 }
 
 /* ---- Primary navigation block elements ---------- */
@@ -939,10 +939,11 @@ body.fluid #content
 {
 	display: block;
 	float: left;
-	margin: 0 1px;
-	padding: 0 0.5em;
+	margin: 0 15px 0 0;
+	padding: 0;
 	border: 0;
 	line-height: 24px;
+	text-align: center;
 
 }
 
@@ -955,6 +956,8 @@ body.fluid #content
    	background-image: url(../img/sn_button_rt_on.png);
 	background-repeat: no-repeat;
 	background-position: top right;
+	padding-right: 5px;
+	min-width: 71px;
 
 }
 
@@ -964,22 +967,24 @@ body.fluid #content
 	display: block;
 	background-repeat: no-repeat;
 	height: 25px;
-	background-position: top left;
+	background-position: 0px 0px ;
 	background-image: url(../img/sn_button_left_on.png);
-	margin:0 0 0 -20px;
-	padding:0 5px 0 10px;
+	margin:0;
+	padding-left: 5px;
+	min-width: 71px;
+	
 }
 
-#subnav li:hover
-{
-   color: #fc9;
-}
+
 
 #subnav a
 {
-   color: #900;
+   color: 333;
    text-decoration: none;
+
 }
+
+
 
 #subnav a:hover
 {
