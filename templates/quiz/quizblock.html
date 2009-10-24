@@ -1,0 +1,46 @@
+{% load markup %}
+{{ block.description|markdown }}
+
+{% for question in block.question_set.all %}
+<div class="cases">
+     {{question.intro_text|markdown}}
+
+     <div class="casetitle"> Question {{question.ordinality}}:</div>
+     
+     <div class="casecontent">
+           <div class="casequestion">
+                 {{question.text|markdown}}
+		 {% if block.rhetorical %}
+                 <form id="form-{{question.id}}" method="post">
+		 {% endif %}
+                       <ol type="A">
+			 {% for answer in question.answer_set.all %}
+			 {% if block.rhetorical %}
+                         <li><input name="question{{question.id}}" value="{{answer.label}}" type="radio" />{{answer.label}}</li>
+			 {% else %}
+                         <li><input name="pageblock-{{block.pageblock.id}}-question{{question.id}}" value="{{answer.value}}" type="radio" />{{answer.label}}</li>
+			 {% endif %}
+			 {% endfor %}
+                      </ol>
+                 {% if block.rhetorical %}
+                 </form>
+		 {% endif %}
+           </div>
+
+	   {% if block.rhetorical %}
+           <div class="casesanswerdisplay">
+                 <a href="#q{{question.id}}" class="moretoggle">Show answer &gt;&gt;</a>
+                 <div id="q{{question.id}}" class="toggleable">
+                 <p>{% if question.correct_answer_letter %}<i>The
+                 correct answer is
+                 {{question.correct_answer_letter}}:</i>{% endif %} {{question.explanation|markdown}}</p>
+                 </div>
+           </div>
+	   {% endif %}
+     </div>
+</div> 
+{% endfor %}
+
+{% if block.rhetorical %}
+<script src="http://mt.ccnmtl.columbia.edu/pedialabs/js/quizshow.js" type="text/javascript" language="javascript"></script>
+{% endif %}	
