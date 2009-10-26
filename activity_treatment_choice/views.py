@@ -9,7 +9,6 @@ from tobaccocessation.activity_treatment_choice.models import *
 def loadstate(request):
     try: 
         state = ActivityState.objects.get(user=request.user)
-        print state
         if (len(state.json) > 0):
             doc = state.json
     except ActivityState.DoesNotExist:
