@@ -64,7 +64,6 @@ class Quiz(models.Model):
         return Quiz.objects.create(description=request.POST.get('description',''),
                                    rhetorical=request.POST.get('rhetorical',''))
 
-
     def edit(self,vals,files):
         self.description = vals.get('description','')
         self.rhetorical = vals.get('rhetorical','')

@@ -1,62 +1,99 @@
-{% extends "project_base.html" %}
-{% load smartif %}
+<link href="/activity/prescription/media/css/prescription.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/site_media/js/mochikit/MochiKit/MochiKit.js"></script>
+<script type="text/javascript" src="/site_media/js/mochikit/MochiKit/Visual.js"></script>
+<script type="text/javascript" src="/activity/prescription/media/js/prescription.js"></script>
 
-{% block title %}Activity - Prescription Writing{% endblock %}
+{% ifequal block.medication.0.rx_count 1 %}
 
-{% block css %}
-   {{ block.super }}
-   <link href="/activity/prescription/media/css/prescription.css" rel="stylesheet" type="text/css" />
    <link href="/activity/prescription/media/css/single_prescription.css" rel="stylesheet" type="text/css" />
-{% endblock %}
 
-{% block js %}
-   {{ block.super }}
-   <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/MochiKit.js"></script>
-   <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/Visual.js"></script>
-   <script type="text/javascript" src="/activity/prescription/media/js/prescription.js"></script>
-{% endblock %}
-
-{% block content %}
-    <h1>{{ current_medication.0.name }}</h1>
     Fill out the prescription form below and click submit.<br /><br />
-    {{tag}}
 	 <div id="blankrx">
-       <input id="dosage" name='dosage' type='text' value="{{dosage}}" readonly="readonly"></input>
+	    <input id='medication_name' name='medication_name' type='hidden' value='{{ block.0.medication.name }}'/>
+       <input id="dosage" name='dosage' type='text' value="{{dosage}}" readonly="readonly"></input><br />
+       <input id="disp" type="text"  value="{{disp}}" readonly="readonly"></input><br />
+       <textarea rows="4" cols="22" id="sig" readonly="readonly">{{sig}}</textarea><br />
+       <input id="refills" type="text" maxlength="1" value="{{refills}}" readonly="readonly"></input><br />
+       
+       <span id="dosage_correct" class="correct_answer" style="{{ block.display }}">
+          <img src="/activity/prescription/media/images/correct.png"/>
+            {{block.medication.0.name}}, {{block.medication.0.dosage}}
+       </span>
+       <span id="disp_correct" class="correct_answer" style="{{ block.display }}">
+          <img src="/activity/prescription/media/images/correct.png"/>
+              {{block.medication.0.dispensing}}
+       </span>
+       <span id="sig_correct" class="correct_answer" style="{{ block.display }}">
+          <img src="/activity/prescription/media/images/correct.png"/>
+          {{block.medication.0.signature}}
+       </span> 
+       <span id="refills_correct" class="correct_answer" style="{{ block.display }}">
+          <img src="/activity/prescription/media/images/correct.png"/>
+          {{block.medication.0.refills}}
+       </span>
+        
+       <div id="dosage_callout" class="callout" style="{{ block.display }}">{{block.medication.0.dosage_callout}}</div>       
+       <div id="disp_callout" class="callout" style="{{ block.display }}">{{block.medication.0.dispensing_callout}}</div>
+       <div id="refills_callout" class="callout" style="{{ block.display }}">{{block.medication.0.refills_callout}}</div>
+   </div>    
+{% else %}
+   <link href="/activity/prescription/media/css/double_prescription.css" rel="stylesheet" type="text/css" />
+   
+    Fill out the prescription form below and click submit.<br />
+
+    <div id="blankrx">
+       <input id="dosage" type='text' value="{{dosage}}" readonly="readonly"></input>
          <span id="dosage_correct" class="correct_answer">
             <img src="/activity/prescription/media/images/correct.png"/>
-              {{current_medication.0.name}}, {{current_medication.0.dosage}}
+              {{block.medication.0.name}}, {{block.medication.0.dosage}}
           </span>
-          <div id="dosage_callout" class="callout">{{current_medication.0.dosage_callout}}</div>       
           
        <input id="disp" type="text" value="{{disp}}" readonly="readonly"></input>
        <span id="disp_correct" class="correct_answer">
           <img src="/activity/prescription/media/images/correct.png"/>
-              {{current_medication.0.dispensing}}
+              {{block.medication.0.dispensing}}
        </span>
-       <div id="disp_callout" class="callout">{{current_medication.0.dispensing_callout}}</div>
         
-       <textarea rows="4" cols="22" id="sig" readonly="readonly">{{sig}}</textarea>
+       <textarea id="sig" rows="3" cols="18" readonly="readonly">{{sig}}</textarea>
        <span id="sig_correct" class="correct_answer">
           <img src="/activity/prescription/media/images/correct.png"/>
-          {{current_medication.0.signature}}
+          {{block.medication.0.signature}}
        </span> 
        
        <input id="refills" type="text" maxlength="1" value="{{refills}}" readonly="readonly"></input>
        <span id="refills_correct" class="correct_answer">
           <img src="/activity/prescription/media/images/correct.png"/>
-          {{current_medication.0.refills}}
+          {{block.medication.0.refills}}
        </span> 
-       <div id="refills_callout" class="callout">{{current_medication.0.refills_callout}}</div>
-
+       
+       <input id="dosage_2" type='text' value="{{dosage_2}}" readonly="readonly"></input>
+         <span id="dosage_2_correct" class="correct_answer">
+            <img src="/activity/prescription/media/images/correct.png"/>
+              {{block.medication.1.name}}, {{block.medication.1.dosage}}
+          </span>
+          
+       <input id="disp_2" type="text" value="{{disp_2}}" readonly="readonly"></input>
+       <span id="disp_2_correct" class="correct_answer">
+          <img src="/activity/prescription/media/images/correct.png"/>
+              {{block.medication.1.dispensing}}
+       </span>
+        
+       <textarea id="sig_2" rows="3" cols="18" readonly="readonly">{{sig_2}}</textarea>
+        <span id="sig_2_correct" class="correct_answer">
+          <img src="/activity/prescription/media/images/correct.png"/>
+          {{block.medication.1.signature}}
+       </span> 
+       
+       <input id="refills_2" type="text" maxlength="1" value="{{refills_2}}" readonly="readonly"></input>
+       <span id="refills_2_correct" class="correct_answer">
+          <img src="/activity/prescription/media/images/correct.png"/>
+          {{block.medication.1.refills}}
+       </span> 
+       
+       <div id="dosage_callout" style="{{ block.display }}" class="callout">{{block.medication.1.dosage_callout}}</div>       
+          
+       <div id="disp_callout"  style="{{ block.display }}" class="callout">{{block.medication.1.dispensing_callout}}</div>
+       
+       <div id="refills_callout" style="{{ block.display }}" class="callout">{{block.medication.1.refills_callout}}</div>       
    </div>    
-{% endblock %}
-
-{% block contentnav %}      
-   {% if prev %}
-     <a href="{% url activity_prescription_writing.views.rx prev.0.sort_order %}" id="previous">« {{prev.0.name}}</a>
-   {% endif %}
-   
-   {% if next %}
-       <a href="{% url activity_prescription_writing.views.rx next.0.sort_order %}" id="next">{{next.0.name}} »</a>
-   {% endif %}
-{% endblock %}
+{% endifequal %}

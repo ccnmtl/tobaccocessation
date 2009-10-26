@@ -106,12 +106,5 @@ def edit_page(request,path):
 @login_required
 def index(request):
     h = get_hierarchy()
-    first_leaf = get_first_leaf(h.get_root())
+    first_leaf = h.get_first_leaf(h.get_root())
     return HttpResponseRedirect(first_leaf.get_absolute_url())
-
-# should add this to Hierarchy.
-def get_first_leaf(section):
-    if (section.is_leaf()):
-        return section
-    
-    return get_first_leaf(section.get_children()[0])

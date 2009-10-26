@@ -8,7 +8,7 @@ from django import forms
 class Block(models.Model):
     pageblocks = generic.GenericRelation(PageBlock)
     template_file = "activity_treatment_choice/treatment.html"
-    display_name = "Treatment Choice Activity"
+    display_name = "Activity: Treatment Choice"
     treatments = [ 'patch', 'gum', 'inhaler', 'lozenge', 'nasalspray', 'chantix', 'bupropion', 'combination'  ]
     
     def pageblock(self):

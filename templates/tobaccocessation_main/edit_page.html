@@ -62,27 +62,27 @@ var saveOrderOfPageBlocks = function() {
 <div class="tabber">
 <div id="blocks" class="tabbertab" title="edit blocks" class="dragparent"/>
 {% for block in section.pageblock_set.all %}
-<div class="block-edit draggable" id="pageblock-{{block.id}}">
-{% if block.label %}<h3>{{block.label}}</h3>{% endif %}
-<form action="{% url delete-pageblock block.id %}" method="post">
-<input type="submit" value="delete block {{block.ordinality}}" />
-</form>
-<form action="{% url edit-pageblock block.id %}" method="post"
-{% if block.edit_form.is_multipart %}enctype="multipart/form-data"{% endif %}>
-<table width="100%">
-{{ block.default_edit_form.as_table }}
-{% with block.edit_form as ef %}
-{{ ef.as_table }}
-{% if ef.alt_text %}
-<tr><td colspan="2">
-{{ ef.alt_text|safe }}
-</td></tr>
-{% endif %}
-{% endwith %}
-</table>
-<input type="submit" value="save" />
-</form>
-</div>
+	<div class="block-edit draggable" id="pageblock-{{block.id}}">
+		{% if block.label %}<h3>{{block.label}}</h3>{% endif %}
+			<form action="{% url delete-pageblock block.id %}" method="post">
+				<input type="submit" value="delete block {{block.ordinality}}" />
+				</form>
+				<form action="{% url edit-pageblock block.id %}" method="post"
+				{% if block.edit_form.is_multipart %}enctype="multipart/form-data"{% endif %}>
+				<table width="100%">
+				{{ block.default_edit_form.as_table }}
+				{% with block.edit_form as ef %}
+				{{ ef.as_table }}
+				{% if ef.alt_text %}
+				<tr><td colspan="2">
+				{{ ef.alt_text|safe }}
+				</td></tr>
+				{% endif %}
+				{% endwith %}
+				</table>
+				<input type="submit" value="save" />
+			</form>
+	</div>
 {% endfor %}
 </div>
 

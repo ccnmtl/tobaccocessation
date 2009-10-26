@@ -1,17 +1,3 @@
-function numeric(field) {
-    var regExpr = new RegExp("^[0-9]$");
-    if (!regExpr.test(field.value)) 
-    {
-      // Case of error
-      field.value = "";
-    }
-}
-
-function setfocus()
-{
-   $("dosage").focus()
-}
-
 function connectCallouts()
 {
    if (getElement("dosage_2"))
@@ -38,9 +24,6 @@ function connectCalloutsSingle()
    vertical_line(getElement('disp_correct'), getElement('disp_callout'))
    vertical_line(getElement('refills_callout'), getElement('refills'))
 }
-
-MochiKit.Signal.connect(window, "onload", setfocus)
-MochiKit.Signal.connect(window, "onload", connectCallouts)
 
 function horizontal_line(topElement, bottomElement)
 {
@@ -88,4 +71,37 @@ function vline (from, to, x) {
     appendChildNodes(currentDocument().body, newdiv);
     setStyle( newdiv , { "left": x + 'px', "top" : from + 'px' , "height" : (to - from) + "px", "width" : "2px"});
 }
+
+function loadStateSuccess(doc)
+{
+   rx = doc[$(medication_name)]
+            
+   $('dosage').value = rx['dosage']
+   $('disp') = rx['disp']
+   $('sig') = rx['sig']
+   $('refills') = rx['refills']
+   $('dosage_2') = rx['dosage_2']
+   $('disp_2') = rx['disp_2']
+   $('sig_2') = rx['sig_2']
+   $('refills_2') = rx['refills_2']
+
+   connectCallouts()
+}
+
+function loadStateError(err)
+{
+   debug("loadStateError")
+   // @todo: Find a spot to display an error or decide just to fail gracefully
+   // $('errorMsg').innerHTML = "An error occurred loading your state (" + err + "). Please start again."
+}
+
+function loadState()
+{
+   debug("loadState")
+   url = 'http://' + location.hostname + ':' + location.port + "/activity/prescription/load/"
+   deferred = loadJSONDoc(url)
+   deferred.addCallbacks(loadStateSuccess, loadStateError)
+}
+
+MochiKit.Signal.connect(window, "onload", loadState)
 
