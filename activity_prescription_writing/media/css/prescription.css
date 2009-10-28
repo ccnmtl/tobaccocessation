@@ -27,5 +27,94 @@
    background-repeat: repeat;
 }
 
+#blankrx {
+   height: 600px;
+   background-image: url(/activity/prescription/media/images/blankrx.jpg);
+   background-repeat: no-repeat;
+   background-position: center;
+}
+
+#dosage {
+   position: relative;
+   width: 185px;
+   left: 190px;
+   top: 345px;
+}
+
+#disp {
+   position: relative;  
+   width: 185px;
+   left: 190px;
+   top: 350px;
+}
+
+#sig {
+   position: relative;  
+   left: 190px;
+   top: 360px; 
+}
+
+
+#refills {
+   position: relative;  
+   width: 45px;
+   left: 255px;
+   top: 400px; 
+   text-align: right;
+}
+
+#dosage_correct {
+   position: relative;
+   width: 185px;
+   left: 390px;
+   top: 204px;
+}
+
+#disp_correct {
+   position: relative;  
+   width: 185px;
+   left: 390px;
+   top: 213px;
+}
+
+#sig_correct {
+   position: relative;  
+   width: 185px; 
+   left: 390px;
+   top: 226px;
+}
+
+#refills_correct {
+   position: relative;  
+   width: 70px; 
+   left: 320px;
+   top: 290px;
+}
+
+#dosage_callout {
+   position: relative;  
+   width: 150px;
+   left: 0px;
+   top: 80px; 
+}
+
+#disp_callout {
+   position: relative;  
+   width: 150px;
+   left: 600px;
+   top: 56px; 
+}
+
+#refills_callout {
+   position: relative;  
+   width: 150px;
+   left: 0px;
+   top: 125px; 
+}
+
+
+
+
+
 
 
