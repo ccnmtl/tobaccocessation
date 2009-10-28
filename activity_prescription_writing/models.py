@@ -25,6 +25,7 @@ class Medication(models.Model):
 class Block(models.Model):
     pageblocks = generic.GenericRelation(PageBlock, related_name="prescription_writing_pageblocks")
     medication_name = models.CharField(max_length=25)
+    show_correct = models.BooleanField(default=False)
     template_file = "activity_prescription_writing/prescription.html"
     display_name = "Activity: Prescription Writing"
     
@@ -44,24 +45,29 @@ class Block(models.Model):
     def add_form(self):
         class AddForm(forms.Form):
             medication_name = forms.CharField()
+            show_correct = forms.BooleanField()
         return AddForm()
 
     @classmethod
     def create(self,request):
         name = request.POST.get('medication_name','')
-        return Block.objects.create(medication_name=name)
+        show_correct = request.POST.get('show_correct', '')
+        return Block.objects.create(medication_name=name, show_correct=show_correct)
     
     def edit_form(self):
         class EditForm(forms.Form):
             medication_name = forms.CharField(initial=self.medication_name)
+            show_correct = forms.BooleanField(initial=self.show_correct)
         return EditForm();
     
     def edit(self,vals,files):
-        medication_name = vals.get('medication_name','') 
+        medication_name = vals.get('medication_name','')
+        show_correct = vals.get('show_correct', '') 
         self.save()
         
     def medication(self):
         return Medication.objects.filter(name=self.medication_name).order_by('id')
+    
     
 class ActivityState (models.Model):
     user = models.ForeignKey(User, related_name="prescription_writing_user")

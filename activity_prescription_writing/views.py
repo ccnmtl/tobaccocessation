@@ -21,10 +21,16 @@ def loadstate(request):
 @login_required
 def savestate(request):
     json = request.POST['json']
+    update = simplejson.loads(json)
     
     try: 
         state = ActivityState.objects.get(user=request.user)
-        state.json = json
+        
+        obj = simplejson.loads(state.json)
+        for item in update:
+            obj[item] = update[item]
+        
+        state.json = simplejson.dumps(obj)
         state.save()
     except ActivityState.DoesNotExist:
         state = ActivityState.objects.create(user=request.user, json=json)

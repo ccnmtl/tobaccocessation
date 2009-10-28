@@ -1,3 +1,9 @@
+function debug(string)
+{
+   if (true)
+      log("DEBUG " + string)
+}
+
 function connectCallouts()
 {
    if (getElement("dosage_2"))
@@ -74,18 +80,23 @@ function vline (from, to, x) {
 
 function loadStateSuccess(doc)
 {
-   rx = doc[$(medication_name)]
+   debug('loadStateSuccess')
+   rx = doc[$('medication_name').value]
             
    $('dosage').value = rx['dosage']
-   $('disp') = rx['disp']
-   $('sig') = rx['sig']
-   $('refills') = rx['refills']
-   $('dosage_2') = rx['dosage_2']
-   $('disp_2') = rx['disp_2']
-   $('sig_2') = rx['sig_2']
-   $('refills_2') = rx['refills_2']
-
-   connectCallouts()
+   $('disp').value = rx['disp']
+   $('sig').value = rx['sig']
+   $('refills').value = rx['refills']
+                           
+   if ($('dosage_2'))
+   {
+      $('dosage_2').value = rx['dosage_2']
+      $('disp_2').value = rx['disp_2']
+      $('sig_2').value = rx['sig_2']
+      $('refills_2').value = rx['refills_2']
+   }
+   if ($('dosage_correct'))
+      connectCallouts()
 }
 
 function loadStateError(err)
@@ -103,5 +114,57 @@ function loadState()
    deferred.addCallbacks(loadStateSuccess, loadStateError)
 }
 
+function setfocus()
+{
+   if (!$('dosage_correct'))
+      $("dosage").focus()
+}
+
 MochiKit.Signal.connect(window, "onload", loadState)
+MochiKit.Signal.connect(window, "onload", setfocus)
+
+function numeric(field) {
+    var regExpr = new RegExp("^[0-9]$");
+    if (!regExpr.test(field.value)) 
+    {
+      // Case of error
+      field.value = "";
+    }
+}
+
+function saveState()
+{
+   if (!$('dosage_correct'))
+   {
+      debug("saveState")
+      url = 'http://' + location.hostname + ':' + location.port + "/activity/prescription/save/"
+    
+      rx = 
+      {
+         'dosage' : $('dosage').value,
+         'disp' : $('disp').value,
+         'sig' : $('sig').value,
+         'refills' : $('refills').value,
+      }
+      
+      if ($('dosage_2'))
+      {
+         rx['dosage_2'] = $('dosage_2').value
+         rx['disp_2'] = $('disp_2').value
+         rx['sig_2'] = $('sig_2').value
+         rx['refills_2'] = $('refills_2').value
+      }
+      
+      doc = {}
+      doc[$('medication_name').value] = rx
+      
+      // save state via a synchronous request. 
+      var sync_req = new XMLHttpRequest();  
+      sync_req.onreadystatechange= function() { if (sync_req.readyState!=4) return false; }         
+      sync_req.open("POST", url, false);
+      sync_req.send(queryString({'json':JSON.stringify(doc, null)}));
+   }
+}
+
+MochiKit.Signal.connect(window, "onbeforeunload", saveState)
 

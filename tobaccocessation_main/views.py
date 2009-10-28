@@ -88,8 +88,8 @@ def page(request,path):
         return HttpResponseRedirect(section.get_next().get_absolute_url())
     else:
         return dict(section=section,
-                    unlocked=unlocked(section,request.user),
-                    accessible=accessible(section,request.user),
+    #                unlocked=unlocked(section,request.user))
+    #                accessible=accessible(section,request.user),
                     module=get_module(section),
                     needs_submit=needs_submit(section),
                     root=h.get_root())
