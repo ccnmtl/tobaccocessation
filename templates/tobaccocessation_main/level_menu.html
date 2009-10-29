@@ -5,7 +5,13 @@
    {% else %}
       {% with parent.depth|add:"1" as depth %}
 	      {% ifequal s.depth depth  %}
-	         {% ifnotequal s.id section.id %}<li><a href="{{menu_base}}{{s.get_absolute_url}}">{{s.label}}</a></li>{%else%}<li class="{{style_class}}"><span class="{{style_class}}">{{s.label}}{% endifnotequal %}{% ifnotequal s.id section.id %}</li>{%else%}</span>{% endifnotequal %}</li>
+	         {% ifnotequal s.id section.id %}
+	             <li>
+	                 <a href="{{menu_base}}{{s.get_absolute_url}}">{{s.label}}</a>
+	             </li>
+	         {%else%}
+	              <li class="{{style_class}}"><span class="{{style_class}}">{{s.label}}</span></li>
+	         {% endifnotequal %}
 	      {% endifequal %}
 	   {% endwith %}
    {% endifequal %}
