@@ -95,8 +95,8 @@ function loadStateSuccess(doc)
       $('sig_2').value = rx['sig_2']
       $('refills_2').value = rx['refills_2']
    }
-   if ($('dosage_correct'))
-      connectCallouts()
+//   if ($('dosage_correct'))
+  //    connectCallouts()
 }
 
 function loadStateError(err)

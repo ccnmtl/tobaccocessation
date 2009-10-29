@@ -28,10 +28,11 @@
 }
 
 #blankrx {
-   height: 600px;
    background-image: url(/activity/prescription/media/images/double_blankrx.jpg);
+   height: 260px;
    background-repeat: no-repeat;
-   background-position: center;
+   background-position: top left;
+   padding: 340px 0 0 55px;
 }
 
 #dosage {
@@ -173,4 +174,76 @@
    left: 770px;
    top: 825px; 
 }
+
+#dosage, #disp, #sig {
+
+	margin: 2px;
+}
+
+
+
+#refills {
+   margin: 50px 0px 0 76px; 
+   width: 45px; 
+   text-align: right;
+}
+
+#feedback {
+
+	display:block;
+	height:260px;
+	margin:-542px 0 0 -255px;
+	padding: 340px 0 0 0px;
+
+}
+
+#dosage_correct {
+   position: relative;
+   width: 185px;
+   margin: 3px 0 2px 420px;
+
+}
+
+#disp_correct {
+   position: relative;  
+   width: 185px;
+    margin: 8px 0 2px 420px;
+
+}
+
+#sig_correct {
+   position: relative;  
+   width: 185px; 
+    margin: 8px 0 2px 456px;
+
+}
+
+#refills_correct {
+   position: relative;  
+   width: 70px; 
+    margin: 65px 0 2px 394px;
+
+}
+
+#dosage_callout {
+
+
+margin-top: -200px;
+}
+
+#disp_callout {
+
+
+}
+
+#refills_callout {
+
+
+}
+
+
+
+
+
+
 

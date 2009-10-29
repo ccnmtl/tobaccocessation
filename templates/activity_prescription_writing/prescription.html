@@ -17,7 +17,8 @@
        <input id="refills" type="text" maxlength="1" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
        
        {% if block.show_correct %}
-	       <div id="dosage_correct" class="correct_answer">
+       <div id="feedback">
+	      <div id="dosage_correct" class="correct_answer">
 	          <img src="/activity/prescription/media/images/correct.png"/>
 	            {{block.medication.0.name}}, {{block.medication.0.dosage}}
 	       </div>
@@ -37,6 +38,7 @@
 	       <div id="dosage_callout" class="callout" style="{{ block.display }}">{{block.medication.0.dosage_callout}}</div>       
 	       <div id="disp_callout" class="callout" style="{{ block.display }}">{{block.medication.0.dispensing_callout}}</div>
 	       <div id="refills_callout" class="callout" style="{{ block.display }}">{{block.medication.0.refills_callout}}</div>
+	       </div>
        {% endif %}
    </div>    
 {% else %}
@@ -55,7 +57,8 @@
        <input id="refills_2" type="text" maxlength="1" {% if block.show_correct %} readonly="readonly" {% endif %}></input>
        
       {% if block.show_correct %}
-         <div id="dosage_correct" class="correct_answer">
+     <div id="feedback">
+     <div id="dosage_correct" class="correct_answer">
             <img src="/activity/prescription/media/images/correct.png"/>
               {{block.medication.0.name}}, {{block.medication.0.dosage}}
           </div>
@@ -100,6 +103,7 @@
 	       <div id="disp_callout"  style="{{ block.display }}" class="callout">{{block.medication.1.dispensing_callout}}</div>
 	       
 	       <div id="refills_callout" style="{{ block.display }}" class="callout">{{block.medication.1.refills_callout}}</div>
+	    </div>
 	    {% endif %}       
    </div>    
 {% endifequal %}

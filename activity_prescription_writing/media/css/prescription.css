@@ -1,10 +1,12 @@
 .callout {
 	font-size: 80%;
-	line-height: 150%;
-   background-color: #fff;
-   border: 3px dotted #f00;
-   margin: 3px 3px 3px 3px;
-   padding: 3px 3px 3px 3px;
+	line-height: 120%;
+   background-color: #dedede;
+    margin: 3px;
+   padding: 5px;
+   width: 220px;
+   position: relative;
+   margin-left: 700px;
 }
 
 .correct_answer {
@@ -28,88 +30,78 @@
 }
 
 #blankrx {
-   height: 600px;
+   height: 260px;
    background-image: url(/activity/prescription/media/images/blankrx.jpg);
    background-repeat: no-repeat;
-   background-position: center;
+   background-position: top left;
+   padding: 340px 0 0 55px;
+   
 }
 
-#dosage {
-   position: relative;
-   width: 185px;
-   left: 190px;
-   top: 345px;
+#dosage, #disp, #sig {
+
+	margin: 2px;
 }
 
-#disp {
-   position: relative;  
-   width: 185px;
-   left: 190px;
-   top: 350px;
-}
-
-#sig {
-   position: relative;  
-   left: 190px;
-   top: 360px; 
-}
 
 
 #refills {
-   position: relative;  
-   width: 45px;
-   left: 255px;
-   top: 400px; 
+   margin: 50px 0px 0 76px; 
+   width: 45px; 
    text-align: right;
+}
+
+#feedback {
+
+	display:block;
+	height:260px;
+	margin:-542px 0 0 -255px;
+	padding: 340px 0 0 0px;
+
 }
 
 #dosage_correct {
    position: relative;
    width: 185px;
-   left: 390px;
-   top: 204px;
+   margin: 3px 0 2px 420px;
+
 }
 
 #disp_correct {
    position: relative;  
    width: 185px;
-   left: 390px;
-   top: 213px;
+    margin: 8px 0 2px 420px;
+
 }
 
 #sig_correct {
    position: relative;  
    width: 185px; 
-   left: 390px;
-   top: 226px;
+    margin: 8px 0 2px 456px;
+
 }
 
 #refills_correct {
    position: relative;  
    width: 70px; 
-   left: 320px;
-   top: 290px;
+    margin: 65px 0 2px 394px;
+
 }
 
 #dosage_callout {
-   position: relative;  
-   width: 150px;
-   left: 0px;
-   top: 80px; 
+
+
+margin-top: -200px;
 }
 
 #disp_callout {
-   position: relative;  
-   width: 150px;
-   left: 600px;
-   top: 56px; 
+
+
 }
 
 #refills_callout {
-   position: relative;  
-   width: 150px;
-   left: 0px;
-   top: 125px; 
+
+
 }
 
 
