@@ -111,7 +111,7 @@ var saveOrderOfPageBlocks = function() {
 {% if blocktype %}
 <form action="{% url add-pageblock section.id %}"
 {% if blocktype.add_form.is_multipart %}
-enctype="multipart/form-encoded"
+enctype="multipart/form-data"
 {% endif %}
 method="post">
 <fieldset>

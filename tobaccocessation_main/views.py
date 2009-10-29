@@ -41,33 +41,35 @@ def needs_submit(section):
     return False
 
 def unlocked(section,user):
-    """ if the user can proceed past this section """
-    if section is None:
-        return True
-    if section.is_root:
-        # root can't be locked
-        return True
-    previous = unlocked(section.get_previous(),user)
-    if previous == False:
-        # a previous section is blocking
-        return False
-    for p in section.pageblock_set.all():
-        if hasattr(p.block(),'unlocked'):
-            if p.block().unlocked(user) == False:
-                return False
+#    """ if the user can proceed past this section """
+#    if section is None:
+#        return True
+#    if section.is_root:
+#        # root can't be locked
+#        return True
+#    previous = unlocked(section.get_previous(),user)
+#    if previous == False:
+#        # a previous section is blocking
+#        return False
+#    for p in section.pageblock_set.all():
+#        if hasattr(p.block(),'unlocked'):
+#            if p.block().unlocked(user) == False:
+#                return False
     return True
 
 def accessible(section,user):
-    """ can the user even see this section? """
-    if unlocked(section,user):
-        # if it's unlocked, they can definitely see it
-        return True
-    # if it's locked though, we want to know if the 
-    # one before it is unlocked. if it is, that means that
-    # the lock is on the current section, which means that
-    # they are proceeding properly. If the one before it isn't
-    # unlocked, we know they're trying to skip ahead
-    return unlocked(section.get_previous(),user)
+#    """ can the user even see this section? """
+#    if unlocked(section,user):
+#        # if it's unlocked, they can definitely see it
+#        return True
+#    # if it's locked though, we want to know if the 
+#    # one before it is unlocked. if it is, that means that
+#    # the lock is on the current section, which means that
+#    # they are proceeding properly. If the one before it isn't
+#    # unlocked, we know they're trying to skip ahead
+#    return unlocked(section.get_previous(),user)
+
+    return True
 
 @login_required
 @rendered_with('tobaccocessation_main/page.html')
