@@ -1012,10 +1012,20 @@ float: left;
 #content .content-nav
 {
    height: 1.5em;
-   margin: 2em 0 0 0;
+   margin: .7em 0 0 0;
    padding: 0.5em;
    border: 0;
    background-color: #dadada;
+}
+
+#content .content-nav a
+{
+	background: #ca812e url('../img/bottom_button_bg.jpg') repeat-x;
+	padding: 3px 7px;
+	text-decoration: none;
+	color: #333;
+	font-size: 90%;
+	margin-top: -3px;
 }
 
 #content .content-nav a#previous
@@ -1023,7 +1033,6 @@ float: left;
    display: block;
    float: left;
    width: auto;
-   line-height: 1.5em;
 }
 
 #content .content-nav a#next
@@ -1031,7 +1040,6 @@ float: left;
    display: block;
    float: right;
    width: auto;
-   line-height: 1.5em;
    text-align: right;
 }
 

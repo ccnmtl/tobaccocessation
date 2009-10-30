@@ -6,7 +6,7 @@
    padding: 5px;
    width: 220px;
    position: relative;
-   margin-left: 700px;
+   margin-left: 475px;
 }
 
 .correct_answer {
@@ -30,61 +30,62 @@
 }
 
 #blankrx {
-   height: 260px;
-   background-image: url(/activity/prescription/media/images/blankrx.jpg);
+   height: 209px;
+   background-image: url(/activity/prescription/media/images/blankrx_sm.jpg);
    background-repeat: no-repeat;
    background-position: top left;
-   padding: 340px 0 0 55px;
+   padding: 256px 0 0 55px;
    
 }
 
 #dosage, #disp, #sig {
 
-	margin: 2px;
+	margin-bottom: 3px;
 }
 
 
 
 #refills {
-   margin: 50px 0px 0 76px; 
-   width: 45px; 
+   margin: 37px 0 0 47px; 
+   width: 40px; 
    text-align: right;
 }
 
 #feedback {
 
 	display:block;
-	height:260px;
-	margin:-542px 0 0 -255px;
-	padding: 340px 0 0 0px;
+	height:209px;
+	margin: -414px 0 0 -55px;
+	padding: 256px 0 0 0px;
+	
 
 }
 
 #dosage_correct {
    position: relative;
    width: 185px;
-   margin: 3px 0 2px 420px;
+   margin: 0px 0 2px 215px;
 
 }
 
 #disp_correct {
    position: relative;  
    width: 185px;
-    margin: 8px 0 2px 420px;
+    margin: 6px 0 2px 215px;
 
 }
 
 #sig_correct {
    position: relative;  
    width: 185px; 
-    margin: 8px 0 2px 456px;
+    margin: 6px 0 2px 274px;
 
 }
 
 #refills_correct {
    position: relative;  
-   width: 70px; 
-    margin: 65px 0 2px 394px;
+   width: 64px; 
+    margin: 30px 0 2px 157px;
 
 }
 
