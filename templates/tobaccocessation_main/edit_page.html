@@ -151,13 +151,17 @@ method="post">
 
 
 {% block contentnav %}
-   {% if section.get_previous %}
-   <a href="/edit{{section.get_previous.get_absolute_url}}" id="previous">« {{section.get_previous.label}}</a>
-   {% endif %}
-   
-   {% if section.get_next %}
-   <a href="/edit{{section.get_next.get_absolute_url}}" id="next">{{section.get_next.label}} »</a>
-   {% endif %}
+   {% with section.get_previous as prev %} 
+      {% if prev %}
+	     <a href="/edit{{prev.get_absolute_url}}" id="previous">« {{prev.label}}</a>
+	   {% endif %}
+	{% endwith %}
+	   
+	{% with section.get_next as next %}
+	   {% if next %}
+	     <a href="/edit{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
+	   {% endif %}
+	{% endwith %}
 {% endblock %}
 
 {% block sidebarleft %}

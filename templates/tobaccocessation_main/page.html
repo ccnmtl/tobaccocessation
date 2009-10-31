@@ -13,14 +13,16 @@
        {% include "tobaccocessation_main/level_menu.html" %}
     {% endwith %}
    {% endifequal %}
+ 
+   {% ifequal section.depth 4 %}
+      {% with section.get_parent as parent %}
+       {% include "tobaccocessation_main/level_menu.html" %}
+    {% endwith %}
+   {% endifequal %} 
    </ul>
 {% endblock %}
 
 {% block content %}
-	{% if needs_submit %}
-	<form action="." method="post">
-	{% endif %}
-	
 	<h2>{{ section.label }}</h2>
 	<br />
 	{% for block in section.pageblock_set.all %}
@@ -28,10 +30,6 @@
 		{{ block.render }}
 	{% endfor %}
 	
-	{% if needs_submit %}
-	<input type="submit" value="submit" />
-	</form>
-	{% endif %}
 {% endblock %}
 
 {% block contentnav %}

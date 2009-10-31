@@ -38,31 +38,6 @@ _dropped = false
 _counter = 5
 _droppables = null
 
-function checkForSuccess()
-{
-   debug("checkForSuccess")
-   
-   // If each smoker quantity div has an empty accept list, then the answers are correct.
-   smoker_quantity_divs = ['treatment_light_smoker', 'treatment_moderate_smoker', 'treatment_heavy_smoker']
-                            
-    for (i=0; i < _droppables.length; i++)
-    {
-       for(j=0; j < smoker_quantity_divs.length; j++)
-       {
-          if (_droppables[i].element.id == smoker_quantity_divs[j] && _droppables[i].options.accept.length > 0)
-          {
-             setStyle('next', {'display': 'none'})
-             return false
-          }
-       }
-    }
-   
-   setStyle('next', {'display': 'inline'})
-   pulsate($('next'))
-   return true
-}
-
-
 //On successful drop, "snap" the element back into place immediately, 
 //otherwise, use the MochiKit "move" function to animate the
 //element's journey back to its resting spot. Copied code partially
@@ -108,8 +83,6 @@ function treatmentDropHandler(element, onto, event)
    
    // remove the elements' class from the destination's accept list
    removeClassFromAcceptList(element, onto)
-   
-   checkForSuccess()
    
    _dropped = true
 }
@@ -204,7 +177,6 @@ function loadStateSuccess(doc)
                       })
               })
    }
-   checkForSuccess()
 }
 
 function loadStateError(err)
@@ -234,7 +206,6 @@ function saveState()
    {
       'version': 1,
       'smoker_quantity_state': [],
-      'complete': checkForSuccess(),
    }
 
    smoker_quantity_divs = ['treatment_light_smoker', 'treatment_moderate_smoker', 'treatment_heavy_smoker']
