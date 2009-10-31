@@ -1,19 +1,10 @@
-{% extends "project_base.html" %}
-{% load smartif %}
+{% extends "activity_virtual_patient/virtual_patient_base.html" %}
 
 {% block title %}Activity - VirtualPatient{% endblock %}
 
-{% block css %}
-   {{ block.super }}
-   <link href="/activity/virtualpatient/media/css/virtualpatient.css" rel="stylesheet" type="text/css" />
-{% endblock %}
-
 {% block js %}
    {{ block.super }}
-   <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/MochiKit.js"></script>
-   <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/Visual.js"></script>
-   <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/DragAndDrop.js"></script>
-   <script type="text/javascript" src="/site_media/js/json2.js"></script>
+   <script type="text/javascript" src="/activity/virtualpatient/media/js/virtualpatient.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -41,7 +32,7 @@
     <div id="treatment_types">
 	    <div class="treatment_type_box">
 	       <center>
-		       <strong>BEST TREATMENT CHOICE</strong>
+		       <strong>Best Treatment Choice</strong>
 		       <div id="best_treatment" class="treatment_type">
 		       {% for to in best_treatment_options %}
 		          {% if to.combination %}
@@ -64,7 +55,7 @@
 		 </div>
        <div class="treatment_type_box">
           <center>
-             <strong>REASONABLE, NOT OPTIMAL</strong>
+             <strong>Reasonable, Not Optimal</strong>
              <div id="reasonable_treatment" class="treatment_type">
              {% for to in reasonable_treatment_options %}
                 {% if to.combination %}
@@ -87,7 +78,7 @@
        </div>
        <div class="treatment_type_box">
           <center>
-             <strong>UNLIKELY TO BE EFFECTIVE</strong>
+             <strong>Unlikely To Be Effective</strong>
              <div id="ineffective_treatment" class="treatment_type">
              {% for to in ineffective_treatment_options %}
                 {% if to.combination %}
@@ -110,7 +101,7 @@
        </div>
        <div class="treatment_type_box">
           <center>
-             <strong>POTENTIALLY HARMFUL</strong>
+             <strong>Potentially Harmful</strong>
              <div id="harmful_treatment" class="treatment_type">
              {% for to in harmful_treatment_options %}
                 {% if to.combination %}
@@ -132,32 +123,5 @@
            </div>
        </div>
 	 </div>
-	 
-	 <br />
-	 <br />
-	 
-	 <div style="display: none">
-		 <strong>AVAILABLE TREATMENTS</strong>   
-	    <div id="available_treatments" class="treatment_droppable">
-	    
 
-	      
-	      <span id="combination" class="combination treatment_draggable">
-	         <img src="/activity/virtualpatient/media/images/combination.jpg">
-	      </span>
-	    </div>
-	    
-	    <div id="next_navigation">
-	       <input id='next_button' type='submit' value='Submit' disabled='true' onclick="go();return false;"></input>
-	    </div>
-	 </div>
-
-{% endblock %}
-
-{% block contentnav %}
-   <a id="previous" href="{{previous_url}}">Previous</a>
-
-   {% if next_url %}
-      <a id='next' href="{{next_url}}">Next</a>
-   {% endif %}          
 {% endblock %}

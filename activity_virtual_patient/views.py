@@ -6,18 +6,13 @@ from django.template import Context, loader, Context, loader
 from django.utils import simplejson
 from tobaccocessation.activity_virtual_patient.models import *
 from django.db.models import Q
+from pagetree.models import Hierarchy
+from tobaccocessation_main.models import SiteState
 
 @login_required
 def root(request):
-
-    # dump the user back where they were when they left
-    user_state = _get_user_state(request)
-    
-    if (user_state.has_key('path')):
-        url = user_state['path']
-    else:
-        first_patient = Patient.objects.get(display_order=1)
-        url = '/activity/virtualpatient/options/%s' % (first_patient.id) 
+    first_patient = Patient.objects.get(display_order=1)
+    url = '/assist/activity-virtual-patient/options/%s' % (first_patient.id) 
     
     return HttpResponseRedirect(url)
 
@@ -39,51 +34,42 @@ def navigate(request, page_id, patient_id):
 
 @login_required
 def options(request, patient_id):
-    user_state = _save_my_place(request)
+    SiteState.save_last_location(request.user, request.path)
+
+    user_state = _get_user_state(request)
     
-    # setup new patient
+    # setup new state object if the user is seeing this patient for the first time.
     if (not user_state['patients'].has_key(patient_id)):
         user_state['patients'][patient_id] = {}
         user_state['patients'][patient_id]['available_treatments'] = _get_available_treatments()
         _save(request, user_state)
     
-    # setup previous url
-    previous_url = _get_previous_page('options', patient_id, user_state)  
-        
-    # next_url is "navigate" setup here or in the js?
-    
-    ctx = Context({
-       'user': request.user,
-       'patient': Patient.objects.get(id=patient_id),
-       'page_id': 'options',
-       'previous_url': previous_url, 
-       'patient_state': user_state['patients'][patient_id],
-    })
+    ctx = get_base_context(request, 'options', patient_id)
+    ctx['previous_url'] = _get_previous_page('options', patient_id, user_state)      
+    ctx['patient_state'] = user_state['patients'][patient_id]
+    ctx['navigate'] = True
         
     template = loader.get_template('activity_virtual_patient/options.html')
     return HttpResponse(template.render(ctx))
 
 @login_required
 def selection(request, patient_id):
-    user_state = _save_my_place(request)
+    SiteState.save_last_location(request.user, request.path)
+    user_state = _get_user_state(request)
     
-    previous_url = _get_previous_page('selection', patient_id, user_state)
-    
-    ctx = Context({
-       'user': request.user,
-       'patient': Patient.objects.get(id=patient_id),
-       'medications': Medication.objects.all().order_by('display_order'),
-       'page_id': 'selection',
-       'patient_state': user_state['patients'][patient_id],
-       'previous_url': previous_url,
-    })
+    ctx = get_base_context(request, 'selection', patient_id)
+    ctx['previous_url'] = _get_previous_page('selection', patient_id, user_state)
+    ctx['medications'] = Medication.objects.all().order_by('display_order')
+    ctx['patient_state'] = user_state['patients'][patient_id]
+    ctx['navigate'] = True
         
     template = loader.get_template('activity_virtual_patient/selection.html')
     return HttpResponse(template.render(ctx))
     
 @login_required
 def prescription(request, patient_id, medication_idx='0'):
-    user_state = _save_my_place(request)
+    SiteState.save_last_location(request.user, request.path)
+    user_state = _get_user_state(request)
     
     idx = int(medication_idx)
     
@@ -116,28 +102,25 @@ def prescription(request, patient_id, medication_idx='0'):
             dosage2_idx = int(rx['dosage2'])
             concentration2_idx = int(rx['concentration2'])
             refill2_idx = int(rx['refill2'])
-    
-    ctx = Context({
-       'user': request.user,
-       'patient': Patient.objects.get(id=patient_id),
-       'page_id': "prescription",
-       'medication': medication,
-       'medication_idx': medication_idx,
-       'previous_url': previous_url,
-       'dosage_idx': dosage_idx,
-       'concentration_idx': concentration_idx,
-       'refill_idx': refill_idx,
-       'dosage2_idx': dosage2_idx,
-       'concentration2_idx': concentration2_idx,
-       'refill2_idx': refill2_idx,
-    })
+            
+    ctx = get_base_context(request, 'prescription', patient_id)
+    ctx['medication'] =  medication
+    ctx['medication_idx'] = medication_idx
+    ctx['previous_url'] = previous_url
+    ctx['dosage_idx'] = dosage_idx
+    ctx['concentration_idx'] = concentration_idx
+    ctx['refill_idx'] = refill_idx
+    ctx['dosage2_idx'] = dosage2_idx
+    ctx['concentration2_idx'] = concentration2_idx
+    ctx['refill2_idx'] = refill2_idx
+    ctx['navigate'] = True
         
     template = loader.get_template('activity_virtual_patient/prescription.html')
     return HttpResponse(template.render(ctx))
     
 @login_required
 def results(request, patient_id):
-    _save_my_place(request)
+    SiteState.save_last_location(request.user, request.path)
     user_state = _get_user_state(request)
     patient_state = user_state['patients'][patient_id]
     prescription = None
@@ -180,19 +163,15 @@ def results(request, patient_id):
     if (tf.count() > 1):
         tf = TreatmentFeedback.objects.filter(patient__id=patient_id, classification=to.classification, correct_dosage=correct_rx, combination_therapy=combination)
 
-    ctx = Context({
-       'user': request.user,
-       'patient': Patient.objects.get(id=patient_id),
-       'feedback': tf[0].feedback,
-       'page_id': "results",
-       'best_treatment_options': TreatmentOptionReasoning.objects.filter(patient__id=patient_id, classification__rank=1),
-       'reasonable_treatment_options': TreatmentOptionReasoning.objects.filter(patient__id=patient_id, classification__rank=2),
-       'ineffective_treatment_options': TreatmentOptionReasoning.objects.filter(patient__id=patient_id, classification__rank=3),
-       'harmful_treatment_options': TreatmentOptionReasoning.objects.filter(patient__id=patient_id, classification__rank=4),
-       'previous_url': _get_previous_page('results', patient_id, user_state),
-       'next_url': _get_next_page('results', patient_id, user_state),
-       'prescription': "Prescription Summary Here"
-    })
+    ctx = get_base_context(request, 'results', patient_id)
+    ctx['feedback'] = tf[0].feedback
+    ctx['best_treatment_options'] = TreatmentOptionReasoning.objects.filter(patient__id=patient_id, classification__rank=1)
+    ctx['reasonable_treatment_options'] = TreatmentOptionReasoning.objects.filter(patient__id=patient_id, classification__rank=2)
+    ctx['ineffective_treatment_options'] = TreatmentOptionReasoning.objects.filter(patient__id=patient_id, classification__rank=3)
+    ctx['harmful_treatment_options'] = TreatmentOptionReasoning.objects.filter(patient__id=patient_id, classification__rank=4)
+    ctx['previous_url'] = _get_previous_page('results', patient_id, user_state)
+    ctx['next_url'] = _get_next_page('results', patient_id, user_state)
+    ctx['prescription'] = "Prescription Summary Here"
         
     template = loader.get_template('activity_virtual_patient/results.html')
     return HttpResponse(template.render(ctx))
@@ -224,12 +203,6 @@ def _save_user_state(request, patient_id):
     for item in updated_state:
         user_state['patients'][patient_id][item] = updated_state[item]
     
-    _save(request, user_state)
-    return user_state
-    
-def _save_my_place(request):
-    user_state = _get_user_state(request)
-    user_state['path'] = request.path
     _save(request, user_state)
     return user_state
     
@@ -307,4 +280,30 @@ def _get_available_treatments():
         a.append(med.tag)
     a.append('combination')
     return a
+
+###################################################################################
+
+def get_base_context(request, page_id, patient_id):
+    h = get_hierarchy()
+    section = h.get_section_from_path('assist/activity-virtual-patient')
+    
+    ctx = Context({
+       'user': request.user,
+       'patient': Patient.objects.get(id=patient_id),
+       'page_id': page_id,
+       'section': section,
+       'module': get_module(section),
+       'root': h.get_root(),
+       'patients': Patient.objects.all().order_by('display_order')
+    })
+    
+    return ctx
+
+def get_hierarchy():
+    return Hierarchy.objects.get_or_create(name="main",defaults=dict(base_url="/"))[0]
         
+def get_module(section):
+    """ get the top level module that the section is in"""
+    if section.is_root:
+        return None
+    return section.get_ancestors()[1]

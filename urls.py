@@ -20,8 +20,14 @@ urlpatterns = patterns('',
                        (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': site_media_root}),
                        (r'^uploads/(?P<path>.*)$','django.views.static.serve',{'document_root' : settings.MEDIA_ROOT}),
                        
-                       
+                       url(r'^assist/activity-virtual-patient/$', 'tobaccocessation.activity_virtual_patient.views.root', name='root'),
+                       url(r'^assist/activity-virtual-patient/options/(?P<patient_id>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.options', name='options'),
+                       url(r'^assist/activity-virtual-patient/selection/(?P<patient_id>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.selection', name='selection'),
+                       url(r'^assist/activity-virtual-patient/prescription/(?P<patient_id>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.prescription', name='prescription'),
+                       url(r'^assist/activity-virtual-patient/prescription/(?P<patient_id>\d+)/(?P<medication_idx>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.prescription', name='next_prescription'),
+                       url(r'^assist/activity-virtual-patient/results/(?P<patient_id>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.results', name='results'),
+
                        # very important that these two stay last and in this order
                        (r'^edit/(?P<path>.*)$','tobaccocessation_main.views.edit_page'),
-                       (r'^(?P<path>.*)$','tobaccocessation_main.views.page'),        
+                       (r'^(?P<path>.*)$','tobaccocessation_main.views.page'),
 )

@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from pagetree.models import Hierarchy
 from django.contrib.auth.decorators import login_required
+from tobaccocessation_main.models import SiteState
 
 class rendered_with(object):
     def __init__(self, template_name):
@@ -21,10 +22,6 @@ class rendered_with(object):
 
 def get_hierarchy():
     return Hierarchy.objects.get_or_create(name="main",defaults=dict(base_url="/"))[0]
-
-def get_section_from_path(path):
-    h = get_hierarchy()
-    return h.get_section_from_path(path)
 
 def get_module(section):
     """ get the top level module that the section is in"""
@@ -74,8 +71,10 @@ def accessible(section,user):
 @login_required
 @rendered_with('tobaccocessation_main/page.html')
 def page(request,path):
-    section = get_section_from_path(path)
+    SiteState.save_last_location(request.user, request.path)
+    
     h = get_hierarchy()
+    section = h.get_section_from_path(path)
     if request.method == "POST":
         # user has submitted a form. deal with it
         for p in section.pageblock_set.all():
@@ -99,14 +98,19 @@ def page(request,path):
 @login_required
 @rendered_with('tobaccocessation_main/edit_page.html')
 def edit_page(request,path):
-    section = get_section_from_path(path)
     h = get_hierarchy()
+    section = h.get_section_from_path(path)
     return dict(section=section,
                 module=get_module(section),
                 root=h.get_root())
 
 @login_required
 def index(request):
-    h = get_hierarchy()
-    first_leaf = h.get_first_leaf(h.get_root())
-    return HttpResponseRedirect(first_leaf.get_absolute_url())
+    try:
+        ss = SiteState.objects.get(user=request.user)
+        url = ss.last_location
+    except SiteState.DoesNotExist:
+        h = get_hierarchy()
+        first_leaf = h.get_first_leaf(h.get_root())
+        url = first_leaf.get_absolute_url()
+    return HttpResponseRedirect(url)

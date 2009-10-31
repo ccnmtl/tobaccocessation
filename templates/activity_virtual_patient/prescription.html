@@ -1,19 +1,9 @@
-{% extends "project_base.html" %}
-{% load smartif %}
+{% extends "activity_virtual_patient/virtual_patient_base.html" %}
 
 {% block title %}Activity - VirtualPatient{% endblock %}
 
-{% block css %}
-   {{ block.super }}
-   <link href="/activity/virtualpatient/media/css/virtualpatient.css" rel="stylesheet" type="text/css" />
-{% endblock %}
-
 {% block js %}
    {{ block.super }}
-   <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/MochiKit.js"></script>
-   <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/Visual.js"></script>
-   <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/DragAndDrop.js"></script>
-   <script type="text/javascript" src="/site_media/js/json2.js"></script>
    <script type="text/javascript" src="/activity/virtualpatient/media/js/prescription.js"></script>
    <script type="text/javascript" src="/activity/virtualpatient/media/js/virtualpatient.js"></script>
 {% endblock %}
@@ -115,10 +105,4 @@
       {% endautoescape %}
      {% endifequal %}
    </form>    
-{% endblock %}
-
-{% block contentnav %}
-   <a id="previous" href="{{previous_url}}">Previous</a>
-
-   <a id='next' href="#" onclick="navigate(); return false;">Next</a>          
 {% endblock %}
