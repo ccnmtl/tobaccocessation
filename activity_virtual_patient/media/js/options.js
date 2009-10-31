@@ -94,7 +94,7 @@ function get_state()
    debug("options: get_state")
    
    // setup a post block with the relevant information & send it up to the server
-   doc = { "prescribe": {}, "combination": {} }
+   doc = {}
    divs = ['best_treatment', 'reasonable_treatment', 'ineffective_treatment', 'harmful_treatment', 'available_treatments']
    forEach(divs,
            function(div) {
@@ -108,5 +108,6 @@ function get_state()
               doc[div] = medications
             })
    jsontxt = JSON.stringify(doc, null)
+   
    return jsontxt
 }
