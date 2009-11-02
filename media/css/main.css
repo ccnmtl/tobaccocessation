@@ -137,7 +137,7 @@ img, img a
 .block
 {
 	display: block;
-	margin: 0 10px 1em 10px;
+	margin: 0 0px 1em 10px;
 	padding: 0;
 	border: 0;
 }
@@ -637,7 +637,7 @@ img, img a
 .two_columns_right #content
 {
 	display: block;
-	width: 760px;
+	width: 780px;
 }
 
 .two_columns_right #squish
@@ -836,7 +836,7 @@ body.fluid #pagebody
 /* ---- sidebar block elements ---------- */
 body.fluid #pagebody #sidebar_left {
 display:block;
-margin: 1em;
+margin: 1em 1em 1em 0;
 float: left;
 }
 
@@ -1049,6 +1049,43 @@ float: left;
 }
 
 .invisible { display: none; }
+
+.cases {
+
+padding: 10px 10px 20px 10px;
+border: 1px solid #ccc;
+margin-bottom: 10px;
+}
+
+.cases ol {
+
+margin-left: 35px;
+}
+
+.casesanswerdisplay {
+
+margin-top: 20px;
+display: block;
+
+}
+
+.moretoggle {
+
+
+	font-weight:bold;
+		background-color: #dadada;
+	padding: 10px;
+	display: inline;
+	width: 10em;
+
+}
+
+.casesanswerdisplay .toggleable {
+
+		background-color: #dadada;
+	padding: 20px;
+	margin-bottom:-10px;
+}
 
 
 

@@ -1,14 +1,16 @@
 .callout {
-   font-size: 80%;
-   line-height: 150%;
-   background-color: #fff;
-   border: 3px dotted #f00;
-   margin: 3px 3px 3px 3px;
-   padding: 3px 3px 3px 3px;
+	font-size: 80%;
+	line-height: 120%;
+   background-color: #dedede;
+    margin: 3px;
+   padding: 5px;
+   width: 220px;
+   position: relative;
+   margin-left: 475px;
 }
 
 .correct_answer {
-   font-size: 80%;
+  font-size: 80%;
    line-height: 150%;
    background-color: #ddd;
    color: #4F8A10;
@@ -28,18 +30,21 @@
 }
 
 #blankrx {
-   background-image: url(/activity/prescription/media/images/double_blankrx.jpg);
-   height: 260px;
-   background-repeat: no-repeat;
+   background-image: url(/activity/prescription/media/images/double_blankrx_sm.jpg);
+   height: 209px;
+  background-repeat: no-repeat;
    background-position: top left;
-   padding: 340px 0 0 55px;
+   padding: 256px 0 0 55px;
 }
 
+#dosage, #disp, #sig {
+
+	margin-bottom: 3px;
+}
+
+
 #dosage {
-	position: absolute;
-   width: 154px;
-	left: 100px;
-   top: 570px;
+
 }
 
 #dosage_correct {
@@ -50,135 +55,77 @@
 }
 
 #dosage_2 {
-   position: absolute;
-   width: 154px;
-   left: 513px;
-   top: 570px;
+
 }
 
 #dosage_2_correct {
-   position: absolute;
-   width: 150px;
-   left: 680px;
-   top: 570px;
+
 }
 
 #dosage_callout {
-   position: absolute;  
-   width: 155px;
-   left: 93px;
-   top: 450px; 
+
 }
 
 #disp {
-   position: absolute;	
-   width: 154px;
-   left: 100px;
-   top: 595px;
+
 }
 
 #disp_correct {
-   position: absolute;  
-   width: 150px;
-   left: 265px;
-   top: 595px;
+  
 }
 
 #disp_2 {
-   position: absolute;  
-   width: 154px;
-   left: 513px;
-   top: 595px;
+
 }
 
 #disp_2_correct {
-   position: absolute;  
-   width: 150px;
-   left: 680px;
-   top: 595px;
+ 
 }
 
 
 #disp_callout {
-   position: absolute;  
-   width: 150px;
-   left: 507px;
-   top: 425px; 
+
 }
 
 #sig {
-   position: absolute;  
-   left: 100px;
-   top: 620px;	
+
 }
 
 #sig_correct {
-   position: absolute;  
-   left: 265px;
-   top: 620px;
-   width: 150px; 
+
 }
 
 #sig_2 {
-   position: absolute;  
-   left: 513px;
-   top: 620px; 
+
 }
 
 #sig_2_correct {
-   position: absolute;  
-   left: 680px;
-   top: 620px;
-   width: 150px; 
+
 }
 
-#refills {
-   position: absolute;  
-	width: 45px;
-   left: 154px;
-   top: 713px; 
-   text-align: right;
-}
+
 
 #refills_correct {
-   position: absolute;  
-   width: 25px;
-   left: 210px;
-   top: 715px; 
+
 }
 
 #refills_2 {
-   position: absolute;  
-   width: 45px;
-   left: 565px;
-   top: 713px; 
+
 }
 
 #refills_2_correct {
-   position: absolute;  
-   width: 25px;
-   left: 620px;
-   top: 715px; 
+
 }
 
 #refills_callout {
-   position: absolute;  
-   width: 200px;
-   left: 485px;
-   top: 760px; 
+
 }
 
 #rxsubmit {
-   position: absolute;  
-	width: 100px;
-   left: 770px;
-   top: 825px; 
+
 }
 
-#dosage, #disp, #sig {
 
-	margin: 2px;
-}
 
 
 
@@ -191,9 +138,10 @@
 #feedback {
 
 	display:block;
-	height:260px;
-	margin:-542px 0 0 -255px;
-	padding: 340px 0 0 0px;
+	height:209px;
+	margin: -414px 0 0 -55px;
+	padding: 256px 0 0 0px;
+	
 
 }
 
