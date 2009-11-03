@@ -23,13 +23,16 @@
 {% endblock %}
 
 {% block content %}
-	<h2>{{ section.label }}</h2>
-	<br />
-	{% for block in section.pageblock_set.all %}
-		{% if block.label %}<h3>{{block.label}}</h3>{% endif %}
-		{{ block.render }}
-	{% endfor %}
-	
+   {% if not accessible %}
+      This page is not currently accessible. Please complete your current section before moving onto a new section.
+   {% else %}
+		<h2>{{ section.label }}</h2>
+		<br />
+		{% for block in section.pageblock_set.all %}
+			{% if block.label %}<h3>{{block.label}}</h3>{% endif %}
+			{{ block.render }}
+		{% endfor %}
+   {% endif %}		
 {% endblock %}
 
 {% block contentnav %}

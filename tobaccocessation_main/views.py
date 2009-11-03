@@ -37,63 +37,47 @@ def needs_submit(section):
                 return True
     return False
 
+def unlocked_by_default(section):
+    if section is None:
+        return True
+    
+    if section.is_root:
+        # root can't be locked
+        return True
+    
+    kids = len(section.get_children())
+    if section.depth() == 1 and kids < 1:
+        return True
+    
+    return False
+
 def unlocked(section,user):
-#    """ if the user can proceed past this section """
-#    if section is None:
-#        return True
-#    if section.is_root:
-#        # root can't be locked
-#        return True
-#    previous = unlocked(section.get_previous(),user)
-#    if previous == False:
-#        # a previous section is blocking
-#        return False
-#    for p in section.pageblock_set.all():
-#        if hasattr(p.block(),'unlocked'):
-#            if p.block().unlocked(user) == False:
-#                return False
-    return True
-
-def accessible(section,user):
-#    """ can the user even see this section? """
-#    if unlocked(section,user):
-#        # if it's unlocked, they can definitely see it
-#        return True
-#    # if it's locked though, we want to know if the 
-#    # one before it is unlocked. if it is, that means that
-#    # the lock is on the current section, which means that
-#    # they are proceeding properly. If the one before it isn't
-#    # unlocked, we know they're trying to skip ahead
-#    return unlocked(section.get_previous(),user)
-
-    return True
+    """ if the user can proceed past this section """
+    if unlocked_by_default(section):
+        return True
+    
+    if SiteState.get_has_visited(user, section):
+       return True
+   
+    previous = section.get_previous()
+    return unlocked_by_default(previous) or SiteState.get_has_visited(user, previous)
 
 @login_required
 @rendered_with('tobaccocessation_main/page.html')
 def page(request,path):
-    SiteState.save_last_location(request.user, request.path)
-    
     h = get_hierarchy()
     section = h.get_section_from_path(path)
-    if request.method == "POST":
-        # user has submitted a form. deal with it
-        for p in section.pageblock_set.all():
-            if hasattr(p.block(),'needs_submit'):
-                if p.block().needs_submit():
-                    prefix = "pageblock-%d-" % p.id
-                    data = dict()
-                    for k in request.POST.keys():
-                        if k.startswith(prefix):
-                            data[k[len(prefix):]] = request.POST[k]
-                    p.block().submit(request.user,data)
-        return HttpResponseRedirect(section.get_next().get_absolute_url())
-    else:
-        return dict(section=section,
-    #                unlocked=unlocked(section,request.user))
-    #                accessible=accessible(section,request.user),
-                    module=get_module(section),
-                    needs_submit=needs_submit(section),
-                    root=h.get_root())
+    
+    can_access = unlocked(section,request.user)
+    if can_access:
+        SiteState.save_last_location(request.user, request.path, section)
+    
+    return dict(section=section,
+                accessible=can_access,
+                module=get_module(section),
+                root=h.get_root(),
+                previous=section.get_previous(),
+                next=section.get_next())
 
 @login_required
 @rendered_with('tobaccocessation_main/edit_page.html')
