@@ -2,7 +2,7 @@
    {% with module as parent %}
       {% with "selected" as style_class %}
       
-		   {% if parent.get_children %}
+         {% if parent.get_children %}
 		      {% ifnotequal parent.id section.id %}
 		         <li class="menu-{{parent.depth}}"><a href="{{menu_base}}{{parent.get_absolute_url}}">Intro</a></li>
 		      {%else%}

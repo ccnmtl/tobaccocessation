@@ -1,25 +1,29 @@
 {% extends section.template %}
 
+{% load accessible %}
+
 {% block sidebarleft %}
-   <ul>
-   {% ifequal section.depth 2 %}
-      {% with section as parent %}
-         {% include "tobaccocessation_main/level_menu.html" %}
-      {% endwith %}
-   {% endifequal %}
-   
-   {% ifequal section.depth 3 %}
-      {% with section.get_parent as parent %}
-       {% include "tobaccocessation_main/level_menu.html" %}
-    {% endwith %}
-   {% endifequal %}
- 
-   {% ifequal section.depth 4 %}
-      {% with section.get_parent as parent %}
-       {% include "tobaccocessation_main/level_menu.html" %}
-    {% endwith %}
-   {% endifequal %} 
-   </ul>
+   {% with "selected" as style_class %}
+	   <ul>
+	   {% ifequal section.depth 2 %}
+	      {% with section as parent %}
+	         {% include "tobaccocessation_main/level_menu.html" %}
+	      {% endwith %}
+	   {% endifequal %}
+	   
+	   {% ifequal section.depth 3 %}
+	      {% with section.get_parent as parent %}
+	       {% include "tobaccocessation_main/level_menu.html" %}
+	    {% endwith %}
+	   {% endifequal %}
+	 
+	   {% ifequal section.depth 4 %}
+	      {% with section.get_parent as parent %}
+	       {% include "tobaccocessation_main/level_menu.html" %}
+	    {% endwith %}
+	   {% endifequal %} 
+	   </ul>
+	{% endwith %}
 {% endblock %}
 
 {% block content %}

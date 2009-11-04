@@ -1087,5 +1087,15 @@ display: block;
 	margin-bottom:-10px;
 }
 
+#sidebar_left .selected
+{
+   font-weight: bold;
+}
+   
+#sidebar_left .disabled_link
+{
+   color: #CCC
+}
+
 
 

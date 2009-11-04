@@ -1,5 +1,5 @@
 from django import template
-from pedialabs_main.views import accessible as section_accessible
+from tobaccocessation_main.views import unlocked as section_accessible
 
 register = template.Library()
 
