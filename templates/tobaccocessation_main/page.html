@@ -4,7 +4,9 @@
 
 {% block sidebarleft %}
    {% with "selected" as style_class %}
+	  <!--    <div class="leftnav_head">section title</div>-->
 	   <ul>
+	
 	   {% ifequal section.depth 2 %}
 	      {% with section as parent %}
 	         {% include "tobaccocessation_main/level_menu.html" %}

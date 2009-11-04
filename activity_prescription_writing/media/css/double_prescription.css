@@ -1,12 +1,46 @@
+#feedback {
+
+	display:block;
+	height:209px;
+	margin: -13px 0 0 -55px;
+
+	
+
+}
+
+#callout_container {
+
+	float:left;
+	left: 25px;
+	margin-top:-40px;
+	position:absolute;
+
+}
+
 .callout {
 	font-size: 80%;
 	line-height: 120%;
-   background-color: #dedede;
+   background-color: #efc48d;
     margin: 3px;
    padding: 5px;
-   width: 220px;
-   position: relative;
-   margin-left: 475px;
+   width: 225px;
+      border: 1px solid #4F8A10;
+
+}
+
+#answer_container1 {
+	float:left;
+	position:relative;
+	top:-150px;
+	width:200px;
+}
+
+#answer_container2 {
+	float:left;
+	margin-left: 180px;
+	position:relative;
+	top:-150px;
+	width:200px;
 }
 
 .correct_answer {
@@ -15,7 +49,8 @@
    background-color: #ddd;
    color: #4F8A10;
    border: 1px solid #4F8A10;
-   padding-left: 3px;
+   padding: 0 3px;
+   width: 145px;
 }
 
 .connecting_line
@@ -25,8 +60,7 @@
    padding: 0;
    background-color: white;
    z-index: 20;
-   background-image: url(/activity/prescription/media/images/reddot.png);
-   background-repeat: repeat;
+   border-bottom: 1px solid #4F8A10;
 }
 
 #blankrx {
@@ -35,156 +69,102 @@
   background-repeat: no-repeat;
    background-position: top left;
    padding: 256px 0 0 55px;
+   width: 730px;
+   float: left;
 }
 
-#dosage, #disp, #sig {
+
+#rx_fields1 {
+     float: left;
+     width: 323px;
+
+}
+
+#rx_fields2 {
+     float: left;
+     width: 323px;
+     margin-left: 57px;
+
+}
+
+#dosage, #disp, #dosage_2, #disp_2 {
 
 	margin-bottom: 3px;
 }
 
+#sig, #sig_2 {
 
-#dosage {
-
+	height: 43px;
+	overflow: auto;
+	width: 180px;
+	border: 1px solid #ccc;
 }
+
+
+
+#refills, #refills_2 {
+   margin: 32px 0 0 45px; 
+   width: 40px; 
+   text-align: right;
+}
+
 
 #dosage_correct {
-   position: absolute;
-   width: 150px;
-   left: 265px;
-   top: 570px;
+   position: relative;
+   margin: 0px 0 2px 215px;
+
 }
 
-#dosage_2 {
+#disp_correct {
+   position: relative;  
+    margin: 6px 0 2px 215px;
+
+}
+
+#sig_correct {
+   position: relative;  
+   margin: 6px 0 2px 242px;
+
+}
+
+#refills_correct {
+	left:155px;
+	position:absolute;
+	top:126px;
+	width:44px;
 
 }
 
 #dosage_2_correct {
-
-}
-
-#dosage_callout {
-
-}
-
-#disp {
-
-}
-
-#disp_correct {
-  
-}
-
-#disp_2 {
+   position: relative;
+   margin: 0px 0 2px 215px;
 
 }
 
 #disp_2_correct {
- 
-}
-
-
-#disp_callout {
-
-}
-
-#sig {
-
-}
-
-#sig_correct {
-
-}
-
-#sig_2 {
+   position: relative;  
+    margin: 6px 0 2px 215px;
 
 }
 
 #sig_2_correct {
-
-}
-
-
-
-#refills_correct {
-
-}
-
-#refills_2 {
+   position: relative;  
+   margin: 6px 0 2px 242px;
 
 }
 
 #refills_2_correct {
+	left:156px;
+	position:absolute;
+	top:126px;
+	width:44px;
 
 }
 
 #refills_callout {
-
-}
-
-#rxsubmit {
-
-}
-
-
-
-
-
-#refills {
-   margin: 50px 0px 0 76px; 
-   width: 45px; 
-   text-align: right;
-}
-
-#feedback {
-
-	display:block;
-	height:209px;
-	margin: -414px 0 0 -55px;
-	padding: 256px 0 0 0px;
 	
-
-}
-
-#dosage_correct {
-   position: relative;
-   width: 185px;
-   margin: 3px 0 2px 420px;
-
-}
-
-#disp_correct {
-   position: relative;  
-   width: 185px;
-    margin: 8px 0 2px 420px;
-
-}
-
-#sig_correct {
-   position: relative;  
-   width: 185px; 
-    margin: 8px 0 2px 456px;
-
-}
-
-#refills_correct {
-   position: relative;  
-   width: 70px; 
-    margin: 65px 0 2px 394px;
-
-}
-
-#dosage_callout {
-
-
-margin-top: -200px;
-}
-
-#disp_callout {
-
-
-}
-
-#refills_callout {
+	position:absolute;
+	top:170px;
 
 
 }

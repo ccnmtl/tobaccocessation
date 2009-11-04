@@ -18,17 +18,17 @@ function connectCallouts()
 
 function connectCalloutsDouble()
 {
-   horizontal_line(getElement('dosage_callout'), getElement('dosage'))  
-   horizontal_line(getElement('refills_2'), getElement('refills_callout'))
-   horizontal_line(getElement('disp_callout'), getElement('disp_2'))
-   
+   vertical_line(getElement('dosage_callout'), getElement('dosage'))
+   vertical_line(getElement('disp_callout'), getElement('disp'))
+   vertical_line(getElement('refills_callout'), getElement('refills'))
 }
 
 function connectCalloutsSingle()
 {
    vertical_line(getElement('dosage_callout'), getElement('dosage'))
-   vertical_line(getElement('disp_correct'), getElement('disp_callout'))
+   vertical_line(getElement('disp_callout'), getElement('disp'))
    vertical_line(getElement('refills_callout'), getElement('refills'))
+   
 }
 
 function horizontal_line(topElement, bottomElement)
@@ -95,8 +95,8 @@ function loadStateSuccess(doc)
       $('sig_2').value = rx['sig_2']
       $('refills_2').value = rx['refills_2']
    }
-//   if ($('dosage_correct'))
-  //    connectCallouts()
+  if ($('dosage_correct'))
+     connectCallouts()
 }
 
 function loadStateError(err)

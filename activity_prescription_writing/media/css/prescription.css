@@ -1,12 +1,25 @@
+#callout_container {
+
+	float:left;
+	left: 25px;
+	margin-top:-15px;
+	position:absolute;
+
+}
+
 .callout {
 	font-size: 80%;
 	line-height: 120%;
-   background-color: #dedede;
+   background-color: #efc48d;
     margin: 3px;
    padding: 5px;
-   width: 220px;
-   position: relative;
-   margin-left: 475px;
+   width: 225px;
+   border: 1px solid #eaa141;
+
+}
+
+#answer_container {
+     float: left;
 }
 
 .correct_answer {
@@ -16,6 +29,8 @@
    color: #4F8A10;
    border: 1px solid #4F8A10;
    padding-left: 3px;
+     width: 145px;
+
 }
 
 .connecting_line
@@ -25,7 +40,7 @@
    padding: 0;
    background-color: white;
    z-index: 20;
-   background-image: url(/activity/prescription/media/images/reddot.png);
+   border-bottom: 1px solid #eaa141;
    background-repeat: repeat;
 }
 
@@ -38,15 +53,23 @@
    
 }
 
-#dosage, #disp, #sig {
+#dosage, #disp {
 
 	margin-bottom: 3px;
+}
+
+#sig {
+
+	height: 43px;
+	overflow: auto;
+	width: 212px;
+	border: 1px solid #ccc;
 }
 
 
 
 #refills {
-   margin: 37px 0 0 47px; 
+   margin: 32px 0 0 45px; 
    width: 40px; 
    text-align: right;
 }
@@ -55,55 +78,49 @@
 
 	display:block;
 	height:209px;
-	margin: -414px 0 0 -55px;
-	padding: 256px 0 0 0px;
+	margin: -151px 0 0 -55px;
+
 	
 
 }
 
 #dosage_correct {
    position: relative;
-   width: 185px;
    margin: 0px 0 2px 215px;
 
 }
 
 #disp_correct {
    position: relative;  
-   width: 185px;
     margin: 6px 0 2px 215px;
 
 }
 
 #sig_correct {
    position: relative;  
-   width: 185px; 
-    margin: 6px 0 2px 274px;
+   margin: 6px 0 2px 274px;
 
 }
 
 #refills_correct {
-   position: relative;  
-   width: 64px; 
-    margin: 30px 0 2px 157px;
+	left:371px;
+	position:absolute;
+	top:661px;
+	width:64px;
 
 }
 
-#dosage_callout {
 
-
-margin-top: -175px;
-}
-
-#disp_callout {
-
-
-}
 
 #refills_callout {
+	
+	position:absolute;
+	top:134px;
 
 
 }
+
+
 
 
 
