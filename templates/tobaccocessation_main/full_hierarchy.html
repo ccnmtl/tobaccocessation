@@ -1,19 +1,22 @@
-<ul>
-{% for s in root.get_descendents %}
-   {% if s.is_first_child %}
-      <ul>
-   {% endif %}
-   
-	<li class="menu-{{s.depth}}">
-		{% ifnotequal s.id section.id %}
-		   <a href="{{menu_base}}{{s.get_absolute_url}}">{{s.label}}</a>
-		{%else%}
-		   <b>{{s.label}}</b>
-		{% endifnotequal %}
-   </li>
-
-	{% if s.is_last_child %}
-	   </ul>
-	{% endif %}
-{% endfor %}
-</ul>
+{% load cache %}
+{% cache 600 full_hierarchy %}
+	<ul>
+	{% for s in root.get_descendents %}
+	   {% if s.is_first_child %}
+	      <ul>
+	   {% endif %}
+	   
+		<li class="menu-{{s.depth}}">
+			{% ifnotequal s.id section.id %}
+			   <a href="{{menu_base}}{{s.get_absolute_url}}">{{s.label}}</a>
+			{%else%}
+			   <b>{{s.label}}</b>
+			{% endifnotequal %}
+	   </li>
+	
+		{% if s.is_last_child %}
+		   </ul>
+		{% endif %}
+	{% endfor %}
+	</ul>
+{% endcache %}
