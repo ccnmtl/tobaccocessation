@@ -297,6 +297,7 @@ img, img a
 	padding: 0;
 	border: 0;
 	list-style: none;
+	min-width: 760px;
 }
 
 #primarynav #leftside ul
