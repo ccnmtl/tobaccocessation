@@ -9,9 +9,11 @@
 	   {% ifnotequal s.id section.id %}
 	       <li>
 	           {% ifaccessible s %}
-	              <a href="{{menu_base}}{{s.get_absolute_url}}">{{s.label}}</a>
+	              <a id="{{s.slug}}" href="{{menu_base}}{{s.get_absolute_url}}">{{s.label}}</a>
+	              <span id="span_{{s.slug}}" style="display: none" class="disabled_link">{{s.label}}</span
 	           {% else %}
-	              <span class="disabled_link">{{s.label}}</span
+	              <a id="{{s.slug}}" style="display: none" href="{{menu_base}}{{s.get_absolute_url}}">{{s.label}}</a>
+	              <span id="span_{{s.slug}}" class="disabled_link">{{s.label}}</span
 	           {% endifaccessible %}
 	       </li>
 	   {%else%}

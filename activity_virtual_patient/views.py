@@ -6,7 +6,7 @@ from django.template import Context, loader, Context, loader
 from django.utils import simplejson
 from tobaccocessation.activity_virtual_patient.models import *
 from django.db.models import Q
-from pagetree.models import Hierarchy
+from pagetree.models import Hierarchy, Section
 from tobaccocessation_main.models import SiteState
 
 @login_required
@@ -34,9 +34,9 @@ def navigate(request, page_id, patient_id):
 
 @login_required
 def options(request, patient_id):
-    SiteState.save_last_location(request.user, request.path)
-
     user_state = _get_user_state(request)
+    ctx = get_base_context(request, 'options', user_state, patient_id)
+    SiteState.save_last_location(request.user, request.path, ctx['section'])
     
     # setup new state object if the user is seeing this patient for the first time.
     if (not user_state['patients'].has_key(patient_id)):
@@ -44,7 +44,7 @@ def options(request, patient_id):
         user_state['patients'][patient_id]['available_treatments'] = _get_available_treatments()
         _save(request, user_state)
     
-    ctx = get_base_context(request, 'options', patient_id)
+    
     ctx['previous_url'] = _get_previous_page('options', patient_id, user_state)      
     ctx['patient_state'] = user_state['patients'][patient_id]
     ctx['navigate'] = True
@@ -54,10 +54,10 @@ def options(request, patient_id):
 
 @login_required
 def selection(request, patient_id):
-    SiteState.save_last_location(request.user, request.path)
     user_state = _get_user_state(request)
+    ctx = get_base_context(request, 'selection', user_state, patient_id)
+    SiteState.save_last_location(request.user, request.path, ctx['section'])
     
-    ctx = get_base_context(request, 'selection', patient_id)
     ctx['previous_url'] = _get_previous_page('selection', patient_id, user_state)
     ctx['medications'] = Medication.objects.all().order_by('display_order')
     ctx['patient_state'] = user_state['patients'][patient_id]
@@ -68,8 +68,9 @@ def selection(request, patient_id):
     
 @login_required
 def prescription(request, patient_id, medication_idx='0'):
-    SiteState.save_last_location(request.user, request.path)
     user_state = _get_user_state(request)
+    ctx = get_base_context(request, 'prescription', user_state, patient_id)
+    SiteState.save_last_location(request.user, request.path, ctx['section'])
     
     idx = int(medication_idx)
     
@@ -103,7 +104,7 @@ def prescription(request, patient_id, medication_idx='0'):
             concentration2_idx = int(rx['concentration2'])
             refill2_idx = int(rx['refill2'])
             
-    ctx = get_base_context(request, 'prescription', patient_id)
+    
     ctx['medication'] =  medication
     ctx['medication_idx'] = medication_idx
     ctx['previous_url'] = previous_url
@@ -120,8 +121,10 @@ def prescription(request, patient_id, medication_idx='0'):
     
 @login_required
 def results(request, patient_id):
-    SiteState.save_last_location(request.user, request.path)
     user_state = _get_user_state(request)
+    ctx = get_base_context(request, 'results', user_state, patient_id)
+    SiteState.save_last_location(request.user, request.path, ctx['section'])
+    
     patient_state = user_state['patients'][patient_id]
     prescription = None
     
@@ -163,7 +166,7 @@ def results(request, patient_id):
     if (tf.count() > 1):
         tf = TreatmentFeedback.objects.filter(patient__id=patient_id, classification=to.classification, correct_dosage=correct_rx, combination_therapy=combination)
 
-    ctx = get_base_context(request, 'results', patient_id)
+    
     ctx['feedback'] = tf[0].feedback
     ctx['best_treatment_options'] = TreatmentOptionReasoning.objects.filter(patient__id=patient_id, classification__rank=1)
     ctx['reasonable_treatment_options'] = TreatmentOptionReasoning.objects.filter(patient__id=patient_id, classification__rank=2)
@@ -281,9 +284,21 @@ def _get_available_treatments():
     a.append('combination')
     return a
 
+
+def _get_patients(user_state, patient_id):
+    lst = []
+    for p in Patient.objects.all().order_by('display_order'):
+        patient = {}
+        patient['display_order'] = p.display_order
+        patient['id'] = p.id
+        patient['completed'] = user_state['patients'].has_key(str(p.id))
+        patient['selected'] = str(p.id) == patient_id
+        lst.append(patient)
+    return lst
+
 ###################################################################################
 
-def get_base_context(request, page_id, patient_id):
+def get_base_context(request, page_id, user_state, patient_id):
     h = get_hierarchy()
     section = h.get_section_from_path('assist/activity-virtual-patient')
     
@@ -294,7 +309,8 @@ def get_base_context(request, page_id, patient_id):
        'section': section,
        'module': get_module(section),
        'root': h.get_root(),
-       'patients': Patient.objects.all().order_by('display_order')
+       'request': request,
+       'patients': _get_patients(user_state, patient_id),
     })
     
     return ctx

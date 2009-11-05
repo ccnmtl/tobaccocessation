@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 from django.utils import simplejson
 from django.contrib.contenttypes import generic
-from pagetree.models import PageBlock
+from pagetree.models import PageBlock, Section
 from django import forms
 
 class Medication(models.Model):
@@ -37,9 +37,6 @@ class Block(models.Model):
 
     def needs_submit(self):
         return False
-    
-    def unlocked(self,user):
-        return True
     
     @classmethod
     def add_form(self):

@@ -50,6 +50,8 @@
   	  
   {% with section.get_next as next %}
 	  {% if next %}
+	     <!-- added to allow javascript access to the menu links. hack for the activities enabling/disabling of links -->
+	     <input type="hidden" id="next_section_slug" name="next_section_slug" value="{{next.slug}}"/>
 	     <a href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
 	  {% endif %}
   {% endwith %}

@@ -60,7 +60,15 @@ def unlocked(section,user):
        return True
    
     previous = section.get_previous()
-    return unlocked_by_default(previous) or SiteState.get_has_visited(user, previous)
+    if unlocked_by_default(previous):
+        return True
+    
+    for p in previous.pageblock_set.all():
+        if hasattr(p.block(),'unlocked'):
+           if p.block().unlocked(user) == False:
+              return False
+    
+    return SiteState.get_has_visited(user, previous)
 
 @login_required
 @rendered_with('tobaccocessation_main/page.html')

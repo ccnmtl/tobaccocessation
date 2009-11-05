@@ -4,6 +4,7 @@ from django.utils import simplejson
 from django.contrib.contenttypes import generic
 from pagetree.models import PageBlock
 from django import forms
+from django.utils import simplejson
 
 class Block(models.Model):
     pageblocks = generic.GenericRelation(PageBlock)
@@ -42,7 +43,18 @@ class Block(models.Model):
     @classmethod
     def edit(self,vals,files):
         self.save()
-
+        
+    def unlocked(self, user):
+        rc = False
+        try:
+            state = ActivityState.objects.get(user=user)
+            obj = simplejson.loads(state.json)
+            rc = obj['complete']
+        except ActivityState.DoesNotExist:
+            pass # ignore, we'll return false here in a sec
+        
+        return rc
+        
 class ActivityState (models.Model):
     user = models.ForeignKey(User, related_name="treatment_choice_user")
     json = models.TextField(blank=True)

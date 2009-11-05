@@ -80,34 +80,38 @@ function vline (from, to, x) {
 
 function maybeEnableNext()
 {
-   // is there content in all 3 fields or all 6 in case of double prescriptions
-   // enable the next button, otherwise, hide it.
-   gonext = false
-   
-   gonext = $('dosage').value && $('dosage').value.length > 0 &&
-            $('disp').value && $('disp').value.length > 0 && 
-            $('sig').value && $('sig').value.length > 0 &&
-            $('refills').value && $('refills').value.length > 0 
-   
-   if ($('dosage_2'))
+   if (!$('dosage_correct'))
    {
-      gonext = gonext &&
-            $('dosage2').value && $('dosage2').value.length > 0 &&
-            $('disp2').value && $('disp2').value.length > 0 && 
-            $('sig2').value && $('sig2').value.length > 0 &&
-            $('refills').value && $('refills').value.length > 0
-   }
-   
-   if (gonext)
-   {
-      setStyle('next', {'display': 'inline'}) 
-      pulsate($('next')) 
-      return true 
-   }
-   else
-   {
-      setStyle('next', {'display': 'none'}) 
-      return false
+      // is there content in all 3 fields or all 6 in case of double prescriptions
+      // enable the next button, otherwise, hide it.
+      gonext = false
+      
+      gonext = $('dosage').value && $('dosage').value.length > 0 &&
+               $('disp').value && $('disp').value.length > 0 && 
+               $('sig').value && $('sig').value.length > 0 &&
+               $('refills').value && $('refills').value.length > 0 
+      
+      if ($('dosage_2'))
+      {
+         gonext = gonext &&
+               $('dosage_2').value && $('dosage_2').value.length > 0 &&
+               $('disp_2').value && $('disp_2').value.length > 0 && 
+               $('sig_2').value && $('sig_2').value.length > 0 &&
+               $('refills_2').value && $('refills_2').value.length > 0
+      }
+      
+      if (gonext)
+      {
+         setStyle('next', {'display': 'inline'}) 
+         setStyle('span_prescription-results', {'display': 'none'})
+         setStyle('prescription-results', {'display': 'inline'})
+         return true 
+      }
+      else
+      {
+         setStyle('next', {'display': 'none'}) 
+         return false
+      }
    }
 }
 
@@ -144,7 +148,12 @@ function loadStateError(err)
 function loadState()
 {
    debug("loadState")
-   setStyle('next', {'display': 'none'}) 
+   if (!$('dosage_correct'))
+   {
+      setStyle('next', {'display': 'none'})
+      setStyle('span_prescription-results', {'display': 'inline'})
+      setStyle('prescription-results', {'display': 'none'})
+   }
    url = 'http://' + location.hostname + ':' + location.port + "/activity/prescription/load/"
    deferred = loadJSONDoc(url)
    deferred.addCallbacks(loadStateSuccess, loadStateError)

@@ -1,6 +1,6 @@
 function debug(string)
 {
-   if (false)
+   if (true)
       log("DEBUG " + string)
 }
 
@@ -53,8 +53,10 @@ function checkForSuccess()
       } 
    } 
   
-   setStyle('next', {'display': 'inline'}) 
-   pulsate($('next')) 
+   setStyle('next', {'display': 'inline'})
+
+   setStyle('span_' + $('next_section_slug').value, {'display': 'none'})
+   setStyle($('next_section_slug').value, {'display': 'inline'})
    return true 
 }
 
@@ -233,6 +235,7 @@ function saveState()
    {
       'version': 1,
       'smoker_quantity_state': [],
+      'complete': checkForSuccess()
    }
 
    smoker_quantity_divs = ['treatment_light_smoker', 'treatment_moderate_smoker', 'treatment_heavy_smoker']
