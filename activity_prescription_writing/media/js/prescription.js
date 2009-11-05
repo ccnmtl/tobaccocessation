@@ -78,6 +78,24 @@ function vline (from, to, x) {
     setStyle( newdiv , { "left": x + 'px', "top" : from + 'px' , "height" : (to - from) + "px", "width" : "2px"});
 }
 
+function setBackgroundColor(ctrl)
+{
+   if (ctrl.value.length > 0)
+   {
+      setStyle(ctrl.id, { 'background-color': 'white' })
+   }
+   else
+   {
+      setStyle(ctrl.id, { 'background-color': '#F8F5E1' })
+   }
+}
+
+function onEditChange(ctrl)
+{
+   setBackgroundColor(ctrl)
+   maybeEnableNext()
+}
+
 function maybeEnableNext()
 {
    if (!$('dosage_correct'))
@@ -121,16 +139,30 @@ function loadStateSuccess(doc)
    rx = doc[$('medication_name').value]
             
    $('dosage').value = rx['dosage']
+   setBackgroundColor($('dosage'))
+   
    $('disp').value = rx['disp']
+   setBackgroundColor($('disp'))
+   
    $('sig').value = rx['sig']
+   setBackgroundColor($('sig'))
+   
    $('refills').value = rx['refills']
+   setBackgroundColor($('refills'))
                            
    if ($('dosage_2'))
    {
       $('dosage_2').value = rx['dosage_2']
+      setBackgroundColor($('dosage_2'))
+      
       $('disp_2').value = rx['disp_2']
+      setBackgroundColor($('disp_2'))
+      
       $('sig_2').value = rx['sig_2']
+      setBackgroundColor($('sig_2'))
+      
       $('refills_2').value = rx['refills_2']
+      setBackgroundColor($('refills_2'))
    }
   if ($('dosage_correct'))
      connectCallouts()

@@ -11,10 +11,10 @@
 
     Fill out the prescription form below and click submit.<br /><br />
 	 <div id="blankrx">
-	    <input id="dosage" name='dosage' type='text' onkeyup="maybeEnableNext()" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
-       <input id="disp" type="text" onkeyup="maybeEnableNext()" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
-       <textarea cols="25" id="sig" onkeyup="maybeEnableNext()" {% if block.show_correct %} readonly="readonly" {% endif %}>{{sig}}</textarea><br />
-       <input id="refills" type="text" maxlength="1" onkeyup="maybeEnableNext()" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
+	    <input class="required_field" id="dosage" name='dosage' type='text' onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
+       <input class="required_field" id="disp" type="text" onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
+       <textarea class="required_field" cols="25" id="sig" onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}>{{sig}}</textarea><br />
+       <input class="required_field" id="refills" type="text" maxlength="1" onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
        
        {% if block.show_correct %}
        <div id="feedback">
@@ -51,16 +51,16 @@
 
     <div id="blankrx">
       <div id="rx_fields1">
-      <input id="dosage" type='text' onkeyup="maybeEnableNext()" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
-       <input id="disp" type="text" onkeyup="maybeEnableNext()" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
-       <textarea id="sig" rows="3" cols="18" onkeyup="maybeEnableNext()" {% if block.show_correct %} readonly="readonly" {% endif %}>{{sig}}</textarea><br />
-       <input id="refills" type="text" maxlength="1" onkeyup="maybeEnableNext()" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
+      <input id="dosage" type='text' onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
+       <input id="disp" type="text" onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
+       <textarea id="sig" rows="3" cols="18" onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}>{{sig}}</textarea><br />
+       <input id="refills" type="text" maxlength="1" onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
        </div>
            <div id="rx_fields2">  
-       <input id="dosage_2" type='text' onkeyup="maybeEnableNext()" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
-       <input id="disp_2" type="text" onkeyup="maybeEnableNext()" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
-       <textarea id="sig_2" rows="3" cols="18" onkeyup="maybeEnableNext()" {% if block.show_correct %} readonly="readonly" {% endif %}>{{sig_2}}</textarea><br />
-       <input id="refills_2" type="text" maxlength="1" onkeyup="maybeEnableNext()" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
+       <input id="dosage_2" type='text' onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
+       <input id="disp_2" type="text" onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
+       <textarea id="sig_2" rows="3" cols="18" onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}>{{sig_2}}</textarea><br />
+       <input id="refills_2" type="text" maxlength="1" onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
        </div>
       {% if block.show_correct %}
      <div id="feedback">
