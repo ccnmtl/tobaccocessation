@@ -12,8 +12,9 @@
     {{ block.super }} 
     <h6>Virtual Patient >> Classify Treatment Options</h6>
     
+    <div id="blankrx">
     <div>{{ medication.name }}</div>
-    <br />
+   
     <form>
       <input type="hidden" id="medication_idx" value="{{ medication_idx }}"></input>
       <input type="hidden" id="medication_tag" value="{{ medication.tag }}"></input>
@@ -21,7 +22,7 @@
       <input type="hidden" id="page_id" name="page_id" value="{{page_id}}"></input>
 
       <!--  First Prescription -->
-      Dosage: <select id="concentration">
+    <div class="fieldname">Dosage:</div> <select id="concentration">
           
           {% for cc in medication.concentrationchoice_set.all %}
             {% ifequal cc.id concentration_idx %}
@@ -32,9 +33,9 @@
           {% endfor %}
       </select>
       <br />
-      <br />
+
       
-     Quantity to Dispense: <select id="dosage">
+   <div class="fieldname">  Quantity to Dispense: </div><select id="dosage">
           {% for dc in medication.dosagechoice_set.all %}
              {% ifequal dc.id dosage_idx %}
                <option selected="selected" value="{{dc.id}}">{{dc.dosage}}</option>
@@ -43,9 +44,17 @@
              {% endifequal %}
           {% endfor %}
       </select>
+
       <br />
+      
+    <div class="fieldname">  Patient Instructions:</div>
+     <div id="med_inst"> {% autoescape off %}
+      {{ medication.instructions }}
+      {% endautoescape %}
+      </div>
       <br />
-      Refills: 
+      
+      <div class="fieldname"> Refills: </div>
 	      <select id="refill">
 	         {% for rc in medication.refillchoice_set.all %}
 	            {% ifequal rc.id refill_idx %}
@@ -55,13 +64,8 @@
 	            {% endifequal %}
 	         {% endfor %}
 	      </select>
-      <br />
-      <br />
-      Patient Instructions:
-      {% autoescape off %}
-      {{ medication.instructions }}
-      {% endautoescape %}
-    
+      
+    </div>
     <!--  Second Prescription if needed -->
     {% ifequal medication.rx_count 2 %}
       Dosage: <select id="concentration2">

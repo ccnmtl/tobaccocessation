@@ -126,10 +126,80 @@
 
 .highlight {
 	border: 3px solid #f00;
+	display: block;
+	height: 40px;
+	width: 150px;
+	margin: -3px 0 2px;
 }
 
 #treatment_reasoning {
    align: left;
    	
 }
+
+#blankrx {
+   height: 209px;
+   background-image: url(/activity/prescription/media/images/blankrx_sm.jpg);
+   background-repeat: no-repeat;
+   background-position: top left;
+   padding: 248px 0 0 50px;
+   font-size: 85%;
+   width: 330px;
+  
+   
+}
+
+#blankrx form {
+
+margin-left: -155px;
+
+}
+
+.fieldname {
+
+display: block;
+text-align: right;
+width: 150px;
+height: 15px;
+float: left;
+background-color: #ccc;
+margin-top: 5px;
+padding-bottom: 2px;
+}
+
+#concentration, #dosage {
+
+margin: 5px 5px 0 5px;}
+
+#refill {
+
+margin: 5px 5px 0 23px;
+}
+
+#med_inst {
+
+display: block;
+margin: 5px 5px 10px 157px;
+width: 240px;
+font-size: 11px;
+height: 26px;
+overflow: auto;
+border: 1px solid #ccc;
+}
+
+#med_inst ul {
+
+list-style-type: none;
+
+}
+
+#med_inst ul li {
+
+line-height:13px;
+margin-bottom:3px;
+
+}
+
+
+
 
