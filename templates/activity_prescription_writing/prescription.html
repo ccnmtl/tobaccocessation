@@ -11,10 +11,10 @@
 
     Fill out the prescription form below and click submit.<br /><br />
 	 <div id="blankrx">
-	    <input id="dosage" name='dosage' type='text' {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
-       <input id="disp" type="text" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
-       <textarea cols="25" id="sig" {% if block.show_correct %} readonly="readonly" {% endif %}>{{sig}}</textarea><br />
-       <input id="refills" type="text" maxlength="1" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
+	    <input id="dosage" name='dosage' type='text' onkeyup="maybeEnableNext()" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
+       <input id="disp" type="text" onkeyup="maybeEnableNext()" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
+       <textarea cols="25" id="sig" onkeyup="maybeEnableNext()" {% if block.show_correct %} readonly="readonly" {% endif %}>{{sig}}</textarea><br />
+       <input id="refills" type="text" maxlength="1" onkeyup="maybeEnableNext()" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
        
        {% if block.show_correct %}
        <div id="feedback">

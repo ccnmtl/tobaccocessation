@@ -78,6 +78,39 @@ function vline (from, to, x) {
     setStyle( newdiv , { "left": x + 'px', "top" : from + 'px' , "height" : (to - from) + "px", "width" : "2px"});
 }
 
+function maybeEnableNext()
+{
+   // is there content in all 3 fields or all 6 in case of double prescriptions
+   // enable the next button, otherwise, hide it.
+   gonext = false
+   
+   gonext = $('dosage').value && $('dosage').value.length > 0 &&
+            $('disp').value && $('disp').value.length > 0 && 
+            $('sig').value && $('sig').value.length > 0 &&
+            $('refills').value && $('refills').value.length > 0 
+   
+   if ($('dosage_2'))
+   {
+      gonext = gonext &&
+            $('dosage2').value && $('dosage2').value.length > 0 &&
+            $('disp2').value && $('disp2').value.length > 0 && 
+            $('sig2').value && $('sig2').value.length > 0 &&
+            $('refills').value && $('refills').value.length > 0
+   }
+   
+   if (gonext)
+   {
+      setStyle('next', {'display': 'inline'}) 
+      pulsate($('next')) 
+      return true 
+   }
+   else
+   {
+      setStyle('next', {'display': 'none'}) 
+      return false
+   }
+}
+
 function loadStateSuccess(doc)
 {
    debug('loadStateSuccess')
@@ -97,6 +130,8 @@ function loadStateSuccess(doc)
    }
   if ($('dosage_correct'))
      connectCallouts()
+     
+  maybeEnableNext()
 }
 
 function loadStateError(err)
@@ -109,6 +144,7 @@ function loadStateError(err)
 function loadState()
 {
    debug("loadState")
+   setStyle('next', {'display': 'none'}) 
    url = 'http://' + location.hostname + ':' + location.port + "/activity/prescription/load/"
    deferred = loadJSONDoc(url)
    deferred.addCallbacks(loadStateSuccess, loadStateError)

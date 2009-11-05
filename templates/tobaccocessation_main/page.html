@@ -44,13 +44,13 @@
 {% block contentnav %}
   {% with section.get_previous as prev %}
 	  {% if prev %}
-	    <a href="{{prev.get_absolute_url}}" id="previous">« {{prev.label}}</a>
+	     <a href="{{prev.get_absolute_url}}" id="previous">« {{prev.label}}</a>
 	  {% endif %}
   {% endwith %}
   	  
   {% with section.get_next as next %}
 	  {% if next %}
-	    <a href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
+	     <a href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
 	  {% endif %}
   {% endwith %}
 {% endblock %}
