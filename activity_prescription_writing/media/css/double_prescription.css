@@ -23,15 +23,15 @@
    background-color: #efc48d;
     margin: 3px;
    padding: 5px;
-   width: 225px;
-      border: 1px solid #4F8A10;
+   width: 170px;
+   border: 1px solid #eaa141;
 
 }
 
 #answer_container1 {
 	float:left;
 	position:relative;
-	top:-150px;
+	top:-154px;
 	width:200px;
 }
 
@@ -39,18 +39,18 @@
 	float:left;
 	margin-left: 180px;
 	position:relative;
-	top:-150px;
+	top:-154px;
 	width:200px;
 }
 
 .correct_answer {
-  font-size: 80%;
-   line-height: 150%;
+   font-size: 80%;
+   line-height: 120%;
    background-color: #ddd;
    color: #4F8A10;
    border: 1px solid #4F8A10;
-   padding: 0 3px;
-   width: 145px;
+   padding: 2px 4px;
+     width: 145px;
 }
 
 .connecting_line
@@ -60,7 +60,8 @@
    padding: 0;
    background-color: white;
    z-index: 20;
-   border-bottom: 1px solid #4F8A10;
+   border-bottom: 1px solid #eaa141;
+
 }
 
 #blankrx {
@@ -68,7 +69,7 @@
    height: 209px;
   background-repeat: no-repeat;
    background-position: top left;
-   padding: 256px 0 0 55px;
+   padding: 255px 0 0 55px;
    width: 730px;
    float: left;
 }
@@ -90,44 +91,49 @@
 #dosage, #disp, #dosage_2, #disp_2 {
 
 	margin-bottom: 3px;
+		border-right: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
 }
 
 #sig, #sig_2 {
 
 	height: 43px;
 	overflow: auto;
-	width: 180px;
-	border: 1px solid #ccc;
+	width: 212px;
+	border-right: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+
+
 }
 
 
 
 #refills, #refills_2 {
-   margin: 32px 0 0 45px; 
+   margin: 41px 0 0 45px; 
    width: 40px; 
    text-align: right;
 }
 
 
-#dosage_correct {
+#dosage_correct, #dosage_2_correct {
    position: relative;
-   margin: 0px 0 2px 215px;
+   margin: 0px 0 3px 215px;
 
 }
 
-#disp_correct {
+#disp_correct, #disp_2_correct {
    position: relative;  
-    margin: 6px 0 2px 215px;
+    margin: 3px 0 2px 215px;
 
 }
 
-#sig_correct {
+#sig_correct, #sig_2_correct {
    position: relative;  
-   margin: 6px 0 2px 242px;
+   margin: 3px 0 2px 242px;
 
 }
 
-#refills_correct {
+#refills_correct, #refills_2_correct {
 	left:155px;
 	position:absolute;
 	top:126px;
@@ -135,31 +141,7 @@
 
 }
 
-#dosage_2_correct {
-   position: relative;
-   margin: 0px 0 2px 215px;
 
-}
-
-#disp_2_correct {
-   position: relative;  
-    margin: 6px 0 2px 215px;
-
-}
-
-#sig_2_correct {
-   position: relative;  
-   margin: 6px 0 2px 242px;
-
-}
-
-#refills_2_correct {
-	left:156px;
-	position:absolute;
-	top:126px;
-	width:44px;
-
-}
 
 #refills_callout {
 	

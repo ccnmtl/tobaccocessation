@@ -24,11 +24,11 @@
 
 .correct_answer {
    font-size: 80%;
-   line-height: 150%;
+   line-height: 120%;
    background-color: #ddd;
    color: #4F8A10;
    border: 1px solid #4F8A10;
-   padding-left: 3px;
+   padding: 2px 4px;
      width: 145px;
 
 }
@@ -41,7 +41,7 @@
    background-color: white;
    z-index: 20;
    border-bottom: 1px solid #eaa141;
-   background-repeat: repeat;
+
 }
 
 #blankrx {
@@ -92,26 +92,26 @@
 
 #dosage_correct {
    position: relative;
-   margin: 0px 0 2px 215px;
+   margin: 0px 0 3px 215px;
 
 }
 
 #disp_correct {
    position: relative;  
-    margin: 6px 0 2px 215px;
+    margin: 3px 0 2px 215px;
 
 }
 
 #sig_correct {
    position: relative;  
-   margin: 6px 0 2px 278px;
+   margin: 3px 0 2px 278px;
 
 }
 
 #refills_correct {
 	left:371px;
 	position:absolute;
-	top:643px;
+	top:651px;
 	width:64px;
 
 }
