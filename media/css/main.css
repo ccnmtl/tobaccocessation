@@ -57,7 +57,7 @@ h5
 		font-weight: normal;
 	font-style: italic;
 	color: #223334;
-	margin-bottom: 1em;
+	margin: 1em 0;
 	
 }
 
@@ -173,8 +173,8 @@ img, img a
 
 #container
 {
-	width: 900px;
-	min-width: 900px;
+	width: 987px;
+	min-width: 987px;
 	margin: 0 auto;
 	padding: 0;
 	border: 1px solid #999;
@@ -1125,8 +1125,7 @@ a.reset_button {
 
 background-color:#DEDEDE;
 border:1px solid #CCCCCC;
+float:left;
+margin:-38px 0 0 760px;
 padding:3px;
-position:relative;
-right:-760px;
-top:-40px;
 }

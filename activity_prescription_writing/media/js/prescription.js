@@ -86,7 +86,7 @@ function setBackgroundColor(ctrl)
    }
    else
    {
-      setStyle(ctrl.id, { 'background-color': '#F8F5E1' })
+      setStyle(ctrl.id, { 'background-color': '#f8db9f' })
    }
 }
 

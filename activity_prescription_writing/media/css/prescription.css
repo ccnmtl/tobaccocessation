@@ -13,7 +13,7 @@
    background-color: #efc48d;
     margin: 3px;
    padding: 5px;
-   width: 225px;
+   width: 170px;
    border: 1px solid #eaa141;
 
 }
@@ -56,6 +56,8 @@
 #dosage, #disp {
 
 	margin-bottom: 3px;
+	border-right: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
 }
 
 #sig {
@@ -63,15 +65,19 @@
 	height: 43px;
 	overflow: auto;
 	width: 212px;
-	border: 1px solid #ccc;
+		border-right: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+
 }
 
 
 
 #refills {
-   margin: 32px 0 0 45px; 
+   margin: 38px 0 0 45px; 
    width: 40px; 
    text-align: right;
+   	border-right: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
 }
 
 #feedback {
@@ -98,14 +104,14 @@
 
 #sig_correct {
    position: relative;  
-   margin: 6px 0 2px 274px;
+   margin: 6px 0 2px 278px;
 
 }
 
 #refills_correct {
 	left:371px;
 	position:absolute;
-	top:661px;
+	top:643px;
 	width:64px;
 
 }
