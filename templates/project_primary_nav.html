@@ -1,7 +1,7 @@
-<ul>
-   {% with root as parent %}
-      {% with "selected" as style_class %}
-         {% include "tobaccocessation_main/level_menu.html" %}
-      {% endwith %}
-   {% endwith %}
-</ul>         
+{% block primarynavtabs %}
+   <ul>
+      <li><a href="/welcome/">Welcome</a></li>
+      <li><a href="/resources/">Resources</a></li>
+      <li class="selected"><span class="selected">Assist</span></li>
+   </ul>
+{% endblock %}
