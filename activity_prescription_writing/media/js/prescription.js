@@ -135,7 +135,7 @@ function loadStateSuccess(doc)
 {
    debug('loadStateSuccess')
    
-   if (doc && doc[$('medication_name')])
+   if (doc && doc[$('medication_name').value])
    {
       rx = doc[$('medication_name').value]
       $('dosage').value = rx['dosage']
