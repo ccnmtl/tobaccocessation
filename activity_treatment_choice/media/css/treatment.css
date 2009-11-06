@@ -92,7 +92,13 @@
    background-position: center center; 
    background-color: #eba54d;
    border: 0px;
-   height: 96px;
+   height: 48px;
+ 
+}
+
+.treatment_trashable img {
+
+margin: 5px 1px 0 5px;
 }
 
 #success_overlay
