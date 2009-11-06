@@ -136,34 +136,40 @@ function maybeEnableNext()
 function loadStateSuccess(doc)
 {
    debug('loadStateSuccess')
-   rx = doc[$('medication_name').value]
-            
-   $('dosage').value = rx['dosage']
+   
+   if (doc && doc[$('medication_name')])
+   {
+      rx = doc[$('medication_name').value]
+      $('dosage').value = rx['dosage']
+      $('disp').value = rx['disp']
+      $('sig').value = rx['sig']
+      $('refills').value = rx['refills']
+                              
+      if ($('dosage_2'))
+      {
+         $('dosage_2').value = rx['dosage_2']
+         
+         $('disp_2').value = rx['disp_2']
+         
+         $('sig_2').value = rx['sig_2']
+         
+         $('refills_2').value = rx['refills_2']
+      }
+   }
+                                                                                                                                                                       
    setBackgroundColor($('dosage'))
-   
-   $('disp').value = rx['disp']
    setBackgroundColor($('disp'))
-   
-   $('sig').value = rx['sig']
    setBackgroundColor($('sig'))
-   
-   $('refills').value = rx['refills']
    setBackgroundColor($('refills'))
-                           
+   
    if ($('dosage_2'))
    {
-      $('dosage_2').value = rx['dosage_2']
       setBackgroundColor($('dosage_2'))
-      
-      $('disp_2').value = rx['disp_2']
       setBackgroundColor($('disp_2'))
-      
-      $('sig_2').value = rx['sig_2']
       setBackgroundColor($('sig_2'))
-      
-      $('refills_2').value = rx['refills_2']
       setBackgroundColor($('refills_2'))
    }
+   
   if ($('dosage_correct'))
      connectCallouts()
      
@@ -183,8 +189,6 @@ function loadState()
    if (!$('dosage_correct'))
    {
       setStyle('next', {'display': 'none'})
-      setStyle('span_prescription-results', {'display': 'inline'})
-      setStyle('prescription-results', {'display': 'none'})
    }
    url = 'http://' + location.hostname + ':' + location.port + "/activity/prescription/load/"
    deferred = loadJSONDoc(url)
