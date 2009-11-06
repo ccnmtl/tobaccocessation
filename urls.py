@@ -20,6 +20,12 @@ urlpatterns = patterns('',
                        (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': site_media_root}),
                        (r'^uploads/(?P<path>.*)$','django.views.static.serve',{'document_root' : settings.MEDIA_ROOT}),
                        
+                       url(r'^welcome/$', 'tobaccocessation_main.views.welcome', name='welcome'),
+                       url(r'^resources/$', 'tobaccocessation_main.views.resources', name='resources'),
+                       
+                       
+
+                       # completely override pagetree for virtual patient. it's too much to fit it into the structure                       
                        url(r'^assist/activity-virtual-patient/$', 'tobaccocessation.activity_virtual_patient.views.root', name='root'),
                        url(r'^assist/activity-virtual-patient/options/(?P<patient_id>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.options', name='options'),
                        url(r'^assist/activity-virtual-patient/selection/(?P<patient_id>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.selection', name='selection'),

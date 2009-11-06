@@ -6,24 +6,23 @@
    {% with "selected" as style_class %}
 	  <!--    <div class="leftnav_head">section title</div>-->
 	   <ul>
-	
-	   {% ifequal section.depth 2 %}
-	      {% with section as parent %}
-	         {% include "tobaccocessation_main/level_menu.html" %}
-	      {% endwith %}
-	   {% endifequal %}
-	   
-	   {% ifequal section.depth 3 %}
-	      {% with section.get_parent as parent %}
-	       {% include "tobaccocessation_main/level_menu.html" %}
-	    {% endwith %}
-	   {% endifequal %}
-	 
-	   {% ifequal section.depth 4 %}
-	      {% with section.get_parent as parent %}
-	       {% include "tobaccocessation_main/level_menu.html" %}
-	    {% endwith %}
-	   {% endifequal %} 
+		   {% ifequal section.depth 2 %}
+		      {% with section as parent %}
+		         {% include "tobaccocessation_main/level_menu.html" %}
+		      {% endwith %}
+		   {% endifequal %}
+		   
+		   {% ifequal section.depth 3 %}
+		      {% with section.get_parent as parent %}
+		         {% include "tobaccocessation_main/level_menu.html" %}
+	  	      {% endwith %}
+		   {% endifequal %}
+		 
+		   {% ifequal section.depth 4 %}
+		      {% with section.get_parent.get_parent as parent %}
+		         {% include "tobaccocessation_main/level_menu.html" %}
+		      {% endwith %}
+		   {% endifequal %} 
 	   </ul>
 	{% endwith %}
 {% endblock %}
@@ -42,17 +41,13 @@
 {% endblock %}
 
 {% block contentnav %}
-  {% with section.get_previous as prev %}
-	  {% if prev %}
-	     <a href="{{prev.get_absolute_url}}" id="previous">« {{prev.label}}</a>
-	  {% endif %}
-  {% endwith %}
+  {% if previous %}
+     <a href="{{previous.get_absolute_url}}" id="previous">« {{previous.label}}</a>
+  {% endif %}
   	  
-  {% with section.get_next as next %}
-	  {% if next %}
-	     <!-- added to allow javascript access to the menu links. hack for the activities enabling/disabling of links -->
-	     <input type="hidden" id="next_section_slug" name="next_section_slug" value="{{next.slug}}"/>
-	     <a href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
-	  {% endif %}
-  {% endwith %}
+  {% if next %}
+     <!-- added to allow javascript access to the menu links. hack for the js activities enabling/disabling of links -->
+     <input type="hidden" id="next_section_slug" name="next_section_slug" value="{{next.slug}}"/>
+     <a href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
+  {% endif %}
 {% endblock %}

@@ -45,10 +45,6 @@ def unlocked_by_default(section):
         # root can't be locked
         return True
     
-    kids = len(section.get_children())
-    if section.depth() == 1 and kids < 1:
-        return True
-    
     return False
 
 def unlocked(section,user):
@@ -74,17 +70,34 @@ def unlocked(section,user):
 @rendered_with('tobaccocessation_main/page.html')
 def page(request,path):
     h = get_hierarchy()
-    section = h.get_section_from_path(path)
+    current_root = h.get_section_from_path(path)
+    section = h.get_first_leaf(current_root)
     
+    # Skip to the first leaf, make sure to mark these sections as visited
+    if (current_root != section):
+        SiteState.set_has_visited(request.user, section.get_ancestors())
+        return HttpResponseRedirect(section.get_absolute_url())
+    
+    # Is this section unlocked now?
     can_access = unlocked(section,request.user)
     if can_access:
         SiteState.save_last_location(request.user, request.path, section)
+        
+    # the previous node is the last leaf, if one exists.
+    prev = None
+    depth_first_traversal = _get_descendent_leaves(section.get_root())
+    for (i,s) in enumerate(depth_first_traversal):
+        if s.id == section.id:
+            # first element is the root, so we don't want to
+            # return that
+            if i >= 1:
+                prev = depth_first_traversal[i-1]
     
     return dict(section=section,
                 accessible=can_access,
                 module=get_module(section),
                 root=h.get_root(),
-                previous=section.get_previous(),
+                previous=prev,
                 next=section.get_next())
 
 @login_required
@@ -95,6 +108,16 @@ def edit_page(request,path):
     return dict(section=section,
                 module=get_module(section),
                 root=h.get_root())
+    
+@login_required
+@rendered_with('tobaccocessation_main/welcome.html')
+def welcome(request):
+    return dict()
+
+@login_required
+@rendered_with('tobaccocessation_main/resources.html')
+def resources(request):
+    return dict()
 
 @login_required
 def index(request):
@@ -102,7 +125,16 @@ def index(request):
         ss = SiteState.objects.get(user=request.user)
         url = ss.last_location
     except SiteState.DoesNotExist:
-        h = get_hierarchy()
-        first_leaf = h.get_first_leaf(h.get_root())
-        url = first_leaf.get_absolute_url()
+        url = "welcome"
+        
     return HttpResponseRedirect(url)
+
+def _get_descendent_leaves(section):
+    l = []
+    for c in section.get_children():
+        if (c.is_leaf()):
+            l.append(c)
+        else:
+            l.extend(_get_descendent_leaves(c))
+    return l
+

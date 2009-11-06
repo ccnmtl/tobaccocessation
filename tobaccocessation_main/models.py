@@ -31,4 +31,19 @@ class SiteState(models.Model):
         
         obj = simplejson.loads(ss[0].visited)
         return obj.has_key(str(section.id))
+    
+    @staticmethod
+    def set_has_visited(user, sections):
+        ss = SiteState.objects.get_or_create(user=user)
+        
+        if (len(ss[0].visited) > 0): 
+            obj = simplejson.loads(ss[0].visited)
+        else:
+            obj = {}
+        
+        for s in sections:
+            obj[s.id] = s.label
+            
+        ss[0].visited = simplejson.dumps(obj)
+        ss[0].save()
         
