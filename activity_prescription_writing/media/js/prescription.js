@@ -121,8 +121,6 @@ function maybeEnableNext()
       if (gonext)
       {
          setStyle('next', {'display': 'inline'}) 
-         setStyle('span_prescription-results', {'display': 'none'})
-         setStyle('prescription-results', {'display': 'inline'})
          return true 
       }
       else
