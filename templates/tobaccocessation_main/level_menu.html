@@ -1,12 +1,16 @@
 <!--  prints the next level of children given a "passed in" parent node -->
 <!--  "section" is assumed to be the currently active node -->
 {% load accessible %}
+{% load smartif %}
 
 {% for s in parent.get_children %}
-   {% ifequal s.id module.id %}
+   {% ifequal s.id section.id %}
       <li class="{{style_class}}"><span class="{{style_class}}">{{s.label}}</span></li>
    {% else %}
-	   {% ifnotequal s.id section.id %}
+       <!-- if selected section is a descendant -->
+       {% if section in s.get_descendents %}
+          <li class="{{style_class}}"><span class="{{style_class}}">{{s}}</span></li>
+       {% else %}
 	       <li>
 	           {% ifaccessible s %}
 	              <a id="{{s.slug}}" href="{{menu_base}}{{s.get_absolute_url}}">{{s.label}}</a>
@@ -16,8 +20,6 @@
 	              <span id="span_{{s.slug}}" class="disabled_link">{{s.label}}</span
 	           {% endifaccessible %}
 	       </li>
-	   {%else%}
-	        <li class="{{style_class}}"><span class="{{style_class}}">{{s.label}}</span></li>
-	   {% endifnotequal %}
+	    {% endif %}
    {% endifequal %}
 {% endfor %}
