@@ -145,10 +145,7 @@ class HierarchyView:
         self.root = HierarchyNode(h.get_root(), None)
         self.depth_first_traversal = []
         
-        tc1 = time.clock()
         self._build_tree(self.root)
-        tc2 = time.clock()
-        print '__init__ %s: ' % (tc2 - tc1)
     
         
     def get_root(self):
