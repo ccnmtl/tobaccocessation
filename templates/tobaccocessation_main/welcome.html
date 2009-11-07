@@ -11,4 +11,36 @@
       <li><a href="/assist/">Assist</a></li>
    </ul>
 {% endblock %}
+
+{% block content %}
+
+
+
+<script type="text/javascript" src="http://ccnmtl.columbia.edu/remote/media_controllers/jw_media/swfobject.js"></script>
+
+<div id="player">This text will be replaced</div>
+
+
+<OBJECT classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' 
+codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0' 
+width="480"
+height="270">
+<param name='movie' value="http://ccnmtl.columbia.edu/remote/media_controllers/jw_media/player.swf">
+<param name='allowfullscreen' value="true">
+<param name='bgcolor' value='undefined'>
+<param name='allowscriptaccess' value="always">
+<param name="flashvars" value='file=FILEURL&image=IMAGEURL&backcolor=FFFFFF&stretching=fill'>
+<embed src="http://ccnmtl.columbia.edu/remote/media_controllers/jw_media/player.swf"
+width="480"
+height="270"
+bgcolor="undefined"
+allowscriptaccess="always"
+allowfullscreen="true"
+flashvars="file=FILEURL&image=IMAGEURL&backcolor=FFFFFF&stretching=fill">
+</embed>
+</object>
+
+
+
+{% endblock %}
          
