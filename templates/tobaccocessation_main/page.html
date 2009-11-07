@@ -44,6 +44,16 @@
   {% if previous %}
      <a href="{{previous.get_absolute_url}}" id="previous">« {{previous.label}}</a>
   {% endif %}
+  
+  {% ifequal section.depth 4 %}
+     {% with section.get_siblings as siblings %}
+	     {% for sibling in siblings %}
+	        {% ifequal sibling section %}
+	           {{section.get_parent.label}} | Page {{forloop.counter}} of {{siblings|length}}
+	        {% endifequal %}
+	     {% endfor %}
+	  {% endwith %} 
+  {% endifequal %}
   	  
   {% if next %}
      <!-- added to allow javascript access to the menu links. hack for the js activities enabling/disabling of links -->
