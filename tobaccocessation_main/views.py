@@ -5,6 +5,8 @@ from django.shortcuts import render_to_response
 from pagetree.models import Hierarchy
 from django.contrib.auth.decorators import login_required
 from tobaccocessation_main.models import SiteState
+import time
+from django.core.cache import cache
 
 class rendered_with(object):
     def __init__(self, template_name):
@@ -20,37 +22,15 @@ class rendered_with(object):
 
         return rendered_func
 
-def get_hierarchy():
-    return Hierarchy.objects.get_or_create(name="main",defaults=dict(base_url="/"))[0]
+@login_required
+@rendered_with('tobaccocessation_main/welcome.html')
+def welcome(request):
+    return dict()
 
-def get_module(section):
-    """ get the top level module that the section is in"""
-    if section.is_root:
-        return None
-    return section.get_ancestors()[1]
-
-def needs_submit(section):
-    """ if any blocks on the page need to be submitted """
-    for p in section.pageblock_set.all():
-        if hasattr(p.block(),'needs_submit'):
-            if p.block().needs_submit():
-                return True
-    return False
-
-def unlocked(section,user,previous,sitestate):
-    """ if the user can proceed past this section """
-    if not section or section.is_root or sitestate.get_has_visited(section):
-       return True
-    
-    if not previous or previous.is_root:
-        return True
-    
-    for p in previous.pageblock_set.all():
-        if hasattr(p.block(),'unlocked'):
-           if p.block().unlocked(user) == False:
-              return False
-    
-    return sitestate.get_has_visited(previous)
+@login_required
+@rendered_with('tobaccocessation_main/resources.html')
+def resources(request):
+    return dict()
 
 @login_required
 @rendered_with('tobaccocessation_main/page.html')
@@ -67,18 +47,18 @@ def page(request,path):
         return HttpResponseRedirect(section.get_absolute_url())
     
     # the previous node is the last leaf, if one exists.
-    depth_first_traversal = ancestors[0].get_descendents() 
-    prev = _get_previous(section, depth_first_traversal)
-    next = _get_next(section, depth_first_traversal)
+    depth_first_traversal = get_descendents(ancestors[0]) 
+    prev = get_previous(section, depth_first_traversal)
+    next = get_next(section, depth_first_traversal)
     
     # Is this section unlocked now?
-    can_access = unlocked(section, request.user, prev, ss)
+    can_access = _unlocked(section, request.user, prev, ss)
     if can_access:
         ss.save_last_location(request.path, section)
         
     module = None
     if not section.is_root:
-        module = section.get_ancestors()[1]
+        module = ancestors[1]
         
     # construct the subnav up here. it's too heavy on the client side
     subnav = _construct_menu(request, module, section, depth_first_traversal, ss)
@@ -112,16 +92,6 @@ def edit_page(request,path):
                 root=h.get_root())
     
 @login_required
-@rendered_with('tobaccocessation_main/welcome.html')
-def welcome(request):
-    return dict()
-
-@login_required
-@rendered_with('tobaccocessation_main/resources.html')
-def resources(request):
-    return dict()
-
-@login_required
 def index(request):
     try:
         ss = SiteState.objects.get(user=request.user)
@@ -131,7 +101,10 @@ def index(request):
         
     return HttpResponseRedirect(url)
 
-def _get_previous(section, depth_first_traversal):
+###############################################################
+## Optimized Hierachy Methods
+
+def get_previous(section, depth_first_traversal):
     for (i,s) in enumerate(depth_first_traversal):
         if s.id == section.id:
             # first element is the root, so we don't want to
@@ -147,15 +120,36 @@ def _get_previous(section, depth_first_traversal):
     # made it through without finding ourselves? weird.
     return None
 
-def _get_next(section, depth_first_traversal):
+def get_next(section, depth_first_traversal):
+    length = len(depth_first_traversal) - 1
     for (i,s) in enumerate(depth_first_traversal):
         if s.id == section.id:
-            if i < len(depth_first_traversal) - 1:
+            if i < length:
                 return depth_first_traversal[i+1]
             else:
                 return None
     # made it through without finding ourselves? weird.
     return None
+
+def get_hierarchy():
+    return Hierarchy.objects.get_or_create(name="main",defaults=dict(base_url="/"))[0]
+
+def get_module(section):
+    """ get the top level module that the section is in"""
+    if section.is_root:
+        return None
+    return section.get_ancestors()[1]
+
+def get_descendents(section):
+    desc = cache.get(section)
+    if not desc:
+        desc = section.get_descendents()
+        cache.set(section, desc, 60*5)
+    
+    return desc
+
+#####################################################################
+## View Utility Methods
     
 def _construct_menu(request, parent, section, depth_first_traversal, ss):
     menu = []
@@ -164,14 +158,32 @@ def _construct_menu(request, parent, section, depth_first_traversal, ss):
         if s.id == section.id:
             entry['selected'] = True
         
-        if section in s.get_descendents():
+        if section in get_descendents(s):
             entry['descended'] = True
             
-        previous = _get_previous(s, depth_first_traversal)
+        previous = get_previous(s, depth_first_traversal)
             
-        if unlocked(s, request.user, previous, ss):
+        if _unlocked(s, request.user, previous, ss):
             entry['accessible'] = True
             
         menu.append(entry)
         
     return menu
+
+def _unlocked(section,user,previous,sitestate):
+    """ if the user can proceed past this section """
+    if not section or section.is_root or sitestate.get_has_visited(section):
+       return True
+    
+    if not previous or previous.is_root:
+        return True
+    
+    for p in previous.pageblock_set.all():
+        if hasattr(p.block(),'unlocked'):
+           if p.block().unlocked(user) == False:
+              return False
+    
+    return sitestate.get_has_visited(previous)
+
+
+

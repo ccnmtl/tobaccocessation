@@ -13,7 +13,10 @@ class SiteState(models.Model):
     def __init__(self, *args, **kwargs):
         super(SiteState, self).__init__(*args, **kwargs)
         
-        self._refresh_state_object()
+        if (len(self.visited) > 0): 
+            self.state_object = simplejson.loads(self.visited)
+        else:
+            self.state_object = {}
     
     def get_has_visited(self, section):
         return self.state_object.has_key(str(section.id))
@@ -24,21 +27,12 @@ class SiteState(models.Model):
             
         self.visited = simplejson.dumps(self.state_object)
         self.save()
-        self._refresh_state_object()
     
     def save_last_location(self, path, section):
         self.state_object[section.id] = section.label
         self.last_location = path
         self.visited = simplejson.dumps(self.state_object)
-        self.save()
-        self._refresh_state_object()
-        
-    def _refresh_state_object(self):
-        if (len(self.visited) > 0): 
-            self.state_object = simplejson.loads(self.visited)
-        else:
-            self.state_object = {}
-        
+        self.save()    
         
 class FlashVideoBlock(models.Model):
     pageblocks = generic.GenericRelation(PageBlock)
