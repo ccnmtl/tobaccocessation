@@ -1,7 +1,5 @@
 {% extends section.template %}
 
-{% load accessible %}
-
 {% block sidebarleft %}
    {% with "selected" as style_class %}
       {% with leftnav as menu %}
@@ -33,11 +31,13 @@
   
   {% ifequal depth 4 %}
      {% with section.get_siblings as siblings %}
-	     {% for sibling in siblings %}
-	        {% ifequal sibling section %}
-	           {{section.get_parent.label}} | Page {{forloop.counter}} of {{siblings|length}}
-	        {% endifequal %}
-	     {% endfor %}
+        {% with section.get_parent as parent %}
+		     {% for sibling in siblings %}
+		        {% ifequal sibling section %}
+		           {{parent.label}} | Page {{forloop.counter}} of {{siblings|length}}
+		        {% endifequal %}
+		     {% endfor %}
+		  {% endwith %}
 	  {% endwith %} 
   {% endifequal %}
   	  
