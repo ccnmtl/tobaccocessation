@@ -4,26 +4,12 @@
 
 {% block sidebarleft %}
    {% with "selected" as style_class %}
-	  <!--    <div class="leftnav_head">section title</div>-->
-	   <ul>
-		   {% ifequal section.depth 2 %}
-		      {% with section as parent %}
-		         {% include "tobaccocessation_main/level_menu.html" %}
-		      {% endwith %}
-		   {% endifequal %}
-		   
-		   {% ifequal section.depth 3 %}
-		      {% with section.get_parent as parent %}
-		         {% include "tobaccocessation_main/level_menu.html" %}
-	  	      {% endwith %}
-		   {% endifequal %}
-		 
-		   {% ifequal section.depth 4 %}
-		      {% with section.get_parent.get_parent as parent %}
-		         {% include "tobaccocessation_main/level_menu.html" %}
-		      {% endwith %}
-		   {% endifequal %} 
-	   </ul>
+      {% with leftnav as menu %}
+		  <!--    <div class="leftnav_head">section title</div>-->
+		   <ul>
+			   {% include "tobaccocessation_main/level_menu.html" %}
+			</ul>
+		{% endwith %}
 	{% endwith %}
 {% endblock %}
 
@@ -45,7 +31,7 @@
      <a href="{{previous.get_absolute_url}}" id="previous">« {{previous.label}}</a>
   {% endif %}
   
-  {% ifequal section.depth 4 %}
+  {% ifequal depth 4 %}
      {% with section.get_siblings as siblings %}
 	     {% for sibling in siblings %}
 	        {% ifequal sibling section %}

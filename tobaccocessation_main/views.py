@@ -5,7 +5,6 @@ from django.shortcuts import render_to_response
 from pagetree.models import Hierarchy
 from django.contrib.auth.decorators import login_required
 from tobaccocessation_main.models import SiteState
-import time
 
 class rendered_with(object):
     def __init__(self, template_name):
@@ -38,15 +37,13 @@ def needs_submit(section):
                 return True
     return False
 
-def unlocked(section,user,previous=None):
+def unlocked(section,user,previous):
     """ if the user can proceed past this section """
-    if section.is_root or SiteState.get_has_visited(user, section):
+    if not section or section.is_root or SiteState.get_has_visited(user, section):
        return True
    
-    if not previous:
-        previous = section.get_previous()
-        
-    if previous.is_root:
+    
+    if not previous or previous.is_root:
         return True
     
     for p in previous.pageblock_set.all():
@@ -60,34 +57,69 @@ def unlocked(section,user,previous=None):
 @rendered_with('tobaccocessation_main/page.html')
 def page(request,path):
     h = get_hierarchy()
-    hview = HierarchyView(h)
-    
     current_root = h.get_section_from_path(path)
-    section = hview.get_first_leaf(current_root)
-    ancestors = hview.get_ancestors(section)
+    section = h.get_first_leaf(current_root)
+    ancestors = section.get_ancestors()
     
     # Skip to the first leaf, make sure to mark these sections as visited
     if (current_root != section):
         SiteState.set_has_visited(request.user, ancestors)
         return HttpResponseRedirect(section.get_absolute_url())
     
-    previous = hview.get_previous_leaf(section)
-    next = hview.get_next(section)
+    # the previous node is the last leaf, if one exists.
+    depth_first_traversal = ancestors[0].get_descendents() 
+    prev = _get_previous(section, depth_first_traversal)
+    next = _get_next(section, depth_first_traversal)
     
-    can_access = unlocked(section,request.user, previous)
-    
-    SiteState.save_last_location(request.user, request.path, section)
+    # Is this section unlocked now?
+    can_access = unlocked(section, request.user, prev)
+    if can_access:
+        SiteState.save_last_location(request.user, request.path, section)
         
     module = None
     if not section.is_root:
-        module = ancestors[1]
+        module = section.get_ancestors()[1]
+        
+    # construct the subnav up here. it's too heavy on the client side
+    subnav = _construct_menu(request, module, section, depth_first_traversal)
+        
+    # construct the left nav up here too.
+    depth = section.depth()
+    parent = section
+    if depth == 3:
+        parent = section.get_parent()
+    elif depth == 4:
+        parent = section.get_parent().get_parent()
+    leftnav = _construct_menu(request, parent, section, depth_first_traversal)
     
     return dict(section=section,
                 accessible=can_access,
                 module=module,
-                root=hview.get_root(),
-                previous=previous,
-                next=next)
+                root=ancestors[0],
+                previous=prev,
+                next=next,
+                subnav=subnav,
+                depth=depth,
+                leftnav=leftnav)
+    
+def _construct_menu(request, parent, section, depth_first_traversal):
+    menu = []
+    for s in parent.get_children():
+        entry = {'section': s, 'selected': False, 'descended': False, 'accessible': False}
+        if s.id == section.id:
+            entry['selected'] = True
+        
+        if section in s.get_descendents():
+            entry['descended'] = True
+            
+        previous = _get_previous(s, depth_first_traversal)
+            
+        if unlocked(s, request.user, previous):
+            entry['accessible'] = True
+            
+        menu.append(entry)
+        
+    return menu
 
 @login_required
 @rendered_with('tobaccocessation_main/edit_page.html')
@@ -118,115 +150,29 @@ def index(request):
         
     return HttpResponseRedirect(url)
 
-def _get_descendent_leaves(section):
-    l = []
-    for c in section.get_children():
-        if (c.is_leaf()):
-            l.append(c)
-        else:
-            l.extend(_get_descendent_leaves(c))
-    return l
-
-
-class HierarchyNode(object):
-    def __init__(self, section, parent):
-        self.section = section
-        self.parent = parent
-        self.children = []
-       
-    def append_child(self, newnode):
-        self.children.append(newnode)
-
-
-class HierarchyView:
-    
-    def __init__(self, h):
-        self.hierarchy = h
-        self.root = HierarchyNode(h.get_root(), None)
-        self.depth_first_traversal = []
-        
-        self._build_tree(self.root)
-    
-        
-    def get_root(self):
-        return self.root.section
-            
-    def _build_tree(self, parent):
-        self.depth_first_traversal.append(parent)
-        for c in parent.section.get_children():
-            child = HierarchyNode(c, parent)
-            parent.append_child(child)
-            self._build_tree(child)
-            
-    def _print_tree(self, node):
-        print node.section
-        for c in node.children:
-            print c
-            self._print_tree(c)
-            
-    def find_node(self, section):
-        return self._find_node(section, self.root)
-            
-    def _find_node(self, section, parent):
-        for c in parent.children:
-            if (c.section == section):
-                return c
-            
-            found = self._find_node(section, c)
-            if found:
-                return found
-            
-        return None
-            
-    def get_first_leaf(self, section):
-        # skip to the specified section
-        node = self.find_node(section)
-        
-        #traverse the node's kids until we find the first leaf
-        while len(node.children) > 0:
-            node = node.children[0]
-        return node.section
-    
-    def get_previous_leaf(self, section):
-        for (i,n) in enumerate(self.depth_first_traversal):
-            if n.section.id == section.id:
-                # first element is the root, so we don't want to
-                # return that
-                prev = None
-                while i > 1 and not prev:
-                    node = self.depth_first_traversal[i-1]
-                    if node and len(node.children) > 0:
-                        i -= 1
-                    else:
-                        prev = node
-                if prev:
-                    return prev.section
+def _get_previous(section, depth_first_traversal):
+    for (i,s) in enumerate(depth_first_traversal):
+        if s.id == section.id:
+            # first element is the root, so we don't want to
+            # return that
+            prev = None
+            while i > 1 and not prev:
+                node = depth_first_traversal[i-1]
+                if node and len(node.get_children()) > 0:
+                    i -= 1
                 else:
-                    return None
-        # made it through without finding ourselves? weird.
-        return None
+                    prev = node
+            return prev
+    # made it through without finding ourselves? weird.
+    return None
 
-    def get_next(self, section):
-        for (i,n) in enumerate(self.depth_first_traversal):
-            if n.section.id == section.id:
-                if i < len(self.depth_first_traversal) - 1:
-                    return self.depth_first_traversal[i+1].section
-                else:
-                    return None
-        # made it through without finding ourselves? weird.
-        return None
-                    
-    def get_ancestors(self, section):
-        return self._get_ancestors(section, self.root)
-            
-    def _get_ancestors(self, section, parent):
-        if (parent.section == section):
-            return [parent.section]
+def _get_next(section, depth_first_traversal):
+    for (i,s) in enumerate(depth_first_traversal):
+        if s.id == section.id:
+            if i < len(depth_first_traversal) - 1:
+                return depth_first_traversal[i+1]
+            else:
+                return None
+    # made it through without finding ourselves? weird.
+    return None
 
-        for c in parent.children:
-            found = self._get_ancestors(section, c)
-            if found:
-                found.insert(0, parent.section)
-                return found
-            
-        return None

@@ -1,28 +1,24 @@
-{% load accessible %}
 {% load smartif %}
 
 <ul>
    {% with "selected" as style_class %}
-		{% for s in module.get_children %}
-	      <!--  if selected section is the subnav  -->
-         {% ifequal s.id section.id %}
-            <li class="{{style_class}}"><span class="{{style_class}}">{{s.label}}</span></li>
-         {% else %}
-            <!-- if selected section is a descendant -->
-	         {% if section in s.get_descendents %}
-	            <li class="{{style_class}}"><span class="{{style_class}}">{{s}}</span></li>
+	   
+	   {% if subnav %}
+	      {% with subnav as menu %}
+	        {% include "tobaccocessation_main/level_menu.html" %}
+	      {% endwith %}
+	   {% else %}
+			{% for s in module.get_children %}
+		      <!--  if selected section is the subnav  -->
+	         {% ifequal s.id section.id %}
+	            <li class="{{style_class}}"><span class="{{style_class}}">{{s.label}}</span></li>
 	         {% else %}
                <li>
-	               {% ifaccessible s %}
-	                  <a id="{{s.slug}}" href="{{menu_base}}{{s.get_absolute_url}}">{{s.label}}</a>
-	                  <span id="span_{{s.slug}}" style="display: none" class="disabled_link">{{s.label}}</span
-	               {% else %}
-	                  <a id="{{s.slug}}" style="display: none" href="{{menu_base}}{{s.get_absolute_url}}">{{s.label}}</a>
-	                  <span id="span_{{s.slug}}" class="disabled_link">{{s.label}}</span
-	               {% endifaccessible %}
+	               <a id="{{s.slug}}" href="{{menu_base}}{{s.get_absolute_url}}">{{s.label}}</a>
+                    <span id="span_{{s.slug}}" style="display: none" class="disabled_link">{{s.label}}</span
 	            </li>
-	         {% endif %}
-         {% endifequal %}
-		{% endfor %}
+	         {% endifequal %}
+			{% endfor %}
+		{% endif %}
   {% endwith %}
 </ul>         
