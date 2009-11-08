@@ -36,7 +36,9 @@ def navigate(request, page_id, patient_id):
 def options(request, patient_id):
     user_state = _get_user_state(request)
     ctx = get_base_context(request, 'options', user_state, patient_id)
-    SiteState.save_last_location(request.user, request.path, ctx['section'])
+    
+    ss = SiteState.objects.get_or_create(user=request.user)[0]
+    ss.save_last_location(request.path, ctx['section'])
     
     # setup new state object if the user is seeing this patient for the first time.
     if (not user_state['patients'].has_key(patient_id)):
@@ -56,7 +58,9 @@ def options(request, patient_id):
 def selection(request, patient_id):
     user_state = _get_user_state(request)
     ctx = get_base_context(request, 'selection', user_state, patient_id)
-    SiteState.save_last_location(request.user, request.path, ctx['section'])
+    ss = SiteState.objects.get_or_create(user=request.user)[0]
+    ss.save_last_location(request.path, ctx['section'])
+
     
     ctx['previous_url'] = _get_previous_page('selection', patient_id, user_state)
     ctx['medications'] = Medication.objects.all().order_by('display_order')
@@ -70,7 +74,9 @@ def selection(request, patient_id):
 def prescription(request, patient_id, medication_idx='0'):
     user_state = _get_user_state(request)
     ctx = get_base_context(request, 'prescription', user_state, patient_id)
-    SiteState.save_last_location(request.user, request.path, ctx['section'])
+    ss = SiteState.objects.get_or_create(user=request.user)[0]
+    ss.save_last_location(request.path, ctx['section'])
+
     
     idx = int(medication_idx)
     
@@ -123,7 +129,9 @@ def prescription(request, patient_id, medication_idx='0'):
 def results(request, patient_id):
     user_state = _get_user_state(request)
     ctx = get_base_context(request, 'results', user_state, patient_id)
-    SiteState.save_last_location(request.user, request.path, ctx['section'])
+    ss = SiteState.objects.get_or_create(user=request.user)[0]
+    ss.save_last_location(request.path, ctx['section'])
+
     
     patient_state = user_state['patients'][patient_id]
     prescription = None
