@@ -35,7 +35,7 @@ def resources(request):
 @login_required
 @rendered_with('tobaccocessation_main/page.html')
 def page(request,path):
-    h = get_hierarchy()
+    h = Hierarchy.get_hierarchy('main')
     current_root = h.get_section_from_path(path)
     section = h.get_first_leaf(current_root)
     ancestors = section.get_ancestors()
@@ -85,10 +85,10 @@ def page(request,path):
 @login_required
 @rendered_with('tobaccocessation_main/edit_page.html')
 def edit_page(request,path):
-    h = get_hierarchy()
+    h = Hierarchy.get_hierarchy('main')
     section = h.get_section_from_path(path)
     return dict(section=section,
-                module=get_module(section),
+                module=section.get_module(),
                 root=h.get_root())
     
 @login_required
@@ -131,21 +131,11 @@ def get_next(section, depth_first_traversal):
     # made it through without finding ourselves? weird.
     return None
 
-def get_hierarchy():
-    return Hierarchy.objects.get_or_create(name="main",defaults=dict(base_url="/"))[0]
-
-def get_module(section):
-    """ get the top level module that the section is in"""
-    if section.is_root:
-        return None
-    return section.get_ancestors()[1]
-
 def get_descendents(section):
-    desc = cache.get(section)
+    desc = _get_cached_value(section, 'descendents')
     if not desc:
         desc = section.get_descendents()
-        cache.set(section, desc, 60*5)
-    
+        _set_cached_value(section, 'descendents', desc)
     return desc
 
 #####################################################################
@@ -184,6 +174,22 @@ def _unlocked(section,user,previous,sitestate):
               return False
     
     return sitestate.get_has_visited(previous)
+
+def _get_cached_value(section, key):
+    d = cache.get(section)
+    if not d or not d.has_key(key):
+        return None
+    
+    return d[key] 
+
+def _set_cached_value(section, key, value):
+    d = cache.get(section)
+    if not d:
+        d = {}
+        
+    d[key] = value
+    cache.set(section, d)
+    
 
 
 

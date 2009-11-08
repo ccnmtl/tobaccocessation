@@ -21,9 +21,6 @@ class Block(models.Model):
     def needs_submit(self):
         return False
     
-    def unlocked(self,user):
-        return True
-    
     @classmethod
     def add_form(self):
         class AddForm(forms.Form):

@@ -19,17 +19,18 @@ class SiteState(models.Model):
             self.state_object = {}
     
     def get_has_visited(self, section):
-        return self.state_object.has_key(str(section.id))
+        has_visited = self.state_object.has_key(str(section.id))
+        return has_visited
     
     def set_has_visited(self, sections):
         for s in sections:
-            self.state_object[s.id] = s.label
+            self.state_object[str(s.id)] = s.label
             
         self.visited = simplejson.dumps(self.state_object)
         self.save()
     
     def save_last_location(self, path, section):
-        self.state_object[section.id] = section.label
+        self.state_object[str(section.id)] = section.label
         self.last_location = path
         self.visited = simplejson.dumps(self.state_object)
         self.save()    
