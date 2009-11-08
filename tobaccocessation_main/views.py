@@ -37,11 +37,10 @@ def needs_submit(section):
                 return True
     return False
 
-def unlocked(section,user,previous):
+def unlocked(section,user,previous,sitestate):
     """ if the user can proceed past this section """
-    if not section or section.is_root or SiteState.get_has_visited(user, section):
+    if not section or section.is_root or sitestate.get_has_visited(section):
        return True
-   
     
     if not previous or previous.is_root:
         return True
@@ -51,7 +50,7 @@ def unlocked(section,user,previous):
            if p.block().unlocked(user) == False:
               return False
     
-    return SiteState.get_has_visited(user, previous)
+    return sitestate.get_has_visited(previous)
 
 @login_required
 @rendered_with('tobaccocessation_main/page.html')
@@ -60,10 +59,11 @@ def page(request,path):
     current_root = h.get_section_from_path(path)
     section = h.get_first_leaf(current_root)
     ancestors = section.get_ancestors()
+    ss = SiteState.objects.get_or_create(user=request.user)[0]
     
     # Skip to the first leaf, make sure to mark these sections as visited
     if (current_root != section):
-        SiteState.set_has_visited(request.user, ancestors)
+        ss.set_has_visited(ancestors)
         return HttpResponseRedirect(section.get_absolute_url())
     
     # the previous node is the last leaf, if one exists.
@@ -72,16 +72,16 @@ def page(request,path):
     next = _get_next(section, depth_first_traversal)
     
     # Is this section unlocked now?
-    can_access = unlocked(section, request.user, prev)
+    can_access = unlocked(section, request.user, prev, ss)
     if can_access:
-        SiteState.save_last_location(request.user, request.path, section)
+        ss.save_last_location(request.path, section)
         
     module = None
     if not section.is_root:
         module = section.get_ancestors()[1]
         
     # construct the subnav up here. it's too heavy on the client side
-    subnav = _construct_menu(request, module, section, depth_first_traversal)
+    subnav = _construct_menu(request, module, section, depth_first_traversal, ss)
         
     # construct the left nav up here too.
     depth = section.depth()
@@ -90,7 +90,7 @@ def page(request,path):
         parent = section.get_parent()
     elif depth == 4:
         parent = section.get_parent().get_parent()
-    leftnav = _construct_menu(request, parent, section, depth_first_traversal)
+    leftnav = _construct_menu(request, parent, section, depth_first_traversal, ss)
     
     return dict(section=section,
                 accessible=can_access,
@@ -101,25 +101,6 @@ def page(request,path):
                 subnav=subnav,
                 depth=depth,
                 leftnav=leftnav)
-    
-def _construct_menu(request, parent, section, depth_first_traversal):
-    menu = []
-    for s in parent.get_children():
-        entry = {'section': s, 'selected': False, 'descended': False, 'accessible': False}
-        if s.id == section.id:
-            entry['selected'] = True
-        
-        if section in s.get_descendents():
-            entry['descended'] = True
-            
-        previous = _get_previous(s, depth_first_traversal)
-            
-        if unlocked(s, request.user, previous):
-            entry['accessible'] = True
-            
-        menu.append(entry)
-        
-    return menu
 
 @login_required
 @rendered_with('tobaccocessation_main/edit_page.html')
@@ -175,4 +156,22 @@ def _get_next(section, depth_first_traversal):
                 return None
     # made it through without finding ourselves? weird.
     return None
-
+    
+def _construct_menu(request, parent, section, depth_first_traversal, ss):
+    menu = []
+    for s in parent.get_children():
+        entry = {'section': s, 'selected': False, 'descended': False, 'accessible': False}
+        if s.id == section.id:
+            entry['selected'] = True
+        
+        if section in s.get_descendents():
+            entry['descended'] = True
+            
+        previous = _get_previous(s, depth_first_traversal)
+            
+        if unlocked(s, request.user, previous, ss):
+            entry['accessible'] = True
+            
+        menu.append(entry)
+        
+    return menu

@@ -10,45 +10,34 @@ class SiteState(models.Model):
     last_location = models.CharField(max_length=255)
     visited = models.TextField()
     
-    @staticmethod
-    def save_last_location(user, path, section):
-        ss = SiteState.objects.get_or_create(user=user)
+    def __init__(self, *args, **kwargs):
+        super(SiteState, self).__init__(*args, **kwargs)
         
-        if (len(ss[0].visited) > 0): 
-            obj = simplejson.loads(ss[0].visited)
-        else:
-            obj = {}
-            
-        obj[section.id] = section.label
-        
-        ss[0].last_location = path
-        ss[0].visited = simplejson.dumps(obj)
-        ss[0].save()
-        
-    @staticmethod
-    def get_has_visited(user, section):
-        ss = SiteState.objects.get_or_create(user=user)
-        
-        if len(ss[0].visited) < 1:
-            return False
-        
-        obj = simplejson.loads(ss[0].visited)
-        return obj.has_key(str(section.id))
+        self._refresh_state_object()
     
-    @staticmethod
-    def set_has_visited(user, sections):
-        ss = SiteState.objects.get_or_create(user=user)
-        
-        if (len(ss[0].visited) > 0): 
-            obj = simplejson.loads(ss[0].visited)
-        else:
-            obj = {}
-        
+    def get_has_visited(self, section):
+        return self.state_object.has_key(str(section.id))
+    
+    def set_has_visited(self, sections):
         for s in sections:
-            obj[s.id] = s.label
+            self.state_object[s.id] = s.label
             
-        ss[0].visited = simplejson.dumps(obj)
-        ss[0].save()
+        self.visited = simplejson.dumps(self.state_object)
+        self.save()
+        self._refresh_state_object()
+    
+    def save_last_location(self, path, section):
+        self.state_object[section.id] = section.label
+        self.last_location = path
+        self.visited = simplejson.dumps(self.state_object)
+        self.save()
+        self._refresh_state_object()
+        
+    def _refresh_state_object(self):
+        if (len(self.visited) > 0): 
+            self.state_object = simplejson.loads(self.visited)
+        else:
+            self.state_object = {}
         
         
 class FlashVideoBlock(models.Model):
