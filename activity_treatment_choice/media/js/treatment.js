@@ -277,6 +277,10 @@ function saveStateSuccess()
    _droppables[2].options.accept = ['combination', 'chantix']
                                     
    setStyle('next', {'display':'none'})
+   
+   setStyle('span_' + $('next_section_slug').value, {'display': 'inline'})
+   setStyle($('next_section_slug').value, {'display': 'none'})
+
 }
 
 function saveStateError()
