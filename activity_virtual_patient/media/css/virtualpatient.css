@@ -119,23 +119,30 @@
 #available_treatments {
 	float: left;
 	width: 718px;
-	height: 85px;
+	height: 88px;
    background-color: #dedede;
    border: 1px solid #ccc;
-   padding: 5px;
+   padding: 5px 5px 5px 35px;
 }
 
 #available_treatments img {
-	margin: 0 10px 0 15px;
+	float:left;
+	margin:0 25px 7px 0;
 }
 
 .highlight {
-	border: 3px solid #f00;
+	border: 3px solid #333;
 	display: block;
 	height: 40px;
 	width: 150px;
-	margin: -3px 0 2px;
+	margin: -3px 4px 2px;
+	float: left;
 }
+
+#available_treatments .highlight {
+	margin: -3px 22px 0 -3px;
+}
+
 
 #treatment_reasoning {
    align: left;
