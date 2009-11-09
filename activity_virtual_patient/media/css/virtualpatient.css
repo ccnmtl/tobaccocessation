@@ -99,11 +99,15 @@
 }
 
 .directions_box {
-	float: left;
-   margin-right: 15px;
-   margin-top: 15px;
-   margin-bottom: 15px;
-   width: 500px;
+	background-color:#F8DB9F;
+	border:1px solid #CCCCCC;
+	float:left;
+	height:130px;
+	margin-bottom:15px;
+	margin-right:15px;
+	margin-top:34px;
+	padding:0 10px 10px;
+	width:523px;
 }
 
 #available_treatments_box {

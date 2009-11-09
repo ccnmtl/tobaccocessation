@@ -33,10 +33,10 @@
 
 	   {% if block.rhetorical %}
            <div class="casesanswerdisplay">
-              <div id="question{{question.id}}_answer" style='display: none'>
-                 <p>{% if question.correct_answer_letter %}<i>The
+              <div id="question{{question.id}}_answer" class="answer" style='display: none'>
+                 <p>{% if question.correct_answer_letter %}<b>The
                  correct answer is
-                 {{question.correct_answer_letter}}:</i>{% endif %} {{question.explanation|markdown}}</p>
+                 {{question.correct_answer_letter}}:</b>{% endif %} {{question.explanation|markdown}}</p>
               </div>
            </div>
 	   {% endif %}

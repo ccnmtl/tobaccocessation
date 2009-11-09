@@ -1109,6 +1109,14 @@ display: block;
 
 }
 
+.answer {
+
+	padding: 10px;
+	border: 1px solid #ccc;
+	background-color: #dadada;
+
+}
+
 .moretoggle {
 
 
