@@ -25,10 +25,12 @@
 {% endblock %}
 
 {% block contentnav %}
-  {% if previous %}
+<table>
+<tr>
+<td>{% if previous %}
      <a href="{{previous.get_absolute_url}}" id="previous">« {{previous.label}}</a>
-  {% endif %}
-  
+  {% endif %}</td><td width="100%" align="center>
+  <div id="page_numbering">
   {% ifequal depth 4 %}
      {% with section.get_siblings as siblings %}
         {% with section.get_parent as parent %}
@@ -40,10 +42,10 @@
 		  {% endwith %}
 	  {% endwith %} 
   {% endifequal %}
-  	  
+  	  </div></td><td>
   {% if next %}
      <!-- added to allow javascript access to the menu links. hack for the js activities enabling/disabling of links -->
      <input type="hidden" id="next_section_slug" name="next_section_slug" value="{{next.slug}}"/>
      <a href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
-  {% endif %}
+  {% endif %}</td></tr></table>
 {% endblock %}
