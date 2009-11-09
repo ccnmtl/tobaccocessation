@@ -10,22 +10,30 @@
 {% block content %}
     {{ block.super }} 
     <h6>Virtual Patient >> Select Treatment To Prescribe</h6>
+   
+     <div id="patient">
       
-    <div id="patient">
-      <div id="patient_description">
-         <center>
+         
+            <div id="about_patient">
+            <div id="patient_description">
+            <img src="/activity/virtualpatient/media/images/patient_{{patient.id}}.jpg" />
             <h3>{{patient.name}}</h3>
-            <table cellpadding="10" cellspacing="10">
-                <tr><td><img src="/activity/virtualpatient/media/images/patient_{{patient.id}}.jpg"/></td><td>{% autoescape off %}{{ patient.description }}{% endautoescape %}</td></tr>
-             </table>
-         </center>
-      </div>
-      <div id="treatment_feedback">
+            <h4>{% autoescape off %}{{ patient.description }}{% endautoescape %} </h4> 
+            </div>
+              
+         
+             
+    <div id="treatment_feedback">
          {{ prescription }}
          <br />
          <br />
          {% autoescape off %}{{feedback}}{% endautoescape %}
       </div>
+      </div>
+ 
+   
+   
+      
       <input type="hidden" id="patient_id" name="patient_id" value="{{patient.id}}"/>
       <input type="hidden" id="page_id" name="page_id" value="1"/>
     </div>
@@ -49,7 +57,11 @@
 		     </center>
 		     <div class="treatment_reasoning">
                 {% for to in best_treatment_options %}
-                   {% autoescape off %}{{ to.reasoning }}{% endautoescape %}
+             {% if to.combination %}
+                <h4>Combination Therapy</h4>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}
+                {% else %}
+                <h4>{{to.medication.name}}</h4>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}
+                 {% endif %}
                 {% endfor %}
            </div>
 		 </div>
@@ -72,7 +84,11 @@
            </center>
            <div class="treatment_reasoning">
                 {% for to in reasonable_treatment_options %}
-                   {% autoescape off %}{{ to.reasoning }}{% endautoescape %}
+                {% if to.combination %}
+                <h4>Combination Therapy</h4>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}
+                {% else %}
+                <h4>{{to.medication.name}}</h4>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}
+                 {% endif %}
                 {% endfor %}
            </div>
        </div>
@@ -95,7 +111,11 @@
            </center>
            <div class="treatment_reasoning">
               {% for to in ineffective_treatment_options %}
-                 {% autoescape off %}{{ to.reasoning }}{% endautoescape %}
+              {% if to.combination %}
+                <h4>Combination Therapy</h4>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}
+                {% else %}
+                <h4>{{to.medication.name}}</h4>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}
+                 {% endif %}
               {% endfor %}
            </div>
        </div>

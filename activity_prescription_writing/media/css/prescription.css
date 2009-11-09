@@ -2,7 +2,7 @@
 
 	float:left;
 	left: 25px;
-	margin-top:-15px;
+	margin-top:-35px;
 	position:absolute;
 
 }
@@ -20,6 +20,7 @@
 
 #answer_container {
      float: left;
+     margin-top:-23px;
 }
 
 .correct_answer {
@@ -45,11 +46,11 @@
 }
 
 #blankrx {
-   height: 209px;
+   height: 221px;
    background-image: url(/activity/prescription/media/images/blankrx_sm.jpg);
    background-repeat: no-repeat;
    background-position: top left;
-   padding: 256px 0 0 55px;
+   padding: 244px 0 0 55px;
    
 }
 
@@ -62,7 +63,7 @@
 
 #sig {
 
-	height: 43px;
+	height: 62px;
 	overflow: auto;
 	width: 212px;
 		border-right: 1px solid #ddd;
@@ -73,7 +74,7 @@
 
 
 #refills {
-   margin: 38px 0 0 45px; 
+   margin: 40px 0 0 45px; 
    width: 40px; 
    text-align: right;
    	border-right: 1px solid #ddd;
@@ -111,7 +112,7 @@
 #refills_correct {
 	left:371px;
 	position:absolute;
-	top:651px;
+	top:660px;
 	width:64px;
 
 }

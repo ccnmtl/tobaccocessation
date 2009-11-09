@@ -13,7 +13,12 @@
     <h6>Virtual Patient >> Classify Treatment Options</h6>
     
     <div id="blankrx">
-    <div>{{ medication.name }}</div>
+    
+    <div id="patient_name">{{patient.name}}</div>
+    <div id="date">{% now "n/j/Y" %}</div>
+        <div id="gender">X</div>
+        
+    
    
     <form>
       <input type="hidden" id="medication_idx" value="{{ medication_idx }}"></input>
@@ -21,12 +26,21 @@
       <input type="hidden" id="patient_id" name="patient_id" value="{{patient.id}}"></input>
       <input type="hidden" id="page_id" name="page_id" value="{{page_id}}"></input>
 
-      <!--  First Prescription -->
-    <div class="fieldname">Dosage:</div> <select id="concentration">
+      <!--  First Prescription --> 
+      <div id="fieldname_container">
+       <div class="fieldname">Dosage:</div> 
+       <div class="fieldname">  Quantity to Dispense: </div>
+         <div class="fieldname patient">  Patient Instructions:</div>
+       <div class="fieldname refills"> Refills: </div>
+      </div>
+     
+     <div id="fields_container">
+     <div id="med_name">{{ medication.name }}, &nbsp; </div>
+   <select id="concentration">
           
           {% for cc in medication.concentrationchoice_set.all %}
             {% ifequal cc.id concentration_idx %}
-               <option selected="selected" value="{{cc.id}}">{{cc.concentration}}</option>
+             <option selected="selected" value="{{cc.id}}">{{cc.concentration}}</option>
             {% else %}
                <option value="{{cc.id}}">{{cc.concentration}}</option>
             {% endifequal %}
@@ -35,7 +49,7 @@
       <br />
 
       
-   <div class="fieldname">  Quantity to Dispense: </div><select id="dosage">
+   <select id="dosage">
           {% for dc in medication.dosagechoice_set.all %}
              {% ifequal dc.id dosage_idx %}
                <option selected="selected" value="{{dc.id}}">{{dc.dosage}}</option>
@@ -47,14 +61,14 @@
 
       <br />
       
-    <div class="fieldname">  Patient Instructions:</div>
-     <div id="med_inst"> {% autoescape off %}
+  
+     <div id="med_inst"> <ul>{% autoescape off %}
       {{ medication.instructions }}
-      {% endautoescape %}
+      {% endautoescape %}</ul>
       </div>
       <br />
       
-      <div class="fieldname"> Refills: </div>
+      
 	      <select id="refill">
 	         {% for rc in medication.refillchoice_set.all %}
 	            {% ifequal rc.id refill_idx %}
@@ -64,11 +78,19 @@
 	            {% endifequal %}
 	         {% endfor %}
 	      </select>
-      
+      </div>
     </div>
     <!--  Second Prescription if needed -->
+    
     {% ifequal medication.rx_count 2 %}
-      Dosage: <select id="concentration2">
+    <div id="fieldname_container2">
+       <div class="fieldname">Dosage:</div> 
+       <div class="fieldname">  Quantity to Dispense: </div>
+         <div class="fieldname patient">  Patient Instructions:</div>
+       <div class="fieldname refills"> Refills: </div>
+      </div>
+     <div id="fields_container">
+      <select id="concentration2">
           {% for cc in medication.concentrationchoice_set.all %}
             {% ifequal cc.id concentration2_idx %}
                <option selected="selected" value="{{cc.id}}">{{cc.concentration}}</option>
@@ -80,7 +102,7 @@
       <br />
       <br />
       
-     Quantity to Dispense: <select id="dosage2">
+     <select id="dosage2">
           {% for dc in medication.dosagechoice_set.all %}
              {% ifequal dc.id dosage2_idx %}
                <option selected="selected" value="{{dc.id}}">{{dc.dosage}}</option>
@@ -91,7 +113,7 @@
       </select>
       <br />
       <br />
-      Refills: 
+     
 	      <select id="refill2">
 	         {% for rc in medication.refillchoice_set.all %}
 	            {% ifequal rc.id refill2_idx %}
@@ -103,10 +125,10 @@
 	      </select>
       <br />
       <br />
-      Patient Instructions:
-      {% autoescape off %}
+      
+    <ul>  {% autoescape off %}
       {{ medication.instructions }}
       {% endautoescape %}
-     {% endifequal %}
-   </form>    
+     {% endifequal %}</ul>
+   </form>    </div>
 {% endblock %}
