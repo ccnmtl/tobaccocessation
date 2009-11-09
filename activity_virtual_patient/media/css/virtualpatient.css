@@ -182,7 +182,7 @@ margin: 0;
    
 }
 
-#fieldname_container {
+#fieldname_container, #fieldname_container2 {
 
 display:block;
 float:left;
@@ -283,7 +283,7 @@ margin-bottom:3px;
 }
 
 #date {
-	margin-left: 125px;
+	margin-left: 160px;
 	display: inline;
 
 }
