@@ -10,7 +10,7 @@ class Block(models.Model):
     pageblocks = generic.GenericRelation(PageBlock)
     template_file = "activity_treatment_choice/treatment.html"
     display_name = "Activity: Treatment Choice"
-    treatments = [ 'patch', 'gum', 'inhaler', 'lozenge', 'nasalspray', 'chantix', 'bupropion', 'combination'  ]
+    treatments = [ 'patch', 'bupropion', 'nasalspray', 'lozenge', 'inhaler', 'chantix',  'gum', 'combination'  ]
     
     def pageblock(self):
         return self.pageblocks.all()[0]
