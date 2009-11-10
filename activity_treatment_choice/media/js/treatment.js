@@ -12,7 +12,14 @@ function removeClassFromAcceptList(element, node)
    {
       if (_droppables[i].element.id == node.id)
       {
-         _droppables[i].options.accept.splice(_droppables[i].options.accept.indexOf(clazzName), 1)
+         // find the index
+         idx = -1
+         for (j=0; j < _droppables[i].options.accept.length; j++)
+         {
+            if (_droppables[i].options.accept[j] == clazzName)
+               idx = j
+         }
+         _droppables[i].options.accept.splice(idx, 1)
          
          debug("removeClassFromAcceptList " + clazzName + " [" + _droppables[i].options.accept + "]")
       }
@@ -86,26 +93,16 @@ function treatmentDropHandler(element, onto, event)
 {
    debug("treatmentDropHandler")
    
-   if (hasElementClass(element, "treatment_trashable"))
-   {
-      source = element.parentNode
-      addClassToAcceptList(element, source)
-      
-      onto.appendChild(element)
-   }
-   else
-   {
-      var newnode = element.cloneNode(true)
-      id = _counter++
-      newnode.id = "treatment_" + id
-      
-      onto.appendChild(newnode)
-      
-      // clear the styles that were picked up from drag/drop & the specific background styling
-      setStyle(newnode, {'position': 'relative', 'left': '', 'top': '', 'zindex': '', 'opacity': '1'})
-      removeElementClass(newnode, 'treatment_draggable')
+   var newnode = element.cloneNode(true)
+   id = _counter++
+   newnode.id = "treatment_" + id
+   
+   onto.appendChild(newnode)
+   
+   // clear the styles that were picked up from drag/drop & the specific background styling
+   setStyle(newnode, {'position': 'relative', 'left': '', 'top': '', 'zindex': '', 'opacity': '1'})
+   removeElementClass(newnode, 'treatment_draggable')
       addElementClass(newnode, 'treatment_trashable')
-   }
    
    // remove the elements' class from the destination's accept list
    removeClassFromAcceptList(element, onto)
