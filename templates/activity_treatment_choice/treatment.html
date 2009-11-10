@@ -7,7 +7,7 @@
    <script type="text/javascript" src="/activity/treatment/media/js/treatment.js"></script>
 
 
-<h5><a class="reset_button" href="#" onclick="clearState(); return false;">Reset Exercise</a>Instructions: select appropriate treatment options for smokers with the following daily cigarette consumption habits.</h5>
+   <h5><a class="reset_button" href="#" onclick="clearState(); return false;">Reset Exercise</a>Instructions: select appropriate treatment options for smokers with the following daily cigarette consumption habits.</h5>
 
     	<div id="treatment_leftcol">
 		  <h6>Patient Smokes</h6>
@@ -31,7 +31,10 @@
 		  <div id="treatment_light_smoker" class="treatment_choice"></div>
 		  <div id="treatment_moderate_smoker" class="treatment_choice"></div>
 		  <div id="treatment_heavy_smoker" class="treatment_choice"></div>
-		  
+		  <div id="success_overlay" style="display: none;">
+           <h1>Congratulations!</h1>
+           You've successfully completed the exercise.<br /><br />
+        </div>
 		</div>
 		
 		<!-- DRAGGABLE ITEMS -->
@@ -49,6 +52,6 @@
 		    
           </table>
 		</div>
-		
      
      <span id="treatment_template" style="display: none;"><img src="/activity/treatment/media/images/"></span>
+     

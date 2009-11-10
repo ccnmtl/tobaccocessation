@@ -54,7 +54,7 @@ function checkForSuccess()
    } 
   
    setStyle('next', {'display': 'inline'})
-
+   setStyle('success_overlay', {'display': 'inline'})
    setStyle('span_' + $('next_section_slug').value, {'display': 'none'})
    setStyle($('next_section_slug').value, {'display': 'inline'})
    return true 
@@ -280,7 +280,7 @@ function saveStateSuccess()
    
    setStyle('span_' + $('next_section_slug').value, {'display': 'inline'})
    setStyle($('next_section_slug').value, {'display': 'none'})
-
+   setStyle('success_overlay', {'display': 'none'})
 }
 
 function saveStateError()
