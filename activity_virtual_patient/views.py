@@ -63,7 +63,7 @@ def selection(request, patient_id):
 
     
     ctx['previous_url'] = _get_previous_page('selection', patient_id, user_state)
-    ctx['medications'] = Medication.objects.all().order_by('display_order')
+    ctx['medications'] = _get_available_treatments()
     ctx['patient_state'] = user_state['patients'][patient_id]
     ctx['navigate'] = True
         
@@ -87,7 +87,7 @@ def prescription(request, patient_id, medication_idx='0'):
     else:
         tag = user_state['patients'][patient_id]['prescribe']
         
-    medication = Medication.objects.get(tag=tag)
+    medication = Medication.objects.filter(tag=tag)
     
     # this is an ugly little workaround due to the django template ifequal tag
     # i was trying to compare a Model.id property with the stored json selection which is a string by default
@@ -105,7 +105,7 @@ def prescription(request, patient_id, medication_idx='0'):
         concentration_idx = int(rx['concentration'])
         refill_idx = int(rx['refill'])
         
-        if (medication.rx_count > 1):
+        if (medication[0].rx_count > 1):
             dosage2_idx = int(rx['dosage2'])
             concentration2_idx = int(rx['concentration2'])
             refill2_idx = int(rx['refill2'])
@@ -170,11 +170,15 @@ def results(request, patient_id):
         correct_rx = cc1.correct and dc1.correct and rc1.correct
 
     #todo - is there a better way to model this? 
-    tf = TreatmentFeedback.objects.filter(patient__id=patient_id, classification=to.classification, correct_dosage=correct_rx)
-    if (tf.count() > 1):
-        tf = TreatmentFeedback.objects.filter(patient__id=patient_id, classification=to.classification, correct_dosage=correct_rx, combination_therapy=combination)
+    if to.classification == TreatmentClassification.objects.get(rank=1):
+        # for the best, factor in correct dosage
+        tf = TreatmentFeedback.objects.filter(patient__id=patient_id, classification=to.classification, correct_dosage=correct_rx)
+    elif to.classification == TreatmentClassification.objects.get(rank=3):
+        # for the worst, factor in combination
+        tf = TreatmentFeedback.objects.filter(patient__id=patient_id, classification=to.classification, combination_therapy=combination)
+    else:
+        tf = TreatmentFeedback.objects.filter(patient__id=patient_id, classification=to.classification)
 
-    
     ctx['feedback'] = tf[0].feedback
     ctx['best_treatment_options'] = TreatmentOptionReasoning.objects.filter(patient__id=patient_id, classification__rank=1)
     ctx['reasonable_treatment_options'] = TreatmentOptionReasoning.objects.filter(patient__id=patient_id, classification__rank=2)
@@ -286,12 +290,7 @@ def _get_previous_patient(patient_id):
         return None    
     
 def _get_available_treatments():
-    a = [] 
-    for med in Medication.objects.all().order_by('display_order'):
-        a.append(med.tag)
-    a.append('combination')
-    return a
-
+    return [ 'nicotinepatch', 'nicotinegum', 'nicotineinhaler', 'nicotinelozenge', 'nicotinenasalspray', 'varenicline', 'bupropion', 'combination'  ]
 
 def _get_patients(user_state, patient_id):
     lst = []

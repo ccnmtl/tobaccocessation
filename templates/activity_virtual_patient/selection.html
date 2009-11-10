@@ -60,21 +60,21 @@
        <strong>Available Treatments</strong>
        <span id="available_treatments" class="treatment_droppable">
          
-         {% for med in medications %}
-            {% ifequal med.tag patient_state.combination.0 %} <!-- highlight selected treatments -->
-                <span id='{{med.tag}}_combo' class='highlight {{med.tag}} treatment_draggable' onclick="onSelectCombinationTreatment(this); return false;">
+         {% for tag in medications %}
+            {% ifequal tag patient_state.combination.0 %} <!-- highlight selected treatments -->
+                <span id='{{tag}}_combo' class='highlight {{tag}} treatment_draggable' onclick="onSelectCombinationTreatment(this); return false;">
             {% else %}
-	            {% ifequal med.tag patient_state.combination.1 %} <!--  highlight selected treatments -->
-                  <span id='{{med.tag}}_combo' class='highlight {{med.tag}} treatment_draggable' onclick="onSelectCombinationTreatment(this); return false;">
+	            {% ifequal tag patient_state.combination.1 %} <!--  highlight selected treatments -->
+                  <span id='{{tag}}_combo' class='highlight {{tag}} treatment_draggable' onclick="onSelectCombinationTreatment(this); return false;">
 	            {% else %}
 	               {% if patient_state.combination.1 %} <!-- two other choices were selected. gray this one out -->
-		               <span id='{{med.tag}}_combo' style="opacity: 0.5;" class='{{med.tag}} treatment_draggable' onclick="onSelectCombinationTreatment(this); return false;">
+		               <span id='{{tag}}_combo' style="opacity: 0.5;" class='{{tag}} treatment_draggable' onclick="onSelectCombinationTreatment(this); return false;">
 		            {% else %} <!-- view normally -->
-		               <span id='{{med.tag}}_combo' class='{{med.tag}} treatment_draggable' onclick="onSelectCombinationTreatment(this); return false;">
+		               <span id='{{tag}}_combo' class='{{tag}} treatment_draggable' onclick="onSelectCombinationTreatment(this); return false;">
 		            {% endif %}
 	            {% endifequal %}
             {% endifequal %}
-		             <img src='/activity/virtualpatient/media/images/{{ med.tag }}.jpg'>
+		             <img src='/activity/virtualpatient/media/images/{{ tag }}.jpg'>
 		          </span>
          {% endfor %}
        </span>

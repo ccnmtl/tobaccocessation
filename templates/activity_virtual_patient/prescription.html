@@ -22,7 +22,7 @@
    
     <form>
       <input type="hidden" id="medication_idx" value="{{ medication_idx }}"></input>
-      <input type="hidden" id="medication_tag" value="{{ medication.tag }}"></input>
+      <input type="hidden" id="medication_tag" value="{{ medication.0.tag }}"></input>
       <input type="hidden" id="patient_id" name="patient_id" value="{{patient.id}}"></input>
       <input type="hidden" id="page_id" name="page_id" value="{{page_id}}"></input>
 
@@ -35,10 +35,10 @@
       </div>
      
      <div id="fields_container">
-     <div id="med_name">{{ medication.name }}, &nbsp; </div>
+     <div id="med_name">{{ medication.0.name }}, &nbsp; </div>
    <select id="concentration">
           
-          {% for cc in medication.concentrationchoice_set.all %}
+          {% for cc in medication.0.concentrationchoice_set.all %}
             {% ifequal cc.id concentration_idx %}
              <option selected="selected" value="{{cc.id}}">{{cc.concentration}}</option>
             {% else %}
@@ -50,7 +50,7 @@
 
       
    <select id="dosage">
-          {% for dc in medication.dosagechoice_set.all %}
+          {% for dc in medication.0.dosagechoice_set.all %}
              {% ifequal dc.id dosage_idx %}
                <option selected="selected" value="{{dc.id}}">{{dc.dosage}}</option>
              {% else %}
@@ -63,14 +63,14 @@
       
   
      <div id="med_inst"> <ul>{% autoescape off %}
-      {{ medication.instructions }}
+      {{ medication.0.instructions }}
       {% endautoescape %}</ul>
       </div>
       <br />
       
       
 	      <select id="refill">
-	         {% for rc in medication.refillchoice_set.all %}
+	         {% for rc in medication.0.refillchoice_set.all %}
 	            {% ifequal rc.id refill_idx %}
 	               <option selected="selected" value="{{rc.id}}">{{rc.refill}}</option>
 	            {% else %}
@@ -82,7 +82,7 @@
     </div>
     <!--  Second Prescription if needed -->
     
-    {% ifequal medication.rx_count 2 %}
+    {% ifequal medication.0.rx_count 2 %}
     <div id="fieldname_container2">
        <div class="fieldname">Dosage:</div> 
        <div class="fieldname">  Quantity to Dispense: </div>
@@ -91,7 +91,7 @@
       </div>
      <div id="fields_container">
       <select id="concentration2">
-          {% for cc in medication.concentrationchoice_set.all %}
+          {% for cc in medication.1.concentrationchoice_set.all %}
             {% ifequal cc.id concentration2_idx %}
                <option selected="selected" value="{{cc.id}}">{{cc.concentration}}</option>
             {% else %}
@@ -103,7 +103,7 @@
       <br />
       
      <select id="dosage2">
-          {% for dc in medication.dosagechoice_set.all %}
+          {% for dc in medication.1.dosagechoice_set.all %}
              {% ifequal dc.id dosage2_idx %}
                <option selected="selected" value="{{dc.id}}">{{dc.dosage}}</option>
              {% else %}
@@ -115,7 +115,7 @@
       <br />
      
 	      <select id="refill2">
-	         {% for rc in medication.refillchoice_set.all %}
+	         {% for rc in medication.1.refillchoice_set.all %}
 	            {% ifequal rc.id refill2_idx %}
 	               <option selected="selected" value="{{rc.id}}">{{rc.refill}}</option>
 	            {% else %}
@@ -127,7 +127,7 @@
       <br />
       
     <ul>  {% autoescape off %}
-      {{ medication.instructions }}
+      {{ medication.0.instructions }}
       {% endautoescape %}
      {% endifequal %}</ul>
    </form>    </div>
