@@ -50,6 +50,7 @@ def options(request, patient_id):
     ctx['previous_url'] = _get_previous_page('options', patient_id, user_state)      
     ctx['patient_state'] = user_state['patients'][patient_id]
     ctx['navigate'] = True
+    ctx['page_number'] = '1'
         
     template = loader.get_template('activity_virtual_patient/options.html')
     return HttpResponse(template.render(ctx))
@@ -66,6 +67,7 @@ def selection(request, patient_id):
     ctx['medications'] = _get_available_treatments()
     ctx['patient_state'] = user_state['patients'][patient_id]
     ctx['navigate'] = True
+    ctx['page_number'] = '2'
         
     template = loader.get_template('activity_virtual_patient/selection.html')
     return HttpResponse(template.render(ctx))
@@ -121,6 +123,8 @@ def prescription(request, patient_id, medication_idx='0'):
     ctx['concentration2_idx'] = concentration2_idx
     ctx['refill2_idx'] = refill2_idx
     ctx['navigate'] = True
+    ctx['page_number'] = 3
+    ctx['page_addendum'] = "(%s)" % medication[0].name
         
     template = loader.get_template('activity_virtual_patient/prescription.html')
     return HttpResponse(template.render(ctx))
@@ -187,6 +191,7 @@ def results(request, patient_id):
     ctx['previous_url'] = _get_previous_page('results', patient_id, user_state)
     ctx['next_url'] = _get_next_page('results', patient_id, user_state)
     ctx['prescription'] = "Prescription Summary Here"
+    ctx['page_number'] = 4
         
     template = loader.get_template('activity_virtual_patient/results.html')
     return HttpResponse(template.render(ctx))

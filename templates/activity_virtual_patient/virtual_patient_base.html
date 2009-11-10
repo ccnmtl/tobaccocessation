@@ -31,6 +31,9 @@
 {% endblock %}
 
 {% block contentnav %}
+<table>
+<tr>
+<td>
    {% if previous_url %}
      <a href="{{previous_url}}" id="previous">« Previous</a>
    {% else %}
@@ -40,7 +43,13 @@
         {% endif %}
       {% endwith %}
    {% endif %}
-
+</td>
+<td width="100%" align="center>  
+   <div id="page_numbering">
+      Virtual Patient {{ patient.display_order }} | Page {{ page_number }} {{ page_addendum }} of 4
+   </div>
+</td>
+<td>
    {% if next_url %}
       <a id='next' href="{{next_url}}">Next »</a>
    {% endif %}
@@ -48,5 +57,7 @@
    {% if navigate %}
       <a id='next' href="#" onclick="navigate(); return false;">Next »</a>
    {% endif %}          
-   
+</td>
+</tr>
+</table>   
 {% endblock %}
