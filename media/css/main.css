@@ -28,7 +28,7 @@ h1
 
 h2
 {
-	margin: 1em 0 0 0;
+	margin: 1em 0 1em 0;
 	font-size: 130%;
 	text-transform: uppercase;
 
@@ -38,7 +38,7 @@ h3
 {
 	
 	font-size: 115%;
-	margin: 2.5em 0 1.25em 0;
+	margin: 1.7em 0 1.25em 0;
 	color: #223334;
 }
 
@@ -72,7 +72,7 @@ h6
 p
 {
 	display: block;
-	margin: 0 0 0.7em 0;
+	margin: 0.7em 0;
 	padding: 0;
 	border: 0;
 	font-size: 100%;
@@ -111,17 +111,20 @@ td
 ol, ul
 {
 	display: block;
-	margin: 0 0 0.7em 1em;
+	margin: .25em 0 1.25em 1.5em;
 	padding: 0;
 	border: 0;
 	font-size: 100%;
 }
 
-/*
+
 li
 {
+
+	margin: 0 0.25em .5em .25em;
+
 }
-*/
+
 
 a
 {
@@ -466,6 +469,7 @@ img, img a
 	border: 0;
 	z-index: 100;
 }
+
 
 .three_columns #sidebar_left
 {
@@ -850,13 +854,15 @@ body.fluid #pagebody
 /* ---- sidebar block elements ---------- */
 body.fluid #pagebody #sidebar_left {
 display:block;
-margin: 1em 1em 1em 0;
+margin: 1em 1em 1em 10px;
 float: left;
 }
 
 body.fluid #pagebody #sidebar_left ul {
 	list-style: none;
 	font-size: 84%;
+	margin-left: 1em;
+	
 
 }
 
@@ -865,6 +871,7 @@ body.fluid #pagebody #sidebar_left ul li{
 	border-bottom: 2px solid #fff;
 	background-color: #e1e1e1;
 	color: #333;
+	margin: 0;
 }
 
 body.fluid #pagebody #sidebar_left ul li a{
@@ -1041,7 +1048,7 @@ float: left;
 #content .content-nav
 {
    height: 1.5em;
-   margin: 1.5em 0 0 0;
+   margin: 2em 0 0 0;
    padding: 0.5em;
    border: 0;
    background-color: #dadada;
@@ -1096,6 +1103,11 @@ float: left;
 padding: 10px 10px 20px 10px;
 border: 1px solid #ccc;
 margin-bottom: 10px;
+}
+.casetitle {
+
+font-weight: bold;
+font-size: 110%;
 }
 
 .cases ol {
