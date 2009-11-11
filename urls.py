@@ -1,8 +1,16 @@
 from django.conf.urls.defaults import *
 from django.contrib import admin
 from django.conf import settings
+from tobaccocessation.activity_virtual_patient.urls import *
+from tobaccocessation.activity_treatment_choice.urls import *
+from tobaccocessation.activity_prescription_writing.urls import *
+from tobaccocessation.quiz.urls import *
+from pagetree.urls import *
+import djangowind.urls
+import survey.urls
 import os.path
 admin.autodiscover()
+
 
 site_media_root = os.path.join(os.path.dirname(__file__),"media")
 
@@ -17,7 +25,6 @@ urlpatterns = patterns('',
                        ('^accounts/',include('djangowind.urls')),
                        (r'^admin/(.*)', admin.site.root),
 		               (r'^survey/',include('survey.urls')),
-                       (r'^tinymce/', include('tinymce.urls')),
                        (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': site_media_root}),
                        (r'^uploads/(?P<path>.*)$','django.views.static.serve',{'document_root' : settings.MEDIA_ROOT}),
                        
