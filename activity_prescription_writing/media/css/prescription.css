@@ -54,6 +54,8 @@
    
 }
 
+
+
 #dosage, #disp {
 
 	margin-bottom: 3px;
@@ -110,9 +112,9 @@
 }
 
 #refills_correct {
-	left:371px;
+	left:381px;
 	position:absolute;
-	top:660px;
+	top:665px;
 	width:64px;
 
 }

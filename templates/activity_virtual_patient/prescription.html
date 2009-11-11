@@ -12,9 +12,7 @@
     {{ block.super }} 
     <h6>Virtual Patient >> Classify Treatment Options</h6>
     
-    <div id="patient_name">{{patient.name}}</div>
-    <div id="date">{% now "n/j/Y" %}</div>
-    <div id="gender">X</div>
+    
     
     <input type="hidden" id="medication_idx" value="{{ medication_idx }}"></input>
     <input type="hidden" id="medication_tag" value="{{ medication.0.tag }}"></input>
@@ -23,7 +21,10 @@
     
     {% ifequal medication.0.rx_count 1 %}
        <link href="/activity/virtualpatient/media/css/prescription.css" rel="stylesheet" type="text/css" />
-       <div id="blankrx">
+       <div id="blankrx_vp">
+       <div id="patient_name">{{patient.name}}</div>
+    <div id="date">{% now "n/j/Y" %}</div>
+    <div id="gender">X</div>
           <form>
 		       <div id="fieldname_container">
 		          <div class="fieldname">Dosage:</div> 
@@ -78,7 +79,10 @@
     <!--  Second Prescription if needed -->
     {% else %}
        <link href="/activity/virtualpatient/media/css/double_prescription.css" rel="stylesheet" type="text/css" />
-       <div id="blankrx">
+       <div id="blankrx_vp">
+       <div id="patient_name">{{patient.name}}</div>
+    <div id="date">{% now "n/j/Y" %}</div>
+    <div id="gender">X</div>
           <form>
              <div id="fieldname_container">
                 <div class="fieldname">Dosage:</div> 
@@ -144,7 +148,7 @@
 			          {% endfor %}
 			      </select>
 			      <br />
-			      <br />
+			    
 			      
 			     <select id="dosage2">
 			          {% for dc in medication.1.dosagechoice_set.all %}
@@ -156,9 +160,21 @@
 			          {% endfor %}
 			      </select>
 			      <br />
-			      <br />
 			     
-		         <select id="refill2">
+			     
+		      
+			      <br />
+			    
+			      
+			      <div id="med_inst2">
+				    <ul>  
+				       {% autoescape off %}
+				       {{ medication.1.instructions }}
+				       {% endautoescape %}
+				    </ul>
+				   </div>
+				   
+				      <select id="refill2">
 		            {% for rc in medication.1.refillchoice_set.all %}
 		               {% ifequal rc.id refill2_idx %}
 		                  <option selected="selected" value="{{rc.id}}">{{rc.refill}}</option>
@@ -167,16 +183,6 @@
 		               {% endifequal %}
 		            {% endfor %}
 		         </select>
-			      <br />
-			      <br />
-			      
-			      <div id="med_inst">
-				    <ul>  
-				       {% autoescape off %}
-				       {{ medication.1.instructions }}
-				       {% endautoescape %}
-				    </ul>
-				   </div>
             </div>
          </form>
        </div>

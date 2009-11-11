@@ -1,7 +1,7 @@
 
 
 
-#blankrx {
+#blankrx_vp {
    height: 285px;
    background-image: url(/activity/prescription/media/images/blankrx_sm.jpg);
    background-repeat: no-repeat;
@@ -13,13 +13,13 @@
    
 }
 
-#blankrx form {
+#blankrx_vp form {
 
-margin-left: -155px;
+margin: -70px 0 0 -155px;
 
 }
 
-#blankrx h3 {
+#blankrx_vp h3 {
 
 margin: 0;
   
