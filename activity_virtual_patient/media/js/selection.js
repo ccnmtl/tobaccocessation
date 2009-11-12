@@ -61,6 +61,9 @@ function onSelectBestTreatment(elem)
    }
    else
    {
+      setStyle('combination_directions', {'display':'none'})
+      setStyle('singletreatment_directions', {'display':'block'})
+      
       elements = getElementsByTagAndClassName("*", "treatment_draggable", parent='best_treatment')
       forEach(elements,
               function(element) {
@@ -136,6 +139,9 @@ function showCombinationView()
    // show the treatments box
    setStyle($('available_treatments_box'), {'display':'block'})
    
+   setStyle($('combination_directions'), {'display':'block'})
+   setStyle($('singletreatment_directions'), {'display':'none'})
+   
    // gray all other best treatments
    elems = getElementsByTagAndClassName("*", "treatment_draggable", parent=$('best_treatment'))
    forEach(elems,
@@ -177,6 +183,10 @@ function hideCombinationView()
    debug('hideCombinationView')
    
    setStyle($('available_treatments_box'), {'display':'none'})
+   
+   setStyle($('combination_directions'), {'display':'none'})
+   setStyle($('singletreatment_directions'), {'display':'block'})
+      
    
    // unhighlight any selected combination treatments, and put the opacity back to 1.0
    // for all best treatments: reset opacity to 1.0 

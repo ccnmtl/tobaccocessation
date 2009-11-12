@@ -48,7 +48,10 @@
 		       </div>
 	       </center>
        </div>
-       <div class="directions_box"><h5>From your selected "Best Treatment Choice(s)" at left:<br /><b>Click one treatment to prescribe.</b><br /><br />If you choose "Combination Therapy:" <br /><b>Select two therapies below to combine.</b></h5></div>
+       <div class="directions_box">
+            <div id="combination_directions" style="{% ifnotequal patient_state.prescribe 'combination' %}display:none{%endifnotequal%}"><h5><b>Select two therapies below to combine.</b></h5></div>
+            <div id="singletreatment_directions" style="{% ifequal patient_state.prescribe 'combination' %}display:none{%endifequal%}"><h5>From your selected "Best Treatment Choice(s)" at left:<br /><b>Click one treatment to prescribe.</b></h5></div>
+       </div>
     </div>
     
     <br />
