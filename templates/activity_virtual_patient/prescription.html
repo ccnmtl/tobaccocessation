@@ -8,7 +8,7 @@
 
 {% block content %}
     {{ block.super }} 
-    <h6>Virtual Patient >> Classify Treatment Options</h6>
+    <h2>Virtual Patient {{ patient.display_order }}: Prescribe Treatment(s)</h2>
     
     <input type="hidden" id="medication_idx" value="{{ medication_idx }}"></input>
     <input type="hidden" id="medication_tag" value="{{ medication.0.tag }}"></input>

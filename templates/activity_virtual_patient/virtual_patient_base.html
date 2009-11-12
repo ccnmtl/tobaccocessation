@@ -20,7 +20,7 @@
    <ul>
      {% for p in patients %}
          {% if p.selected %}
-            <li class="selected"><span class="selected">Virtual Patient {{p.display_order}}</span></li>
+            <li class="selected"><span class="selected">Virtual Patient {{p.display_order }}</span></li>
          {% else %}
             {% if p.completed %}
                 <li><a href="/assist/activity-virtual-patient/options/{{p.id}}">Virtual Patient {{p.display_order}}</a></li>
