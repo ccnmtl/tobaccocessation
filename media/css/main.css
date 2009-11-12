@@ -1175,3 +1175,40 @@ float: left;
 #flashvideoblock {
 border: 1px solid #dedede;
 }
+
+
+#module_indicator {
+	border: 1px solid #ccc;
+	padding: 25px 5px 15px 5px;
+}
+
+#module_indicator ol {
+
+
+}
+
+#module_indicator ol li {
+
+float: left;
+margin: 0 1em 0 2.5em;
+}
+
+#module_indicator .header {
+
+float: left; 
+margin: -1.7em 0; 
+font-weight: bold; 
+color: green;
+
+}
+
+.thismodule {
+
+	border: 2px solid green;
+	float: left;
+	margin-top: -2px;
+
+}
+
+
+
