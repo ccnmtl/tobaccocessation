@@ -36,7 +36,7 @@ class TreatmentOptionInline(admin.TabularInline):
     
 class TreatmentFeedbackInline(admin.TabularInline):
     model = TreatmentFeedback
-    max_num = 5
+    max_num = 6
     extra = 5
     
 class PatientAdmin(admin.ModelAdmin):
