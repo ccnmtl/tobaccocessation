@@ -46,7 +46,8 @@ class Block(models.Model):
         try:
             state = ActivityState.objects.get(user=user)
             obj = simplejson.loads(state.json)
-            rc = obj['complete']
+            if obj.has_key('complete'):
+                rc = obj['complete']
         except ActivityState.DoesNotExist:
             pass # ignore, we'll return false here in a sec
         
