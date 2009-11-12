@@ -43,7 +43,7 @@ def options(request, patient_id):
     # setup new state object if the user is seeing this patient for the first time.
     if (not user_state['patients'].has_key(patient_id)):
         user_state['patients'][patient_id] = {}
-        user_state['patients'][patient_id]['available_treatments'] = _get_available_treatments()
+        user_state['patients'][patient_id]['available_treatments'] = _get_available_treatments(True)
         _save(request, user_state)
     
     
@@ -64,7 +64,7 @@ def selection(request, patient_id):
 
     
     ctx['previous_url'] = _get_previous_page('selection', patient_id, user_state)
-    ctx['medications'] = _get_available_treatments()
+    ctx['medications'] = _get_available_treatments(False)
     ctx['patient_state'] = user_state['patients'][patient_id]
     ctx['navigate'] = True
     ctx['page_number'] = '2'
@@ -294,8 +294,12 @@ def _get_previous_patient(patient_id):
     except Patient.DoesNotExist:
         return None    
     
-def _get_available_treatments():
-    return [ 'nicotinepatch', 'nicotinegum', 'nicotineinhaler', 'nicotinelozenge', 'nicotinenasalspray', 'varenicline', 'bupropion', 'combination'  ]
+def _get_available_treatments(combination):
+    a = [ 'nicotinepatch', 'nicotinegum', 'nicotineinhaler', 'nicotinelozenge', 'nicotinenasalspray', 'varenicline', 'bupropion' ]
+    
+    if (combination):
+       a.append('combination')
+    return a
 
 def _get_patients(user_state, patient_id):
     lst = []
