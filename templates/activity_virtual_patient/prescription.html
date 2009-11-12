@@ -1,7 +1,5 @@
 {% extends "activity_virtual_patient/virtual_patient_base.html" %}
 
-{% block title %}Activity - VirtualPatient{% endblock %}
-
 {% block js %}
    {{ block.super }}
    <script type="text/javascript" src="/activity/virtualpatient/media/js/prescription.js"></script>
@@ -11,8 +9,6 @@
 {% block content %}
     {{ block.super }} 
     <h6>Virtual Patient >> Classify Treatment Options</h6>
-    
-    
     
     <input type="hidden" id="medication_idx" value="{{ medication_idx }}"></input>
     <input type="hidden" id="medication_tag" value="{{ medication.0.tag }}"></input>
