@@ -1,5 +1,7 @@
 {% extends section.template %}
 
+{% block title %}{{section.label}}{% endblock %}
+
 {% block sidebarleft %}
    {% with "selected" as style_class %}
       {% with leftnav as menu %}
