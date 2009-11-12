@@ -32,7 +32,7 @@
              <div id="fields_container">
                 <div id="med_name">{{ medication.0.name }}, &nbsp; </div>
                 <select id="concentration">
-			          {% for cc in medication.0.concentrationchoice_set.all %}
+			          {% for cc in medication.0.concentrationchoice_set.all|dictsort:"display_order"  %}
 			            {% ifequal cc.id concentration_idx %}
 			             <option selected="selected" value="{{cc.id}}">{{cc.concentration}}</option>
 			            {% else %}
@@ -43,7 +43,7 @@
                <br />
       
 			      <select id="dosage">
-			          {% for dc in medication.0.dosagechoice_set.all %}
+			          {% for dc in medication.0.dosagechoice_set.all|dictsort:"display_order"  %}
 			             {% ifequal dc.id dosage_idx %}
 			               <option selected="selected" value="{{dc.id}}">{{dc.dosage}}</option>
 			             {% else %}
@@ -60,15 +60,7 @@
 			      </div>
 			      <br />
       
-			      <select id="refill">
-			         {% for rc in medication.0.refillchoice_set.all %}
-			            {% ifequal rc.id refill_idx %}
-			               <option selected="selected" value="{{rc.id}}">{{rc.refill}}</option>
-			            {% else %}
-			               <option value="{{rc.id}}">{{rc.refill}}</option>
-			            {% endifequal %}
-			         {% endfor %}
-			      </select>
+               <div id="refill">{{medication.0.refillchoice_set.all.0.refill}}</div>
             </div>
          </form>
        </div>
@@ -90,7 +82,7 @@
              <div id="fields_container1">
                 <div id="med_name">{{ medication.0.name }}, &nbsp; </div>
                 <select id="concentration">
-                   {% for cc in medication.0.concentrationchoice_set.all %}
+                   {% for cc in medication.0.concentrationchoice_set.all|dictsort:"display_order"  %}
                      {% ifequal cc.id concentration_idx %}
                       <option selected="selected" value="{{cc.id}}">{{cc.concentration}}</option>
                      {% else %}
@@ -101,7 +93,7 @@
                <br />
       
                <select id="dosage">
-                   {% for dc in medication.0.dosagechoice_set.all %}
+                   {% for dc in medication.0.dosagechoice_set.all|dictsort:"display_order" %}
                       {% ifequal dc.id dosage_idx %}
                         <option selected="selected" value="{{dc.id}}">{{dc.dosage}}</option>
                       {% else %}
@@ -121,21 +113,13 @@
                </div>
                <br />
       
-               <select id="refill">
-                  {% for rc in medication.0.refillchoice_set.all %}
-                     {% ifequal rc.id refill_idx %}
-                        <option selected="selected" value="{{rc.id}}">{{rc.refill}}</option>
-                     {% else %}
-                        <option value="{{rc.id}}">{{rc.refill}}</option>
-                     {% endifequal %}
-                  {% endfor %}
-               </select>
+               <div id="refill">{{medication.0.refillchoice_set.all.0.refill}}</div>
             </div>
                
             <div id="fields_container2">
                <div id="med_name2">{{ medication.1.name }}, &nbsp; </div>
                <select id="concentration2">
-			          {% for cc in medication.1.concentrationchoice_set.all %}
+			          {% for cc in medication.1.concentrationchoice_set.all|dictsort:"display_order" %}
 			            {% ifequal cc.id concentration2_idx %}
 			               <option selected="selected" value="{{cc.id}}">{{cc.concentration}}</option>
 			            {% else %}
@@ -144,10 +128,9 @@
 			          {% endfor %}
 			      </select>
 			      <br />
-			    
 			      
 			     <select id="dosage2">
-			          {% for dc in medication.1.dosagechoice_set.all %}
+			          {% for dc in medication.1.dosagechoice_set.all|dictsort:"display_order" %}
 			             {% ifequal dc.id dosage2_idx %}
 			               <option selected="selected" value="{{dc.id}}">{{dc.dosage}}</option>
 			             {% else %}
@@ -156,11 +139,8 @@
 			          {% endfor %}
 			      </select>
 			      <br />
-			     
-			     
 		      
 			      <br />
-			    
 			      
 			      <div id="med_inst2">
 				    <ul>  
@@ -170,15 +150,7 @@
 				    </ul>
 				   </div>
 				   
-				      <select id="refill2">
-		            {% for rc in medication.1.refillchoice_set.all %}
-		               {% ifequal rc.id refill2_idx %}
-		                  <option selected="selected" value="{{rc.id}}">{{rc.refill}}</option>
-		               {% else %}
-		                  <option value="{{rc.id}}">{{rc.refill}}</option>
-		               {% endifequal %}
-		            {% endfor %}
-		         </select>
+				   <div id="refill2">{{medication.1.refillchoice_set.all.0.refill}}</div>
             </div>
          </form>
        </div>

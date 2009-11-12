@@ -78,7 +78,6 @@ def prescription(request, patient_id, medication_idx='0'):
     ctx = get_base_context(request, 'prescription', user_state, patient_id)
     ss = SiteState.objects.get_or_create(user=request.user)[0]
     ss.save_last_location(request.path, ctx['section'])
-
     
     idx = int(medication_idx)
     
@@ -97,20 +96,16 @@ def prescription(request, patient_id, medication_idx='0'):
     # get this to work. Django's templates may be a little too crippled for my tastes...
     dosage_idx = -1
     concentration_idx = -1
-    refill_idx = -1
     dosage2_idx = -1
     concentration2_idx = -1
-    refill2_idx = -1
     if (user_state['patients'][patient_id].has_key(tag)):
         rx = user_state['patients'][patient_id][tag]
         dosage_idx = int(rx['dosage'])
         concentration_idx = int(rx['concentration'])
-        refill_idx = int(rx['refill'])
         
         if (medication[0].rx_count > 1):
             dosage2_idx = int(rx['dosage2'])
             concentration2_idx = int(rx['concentration2'])
-            refill2_idx = int(rx['refill2'])
             
     
     ctx['medication'] =  medication
@@ -118,10 +113,8 @@ def prescription(request, patient_id, medication_idx='0'):
     ctx['previous_url'] = previous_url
     ctx['dosage_idx'] = dosage_idx
     ctx['concentration_idx'] = concentration_idx
-    ctx['refill_idx'] = refill_idx
     ctx['dosage2_idx'] = dosage2_idx
     ctx['concentration2_idx'] = concentration2_idx
-    ctx['refill2_idx'] = refill2_idx
     ctx['navigate'] = True
     ctx['page_number'] = 3
     ctx['page_addendum'] = "(%s)" % medication[0].name
@@ -159,19 +152,15 @@ def results(request, patient_id):
         cc2 = ConcentrationChoice.objects.get(id=patient_state[med_tag_two]['concentration'])
         dc1 = DosageChoice.objects.get(id=patient_state[med_tag_one]['dosage'])
         dc2 = DosageChoice.objects.get(id=patient_state[med_tag_two]['dosage'])
-        
-        rc1 = RefillChoice.objects.get(id=patient_state[med_tag_one]['refill'])
-        rc2 = RefillChoice.objects.get(id=patient_state[med_tag_two]['refill'])
-        
-        correct_rx = cc1.correct and cc2.correct and dc1.correct and dc2.correct and rc1.correct and rc2.correct
+
+        correct_rx = cc1.correct and cc2.correct and dc1.correct and dc2.correct
     else:
         med_tag_one =  patient_state['prescribe']
         to = TreatmentOption.objects.get(patient__id=patient_id, medication_one__tag=med_tag_one, medication_two=None)
         cc1 = ConcentrationChoice.objects.get(id=patient_state[med_tag_one]['concentration'])
         dc1 = DosageChoice.objects.get(id=patient_state[med_tag_one]['dosage'])
-        rc1 = RefillChoice.objects.get(id=patient_state[med_tag_one]['refill'])
 
-        correct_rx = cc1.correct and dc1.correct and rc1.correct
+        correct_rx = cc1.correct and dc1.correct
 
     #todo - is there a better way to model this? 
     if to.classification == TreatmentClassification.objects.get(rank=1):
