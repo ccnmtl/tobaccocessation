@@ -1208,5 +1208,16 @@ color: green;
 
 }
 
+.caption  {
+
+float: left;
+margin-bottom: 1em;
+}
+
+.caption p {
+
+font-size: 80%;
+}
+
 
 
