@@ -146,7 +146,7 @@
 
 
 .treatment_reasoning {
-   align: left;   
+   text-align: left;   
    border: 1px solid #ccc;
       font-size: 85%;
       padding: 5px;
