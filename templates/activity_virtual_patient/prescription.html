@@ -90,7 +90,7 @@
                      {% endifequal %}
                    {% endfor %}
                </select>
-               <br />
+               <br style="clear: both;" />
       
                <select id="dosage">
                    {% for dc in medication.0.dosagechoice_set.all|dictsort:"display_order" %}
@@ -127,7 +127,7 @@
 			            {% endifequal %}
 			          {% endfor %}
 			      </select>
-			      <br />
+			      <br style="clear: both;" />
 			      
 			     <select id="dosage2">
 			          {% for dc in medication.1.dosagechoice_set.all|dictsort:"display_order" %}
@@ -140,7 +140,6 @@
 			      </select>
 			      <br />
 		      
-			      <br />
 			      
 			      <div id="med_inst2">
 				    <ul>  
@@ -149,7 +148,7 @@
 				       {% endautoescape %}
 				    </ul>
 				   </div>
-				   
+				   <br />
 				   <div id="refill2">{{medication.1.refillchoice_set.all.0.refill}}</div>
             </div>
          </form>
