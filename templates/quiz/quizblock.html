@@ -20,7 +20,7 @@
                        <ol type="A">
 			 {% for answer in question.answer_set.all %}
 			 {% if block.rhetorical %}
-                         <li><input name="question{{question.id}}" value="{{answer.label}}" type="radio" onchange='onChooseAnswer(this)'/>{{answer.label}}</li>
+                         <li><input name="question{{question.id}}" value="{{answer.label}}" type="radio" onclick='onChooseAnswer(this)'/>{{answer.label}}</li>
 			 {% else %}
                          <li><input name="pageblock-{{block.pageblock.id}}-question{{question.id}}" value="{{answer.value}}" type="radio" />{{answer.label}}</li>
 			 {% endif %}
