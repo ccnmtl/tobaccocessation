@@ -4,11 +4,11 @@ function get_state()
    doc = {}
    
    doc['prescribe'] = ""
-   elem = getFirstElementByTagAndClassName("*", "highlight", parent='best_treatment')
+   elem = getFirstElementByTagAndClassName("*", "highlight", 'best_treatment')
    if (elem)
       doc['prescribe'] = elem.id
            
-   elems = getElementsByTagAndClassName("*", 'highlight', parent='available_treatments')
+   elems = getElementsByTagAndClassName("*", 'highlight', 'available_treatments')
    doc['combination'] = []
    forEach(elems,
            function(elem)
@@ -44,14 +44,11 @@ function onSelectBestTreatment(elem)
    // are we at the maximum treatments allowed? max treatments varies based
    // on whether we're dealing with a combination situation or not
    highlightCount = getElementsByTagAndClassName("*", "highlight").length
-   debug(highlightCount)
    if (highlightCount >= MAX_TREATMENT_COUNT && !hasElementClass(elem, 'highlight'))
       return
       
-   debug('1')
    // nope, highlight the treatment
    toggleElementClass('highlight', elem)
-   debug('2')
    if (elem.id == "combination")
    {
       if (hasElementClass(elem, 'highlight'))
@@ -64,7 +61,7 @@ function onSelectBestTreatment(elem)
       setStyle('combination_directions', {'display':'none'})
       setStyle('singletreatment_directions', {'display':'block'})
       
-      elements = getElementsByTagAndClassName("*", "treatment_draggable", parent='best_treatment')
+      elements = getElementsByTagAndClassName("*", "treatment_draggable", 'best_treatment')
       forEach(elements,
               function(element) {
                  if (element.id != elem.id)
@@ -84,7 +81,7 @@ function onSelectCombinationTreatment(elem)
    debug("onSelectCombinationTreatment")
    // are we at the maximum treatments allowed? max treatments varies based
    // on whether we're dealing with a combination situation or not
-   highlightCount = getElementsByTagAndClassName("*", "highlight", parent=$('available_treatments')).length
+   highlightCount = getElementsByTagAndClassName("*", "highlight", $('available_treatments')).length
    if (highlightCount >= MAX_COMBOTREATMENT_COUNT && !hasElementClass(elem, 'highlight'))
       return
       
@@ -92,11 +89,11 @@ function onSelectCombinationTreatment(elem)
    toggleElementClass('highlight', elem)
 
    // are we at the maximum treatments allowed now?
-   newHighlightCount = getElementsByTagAndClassName("*", "highlight", parent=$('available_treatments')).length
+   newHighlightCount = getElementsByTagAndClassName("*", "highlight", $('available_treatments')).length
 
    // make sure that all the treatments are correctly enabled/disabled 
    // as the user clicks various treatment options
-   comboTreatments = getElementsByTagAndClassName("*", "treatment_draggable", parent=$('available_treatments'))
+   comboTreatments = getElementsByTagAndClassName("*", "treatment_draggable", $('available_treatments'))
    forEach(comboTreatments,
            function(med)
            {
@@ -117,7 +114,11 @@ function onSelectCombinationTreatment(elem)
 
 function checkMaxHighlighted()
 {
-   combination = getStyle('available_treatments_box', 'display') != 'none'
+   var combination = false
+   elem = getFirstElementByTagAndClassName("*", "highlight", 'best_treatment')
+   if (elem)
+      combination = elem.id == 'combination'
+
    maxHighlight = combination ? 3 : 1;
    highlightCount = getElementsByTagAndClassName("*", "highlight").length
            
@@ -143,7 +144,7 @@ function showCombinationView()
    setStyle($('singletreatment_directions'), {'display':'none'})
    
    // gray all other best treatments
-   elems = getElementsByTagAndClassName("*", "treatment_draggable", parent=$('best_treatment'))
+   elems = getElementsByTagAndClassName("*", "treatment_draggable", $('best_treatment'))
    forEach(elems,
            function(elem)
            {
@@ -158,8 +159,8 @@ function showCombinationView()
            })
    
    // gray all unselected available treatments if we're at the max count 
-   highlightCount = getElementsByTagAndClassName("*", "highlight", parent=$('available_treatments')).length
-   elems = getElementsByTagAndClassName("*", "treatment_draggable", parent=$('available_treatments'))
+   highlightCount = getElementsByTagAndClassName("*", "highlight", $('available_treatments')).length
+   elems = getElementsByTagAndClassName("*", "treatment_draggable", $('available_treatments'))
    forEach(elems,
            function(elem)
            {

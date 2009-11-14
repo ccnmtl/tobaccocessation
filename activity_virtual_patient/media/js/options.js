@@ -98,11 +98,10 @@ function get_state()
    divs = ['best_treatment', 'reasonable_treatment', 'ineffective_treatment', 'harmful_treatment', 'available_treatments']
    forEach(divs,
            function(div) {
-              medications = []
-              elements = getElementsByTagAndClassName("*", "treatment_draggable", parent=div)
+	      medications = []
+              elements = getElementsByTagAndClassName("*", "treatment_draggable", div)
               forEach(elements,
                       function(element) {
-                 
                          medications.push(element.id)
                       })
               doc[div] = medications

@@ -8,14 +8,15 @@ function debug(string)
 
 function saveStateSynch()
 {
-   url = 'http://' + location.hostname + ':' + location.port + "/activity/virtualpatient/save/" + $('patient_id').value + "/"
-
-   jsontxt = get_state() // defined by page
-      
-   var sync_req = new XMLHttpRequest();  
-   sync_req.onreadystatechange= function() { if (sync_req.readyState!=4) return false; }         
-   sync_req.open("POST", url, false);
-   sync_req.send(queryString({'json':jsontxt}));
+   if (window.get_state)
+   {
+      jsontxt = get_state() // defined by page
+      url = 'http://' + location.hostname + ':' + location.port + "/activity/virtualpatient/save/" + $('patient_id').value + "/"   
+      var sync_req = new XMLHttpRequest();  
+      sync_req.onreadystatechange= function() { if (sync_req.readyState!=4) return false; }         
+      sync_req.open("POST", url, false);
+      sync_req.send(queryString({'json':jsontxt}));
+   }
 }
 
 _onbeforeunload = MochiKit.Signal.connect(window, "onbeforeunload", saveStateSynch)
