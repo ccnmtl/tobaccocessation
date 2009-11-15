@@ -16,6 +16,8 @@ admin.autodiscover()
 site_media_root = os.path.join(os.path.dirname(__file__),"media")
 
 urlpatterns = patterns('',
+                       (r'^crossdomain.xml$', 'django.views.static.serve', {'document_root': os.path.abspath(os.path.dirname(__file__)), 'path': 'crossdomain.xml'}),
+
                        (r'^$','tobaccocessation_main.views.index'),
                        (r'^logout/$', 'django.contrib.auth.views.logout', {'template_name': 'logged_out.html'}),
                        (r'^pagetree/',include('pagetree.urls')),
