@@ -1,5 +1,7 @@
 {% extends "activity_virtual_patient/virtual_patient_base.html" %}
 
+{% block title %}Virtual Patient {{ patient.display_order }}: Treatment Results{% endblock %}
+
 {% block js %}
    {{ block.super }}
    <script type="text/javascript" src="/activity/virtualpatient/media/js/virtualpatient.js"></script>

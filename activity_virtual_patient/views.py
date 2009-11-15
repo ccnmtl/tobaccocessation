@@ -62,6 +62,12 @@ def selection(request, patient_id):
     ss = SiteState.objects.get_or_create(user=request.user)[0]
     ss.save_last_location(request.path, ctx['section'])
 
+    # do a quick check to verify everything is correct in the land of the patient state
+    if user_state['patients'][patient_id].has_key('prescribe') and user_state['patients'][patient_id]['prescribe'] not in user_state['patients'][patient_id]['best_treatment']:
+        # clear the prescribe value out and save it.
+        user_state['patients'][patient_id]['prescribe'] = ''
+        user_state['patients'][patient_id]['combination'] = ''
+        _save(request, user_state)
     
     ctx['previous_url'] = _get_previous_page('selection', patient_id, user_state)
     ctx['medications'] = _get_available_treatments(False)
