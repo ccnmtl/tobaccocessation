@@ -1,6 +1,6 @@
 function debug(string)
 {
-   if (true)
+    if (false)
       log("DEBUG " + string)
 }
 
@@ -218,13 +218,11 @@ function saveState()
       debug("saveState")
       url = 'http://' + location.hostname + ':' + location.port + "/activity/prescription/save/"
     
-      rx = 
-      {
-         'dosage' : $('dosage').value,
-         'disp' : $('disp').value,
-         'sig' : $('sig').value,
-         'refills' : $('refills').value,
-      }
+      rx = {} 
+      rx['dosage'] = $('dosage').value
+      rx['disp'] = $('disp').value
+      rx['sig'] = $('sig').value
+      rx['refills'] = $('refills').value
       
       if ($('dosage_2'))
       {
