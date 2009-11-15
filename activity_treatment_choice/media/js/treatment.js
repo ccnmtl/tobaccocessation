@@ -69,7 +69,7 @@ function checkForSuccess()
 
 _dropped = false
 _counter = 5
-_droppables = null
+_droppables = []
 
 //On successful drop, "snap" the element back into place immediately, 
 //otherwise, use the MochiKit "move" function to animate the
@@ -165,8 +165,6 @@ function setupTreatmentDropZones()
 
 function loadStateSuccess(doc)
 {
-   if (doc.version == 1)
-   {
       // add each element to the correct div
       // remove the element from the "accept" list
       forEach(doc.smoker_quantity_state,
@@ -186,7 +184,7 @@ function loadStateSuccess(doc)
                           addElementClass(newnode, "treatment_trashable")
                           
                           // fix the src on the image
-                          image = getFirstElementByTagAndClassName("img", "", parent=newnode)
+                          image = getFirstElementByTagAndClassName("img", "", newnode)
                           image.src = image.src + treatment + ".jpg"
                           
                           // This item is also draggable, and can be trashed in the treatments window
@@ -200,7 +198,7 @@ function loadStateSuccess(doc)
                           div.appendChild(newnode)
                       })
               })
-   }
+
    
    checkForSuccess()
 }
@@ -226,11 +224,9 @@ MochiKit.Signal.connect(window, "onload", loadState)
 function saveState()
 {
    debug("saveState")
-   url = 'http://' + location.hostname + ':' + location.port + "/activity/treatment/save/"
  
    doc = 
    {
-      'version': 1,
       'smoker_quantity_state': [],
       'complete': checkForSuccess()
    }
@@ -239,22 +235,21 @@ function saveState()
               
    forEach(smoker_quantity_divs,
            function(div) {
-              parent = getElement(div)
               state = {}
-              state['id'] = parent.id
+              state['id'] = div
               state['treatments'] = []
-              children = getElementsByTagAndClassName(null, 'treatment_trashable', parent)
+	      children = getElementsByTagAndClassName('*', 'treatment_trashable', div)
               forEach(children, 
                       function(child) 
                       {
                          clazzName = child.className.split(' ', 1)
                          state['treatments'].push(clazzName)
                       })
-              
               doc['smoker_quantity_state'].push(state)
            })
 
    // save state via a synchronous request. 
+   url = 'http://' + location.hostname + ':' + location.port + "/activity/treatment/save/"
    var sync_req = new XMLHttpRequest();  
    sync_req.onreadystatechange= function() { if (sync_req.readyState!=4) return false; }         
    sync_req.open("POST", url, false);
@@ -292,7 +287,6 @@ function clearState()
  
    doc = 
    {
-      'version': 1,
       'smoker_quantity_state': []
    }
 
@@ -300,9 +294,7 @@ function clearState()
               
    forEach(smoker_quantity_divs,
            function(div) {
-              // remove all the children
-              parent = getElement(div)
-              children = getElementsByTagAndClassName(null, 'treatment_trashable', parent)
+              children = getElementsByTagAndClassName('*', 'treatment_trashable', div)
               forEach(children, 
                       function(child) 
                       {

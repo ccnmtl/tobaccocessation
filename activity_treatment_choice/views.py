@@ -13,8 +13,10 @@ def loadstate(request):
             doc = state.json
     except ActivityState.DoesNotExist:
         doc = "{}"
-        
-    return HttpResponse(doc, 'application/json')
+
+    response = HttpResponse(doc, 'application/json')
+    response['Cache-Control']='max-age=0,no-cache,no-store'
+    return response
     
 @login_required
 def savestate(request):
