@@ -5,6 +5,7 @@ from tobaccocessation.activity_virtual_patient.urls import *
 from tobaccocessation.activity_treatment_choice.urls import *
 from tobaccocessation.activity_prescription_writing.urls import *
 from tobaccocessation.quiz.urls import *
+from tobaccocessation_main.urls import *
 from pagetree.urls import *
 import djangowind.urls
 import survey.urls
@@ -18,10 +19,11 @@ urlpatterns = patterns('',
                        (r'^$','tobaccocessation_main.views.index'),
                        (r'^logout/$', 'django.contrib.auth.views.logout', {'template_name': 'logged_out.html'}),
                        (r'^pagetree/',include('pagetree.urls')),
+                       (r'^main/', include('tobaccocessation_main.urls')),
                        (r'^activity/treatment/', include('tobaccocessation.activity_treatment_choice.urls')),
                        (r'^activity/prescription/', include('tobaccocessation.activity_prescription_writing.urls')),
                        (r'^activity/virtualpatient/', include('tobaccocessation.activity_virtual_patient.urls')),
-                       (r'^quiz/', include('tobaccocessation.quiz.urls')),
+                       (r'^activity/quiz/', include('tobaccocessation.quiz.urls')),
                        ('^accounts/',include('djangowind.urls')),
                        (r'^admin/(.*)', admin.site.root),
 		               (r'^survey/',include('survey.urls')),

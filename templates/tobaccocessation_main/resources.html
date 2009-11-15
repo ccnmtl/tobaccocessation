@@ -13,3 +13,44 @@
       <li><a href="/assist/">Assist</a></li>
    </ul>
 {% endblock %}
+
+{% block content %}
+
+	<h2 class="title">Resources</h2>
+   <ul class="menu">
+      <li><a href="http://{{request.get_host}}/main/media/pdf/PharmacotherapyTable.pdf">Pharmacotherapy table: quick reference guide</a></li>
+   </ul>
+   <br />
+   <h2 class="title">Videos</h2>
+
+http://www.longtailvideo.com/jw/upload/simple.swf<br />
+http://{{request.get_host}}/main/media/swf/simple.swf<br />
+
+<div id="flashvideoblock">
+<div class="videobox">
+<div id="videocol">
+
+   <OBJECT classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' 
+   codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0' 
+   width="640"
+   height="360">
+   <param name='movie' value="http://ccnmtl.columbia.edu/remote/media_controllers/jw_media/player.swf">
+   <param name='allowfullscreen' value="true">
+   <param name='bgcolor' value='undefined'>
+   <param name='allowscriptaccess' value="always">
+   <param name="flashvars" value='skin=http://{{request.get_host}}/main/media/swf/simple.swf&playlistsize=120&playlist=bottom&file=http://ccnmtl.columbia.edu/broadcast/projects/tobacco_cessation/videos/tobacco_cessation_playlist.xml&image=http://ccnmtl.columbia.edu/broadcast/projects/tobacco_cessation/thumbs/tobacco_cessation_all_narr.jpg&backcolor=FFFFFF'>
+   <embed src="http://ccnmtl.columbia.edu/remote/media_controllers/jw_media/player.swf"
+   width="640"
+   height="480"
+   bgcolor="undefined"
+   allowscriptaccess="always"
+   allowfullscreen="true"
+   flashvars="skin=http://{{request.get_host}}/main/media/swf/simple.swf&playlistsize=120&playlist=bottom&file=http://ccnmtl.columbia.edu/broadcast/projects/tobacco_cessation/videos/tobacco_cessation_playlist.xml&image=http://ccnmtl.columbia.edu/broadcast/projects/tobacco_cessation/thumbs/tobacco_cessation_all_narr.jpg&backcolor=FFFFFF">
+   </embed>
+   </object>
+
+</div>
+
+</div>
+</div>
+{% endblock %}
