@@ -1,6 +1,6 @@
 <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/MochiKit.js"></script>
 <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/Visual.js"></script>
-<script type="text/javascript" src="/quiz/media/js/quiz.js"></script>
+<script type="text/javascript" src="/activity/quiz/media/js/quiz.js"></script>
 
 {% load markup %}
 {{ block.description|markdown }}
@@ -20,7 +20,7 @@
                        <ol type="A">
 			 {% for answer in question.answer_set.all %}
 			 {% if block.rhetorical %}
-                         <li><input name="question{{question.id}}" value="{{answer.label}}" type="radio" onclick='onChooseAnswer(this)'/>{{answer.label}}</li>
+                         <li><input name="question{{question.id}}" value="{{answer.label}}" type="radio" onclick="onChooseAnswer(this)"/>{{answer.label}}</li>
 			 {% else %}
                          <li><input name="pageblock-{{block.pageblock.id}}-question{{question.id}}" value="{{answer.value}}" type="radio" />{{answer.label}}</li>
 			 {% endif %}
