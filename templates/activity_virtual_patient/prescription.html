@@ -11,7 +11,7 @@
 {% block content %}
     {{ block.super }} 
     <h2>Virtual Patient {{ patient.display_order }}: Prescribe Treatment(s)</h2>
-    
+     <h5>Use the prescription(s) below to choose appropriate dosage and medication quantity for this patient.</h5> 
     <input type="hidden" id="medication_idx" value="{{ medication_idx }}"></input>
     <input type="hidden" id="medication_tag" value="{{ medication.0.tag }}"></input>
     <input type="hidden" id="patient_id" name="patient_id" value="{{patient.id}}"></input>
