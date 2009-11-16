@@ -7,6 +7,7 @@
 	border: 1px solid #ccc;
 	   height: 173px;
 	
+	
 }
 
 #about_patient img {
@@ -80,20 +81,29 @@
 
 #treatment_types {
 	float: left;
+	border: 1px solid #ccc;
+	padding: 5px;
 }
 
 .treatment_type_box {
 	float: left;
-   width: 175px;
+   width: 170px;
    margin-right: 10px;
-   margin-top: 15px;
-   margin-bottom: 15px;
+
+   
+}
+
+.treatment_type_box h5 {
+margin: 5px;
+font-size: 95%;
+
+   
 }
 
 .treatment_type {
    background-repeat: no-repeat;
    background-position: center center; 
-   background-image: url(/activity/virtualpatient/media/images/treatment_choice.jpg);
+   background-image: url(/activity/virtualpatient/media/images/treatment_choice.png);
    border: 1px solid #aaa;
    min-height: 135px;
    padding: 5px 5px 0px 5px;
@@ -113,17 +123,17 @@
 
 #available_treatments_box {
    float: left;
-   margin-bottom: .5em;
+   margin-bottom: 1.5em;
    width: 750px;
 }
     
 #available_treatments {
 	float: left;
-	width: 718px;
-	height: 88px;
+	width: 670px;
+	height: 86px;
    background-color: #dedede;
    border: 1px solid #ccc;
-   padding: 5px 5px 5px 35px;
+   padding: 5px 5px 5px 55px;
 }
 
 .padded_image {
@@ -182,6 +192,29 @@
 #gender {
 	font-weight:bold;
 	margin:31px 0 0px 300px;
+
+}
+.best {
+	
+	background-color: green;
+
+}
+
+.reasonable {
+	
+	background-color: #adc998;
+
+}
+
+.ineffective {
+	
+	background-color: yellow;
+
+}
+
+.harmful {
+	
+	background-color: red;
 
 }
 

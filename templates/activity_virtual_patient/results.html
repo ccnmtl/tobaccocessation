@@ -53,15 +53,7 @@
 		       {% endfor %}
 		        </div>
 		     </center>
-		     <div class="treatment_reasoning">
-                {% for to in best_treatment_options %}
-             {% if to.combination %}
-                <h4>Combination Therapy</h4>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}
-                {% else %}
-                <h4>{{to.medication.name}}</h4>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}
-                 {% endif %}
-                {% endfor %}
-           </div>
+		 
 		 </div>
        <div class="treatment_type_box">
           <center>
@@ -80,15 +72,7 @@
              {% endfor %}
               </div>
            </center>
-           <div class="treatment_reasoning">
-                {% for to in reasonable_treatment_options %}
-                {% if to.combination %}
-                <h4>Combination Therapy</h4>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}
-                {% else %}
-                <h4>{{to.medication.name}}</h4>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}
-                 {% endif %}
-                {% endfor %}
-           </div>
+           
        </div>
        <div class="treatment_type_box">
           <center>
@@ -107,15 +91,7 @@
              {% endfor %}
               </div>
            </center>
-           <div class="treatment_reasoning">
-              {% for to in ineffective_treatment_options %}
-              {% if to.combination %}
-                <h4>Combination Therapy</h4>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}
-                {% else %}
-                <h4>{{to.medication.name}}</h4>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}
-                 {% endif %}
-              {% endfor %}
-           </div>
+        
        </div>
        <div class="treatment_type_box">
           <center>
@@ -134,12 +110,50 @@
              {% endfor %}
               </div>
            </center>
+           
+     
+       </div>
+       
+       
+	 </div>
+	 
+	           <div class="treatment_reasoning">
+                {% for to in best_treatment_options %}
+             {% if to.combination %}
+                <h4>Combination Therapy</h4><p>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}</p>
+                {% else %}
+                <h4>{{to.medication.name}}</h4><p>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}</p>
+                 {% endif %}
+                {% endfor %}
+           </div>
+           
            <div class="treatment_reasoning">
-              {% for to in harmful_treatment_options %}
-                 {% autoescape off %}{{ to.reasoning }}{% endautoescape %}
+                {% for to in reasonable_treatment_options %}
+                {% if to.combination %}
+                <h4>Combination Therapy</h4><p>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}</p>
+                {% else %}
+                <h4>{{to.medication.name}}</h4><p>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}</p>
+                 {% endif %}
+                {% endfor %}
+           </div>
+           
+              <div class="treatment_reasoning">
+              {% for to in ineffective_treatment_options %}
+             {% if to.combination %}
+                <h4>Combination Therapy</h4><p>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}</p>
+                {% else %}
+                <h4>{{to.medication.name}}</h4><p>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}</p>
+                 {% endif %}
               {% endfor %}
            </div>
-       </div>
-	 </div>
+           <div class="treatment_reasoning">
+              {% for to in harmful_treatment_options %}
+              {% if to.combination %}
+                <h4>Combination Therapy</h4><p>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}</p>
+                {% else %}
+                <h4>{{to.medication.name}}</h4><p>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}</p>
+                 {% endif %}
+              {% endfor %}
+           </div>
 
 {% endblock %}
