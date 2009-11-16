@@ -196,25 +196,25 @@ font-size: 95%;
 }
 .best {
 	
-	background-color: green;
+	background-color: #60ab5e;
 
 }
 
 .reasonable {
 	
-	background-color: #adc998;
+	background-color: #f9e073;
 
 }
 
 .ineffective {
 	
-	background-color: yellow;
+	background-color: #fba940;
 
 }
 
 .harmful {
 	
-	background-color: red;
+	background-color: #ce5a5e;
 
 }
 
