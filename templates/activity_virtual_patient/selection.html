@@ -66,21 +66,21 @@
          
          {% for tag in medications %}
             {% ifequal tag patient_state.combination.0 %} <!-- highlight selected treatments -->
-                <span id='{{tag}}_combo' class='highlight {{tag}} treatment_draggable' onclick="onSelectCombinationTreatment(this); return false;">
+                <span id='{{tag}}_combo' class='padded_image highlight {{tag}} treatment_draggable' onclick="onSelectCombinationTreatment(this); return false;">
             {% else %}
 	            {% ifequal tag patient_state.combination.1 %} <!--  highlight selected treatments -->
-                  <span id='{{tag}}_combo' class='highlight {{tag}} treatment_draggable' onclick="onSelectCombinationTreatment(this); return false;">
+                  <span id='{{tag}}_combo' class='padded_image highlight {{tag}} treatment_draggable' onclick="onSelectCombinationTreatment(this); return false;">
 	            {% else %}
 	               {% if patient_state.combination.1 %} <!-- two other choices were selected. gray this one out -->
-		               <span id='{{tag}}_combo' style="opacity: 0.5;" class='{{tag}} treatment_draggable' onclick="onSelectCombinationTreatment(this); return false;">
+		               <span id='{{tag}}_combo' style="opacity: 0.5;" class='padded_image {{tag}} treatment_draggable' onclick="onSelectCombinationTreatment(this); return false;">
 		            {% else %} <!-- view normally -->
-		               <span id='{{tag}}_combo' class='{{tag}} treatment_draggable' onclick="onSelectCombinationTreatment(this); return false;">
+		               <span id='{{tag}}_combo' class='padded_image {{tag}} treatment_draggable' onclick="onSelectCombinationTreatment(this); return false;">
 		            {% endif %}
 	            {% endifequal %}
             {% endifequal %}
-		             <img src='/activity/virtualpatient/media/images/{{ tag }}.jpg'>
+		           <img src='/activity/virtualpatient/media/images/{{ tag }}.jpg'>
 		          </span>
          {% endfor %}
-       </span>
+      </span>
     </div>
 {% endblock %}

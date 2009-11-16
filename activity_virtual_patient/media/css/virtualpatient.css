@@ -126,10 +126,19 @@
    padding: 5px 5px 5px 35px;
 }
 
-#available_treatments img {
+.padded_image {
+	
+	padding: 3px;
+	height: 40px;
+	width: 150px;
+	display: block;
 	float:left;
-	margin:0 25px 7px 0;
+	background-color: #dedede;
+	margin: -3px 22px 4px -3px;
+	
 }
+
+
 
 .highlight {
 	border: 3px solid #333;
@@ -140,8 +149,11 @@
 	float: left;
 }
 
-#available_treatments .highlight {
-	margin: -3px 22px 0 -3px;
+.padded_image.highlight {
+
+	background-color: #333;
+	border: none;
+	margin: -3px 22px 4px -3px;
 }
 
 
