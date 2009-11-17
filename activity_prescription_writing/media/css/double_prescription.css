@@ -3,6 +3,7 @@
 	display:block;
 	height:209px;
 	margin: -13px 0 0 -55px;
+	*margin: -173px 0 0 -55px;
 
 	
 
@@ -10,7 +11,7 @@
 
 #callout_container {
 
-	float:left;
+	float: left;
 	left: 25px;
 	margin-top:-40px;
 	position:absolute;
@@ -29,18 +30,23 @@
 }
 
 #answer_container1 {
-	float:left;
+	float: left;
 	position:relative;
-	top:-175px;
+	top:-174px;
 	width:200px;
+	*left: -733px;
+	*top: 176px;
+	
 }
 
 #answer_container2 {
-	float:left;
+	float: left;
 	margin-left: 180px;
 	position:relative;
-	top:-175px;
+	top:-174px;
 	width:200px;
+	*left: -530px;
+	*top: 12px;
 }
 
 .correct_answer {
@@ -85,6 +91,7 @@
      float: left;
      width: 323px;
      margin-left: 57px;
+    *margin-left: 30px;
 
 }
 
@@ -102,6 +109,7 @@
 	width: 212px;
 	border-right: 1px solid #ddd;
 	border-bottom: 1px solid #ddd;
+	*width: 163px;
 
 
 }
@@ -109,7 +117,9 @@
 
 
 #refills, #refills_2 {
-   margin: 40px 0 0 45px; 
+   margin: 41px 0 0 45px; 
+    margin: 36px 0 0 44px\9;
+   *margin: 29px 0 0 44px;
    width: 40px; 
    text-align: right;
 }
@@ -130,6 +140,7 @@
 #sig_correct, #sig_2_correct {
    position: relative;  
    margin: 3px 0 2px 242px;
+   *margin: 5px 0 2px 232px;
 
 }
 
@@ -138,6 +149,7 @@
 	position:absolute;
 	top:151px;
 	width:44px;
+	*top:144px;
 
 }
 

@@ -21,6 +21,7 @@
 #answer_container {
      float: left;
      margin-top:-23px;
+     *margin:-20px 0 0 8px;
 }
 
 .correct_answer {
@@ -76,7 +77,9 @@
 
 
 #refills {
-   margin: 40px 0 0 45px; 
+   margin: 42px 0 0 45px; 
+  margin: 36px 0 0 44px\9;
+  *margin: 29px 0 0 35px;
    width: 40px; 
    text-align: right;
    	border-right: 1px solid #ddd;
@@ -88,6 +91,7 @@
 	display:block;
 	height:209px;
 	margin: -151px 0 0 -55px;
+   *margin: -160px 0 0 -55px;
 
 	
 
@@ -96,6 +100,7 @@
 #dosage_correct {
    position: relative;
    margin: 0px 0 3px 215px;
+   *margin: 10px 0 3px 215px;
 
 }
 
@@ -116,7 +121,7 @@
 	position:absolute;
 	top:665px;
 	width:64px;
-
+    *top:661px;
 }
 
 
