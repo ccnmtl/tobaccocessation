@@ -220,27 +220,62 @@ img, img a
 	padding: 0;
 	border: 0;
 	background: transparent url('../img/logo_project.jpg') left center no-repeat;
+	float: left;
+}
+
+#header h4 
+
+{
+
+float: right;
+height:67px;
+width: 464px;
+margin: 30px -215px 0 0;
+
 }
 
 #header #logo_ccnmtl
 {
 	display: block;
-	clear: right;
 	float: right;
-	width: 477px;
+	width: 180px;
 	height: 67px;
 	overflow: hidden;
 	/* margin: 34px 10px 0 0;*/
-	margin: 0 10px 0 0;
+	margin: 0;
 	padding: 0;
-	border: 0;
+	border: none;
+	background: transparent url('../img/logo_ccnmtl.gif') right top no-repeat;
+}
+
+#header #logo_dental
+{
+	display: block;
+	float: left;
+	width: 280px;
+	height: 67px;
+	overflow: hidden;
+	/* margin: 34px 10px 0 0;*/
+	margin: 0;
+	padding: 0;
+	border: none;
 	background: transparent url('../img/logo_ccnmtl.gif') left top no-repeat;
 }
 
 #header #logo_ccnmtl a
 {
 	display: block;
-	width: 477px;
+	width: 180px;
+	height: 67px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+#header #logo_dental a
+{
+	display: block;
+	width: 280px;
 	height: 67px;
 	margin: 0;
 	padding: 0;
@@ -248,7 +283,8 @@ img, img a
 }
 
 #header #logo_project span,
-#header #logo_ccnmtl span
+#header #logo_ccnmtl span,
+#header #logo_dental span
 {
 	display: none;
 }
