@@ -4,6 +4,7 @@ from django.template import Context, loader
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
 from tobaccocessation.activity_treatment_choice.models import * 
+from django.utils import simplejson
 
 @login_required
 def loadstate(request):
