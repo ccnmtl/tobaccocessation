@@ -13,7 +13,7 @@ function onChooseAnswer(ctrl)
 
 function loadStateSuccess(doc)
 {
-   debug('loadStateSuccess ' + doc.question.length)
+   debug('loadStateSuccess')
    // add each element to the correct div
    // remove the element from the "accept" list
    forEach(doc.question,
@@ -50,10 +50,10 @@ function saveState()
  
    doc = 
    {
-      'question': [],
+      'question': []
    }
    
-   questions = getElementsByTagAndClassName(null, 'question')
+   questions = getElementsByTagAndClassName('*', 'question')
               
    forEach(questions,
            function(question) {
