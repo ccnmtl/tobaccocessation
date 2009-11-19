@@ -1,9 +1,12 @@
 <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/MochiKit.js"></script>
 <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/Visual.js"></script>
+<script type="text/javascript" src="/site_media/js/json2.js"></script>
 <script type="text/javascript" src="/activity/quiz/media/js/quiz.js"></script>
 
 {% load markup %}
 {{ block.description|markdown }}
+
+<input type="hidden" id="question_count" value="{{block.question_set.all|length}}"/>
 
 {% for question in block.question_set.all %}
 <div class="cases">
@@ -20,7 +23,7 @@
                        <ol type="A">
 			 {% for answer in question.answer_set.all %}
 			 {% if block.rhetorical %}
-                         <li><input name="question{{question.id}}" value="{{answer.label}}" type="radio" onclick="onChooseAnswer(this)"/>{{answer.label}}</li>
+                         <li><input class="question" id="{{question.id}}_{{answer.id}}" name="question{{question.id}}" value="{{answer.label}}" type="radio" onclick="onChooseAnswer(this)"/>{{answer.label}}</li>
 			 {% else %}
                          <li><input name="pageblock-{{block.pageblock.id}}-question{{question.id}}" value="{{answer.value}}" type="radio" />{{answer.label}}</li>
 			 {% endif %}
@@ -33,7 +36,7 @@
 
 	   {% if block.rhetorical %}
            <div class="casesanswerdisplay">
-              <div id="question{{question.id}}_answer" class="answer" style='display: none'>
+              <div id="{{question.id}}_answer" class="answer" style='display: none'>
                  <p>{% if question.correct_answer_letter %}<b>The
                  correct answer is
                  {{question.correct_answer_letter}}:</b>{% endif %} {{question.explanation|markdown}}</p>

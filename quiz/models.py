@@ -153,4 +153,9 @@ class Response(models.Model):
 
     def __unicode__(self):
         return "response to %s by %s at %s" % (unicode(self.question),unicode(self.user),self.submitted)
+    
+class ActivityState(models.Model):
+    user = models.ForeignKey(User, related_name="quiz_user")
+    json = models.TextField(blank=True)
+    submitted = models.DateTimeField(default=datetime.now)
 
