@@ -8,6 +8,8 @@ from tobaccocessation.activity_virtual_patient.models import *
 from django.db.models import Q
 from pagetree.models import Hierarchy, Section
 from tobaccocessation_main.models import SiteState
+from datetime import timedelta, date
+
 
 @login_required
 def root(request):
@@ -113,6 +115,7 @@ def prescription(request, patient_id, medication_idx='0'):
             dosage2_idx = int(rx['dosage2'])
             concentration2_idx = int(rx['concentration2'])
             
+            
     
     ctx['medication'] =  medication
     ctx['medication_idx'] = medication_idx
@@ -124,7 +127,7 @@ def prescription(request, patient_id, medication_idx='0'):
     ctx['navigate'] = True
     ctx['page_number'] = 3
     ctx['page_addendum'] = "(%s)" % medication[0].name
-        
+    ctx['next_week'] = date.today() + timedelta(weeks=1)   
     template = loader.get_template('activity_virtual_patient/prescription.html')
     return HttpResponse(template.render(ctx))
     

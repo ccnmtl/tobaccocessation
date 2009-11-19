@@ -119,6 +119,9 @@
             </div>
                
             <div id="fields_container2">
+            <div id="patient_name2">{{patient.name}}</div>
+            <div id="date2">{{ next_week|date:"n/j/Y" }}</div>
+            <div id="gender2">X</div>
                <div id="med_name2">{{ medication.1.name }}, &nbsp; </div>
                <select id="concentration2">
 			          {% for cc in medication.1.concentrationchoice_set.all|dictsort:"display_order" %}

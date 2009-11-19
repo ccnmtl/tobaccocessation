@@ -19,3 +19,20 @@ function get_state()
    jsontxt = JSON.stringify(doc, null)
    return jsontxt   
 }
+
+function setupGender()
+{
+   debug('setupGender: ' + $('patient_id').value)
+   if ($('patient_id').value == 4)
+   {
+      // move over the gender to the left
+      setStyle($('gender'), {'margin-left': '285px'})
+      
+      if ($('gender2'))
+      {
+         setStyle($('gender2'), {'margin-left': '288px'})
+      }
+   }
+}
+
+MochiKit.Signal.connect(window, "onload", setupGender)

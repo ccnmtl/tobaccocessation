@@ -67,10 +67,29 @@ width:330px;
 
 #fields_container2 {
 
-margin-left:522px;
+margin-left:530px;
 padding:0;
 width:330px;
-margin-top:-178px;
+margin-top:-218px;
+}
+
+
+#patient_name, #patient_name2 {
+   font-weight: bold;
+   margin-left: 25px;
+   display: inline;
+}
+
+#date, #date2 {
+   margin-left: 120px;
+   display: inline;
+
+}
+
+#gender, #gender2 {
+   font-weight:bold;
+   margin:31px 0 0px 300px;
+
 }
 
 
@@ -96,7 +115,6 @@ float: left;
    margin: 10px 5px 0 65px;
 
 }
-
 
 
 
