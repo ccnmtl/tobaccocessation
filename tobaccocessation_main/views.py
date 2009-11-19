@@ -23,16 +23,6 @@ class rendered_with(object):
         return rendered_func
 
 @login_required
-@rendered_with('tobaccocessation_main/welcome.html')
-def welcome(request):
-    return dict()
-
-@login_required
-@rendered_with('tobaccocessation_main/resources.html')
-def resources(request):
-    return dict()
-
-@login_required
 @rendered_with('tobaccocessation_main/page.html')
 def page(request,path):
     h = Hierarchy.get_hierarchy('main')

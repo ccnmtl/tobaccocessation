@@ -15,7 +15,15 @@ admin.autodiscover()
 
 site_media_root = os.path.join(os.path.dirname(__file__),"media")
 
-urlpatterns = patterns('',
+urlpatterns = patterns('django.views.generic.simple',
+                        (r'^about', 'direct_to_template',{'template':'flatpages/about.html'}),
+                        (r'^help', 'direct_to_template',{'template':'flatpages/help.html'}),
+                        (r'^contact', 'direct_to_template',{'template':'flatpages/contact.html'}),
+                        (r'^welcome', 'direct_to_template',{'template':'flatpages/welcome.html'}),
+                        (r'^resources', 'direct_to_template',{'template':'flatpages/resources.html'}),
+                        )
+
+urlpatterns += patterns('',
                        (r'^crossdomain.xml$', 'django.views.static.serve', {'document_root': os.path.abspath(os.path.dirname(__file__)), 'path': 'crossdomain.xml'}),
 
                        (r'^$','tobaccocessation_main.views.index'),
@@ -32,11 +40,6 @@ urlpatterns = patterns('',
                        (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': site_media_root}),
                        (r'^uploads/(?P<path>.*)$','django.views.static.serve',{'document_root' : settings.MEDIA_ROOT}),
                        
-                       url(r'^welcome/$', 'tobaccocessation_main.views.welcome', name='welcome'),
-                       url(r'^resources/$', 'tobaccocessation_main.views.resources', name='resources'),
-                       
-                       
-
                        # completely override pagetree for virtual patient. it's too much to fit it into the structure                       
                        url(r'^assist/activity-virtual-patient/$', 'tobaccocessation.activity_virtual_patient.views.root', name='root'),
                        url(r'^assist/activity-virtual-patient/options/(?P<patient_id>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.options', name='options'),
@@ -49,3 +52,4 @@ urlpatterns = patterns('',
                        (r'^edit/(?P<path>.*)$','tobaccocessation_main.views.edit_page'),
                        (r'^(?P<path>.*)$','tobaccocessation_main.views.page'),
 )
+
