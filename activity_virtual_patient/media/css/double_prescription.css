@@ -30,6 +30,7 @@ display:block;
 float:left;
 height:15px;
 width:135px;
+/margin: 2px -20px 0 -100px;
 
 }
 
@@ -67,16 +68,22 @@ width:330px;
 
 #fields_container2 {
 
-margin-left:530px;
+margin-left:520px;
 padding:0;
 width:330px;
-margin-top:-218px;
+margin-top:-249px;
 }
 
 
-#patient_name, #patient_name2 {
+#patient_name {
    font-weight: bold;
    margin-left: 25px;
+   display: inline;
+}
+
+#patient_name2 {
+   font-weight: bold;
+   margin-left: 45px;
    display: inline;
 }
 
@@ -86,12 +93,17 @@ margin-top:-218px;
 
 }
 
-#gender, #gender2 {
+#gender {
    font-weight:bold;
    margin:31px 0 0px 300px;
 
 }
 
+#gender2 {
+   font-weight:bold;
+   margin:31px 0 0px 315px;
+
+}
 
 #med_name, #med_name2{
    float: left;
@@ -112,7 +124,8 @@ float: left;
 
 #refill, #refill2 {
 
-   margin: 10px 5px 0 65px;
+   margin: 40px 5px 0 65px;
+   /margin: 35px 5px 0 65px;
 
 }
 
