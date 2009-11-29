@@ -28,14 +28,16 @@ urlpatterns += patterns('',
 
                        (r'^$','tobaccocessation_main.views.index'),
                        (r'^logout/$', 'django.contrib.auth.views.logout', {'template_name': 'logged_out.html'}),
-                       (r'^pagetree/',include('pagetree.urls')),
+                       (r'^admin/pagetree/',include('pagetree.urls')),
                        (r'^main/', include('tobaccocessation_main.urls')),
                        (r'^activity/treatment/', include('tobaccocessation.activity_treatment_choice.urls')),
                        (r'^activity/prescription/', include('tobaccocessation.activity_prescription_writing.urls')),
                        (r'^activity/virtualpatient/', include('tobaccocessation.activity_virtual_patient.urls')),
                        (r'^activity/quiz/', include('tobaccocessation.quiz.urls')),
                        ('^accounts/',include('djangowind.urls')),
+                       
                        (r'^admin/(.*)', admin.site.root),
+                       
 		               (r'^survey/',include('survey.urls')),
                        (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': site_media_root}),
                        (r'^uploads/(?P<path>.*)$','django.views.static.serve',{'document_root' : settings.MEDIA_ROOT}),
@@ -48,8 +50,7 @@ urlpatterns += patterns('',
                        url(r'^assist/activity-virtual-patient/prescription/(?P<patient_id>\d+)/(?P<medication_idx>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.prescription', name='next_prescription'),
                        url(r'^assist/activity-virtual-patient/results/(?P<patient_id>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.results', name='results'),
 
-                       # very important that these two stay last and in this order
-                       (r'^edit/(?P<path>.*)$','tobaccocessation_main.views.edit_page'),
+                       # very important that this stays last and in this order
                        (r'^(?P<path>.*)$','tobaccocessation_main.views.page'),
 )
 

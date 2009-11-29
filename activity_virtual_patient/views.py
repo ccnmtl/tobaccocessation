@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
 from django.shortcuts import render_to_response
-from django.template import Context, loader, Context, loader
+from django.template import Context, loader
 from django.utils import simplejson
 from tobaccocessation.activity_virtual_patient.models import *
 from django.db.models import Q

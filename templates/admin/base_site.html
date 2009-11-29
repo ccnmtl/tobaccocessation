@@ -4,22 +4,7 @@
 {% block title %}{{ title }} | {% trans "Django Admin" %}{% endblock %}
 
 {% block extrahead %}
-<script type="text/javascript" src="/site_media/js/tiny_mce/tiny_mce.js"></script>
-<script type="text/javascript">
-   tinyMCE.init({
-      // General options
-      mode : "textareas",
-      theme : "advanced",
-      plugins : "safari,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
 
-      // Theme options
-      theme_advanced_buttons1 : "bold,italic,underline,|,cut,copy,paste,|,bullist,numlist",
-      theme_advanced_buttons2: "",
-      theme_advanced_toolbar_location : "top",
-      theme_advanced_toolbar_align : "left",
-      editor_selector :"mceEditor",              // css  class
-   });
-</script>
 {% endblock %}
 
 {% block branding %}
