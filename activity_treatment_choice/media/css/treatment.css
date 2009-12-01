@@ -110,7 +110,7 @@ margin: 5px 1px 0 5px;
    -khtml-opacity: 0.8;   /*older Safari*/
    opacity: 0.8;   /*supported by current Mozilla, Safari, and Opera*/
    background-color:#c30;
-   position: absolute; left: 190px; top: 300px; width:470px; height:345px; 
+   position: absolute; left: 190px; top: 440px; width:470px; height:345px; 
    color:#fff; 
    text-align:center; 
    vertical-align:middle;
@@ -120,4 +120,12 @@ margin: 5px 1px 0 5px;
 #success_overlay a
 {
 	color:#fff;
+}
+
+#treatment_instructions
+{
+   font-style: italic;
+   color: #223334;
+   margin: 1em 0;
+   width: 850px;
 }
