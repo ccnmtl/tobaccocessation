@@ -4,7 +4,25 @@
 {% block title %}{{ title }} | {% trans "Django Admin" %}{% endblock %}
 
 {% block extrahead %}
-
+  <script type="text/javascript" src="/site_media/js/tiny_mce/tiny_mce.js"></script>
+  <script type="text/javascript">
+     tinyMCE.init({
+          // General options
+          mode : "textareas",
+          width: "100%",
+          theme : "advanced",
+          content_css : '/site_media/css/tiny_mce.css',
+          plugins : "safari,searchreplace,paste",
+          
+          
+          // Theme options
+          theme_advanced_buttons1 : "bold,italic,underline,|,cut,copy,paste,|,link,unlink,|,styleselect,|,bullist,numlist",
+          theme_advanced_buttons2: "",
+          theme_advanced_toolbar_location : "top",
+          theme_advanced_toolbar_align : "left",
+          editor_selector :"mceEditor",              // css  class
+       });
+    </script>
 {% endblock %}
 
 {% block branding %}
