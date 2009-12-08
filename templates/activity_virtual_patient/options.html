@@ -11,8 +11,11 @@
 {% block content %}
     {{ block.super }} 
     
+    
     <h2>Virtual Patient {{ patient.display_order }}: Classify Treatment Options</h2>
-      <h5>Based on the patient history below, appropriately classify all available treatments.</h5> 
+    <a class="reset_button" href="{% url reset patient.id %}" onclick="clearState(); return false;">Reset&nbsp;Exercise</a>
+    <h5>Based on the patient history below, appropriately classify all available treatments.</h5> 
+      
     <div id="patient">
       
          
@@ -33,7 +36,7 @@
       <input type="hidden" id="foo" value="bar"></input>
     </div>
      <div id="available_treatments_box">
-		<br /> <h4>Available Treatments</h4>   
+		<br /><h4>Treatments To Classify: <span id="treatments_to_classify">{{patient_state.available_treatments|length}}</span></h4>   
 		 
 	    <span id="available_treatments" class="treatment_droppable">
 	    

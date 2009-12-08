@@ -36,6 +36,9 @@ function onXHRError(err)
 
 function navigate()
 {
+   if (!validate())
+      return true
+      
    MochiKit.Signal.disconnect(_onbeforeunload)
    
    url = 'http://' + location.hostname + ':' + location.port + "/activity/virtualpatient/navigate/" + $('page_id').value + "/" + $('patient_id').value + "/"
@@ -47,7 +50,8 @@ function navigate()
             method: 'POST', 
             sendContent: queryString({'json': jsontxt})
          });
-   deferred.addCallbacks(onXHRSuccess, onXHRError);
+   deferred.addCallbacks(onXHRSuccess, onXHRError)
+   return false
 }
 
 //////////////////////////////////////////////////////////////////////////////

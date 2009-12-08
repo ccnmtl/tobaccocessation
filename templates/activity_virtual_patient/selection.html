@@ -10,8 +10,10 @@
 
 {% block content %}
     {{ block.super }} 
+    
     <h2>Virtual Patient {{ patient.display_order }}: Select Best Treatment Option</h2>
-        <h5>Based upon your previous rationale, choose treatment(s) to actually prescribe for this patient.</h5> 
+    <a class="reset_button" href="{% url reset patient.id %}" onclick="clearState(); return false;">Reset&nbsp;Exercise</a>
+    <h5>Based upon your previous rationale, choose treatment(s) to actually prescribe for this patient.</h5> 
     <div id="patient">
       <div id="about_patient">
             <div id="patient_description">
@@ -38,7 +40,7 @@
 						    <span  id="{{tag}}" class="{{tag}} treatment_draggable highlight" onclick="onSelectBestTreatment(this); return false;">
 						 {% else %}
 						    {% if patient_state.prescribe %} <!--  another choice is selected. gray this one -->
-						       <span  id="{{tag}}" class="{{tag}} treatment_draggable" style="opacity: 0.5;" onclick="onSelectBestTreatment(this); return false;">
+						       <span  id="{{tag}}" class="{{tag}} treatment_draggable" onclick="onSelectBestTreatment(this); return false;">
 						    {% else %} <!-- just treat it normally -->
 						       <span  id="{{tag}}" class="{{tag}} treatment_draggable" onclick="onSelectBestTreatment(this); return false;">
 						    {% endif %}
@@ -61,7 +63,7 @@
     <br />
     
     <div id="available_treatments_box" style="{% ifnotequal patient_state.prescribe 'combination' %} display:none {% endifnotequal %}">
-       <br /> <h4>Available Treatments</h4>  
+       <br /> <h4>Treatments To Combine: <span id="treatments_to_combine">{{treatments_to_combine}}</span></h4>  
        <span id="available_treatments" class="treatment_droppable">
          
          {% for tag in medications %}
@@ -72,7 +74,7 @@
                   <span id='{{tag}}_combo' class='padded_image highlight {{tag}} treatment_draggable' onclick="onSelectCombinationTreatment(this); return false;">
 	            {% else %}
 	               {% if patient_state.combination.1 %} <!-- two other choices were selected. gray this one out -->
-		               <span id='{{tag}}_combo' style="opacity: 0.5;" class='padded_image {{tag}} treatment_draggable' onclick="onSelectCombinationTreatment(this); return false;">
+		               <span id='{{tag}}_combo' class='padded_image {{tag}} treatment_draggable' onclick="onSelectCombinationTreatment(this); return false;">
 		            {% else %} <!-- view normally -->
 		               <span id='{{tag}}_combo' class='padded_image {{tag}} treatment_draggable' onclick="onSelectCombinationTreatment(this); return false;">
 		            {% endif %}

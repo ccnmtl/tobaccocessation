@@ -21,6 +21,34 @@ function get_state()
    return jsontxt
 }
 
+function validate()
+{
+   debug('validate')
+   var combination = false
+   elem = getFirstElementByTagAndClassName("*", "highlight", 'best_treatment')
+   if (elem)
+      combination = elem.id == 'combination'
+
+   maxHighlight = combination ? 3 : 1;
+   highlightCount = getElementsByTagAndClassName("*", "highlight").length
+   debug("highlightCount: " + highlightCount)
+   if (highlightCount == maxHighlight)
+   {
+      return true
+   }
+   else if (combination)
+   {
+      alert('Please select two treatments to combine.')
+      return false
+   }
+   else
+   {
+      alert('Please select a best treatment choice.')
+      return false
+   }
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 function setupPage()
@@ -41,39 +69,31 @@ function onSelectBestTreatment(elem)
 {
    debug("onSelectBestTreatment " + elem.id)
    
-   // are we at the maximum treatments allowed? max treatments varies based
-   // on whether we're dealing with a combination situation or not
-   highlightCount = getElementsByTagAndClassName("*", "highlight").length
-   if (highlightCount >= MAX_TREATMENT_COUNT && !hasElementClass(elem, 'highlight'))
-      return
-      
-   // nope, highlight the treatment
-   toggleElementClass('highlight', elem)
-   if (elem.id == "combination")
+   if (!hasElementClass(elem, 'highlight'))
    {
-      if (hasElementClass(elem, 'highlight'))
+      // untoggle all classes that may be highlighted
+      highlighted = getElementsByTagAndClassName("*", "highlight")
+      forEach(highlighted,
+           function(item)
+           {
+               toggleElementClass('highlight', item)
+               if (item.id == 'combination')
+                  hideCombinationView()         
+           })
+      
+      // highlight the selected treatment
+      toggleElementClass('highlight', elem)
+      if (elem.id == "combination")
+      {
          showCombinationView()
+      }
       else
-         hideCombinationView()
+      {
+         setStyle('combination_directions', {'display':'none'})
+         setStyle('singletreatment_directions', {'display':'block'})
+         
+      }
    }
-   else
-   {
-      setStyle('combination_directions', {'display':'none'})
-      setStyle('singletreatment_directions', {'display':'block'})
-      
-      elements = getElementsByTagAndClassName("*", "treatment_draggable", 'best_treatment')
-      forEach(elements,
-              function(element) {
-                 if (element.id != elem.id)
-                 {
-                    if (hasElementClass(elem, 'highlight'))
-                       setOpacity(element, .5)
-                    else
-                       setOpacity(element, 1.0)
-                 }
-              })
-   }
-   checkMaxHighlighted()
 }
 
 function onSelectCombinationTreatment(elem)
@@ -81,35 +101,21 @@ function onSelectCombinationTreatment(elem)
    debug("onSelectCombinationTreatment")
    // are we at the maximum treatments allowed? max treatments varies based
    // on whether we're dealing with a combination situation or not
+   
    highlightCount = getElementsByTagAndClassName("*", "highlight", $('available_treatments')).length
    if (highlightCount >= MAX_COMBOTREATMENT_COUNT && !hasElementClass(elem, 'highlight'))
+   {
+      alert("You've already chosen two treatments to combine. Please deselect one of your choices and reselect this choice.")
       return
-      
+   }
+   
    // nope, highlight the treatment
    toggleElementClass('highlight', elem)
 
    // are we at the maximum treatments allowed now?
    newHighlightCount = getElementsByTagAndClassName("*", "highlight", $('available_treatments')).length
+   $('treatments_to_combine').innerHTML = 2 - newHighlightCount
 
-   // make sure that all the treatments are correctly enabled/disabled 
-   // as the user clicks various treatment options
-   comboTreatments = getElementsByTagAndClassName("*", "treatment_draggable", $('available_treatments'))
-   forEach(comboTreatments,
-           function(med)
-           {
-               if (!hasElementClass(med, 'highlight'))
-               {
-                  if (newHighlightCount >= MAX_COMBOTREATMENT_COUNT)
-                  {
-                     setOpacity(med, .5)
-                  }
-                  else
-                  {
-                     setOpacity(med, 1.0)
-                  }
-               }
-           })
-   checkMaxHighlighted()
 }
 
 function checkMaxHighlighted()
@@ -122,15 +128,6 @@ function checkMaxHighlighted()
    maxHighlight = combination ? 3 : 1;
    highlightCount = getElementsByTagAndClassName("*", "highlight").length
            
-   if (highlightCount == maxHighlight)
-   {
-      setStyle('next', {'display':'inline'})
-      pulsate('next')
-   }
-   else
-   {
-      setStyle('next', {'display':'none'})
-   }
 }
 
 function showCombinationView()
@@ -142,41 +139,6 @@ function showCombinationView()
    
    setStyle($('combination_directions'), {'display':'block'})
    setStyle($('singletreatment_directions'), {'display':'none'})
-   
-   // gray all other best treatments
-   elems = getElementsByTagAndClassName("*", "treatment_draggable", $('best_treatment'))
-   forEach(elems,
-           function(elem)
-           {
-              if (elem.id == 'combination')
-              {
-                 setOpacity(elem, 1.0)
-              }
-              else
-              {
-                 setOpacity(elem, .5)
-              }
-           })
-   
-   // gray all unselected available treatments if we're at the max count 
-   highlightCount = getElementsByTagAndClassName("*", "highlight", $('available_treatments')).length
-   elems = getElementsByTagAndClassName("*", "treatment_draggable", $('available_treatments'))
-   forEach(elems,
-           function(elem)
-           {
-               if (!hasElementClass(elem, 'highlight'))
-               {
-                  if (highlightCount >= MAX_COMBOTREATMENT_COUNT)
-                  {
-                     setOpacity(elem, .5);
-                  }
-                  else
-                  {
-                     setOpacity(elem, 1.0);
-                  }
-               }
-           })
-   
 }
    
 function hideCombinationView()
@@ -189,13 +151,10 @@ function hideCombinationView()
    setStyle($('singletreatment_directions'), {'display':'block'})
       
    
-   // unhighlight any selected combination treatments, and put the opacity back to 1.0
-   // for all best treatments: reset opacity to 1.0 
    elems = getElementsByTagAndClassName("*", "treatment_draggable")
    forEach(elems,
            function(elem)
            {
                removeElementClass(elem, 'highlight')
-               setOpacity(elem, 1.0)
            })
 }

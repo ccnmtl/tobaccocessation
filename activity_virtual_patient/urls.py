@@ -9,4 +9,5 @@ urlpatterns = patterns('',
                        
                        (r'^navigate/(?P<page_id>.*)/(?P<patient_id>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.navigate'),
                        (r'^save/(?P<patient_id>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.save'),
+                       url(r'^reset/(?P<patient_id>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.reset', name='reset'),                       
 )

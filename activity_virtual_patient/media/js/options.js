@@ -17,23 +17,33 @@ function reverteffect(innerelement, top_offset, left_offset)
    return new (MochiKit.Visual.Move)(innerelement, {x: - left_offset, y: - top_offset, duration: dur})
 }
 
-function maybeAllowUserToContinue()
+function validate()
 {
    // check if the "available" treatments block is now empty. if yes
    // light up the "next" button, otherwise, hide it or disable it.
-   
    elems = getElementsByTagAndClassName('*', 'treatment_draggable', 'available_treatments')
    
    getElement('next').disabled = elems.length > 0
    
-   if (elems.length < 1)
+   if (elems.length > 0)
    {
-      setStyle(getElement('next'), {'display': 'inline'})
-      pulsate(getElement('next'))
+      msg = 'Please classify all available treatments before continuing. You have ' + elems.length + ' more treatment'
+      if (elems.length > 1)
+         msg += 's'
+      msg += ' to classify!'
+      alert(msg)
+      return false
    }
    else
-   {
-      setStyle(getElement('next'), {'display': 'none'})
+   {   
+      // make sure the user has classified at least one treatment as a "best treatment choice"
+      elems = getElementsByTagAndClassName('*', 'treatment_draggable', 'best_treatment')
+      if (elems.length < 1)
+      {
+         alert('Please classify at least one choice as a "Best Treatment".')
+         return false
+      }
+      return true
    }
 }
 
@@ -46,8 +56,9 @@ function treatmentDropHandler(element, onto, event)
    setStyle(node, {'position': 'relative', 'left': '', 'top': '', 'zindex': '', 'opacity': '1'})
    onto.appendChild(node)
    
-   maybeAllowUserToContinue()
-
+   elems = getElementsByTagAndClassName('*', 'treatment_draggable', 'available_treatments')
+   $('treatments_to_classify').innerHTML = "" + elems.length
+   
    _dropped = true
 }
 
@@ -83,7 +94,6 @@ function setupPage(doc)
    debug("setupPage")
    
    setupDragDrop()
-   maybeAllowUserToContinue()
 }
 MochiKit.Signal.connect(window, "onload", setupPage)
 

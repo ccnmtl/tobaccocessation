@@ -20,6 +20,11 @@ function get_state()
    return jsontxt   
 }
 
+function validate()
+{
+   return true;
+}
+
 function setupGender()
 {
    debug('setupGender: ' + $('patient_id').value)

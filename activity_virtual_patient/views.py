@@ -35,6 +35,15 @@ def navigate(request, page_id, patient_id):
     return HttpResponse(simplejson.dumps(doc), 'application/json')
 
 @login_required
+def reset(request, patient_id):
+    user_state = _get_user_state(request)
+    user_state['patients'][patient_id] = {}
+    user_state['patients'][patient_id]['available_treatments'] = _get_available_treatments(True)
+    _save(request, user_state)
+    
+    return HttpResponseRedirect(reverse('options', args=[patient_id]))
+
+@login_required
 def options(request, patient_id):
     user_state = _get_user_state(request)
     ctx = get_base_context(request, 'options', user_state, patient_id)
@@ -47,7 +56,6 @@ def options(request, patient_id):
         user_state['patients'][patient_id] = {}
         user_state['patients'][patient_id]['available_treatments'] = _get_available_treatments(True)
         _save(request, user_state)
-    
     
     ctx['previous_url'] = _get_previous_page('options', patient_id, user_state)      
     ctx['patient_state'] = user_state['patients'][patient_id]
@@ -68,7 +76,7 @@ def selection(request, patient_id):
     if user_state['patients'][patient_id].has_key('prescribe') and user_state['patients'][patient_id]['prescribe'] not in user_state['patients'][patient_id]['best_treatment']:
         # clear the prescribe value out and save it.
         user_state['patients'][patient_id]['prescribe'] = ''
-        user_state['patients'][patient_id]['combination'] = ''
+        user_state['patients'][patient_id]['combination'] = []
         _save(request, user_state)
     
     ctx['previous_url'] = _get_previous_page('selection', patient_id, user_state)
@@ -76,6 +84,10 @@ def selection(request, patient_id):
     ctx['patient_state'] = user_state['patients'][patient_id]
     ctx['navigate'] = True
     ctx['page_number'] = '2'
+    ctx['treatments_to_combine'] = 2
+    
+    if user_state['patients'][patient_id].has_key('combination'):
+        ctx['treatments_to_combine'] = 2- len(user_state['patients'][patient_id]['combination'])
         
     template = loader.get_template('activity_virtual_patient/selection.html')
     return HttpResponse(template.render(ctx))
