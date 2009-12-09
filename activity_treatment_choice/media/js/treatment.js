@@ -1,7 +1,26 @@
+_light_smoker_options = ['patch', 'gum', 'lozenge', 'inhaler', 'nasalspray']
+_moderate_smoker_options = ['patch', 'chantix', 'bupropion']
+_heavy_smoker_options = ['combination', 'chantix']
+                            
 function debug(string)
 {
    if (false)
       log("DEBUG " + string)
+}
+
+function validate()
+{
+   debug('validate')
+   if (checkForSuccess())
+   {
+      window.location = $('next').href
+      return true
+   }
+   else
+   {
+      alert("Please complete the exercise before continuing")
+      return false
+   }
 }
 
 function removeClassFromAcceptList(element, node)
@@ -54,13 +73,11 @@ function checkForSuccess()
       { 
          if (_droppables[i].element.id == smoker_quantity_divs[j] && _droppables[i].options.accept.length > 0) 
          { 
-            setStyle('next', {'display': 'none'}) 
             return false 
          } 
       } 
    } 
   
-   setStyle('next', {'display': 'inline'})
    setStyle('success_overlay', {'display': 'inline'})
    setStyle('span_' + $('next_section_slug').value, {'display': 'none'})
    setStyle($('next_section_slug').value, {'display': 'inline'})
@@ -109,26 +126,7 @@ function treatmentDropHandler(element, onto, event)
    
    checkForSuccess()
    _dropped = true
-}
-
-//On successful drop, copy the source node to the destination
-function treatmentTrashHandler(element, onto, event)
-{
-   debug("treatmentTrashHandler: dropping " + element.id + " onto " + onto.id )
-
-   // readd this item from the accept list
-   for (i=0; i < _droppables.length; i++)
-   {
-      if (_droppables[i].element.id == element.parentNode.id)
-      {
-         clazz = element.className.slice(0, element.className.indexOf(' '))
-         _droppables[i].options.accept.push(clazz)
-      }
-   }
-   
-   removeElement(element)
-   
-   _dropped = true
+   setCounters()
 }
 
 function setupTreatmentDropZones()
@@ -148,19 +146,21 @@ function setupTreatmentDropZones()
    _droppables = new Array()
    
    _droppables[0] = new Droppable('treatment_light_smoker', { 
-      accept: ['patch', 'gum', 'lozenge', 'inhaler', 'nasalspray'], // Array of CSS classes
+      accept: _light_smoker_options.slice(), // Array of CSS classes
       ondrop: treatmentDropHandler
    })
    
    _droppables[1] = new Droppable('treatment_moderate_smoker', {
-      accept: ['patch', 'chantix', 'bupropion'],
+      accept: _moderate_smoker_options.slice(),
       ondrop: treatmentDropHandler
    })
    
    _droppables[2] = new Droppable('treatment_heavy_smoker', { 
-      accept: ['combination', 'chantix'],
+      accept: _heavy_smoker_options.slice(),
       ondrop: treatmentDropHandler
    })
+   
+   $('next').onclick = validate
 }
 
 function loadStateSuccess(doc)
@@ -201,6 +201,7 @@ function loadStateSuccess(doc)
 
    
    checkForSuccess()
+   setCounters()
 }
 
 function loadStateError(err)
@@ -262,17 +263,16 @@ function saveStateSuccess()
 {
    debug("saveStateSuccess")
    
-   _droppables[0].options.accept = ['patch', 'gum', 'lozenge', 'inhaler', 'nasalspray'], // Array of CSS classes
+   _droppables[0].options.accept = _light_smoker_options.slice()
    
-   _droppables[1].options.accept = ['patch', 'chantix', 'bupropion']
+   _droppables[1].options.accept = _moderate_smoker_options.slice()
    
-   _droppables[2].options.accept = ['combination', 'chantix']
-                                    
-   setStyle('next', {'display':'none'})
+   _droppables[2].options.accept = _heavy_smoker_options.slice()
    
    setStyle('span_' + $('next_section_slug').value, {'display': 'inline'})
    setStyle($('next_section_slug').value, {'display': 'none'})
    setStyle('success_overlay', {'display': 'none'})
+   setCounters()
 }
 
 function saveStateError()
@@ -309,5 +309,25 @@ function clearState()
            sendContent: queryString({'json': JSON.stringify(doc, null)})
         });
   deferred.addCallbacks(saveStateSuccess, saveStateError);
+}
+
+function setCounters()
+{
+   debug('setCounters')
+   for (i=0; i < _droppables.length; i++) 
+   { 
+      if (_droppables[i].element.id == 'treatment_light_smoker')
+      {
+         $("light_smoker_countdown").innerHTML = _droppables[i].options.accept.length
+      }
+      else if (_droppables[i].element.id == 'treatment_moderate_smoker')
+      {
+         $('moderate_smoker_countdown').innerHTML = _droppables[i].options.accept.length
+      }
+      else if (_droppables[i].element.id == 'treatment_heavy_smoker')
+      {
+         $('heavy_smoker_countdown').innerHTML = _droppables[i].options.accept.length
+      }
+   } 
 }
 

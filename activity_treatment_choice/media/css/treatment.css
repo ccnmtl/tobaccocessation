@@ -64,9 +64,9 @@
 }
 
 .treatment_choice {
-   height: 120px;
+   height: 103px;
    border: 1px solid #000;
-   margin-bottom: 1em;
+   
    background-repeat: no-repeat;
    background-position: center center; 
    background-image: url(/activity/treatment/media/images/treatment_choice.jpg);
@@ -76,6 +76,13 @@
 	margin-top: 1em;
 	margin-left: 1em;
 	color: #989898;
+}
+
+.countdown {
+	text-align: left;
+	font-size: 80%;
+	margin-bottom: 1em;
+	margin-left: 10px;
 }
 
 .treatments

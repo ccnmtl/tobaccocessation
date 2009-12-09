@@ -1,6 +1,6 @@
 function debug(string)
 {
-   if (true)
+   if (false)
       log("DEBUG " + string)
 }
 
