@@ -7,16 +7,11 @@
    <script type="text/javascript" src="/activity/treatment/media/js/treatment.js"></script>
 
 <a class="reset_button" href="#" onclick="clearState(); return false;">Reset Exercise</a>
-   <div id="treatment_instructions">
-     Instructions: Now that you have learned about selecting and prescribing NRT and non-NRT pharmacotherapeutics for tobacco cessation, 
-     the following exercise will test your knowledge on treatment choices for a 1/2 pack per day smoker, a 1 pack per day smoker and a 2 packs 
-     per day smoker. For each of these patients assume that they have a non-significant health history and have not made a prior quit attempt. 
-     Note &#8211; for some of the patients in this exercise you will be able to select more than one product as a "Best Treatment Choice". 
-     However, this does not necessarily mean that the products are used in unison.
-     <br /><br />
-     Immediately following this exercise you will gain a more thorough understanding of appropriate pharmacotherapeutic treatment selection for 
-     four "virtual patients."
-   </div>
+   <h5>
+     Select ALL possibly effective treatment options patients of each type. <br />
+     Assume that all patients have a non-significant health history and no prior quit attempts. 
+    
+   </h5>
     	<div id="treatment_leftcol">
 		  <h6>Patient Smokes</h6>
 		  <div class="smoker_quantity">
@@ -56,7 +51,7 @@
 		                   <td class="treatment" style="background-image: url(/activity/treatment/media/images/{{ treatment }}.jpg)"><span id="{{treatment}}" class="{{ treatment }} treatment_draggable"><img src="/activity/treatment/media/images/{{ treatment }}.jpg"></span></td>
 		                {% if forloop.counter|divisibleby:"1" %}</tr>{% endif %}
 		          {% endfor %}
-		        <tr><td style="height: 6px; border: none;"></td></tr>
+		        <tr><td style="height: 99px; border: none;"></td></tr>
 		    
           </table>
 		</div>
