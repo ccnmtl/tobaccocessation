@@ -228,10 +228,14 @@ img, img a
 
 {
 
-float: right;
+position: absolute;
 height:67px;
-width: 464px;
-margin: 30px -215px 0 0;
+width: 99%;
+min-width: 987px;
+top: 28px;
+left: 10px;
+display: block;
+
 
 }
 
@@ -247,19 +251,20 @@ margin: 30px -215px 0 0;
 	padding: 0;
 	border: none;
 	background: transparent url('../img/logo_ccnmtl.gif') right top no-repeat;
+	margin-right: 10px;
 }
 
 #header #logo_dental
 {
 	display: block;
-	float: left;
+	float: right;
 	width: 280px;
 	height: 67px;
 	overflow: hidden;
 	/* margin: 34px 10px 0 0;*/
 	margin: 0;
 	padding: 0;
-	border: none;
+		border: none;
 	background: transparent url('../img/logo_ccnmtl.gif') left top no-repeat;
 }
 
