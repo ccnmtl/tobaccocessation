@@ -5,17 +5,19 @@
 {% block sidebarleft %}
    {% with "selected" as style_class %}
       {% with leftnav as menu %}
-		  <!--    <div class="leftnav_head">section title</div>-->
-	<h5>Sections</h5>
-	<ul>
+         {% if leftnav|length %}		  
+				<h5>Sections</h5>
+		   <ul>
 			   {% include "tobaccocessation_main/level_menu.html" %}
 			</ul><br />
+			{% endif %}
+			
 			<h5>Quick References</h5>
 			<ul>
-<li class="reference">
-<a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/PharmacotherapyTable.pdf"><img source="" width="10" height="10" /> Pharmacotherapy Table</a>
-</li>
-</ul>
+				<li class="reference">
+				<a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/PharmacotherapyTable.pdf"><img source="" width="10" height="10" /> Pharmacotherapy Table</a>
+				</li>
+			</ul>
 
 		{% endwith %}
 	{% endwith %}
@@ -37,7 +39,8 @@
 {% block contentnav %}
 <table>
 <tr>
-<td>{% if previous %}
+<td>
+  {% if previous %}
      <a href="{{previous.get_absolute_url}}" id="previous">« {{previous.label}}</a>
   {% endif %}</td><td width="100%" align="center>
   <div id="page_numbering">
