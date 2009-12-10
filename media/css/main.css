@@ -900,10 +900,12 @@ margin: 1em 1em 1em 10px;
 float: left;
 }
 
+
 body.fluid #pagebody #sidebar_left ul {
 	list-style: none;
 	font-size: 84%;
 	margin-left: 1em;
+	margin-bottom: 1.5em;
 	
 
 }
@@ -917,11 +919,19 @@ body.fluid #pagebody #sidebar_left ul li{
 }
 
 body.fluid #pagebody #sidebar_left ul li.reference{
-	padding: 5px;
-	border-bottom: 2px solid #fff;
+	padding: 0px;
 	background-color: #fff;
 	color: #333;
-	margin: 0;
+	margin: -5px 0 0 0;
+}
+
+body.fluid #pagebody #sidebar_left ul li.reference a{
+ line-height: 20px;
+color: #84240A;
+}
+
+body.fluid #pagebody #sidebar_left ul li.reference a:hover{
+	text-decoration: underline;
 }
 
 body.fluid #pagebody #sidebar_left ul li a{
