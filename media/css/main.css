@@ -911,6 +911,14 @@ body.fluid #pagebody #sidebar_left ul li{
 	margin: 0;
 }
 
+body.fluid #pagebody #sidebar_left ul li.reference{
+	padding: 5px;
+	border-bottom: 2px solid #fff;
+	background-color: #fff;
+	color: #333;
+	margin: 0;
+}
+
 body.fluid #pagebody #sidebar_left ul li a{
 	text-decoration: none;
 	color: #333;
