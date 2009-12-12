@@ -87,6 +87,13 @@ function checkForSuccess()
 _dropped = false
 _counter = 5
 _droppables = []
+               
+// Deal with a Safari repaint issue. If the element is "inline", a bad repaint problem crops up. 
+onStart = function (draggable) {
+   draggable.element.style.display = 'block'
+};
+
+connect(Draggables, 'start', onStart);
 
 //On successful drop, "snap" the element back into place immediately, 
 //otherwise, use the MochiKit "move" function to animate the
@@ -117,7 +124,7 @@ function treatmentDropHandler(element, onto, event)
    onto.appendChild(newnode)
    
    // clear the styles that were picked up from drag/drop & the specific background styling
-   setStyle(newnode, {'position': 'relative', 'left': '', 'top': '', 'zindex': '', 'opacity': '1'})
+   setStyle(newnode, {'position': 'relative', 'left': '', 'top': '', 'zindex': '', 'opacity': '1', 'display':'inline'})
    removeElementClass(newnode, 'treatment_draggable')
       addElementClass(newnode, 'treatment_trashable')
    
@@ -165,40 +172,39 @@ function setupTreatmentDropZones()
 
 function loadStateSuccess(doc)
 {
-      // add each element to the correct div
-      // remove the element from the "accept" list
-      forEach(doc.smoker_quantity_state,
-              function(state)
-              {
-                 div = getElement(state.id)
-                 
-                 // create a child for each treatment listed
-                 forEach(state.treatments, 
-                      function(treatment) 
-                      {
-                          // clone the template node
-                          var newnode = $('treatment_template').cloneNode(true)
-                          newnode.id = "treatment_" + _counter++
-                          setStyle(newnode, {'display': 'inline'})
-                          addElementClass(newnode, treatment)
-                          addElementClass(newnode, "treatment_trashable")
-                          
-                          // fix the src on the image
-                          image = getFirstElementByTagAndClassName("img", "", newnode)
-                          image.src = image.src + treatment + ".jpg"
-                          
-                          // This item is also draggable, and can be trashed in the treatments window
-                          new Draggable(newnode, { 
-                             revert: true, 
-                             reverteffect: reverteffect
-                          })
-                          
-                          removeClassFromAcceptList(newnode, div)
-                          
-                          div.appendChild(newnode)
-                      })
-              })
-
+   // add each element to the correct div
+   // remove the element from the "accept" list
+   forEach(doc.smoker_quantity_state,
+           function(state)
+           {
+              div = getElement(state.id)
+              
+              // create a child for each treatment listed
+              forEach(state.treatments, 
+                   function(treatment) 
+                   {
+                       // clone the template node
+                       var newnode = $('treatment_template').cloneNode(true)
+                       newnode.id = "treatment_" + _counter++
+                       setStyle(newnode, {'display': 'inline'})
+                       addElementClass(newnode, treatment)
+                       addElementClass(newnode, "treatment_trashable")
+                       
+                       // fix the src on the image
+                       image = getFirstElementByTagAndClassName("img", "", newnode)
+                       image.src = image.src + treatment + ".jpg"
+                       
+                       // This item is also draggable, and can be trashed in the treatments window
+                       new Draggable(newnode, { 
+                          revert: true, 
+                          reverteffect: reverteffect
+                       })
+                       
+                       removeClassFromAcceptList(newnode, div)
+                       
+                       div.appendChild(newnode)
+                   })
+           })
    
    checkForSuccess()
    setCounters()
