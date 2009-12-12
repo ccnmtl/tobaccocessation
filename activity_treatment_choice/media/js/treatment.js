@@ -90,7 +90,8 @@ _droppables = []
                
 // Deal with a Safari repaint issue. If the element is "inline", a bad repaint problem crops up. 
 onStart = function (draggable) {
-   draggable.element.style.display = 'block'
+   if (navigator.appName == 'Netscape')
+      draggable.element.style.display = 'block'
 };
 
 connect(Draggables, 'start', onStart);
