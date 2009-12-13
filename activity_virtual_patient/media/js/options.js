@@ -1,5 +1,16 @@
 _dropped = false
 
+
+//Deal with a Safari repaint issue. If the element is "inline", a bad repaint problem crops up. 
+onStart = function (draggable) {
+   if (navigator.userAgent.indexOf('Safari') > 0)
+   {
+      draggable.element.style.display = 'inline-block'
+   }
+};
+
+connect(Draggables, 'start', onStart);
+
 //On successful drop, "snap" the element back into place immediately, 
 //otherwise, use the MochiKit "move" function to animate the
 //element's journey back to its resting spot. Copied code partially
@@ -53,7 +64,7 @@ function treatmentDropHandler(element, onto, event)
    debug("treatmentDropHandler")
    
    node = removeElement(element)
-   setStyle(node, {'position': 'relative', 'left': '', 'top': '', 'zindex': '', 'opacity': '1'})
+   setStyle(node, {'position': 'relative', 'left': '', 'top': '', 'zindex': '', 'opacity': '1', 'display': 'inline'})
    onto.appendChild(node)
    
    elems = getElementsByTagAndClassName('*', 'treatment_draggable', 'available_treatments')
