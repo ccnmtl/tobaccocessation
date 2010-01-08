@@ -11,9 +11,9 @@
 {% block content %}
     {{ block.super }} 
     
+     <a class="reset_button" href="{% url reset patient.id %}" onclick="clearState(); return false;">Reset&nbsp;Exercise</a>
     <h2>Virtual Patient {{ patient.display_order }}: Prescribe Treatment(s)</h2>
-    <a class="reset_button" href="{% url reset patient.id %}" onclick="clearState(); return false;">Reset&nbsp;Exercise</a>
-    <h5>Use the prescription(s) below to choose appropriate dosage and medication quantity for this patient.</h5> 
+   <h5>Step 3: Write a prescription for this patient.</h5> 
     <input type="hidden" id="medication_idx" value="{{ medication_idx }}"></input>
     <input type="hidden" id="medication_tag" value="{{ medication.0.tag }}"></input>
     <input type="hidden" id="patient_id" name="patient_id" value="{{patient.id}}"></input>

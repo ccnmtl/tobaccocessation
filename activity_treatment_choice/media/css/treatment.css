@@ -129,3 +129,7 @@ margin: 5px 1px 0 5px;
 {
 	color:#fff;
 }
+
+a.reset_button {
+	margin: -3em 0.2em 0 0;
+}
