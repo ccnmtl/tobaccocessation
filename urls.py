@@ -12,8 +12,12 @@ import survey.urls
 import os.path
 admin.autodiscover()
 
-
 site_media_root = os.path.join(os.path.dirname(__file__),"media")
+
+login_page = (r'^accounts/',include('django.contrib.auth.urls'))
+if hasattr(settings,'WIND_BASE'):
+    login_page = (r'^accounts/',include('djangowind.urls'))
+redirect_after_logout = getattr(settings, 'LOGOUT_REDIRECT_URL', None)
 
 urlpatterns = patterns('django.views.generic.simple',
                         (r'^about', 'direct_to_template',{'template':'flatpages/about.html'}),
@@ -27,7 +31,8 @@ urlpatterns += patterns('',
                        (r'^crossdomain.xml$', 'django.views.static.serve', {'document_root': os.path.abspath(os.path.dirname(__file__)), 'path': 'crossdomain.xml'}),
 
                        (r'^$','tobaccocessation_main.views.index'),
-                       (r'^logout/$', 'django.contrib.auth.views.logout', {'template_name': 'logged_out.html'}),
+                       (r'^accounts/logout/$','django.contrib.auth.views.logout', {'next_page': redirect_after_logout}),
+                       login_page,#see above
                        (r'^admin/pagetree/',include('pagetree.urls')),
                        (r'^main/', include('tobaccocessation_main.urls')),
                        (r'^activity/treatment/', include('tobaccocessation.activity_treatment_choice.urls')),
