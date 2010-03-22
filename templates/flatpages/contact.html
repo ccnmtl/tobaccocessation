@@ -28,7 +28,7 @@
                msg = "<p>Please enter your email address.</p>";
            } else if (emptyString.test(document.forms.feedback.name.value)) {
                msg = "<p>Please enter your name.</p>";
-           } else if (emptyString.test(document.forms.feedback.title.value)) {
+           } else if (emptyString.test(document.forms.feedback.subject.value)) {
                msg = "<p>Please enter a brief subject line.</p>";
            } else if (emptyString.test(document.forms.feedback.description.value)) {
                msg = "<p>Please enter your comment, suggestion or question.</p>";
@@ -58,7 +58,7 @@
             <table>
                 <tr><td class="labelcell"><label for="email">Your Email address:</label></td><td><input class="text" type="text" id="email" name="email" value="{{user.email}}"/></td></tr>
                 <tr><td class="labelcell"><label for="name">Your Name:</label></td><td><input class="text" type="text" id="name" name="name" value="{{ user.get_full_name }}"/></td></tr>
-                <tr><td class="labelcell"><label for="title">Subject:</label></td><td><input class="text" type="text" id="title" name="title" value=""/></td></tr>
+                <tr><td class="labelcell"><label for="subject">Subject:</label></td><td><input class="text" type="text" id="subject" name="title" value=""/></td></tr>
                 <tr><td class="labelcell"><label for="description">Comment or Problem:</label></td><td><textarea rows="4" cols="35" id="description" name="description"></textarea></td></tr>
                 <tr><td/><td class="submitcell"><input type="submit" name="add item" value="Send Feedback"/></td></tr>
                 <input type="hidden" name="title" value="Contact request from Tobacco Cessation web user" />
