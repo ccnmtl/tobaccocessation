@@ -108,9 +108,9 @@ SESSION_SAVE_EVERY_REQUEST = True
 SESSION_COOKIE_AGE = 900 
 
 try:
-from deploy_specific.settings import *
-if locals().has_key('EXTRA_INSTALLED_APPS'):
-   INSTALLED_APPS = EXTRA_INSTALLED_APPS + INSTALLED_APPS
+   from deploy_specific.settings import *
+   if locals().has_key('EXTRA_INSTALLED_APPS'):
+      INSTALLED_APPS = EXTRA_INSTALLED_APPS + INSTALLED_APPS
 except ImportError:
    pass
 

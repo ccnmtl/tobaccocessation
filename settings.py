@@ -5,4 +5,3 @@ try:
 except ImportError:
     pass
 
-DATABASE_USER = 'postgres'
