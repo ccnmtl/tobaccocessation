@@ -4,3 +4,5 @@ try:
     from local_settings import *
 except ImportError:
     pass
+
+DATABASE_USER = 'postgres'
