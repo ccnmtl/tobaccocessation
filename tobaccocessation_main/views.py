@@ -101,10 +101,15 @@ def _construct_menu(request, parent, section, ss):
         
     return menu
 
+UNLOCKED = [ 'resources', 'welcome' ]
+
 def _unlocked(section,user,previous,sitestate):
     """ if the user can proceed past this section """
     if not section or section.is_root or sitestate.get_has_visited(section):
        return True
+   
+    if section.slug in UNLOCKED:
+        return True
     
     if not previous or previous.is_root:
         return True

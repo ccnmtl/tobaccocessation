@@ -1,7 +1,11 @@
 {% block primarynavtabs %}
    <ul>
-      <li><a href="/welcome/">Welcome</a></li>
-      <li><a href="/resources/">Resources</a></li>
-      <li class="selected"><span class="selected">Assist</span></li>
-   </ul>
+    {% for s in root.get_children %}
+      {% ifequal s.slug module.slug %}
+        <li class="selected"><span class="selected">{{s.label}}</span></li>
+      {% else %}    
+        <li><a href="/{{s.slug}}">{{s.label}}</a></li>
+      {% endifequal %}
+    {% endfor %}
+    </ul>
 {% endblock %}

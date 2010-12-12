@@ -23,8 +23,6 @@ urlpatterns = patterns('django.views.generic.simple',
                         (r'^about', 'direct_to_template',{'template':'flatpages/about.html'}),
                         (r'^help', 'direct_to_template',{'template':'flatpages/help.html'}),
                         (r'^contact', 'direct_to_template',{'template':'flatpages/contact.html'}),
-                        (r'^welcome', 'direct_to_template',{'template':'flatpages/welcome.html'}),
-                        (r'^resources', 'direct_to_template',{'template':'flatpages/resources.html'}),
                         )
 
 urlpatterns += patterns('',
