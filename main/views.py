@@ -81,7 +81,7 @@ def page(request,path):
                 root=ancestors[0],
                 previous=prev,
                 next=next,
-                #subnav=subnav,
+                subnav=subnav,
                 depth=section.depth,
                 leftnav=leftnav)
     
@@ -94,6 +94,10 @@ def index(request):
         url = "welcome"
         
     return HttpResponseRedirect(url)
+
+def accessible(section, user):
+    previous = section.get_previous()
+    return _unlocked(section, user, previous, user.get_profile())
 
 #####################################################################
 ## View Utility Methods
@@ -134,17 +138,14 @@ def _construct_menu(request, parent, section, profile):
         
     return menu
 
-UNLOCKED = [ 'resources', 'welcome' ]
+UNLOCKED = [ 'welcome', 'resources' ]
 
 def _unlocked(section,user,previous,profile):
     """ if the user can proceed past this section """
-    if not section or section.is_root or profile.get_has_visited(section):
+    if not section or section.is_root() or profile.get_has_visited(section) or section.slug in UNLOCKED:
        return True
-   
-    if section.slug in UNLOCKED:
-        return True
     
-    if not previous or previous.is_root:
+    if not previous or previous.is_root() or previous.slug in UNLOCKED:
         return True
     
     for p in previous.pageblock_set.all():

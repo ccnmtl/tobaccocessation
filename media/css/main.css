@@ -400,7 +400,42 @@ display: block;
 	min-width: 60px;
 	text-align: center;
 	font-weight: bold;
+}
 
+#primarynav li.disabled
+{
+    display: block;
+    float: left;
+    border: 0;
+    height: 21px;
+    background-image: url(../img/pn_tabbg_rt_off.png);
+    background-position: right top;
+    background-repeat: no-repeat;
+    margin:3px 20px 0 -10px;
+    padding:3px 10px;
+}
+
+#primarynav .disabled
+{
+    text-decoration: none;
+    background-image: url(../img/pn_tabbg_left_off.png);
+    display: block;
+    height:24px;
+    margin:-3px 0 0 -10px;
+    padding:3px 5px 0 13px;
+    background-repeat: no-repeat;
+    min-width: 60px;
+    text-align: center;
+}
+
+#primarynav li.disabled:hover
+{
+   background-image: url(../img/pn_tabbg_rt_off.png);
+}
+
+#primarynav span.disabled:hover
+{
+    background-image: url(../img/pn_tabbg_left_off.png);
 }
 
 #primarynav li:hover

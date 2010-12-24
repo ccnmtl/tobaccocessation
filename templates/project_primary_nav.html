@@ -1,11 +1,17 @@
+{% load accessible %}
+
 {% block primarynavtabs %}
-   <ul>
-    {% for s in root.get_children %}
+<ul>
+   {% for s in root.get_children %}
       {% ifequal s.slug module.slug %}
-        <li class="selected"><span class="selected">{{s.label}}</span></li>
-      {% else %}    
-        <li><a href="/{{s.slug}}">{{s.label}}</a></li>
-      {% endifequal %}
-    {% endfor %}
-    </ul>
+         <li class="selected"><span class="selected">{{s.label}}</span></li>
+      {% else %}{% ifequal s.slug section.slug %}
+         <li class="selected"><span class="selected">{{s.label}}</span></li>
+      {% else %}{% ifaccessible s %}
+         <li><a href="/{{s.slug}}">{{s.label}}</a></li>
+      {% else %}
+         <li class="disabled"><span class="disabled">{{s.label}}</span></li>
+      {% endifaccessible %}{% endifequal %}{% endifequal %}
+   {% endfor %}
+</ul>
 {% endblock %}

@@ -2,7 +2,6 @@
 
 <ul>
    {% with "selected" as style_class %}
-	   
 	   {% if subnav %}
 	      {% with subnav as menu %}
 	        {% include "main/level_menu.html" %}
@@ -15,7 +14,7 @@
 	         {% else %}
                <li>
 	               <a id="{{s.slug}}" href="{{menu_base}}{{s.get_absolute_url}}">{{s.label}}</a>
-                    <span id="span_{{s.slug}}" style="display: none" class="disabled_link">{{s.label}}</span
+                   <span id="span_{{s.slug}}" style="display: none" class="disabled_link">{{s.label}}</span>
 	            </li>
 	         {% endifequal %}
 			{% endfor %}
