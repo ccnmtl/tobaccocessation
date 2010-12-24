@@ -64,24 +64,19 @@ def page(request,path):
     if not section.is_root() and len(ancestors) > 1:
         module = ancestors[1]
         
-    # construct the subnav up here. it's too heavy on the client side
-    subnav = _construct_menu(request, module, section, profile)
-        
-    # construct the left nav up here too.
-    parent = section
+    # specify the leftnav parent up here.
+    leftnav = section
     if section.depth == 4:
-        parent = section.get_parent()
+        leftnav = section.get_parent()
     elif section.depth == 5:
-        parent = section.get_parent().get_parent()
-    leftnav = _construct_menu(request, parent, section, profile)
-    
+        leftnav = section.get_parent().get_parent()
+
     return dict(section=section,
                 accessible=can_access,
                 module=module,
                 root=ancestors[0],
                 previous=prev,
                 next=next,
-                subnav=subnav,
                 depth=section.depth,
                 leftnav=leftnav)
     
@@ -118,27 +113,7 @@ def _get_previous_leaf(section):
     # made it through without finding ourselves? weird.
     return None
 
-def _construct_menu(request, parent, section, profile):
-    menu = []
-    if parent:
-        for s in parent.get_children():
-            entry = {'section': s, 'selected': False, 'descended': False, 'accessible': False}
-            if s.id == section.id:
-                entry['selected'] = True
-            
-            if section in s.get_descendants():
-                entry['descended'] = True
-                
-            previous = _get_previous_leaf(s)
-                
-            if _unlocked(s, request.user, previous, profile):
-                entry['accessible'] = True
-                
-            menu.append(entry)
-        
-    return menu
-
-UNLOCKED = [ 'welcome', 'resources' ]
+UNLOCKED = [ 'welcome', 'resources' ] # special cases
 
 def _unlocked(section,user,previous,profile):
     """ if the user can proceed past this section """
