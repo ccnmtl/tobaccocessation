@@ -4,8 +4,8 @@ from django.conf import settings
 from tobaccocessation.activity_virtual_patient.urls import *
 from tobaccocessation.activity_treatment_choice.urls import *
 from tobaccocessation.activity_prescription_writing.urls import *
-from tobaccocessation.quiz.urls import *
-from tobaccocessation_main.urls import *
+from quizblock.urls import *
+from main.urls import *
 from pagetree.urls import *
 import djangowind.urls
 import survey.urls
@@ -27,21 +27,22 @@ urlpatterns = patterns('django.views.generic.simple',
 
 urlpatterns += patterns('',
                        (r'^crossdomain.xml$', 'django.views.static.serve', {'document_root': os.path.abspath(os.path.dirname(__file__)), 'path': 'crossdomain.xml'}),
-
-                       (r'^$','tobaccocessation_main.views.index'),
+                       (r'^$','main.views.index'),
                        (r'^accounts/logout/$','django.contrib.auth.views.logout', {'next_page': redirect_after_logout}),
-                       login_page,#see above
+                       login_page, #see above
+                       
                        (r'^admin/pagetree/',include('pagetree.urls')),
-                       (r'^main/', include('tobaccocessation_main.urls')),
+                       (r'^admin/quiz/',include('quizblock.urls')),
+                       (r'^admin/(.*)', admin.site.root),
+                       
+                       (r'^main/', include('main.urls')),
                        (r'^activity/treatment/', include('tobaccocessation.activity_treatment_choice.urls')),
                        (r'^activity/prescription/', include('tobaccocessation.activity_prescription_writing.urls')),
                        (r'^activity/virtualpatient/', include('tobaccocessation.activity_virtual_patient.urls')),
-                       (r'^activity/quiz/', include('tobaccocessation.quiz.urls')),
+                       (r'^activity/quiz/', include('quizblock.urls')),
                        ('^accounts/',include('djangowind.urls')),
                        
-                       (r'^admin/(.*)', admin.site.root),
-                       
-		               (r'^survey/',include('survey.urls')),
+                       (r'^survey/',include('survey.urls')),
                        (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': site_media_root}),
                        (r'^uploads/(?P<path>.*)$','django.views.static.serve',{'document_root' : settings.MEDIA_ROOT}),
                        
@@ -53,7 +54,9 @@ urlpatterns += patterns('',
                        url(r'^assist/activity-virtual-patient/prescription/(?P<patient_id>\d+)/(?P<medication_idx>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.prescription', name='next_prescription'),
                        url(r'^assist/activity-virtual-patient/results/(?P<patient_id>\d+)/$', 'tobaccocessation.activity_virtual_patient.views.results', name='results'),
 
+                       (r'^pagetree/',include('pagetree.urls')),
+                       
                        # very important that this stays last and in this order
-                       (r'^(?P<path>.*)$','tobaccocessation_main.views.page'),
+                       (r'^edit/(?P<path>.*)$','main.views.edit_page'),
+                       (r'^(?P<path>.*)$','main.views.page'),
 )
-

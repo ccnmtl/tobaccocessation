@@ -4,10 +4,10 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
 from django.shortcuts import render_to_response
 from django.template import Context, loader
 from django.utils import simplejson
-from tobaccocessation.activity_virtual_patient.models import *
+from activity_virtual_patient.models import *
 from django.db.models import Q
 from pagetree.models import Hierarchy, Section
-from tobaccocessation_main.models import SiteState
+from main.models import UserProfile
 from datetime import timedelta, date
 
 
@@ -48,8 +48,7 @@ def options(request, patient_id):
     user_state = _get_user_state(request)
     ctx = get_base_context(request, 'options', user_state, patient_id)
     
-    ss = SiteState.objects.get_or_create(user=request.user)[0]
-    ss.save_last_location(request.path, ctx['section'])
+    request.user.get_profile().save_last_location(request.path, ctx['section'])
     
     # setup new state object if the user is seeing this patient for the first time.
     if (not user_state['patients'].has_key(patient_id)):
@@ -69,8 +68,7 @@ def options(request, patient_id):
 def selection(request, patient_id):
     user_state = _get_user_state(request)
     ctx = get_base_context(request, 'selection', user_state, patient_id)
-    ss = SiteState.objects.get_or_create(user=request.user)[0]
-    ss.save_last_location(request.path, ctx['section'])
+    request.user.get_profile().save_last_location(request.path, ctx['section'])
 
     # do a quick check to verify everything is correct in the land of the patient state
     if user_state['patients'][patient_id].has_key('prescribe') and user_state['patients'][patient_id]['prescribe'] not in user_state['patients'][patient_id]['best_treatment']:
@@ -96,8 +94,8 @@ def selection(request, patient_id):
 def prescription(request, patient_id, medication_idx='0'):
     user_state = _get_user_state(request)
     ctx = get_base_context(request, 'prescription', user_state, patient_id)
-    ss = SiteState.objects.get_or_create(user=request.user)[0]
-    ss.save_last_location(request.path, ctx['section'])
+    
+    request.user.get_profile().save_last_location(request.path, ctx['section'])
     
     idx = int(medication_idx)
     
@@ -147,8 +145,7 @@ def prescription(request, patient_id, medication_idx='0'):
 def results(request, patient_id):
     user_state = _get_user_state(request)
     ctx = get_base_context(request, 'results', user_state, patient_id)
-    ss = SiteState.objects.get_or_create(user=request.user)[0]
-    ss.save_last_location(request.path, ctx['section'])
+    request.user.get_profile().save_last_location(request.path, ctx['section'])
 
     
     patient_state = user_state['patients'][patient_id]
