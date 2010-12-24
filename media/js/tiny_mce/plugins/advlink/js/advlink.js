@@ -116,7 +116,7 @@ function checkPrefix(n) {
 	if (n.value && Validator.isEmail(n) && !/^\s*mailto:/i.test(n.value) && confirm(tinyMCEPopup.getLang('advlink_dlg.is_email')))
 		n.value = 'mailto:' + n.value;
 
-	if (/^\s*www./i.test(n.value) && confirm(tinyMCEPopup.getLang('advlink_dlg.is_external')))
+	if (/^\s*www\./i.test(n.value) && confirm(tinyMCEPopup.getLang('advlink_dlg.is_external')))
 		n.value = 'http://' + n.value;
 }
 
@@ -354,7 +354,7 @@ function setAttrib(elm, attrib, value) {
 
 	// Clean up the style
 	if (attrib == 'style')
-		value = dom.serializeStyle(dom.parseStyle(value));
+		value = dom.serializeStyle(dom.parseStyle(value), 'a');
 
 	dom.setAttrib(elm, attrib, value);
 }
