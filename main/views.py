@@ -1,12 +1,13 @@
 from django.contrib.auth.decorators import permission_required
 from django.template import RequestContext
-from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
-from pagetree.models import Hierarchy
+from pagetree.models import Hierarchy, Section
 from pagetree.helpers import get_hierarchy, get_section_from_path,get_module, needs_submit
 from main.models import UserProfile
+from django.utils import simplejson
 
 class rendered_with(object):
     def __init__(self, template_name):
@@ -31,54 +32,70 @@ def edit_page(request,path):
                 module=get_module(section),
                 root=h.get_root())    
 
-@rendered_with('main/page.html')
-def page(request,path):
-    h = get_hierarchy()
-    section = get_section_from_path(path)
-    return _response(request, h, section, path)
-
 @login_required
 @rendered_with('main/page.html')
 def page(request,path):
-    h = Hierarchy.get_hierarchy('main')
-    current_root = get_section_from_path(path)
-    section = h.get_first_leaf(current_root)
-    ancestors = section.get_ancestors()
-    profile = UserProfile.objects.get_or_create(user=request.user)[0]
-    
-    # Skip to the first leaf, make sure to mark these sections as visited
-    if (current_root != section):
-        profile.set_has_visited(ancestors)
-        return HttpResponseRedirect(section.get_absolute_url())
-    
-    # the previous node is the last leaf, if one exists.
-    prev = _get_previous_leaf(section)
-    next = section.get_next()
-    
-    # Is this section unlocked now?
-    can_access = _unlocked(section, request.user, prev, profile)
-    if can_access:
-        profile.save_last_location(request.path, section)
+    section = get_section_from_path(path)
         
-    module = None
-    if not section.is_root() and len(ancestors) > 1:
-        module = ancestors[1]
-        
-    # specify the leftnav parent up here.
-    leftnav = section
-    if section.depth == 4:
-        leftnav = section.get_parent()
-    elif section.depth == 5:
-        leftnav = section.get_parent().get_parent()
+    if request.method == "POST":
+        # user has submitted a form. deal with it
+        proceed = True
+        for p in section.pageblock_set.all():
+            if hasattr(p.block(),'needs_submit'):
+                if p.block().needs_submit():
+                    prefix = "pageblock-%d-" % p.id
+                    data = dict()
+                    for k in request.POST.keys():
+                        if k.startswith(prefix):
+                            data[k[len(prefix):]] = request.POST[k]
+                    p.block().submit(request.user,data)
+                    if hasattr(p.block(),'redirect_to_self_on_submit'):
+                        proceed = not p.block().redirect_to_self_on_submit()
+        if proceed:
+            return HttpResponseRedirect(section.get_next().get_absolute_url())
+        else:
+            # giving them feedback before they proceed
+            return HttpResponseRedirect(section.get_absolute_url())
+    else:
+        h = Hierarchy.get_hierarchy('main')
+        first_leaf = h.get_first_leaf(section)
+        ancestors = first_leaf.get_ancestors()
+        profile = UserProfile.objects.get_or_create(user=request.user)[0]
 
-    return dict(section=section,
-                accessible=can_access,
-                module=module,
-                root=ancestors[0],
-                previous=prev,
-                next=next,
-                depth=section.depth,
-                leftnav=leftnav)
+        # Skip to the first leaf, make sure to mark these sections as visited
+        if (section != first_leaf):
+            profile.set_has_visited(ancestors)
+            return HttpResponseRedirect(first_leaf.get_absolute_url())
+        
+        # the previous node is the last leaf, if one exists.
+        prev = _get_previous_leaf(first_leaf)
+        next = first_leaf.get_next()
+        
+        # Is this section unlocked now?
+        can_access = _unlocked(first_leaf, request.user, prev, profile)
+        if can_access:
+            profile.save_last_location(request.path, first_leaf)
+            
+        module = None
+        if not first_leaf.is_root() and len(ancestors) > 1:
+            module = ancestors[1]
+            
+        # specify the leftnav parent up here.
+        leftnav = first_leaf
+        if first_leaf.depth == 4:
+            leftnav = first_leaf.get_parent()
+        elif first_leaf.depth == 5:
+            leftnav = first_leaf.get_parent().get_parent()
+    
+        return dict(section=first_leaf,
+                    accessible=can_access,
+                    module=module,
+                    root=ancestors[0],
+                    previous=prev,
+                    next=next,
+                    depth=first_leaf.depth,
+                    request=request,
+                    leftnav=leftnav)
     
 @login_required
 def index(request):
@@ -90,9 +107,41 @@ def index(request):
         
     return HttpResponseRedirect(url)
 
+# templatetag
 def accessible(section, user):
     previous = section.get_previous()
     return _unlocked(section, user, previous, user.get_profile())
+
+@login_required
+def is_accessible(request, section_slug):
+    section = Section.objects.get(slug=section_slug)
+    previous = section.get_previous()
+    response = {}
+    
+    if _unlocked(section, request.user, previous, request.user.get_profile()):
+        response[section_slug] = "True"
+        
+    json = simplejson.dumps(response)
+    return HttpResponse(json, 'application/json')
+
+@login_required
+def savestate(request, application):
+    json = request.POST['json']
+
+    try:
+        profile = request.user.get_profile()
+        state = profile.get_activity_state()
+        state = ActivityState.objects.get(user=request.user)
+        state.json = json
+        state.save()
+    except ActivityState.DoesNotExist:
+        state = ActivityState.objects.create(user=request.user, json=json)
+
+    response = {}
+    response['success'] = 1
+
+    return HttpResponse(simplejson.dumps(response), 'application/json')
+
 
 #####################################################################
 ## View Utility Methods
