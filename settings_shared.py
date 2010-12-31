@@ -35,6 +35,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'django.middleware.transaction.TransactionMiddleware',
+    #'tobaccocessation.main.middleware.ConsoleExceptionMiddleware'
 )
 
 ROOT_URLCONF = 'tobaccocessation.urls'
@@ -58,11 +59,9 @@ INSTALLED_APPS = (
     'staticmedia',
     'sorl.thumbnail',
     'django.contrib.admin',
-    'tagging',
     'smartif',
     'template_utils',
     'typogrify',
-    'survey',
     'tinymce',
     'pagetree',
     'pageblocks',

@@ -8,6 +8,7 @@ from pagetree.models import Hierarchy, Section
 from pagetree.helpers import get_hierarchy, get_section_from_path,get_module, needs_submit
 from main.models import UserProfile
 from django.utils import simplejson
+from activity_virtual_patient.models import ActivityState
 
 class rendered_with(object):
     def __init__(self, template_name):
@@ -176,6 +177,10 @@ def _unlocked(section,user,previous,profile):
         if hasattr(p.block(),'unlocked'):
            if p.block().unlocked(user) == False:
               return False
+          
+    # Special case for virtual patient as this activity was too big to fit into a "block"
+    if previous.label == "Virtual Patient" and not ActivityState.is_complete(user):
+        return False
     
     return profile.get_has_visited(previous)
 

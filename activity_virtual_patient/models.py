@@ -79,3 +79,16 @@ class TreatmentFeedback(models.Model):
 class ActivityState (models.Model):
     user = models.ForeignKey(User, related_name="virtual_patient_user")
     json = models.TextField()
+    
+    @classmethod
+    def is_complete(self, user):
+        try:    
+            stored_state = ActivityState.objects.get(user=user)
+            user_state = simplejson.loads(stored_state.json)
+            
+            last_patient = Patient.objects.all().order_by('-display_order')[0]
+            results = user_state['patients'][str(last_patient.id)]['results']
+            return len(results) > 0
+        except:
+            return False
+        

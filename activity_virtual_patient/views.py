@@ -147,7 +147,6 @@ def results(request, patient_id):
     ctx = get_base_context(request, 'results', user_state, patient_id)
     request.user.get_profile().save_last_location(request.path, ctx['section'])
 
-    
     patient_state = user_state['patients'][patient_id]
     prescription = None
     
@@ -199,6 +198,9 @@ def results(request, patient_id):
     ctx['next_url'] = _get_next_page('results', patient_id, user_state)
     ctx['prescription'] = "Prescription Summary Here"
     ctx['page_number'] = 4
+    
+    user_state['patients'][patient_id]['results'] = 'completed'
+    _save(request, user_state)
         
     template = loader.get_template('activity_virtual_patient/results.html')
     return HttpResponse(template.render(ctx))
@@ -260,6 +262,8 @@ def _get_next_page(page_id, patient_id, user_state):
         next_patient = _get_next_patient(patient_id)
         if (next_patient):
             next_url = reverse('options', args=[next_patient.id])
+        else:
+            next_url = "/post-exam";
 
     return next_url
 
@@ -343,6 +347,6 @@ def get_hierarchy():
         
 def get_module(section):
     """ get the top level module that the section is in"""
-    if section.is_root:
+    if section.is_root():
         return None
     return section.get_ancestors()[1]

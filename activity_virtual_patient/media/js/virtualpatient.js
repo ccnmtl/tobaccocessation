@@ -39,13 +39,13 @@ function navigate()
    if (!validate())
       return true
       
-   MochiKit.Signal.disconnect(_onbeforeunload)
+   MochiKit.Signal.disconnect(_onbeforeunload);
    
-   url = 'http://' + location.hostname + ':' + location.port + "/activity/virtualpatient/navigate/" + $('page_id').value + "/" + $('patient_id').value + "/"
+   var url = 'http://' + location.hostname + ':' + location.port + "/activity/virtualpatient/navigate/" + $('page_id').value + "/" + $('patient_id').value + "/"
 
-   jsontxt = get_state() // defined by individual pages
+   var jsontxt = get_state() // defined by individual pages
    
-   deferred = doXHR(url, 
+   var deferred = doXHR(url, 
          { 
             method: 'POST', 
             sendContent: queryString({'json': jsontxt})
