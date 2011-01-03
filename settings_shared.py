@@ -84,7 +84,7 @@ PAGEBLOCKS = ['pageblocks.HTMLBlockWYSIWYG',
               'activity_prescription_writing.Block',
               'main.FlashVideoBlock']
 
-LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL = '/'
 
 # TinyMCE settings                                                                                                                                    
 
