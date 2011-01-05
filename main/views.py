@@ -10,6 +10,8 @@ from main.models import UserProfile
 from django.utils import simplejson
 from activity_virtual_patient.models import ActivityState
 
+INDEX_URL = "/welcome/"
+
 class rendered_with(object):
     def __init__(self, template_name):
         self.template_name = template_name
@@ -104,7 +106,7 @@ def index(request):
         profile = request.user.get_profile()
         url = profile.last_location
     except UserProfile.DoesNotExist:
-        url = "welcome"
+        url = INDEX_URL
         
     return HttpResponseRedirect(url)
 
@@ -126,23 +128,29 @@ def is_accessible(request, section_slug):
     return HttpResponse(json, 'application/json')
 
 @login_required
-def savestate(request, application):
-    json = request.POST['json']
-
+def clear_state(request):
     try:
-        profile = request.user.get_profile()
-        state = profile.get_activity_state()
-        state = ActivityState.objects.get(user=request.user)
-        state.json = json
-        state.save()
-    except ActivityState.DoesNotExist:
-        state = ActivityState.objects.create(user=request.user, json=json)
+        request.user.get_profile().delete()
+    except UserProfile.DoesNotExist:
+        pass
 
-    response = {}
-    response['success'] = 1
+    # clear quiz
+    import quizblock
+    quizblock.models.Submission.objects.filter(user=request.user).delete()
+        
+    # clear prescription writing
+    import activity_prescription_writing
+    activity_prescription_writing.models.ActivityState.objects.filter(user=request.user).delete()
+    
+    # clear treatment choices
+    import activity_treatment_choice
+    activity_treatment_choice.models.ActivityState.objects.filter(user=request.user).delete()
+    
+    # clear virtual patient
+    import activity_virtual_patient
+    activity_virtual_patient.models.ActivityState.objects.filter(user=request.user).delete()
 
-    return HttpResponse(simplejson.dumps(response), 'application/json')
-
+    return HttpResponseRedirect(INDEX_URL)
 
 #####################################################################
 ## View Utility Methods

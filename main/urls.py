@@ -10,5 +10,6 @@ urlpatterns = patterns('',
 
 urlpatterns += patterns('main.views',
                        (r'^accessible/(?P<section_slug>.*)/$','is_accessible',{},'is-accessible'),
+                       (r'^clear/$','clear_state',{},'clear-state'),
 )
 

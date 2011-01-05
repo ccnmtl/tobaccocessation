@@ -8,7 +8,7 @@
       {% else %}{% ifequal s.slug section.slug %}
          <li class="selected"><span class="selected">{{s.label}}</span></li>
       {% else %}{% ifaccessible s %}
-         <li><a href="/{{s.slug}}">{{s.label}}</a></li>
+         <li><a href="{{s.get_absolute_url}}">{{s.label}}</a></li>
       {% else %}
          <li class="disabled"><span class="disabled">{{s.label}}</span></li>
       {% endifaccessible %}{% endifequal %}{% endifequal %}
