@@ -11,14 +11,486 @@
 <thead>
 <tr><td rowspan="1" colspan="3">virtualPatientOne</td></tr>
 </thead><tbody>
+<!--OPTIONS-->
 <tr>
 	<td>open</td>
 	<td>/assist/activity-virtual-patient/options/1/</td>
 	<td></td>
 </tr>
 <tr>
+	<td>assertElementNotPresent</td>
+	<td>link=Virtual Patient 2</td>
+	<td></td>
+</tr>
+<!--Verify Initial State-->
+<tr>
 	<td>verifyTextPresent</td>
 	<td>Virtual Patient 1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Virtual Patient 1 | Page 1 of 4</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Treatments To Classify: 8</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//div[@id='available_treatments_box']/span/span[@id='nicotinepatch']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//div[@id='available_treatments_box']/span/span[@id='nicotinenasalspray']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//div[@id='available_treatments_box']/span/span[@id='nicotinegum']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//div[@id='available_treatments_box']/span/span[@id='varenicline']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//div[@id='available_treatments_box']/span/span[@id='nicotineinhaler']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//div[@id='available_treatments_box']/span/span[@id='bupropion']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//div[@id='available_treatments_box']/span/span[@id='combination']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//div[@id='available_treatments_box']/span/span[@id='nicotinelozenge']/img</td>
+	<td></td>
+</tr>
+<!--Next is not yet available-->
+<tr>
+	<td>click</td>
+	<td>next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertAlert</td>
+	<td>Please classify all available treatments before continuing. You have 8 more treatments to classify!</td>
+	<td></td>
+</tr>
+<!--Classify all the medications-->
+<tr>
+	<td>dragAndDropToObject</td>
+	<td>//span[@id='nicotinepatch']/img</td>
+	<td>ineffective_treatment</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Treatments To Classify: 7</td>
+	<td></td>
+</tr>
+<tr>
+	<td>dragAndDropToObject</td>
+	<td>//span[@id='nicotinegum']/img</td>
+	<td>ineffective_treatment</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Treatments To Classify: 6</td>
+	<td></td>
+</tr>
+<tr>
+	<td>dragAndDropToObject</td>
+	<td>//span[@id='nicotineinhaler']/img</td>
+	<td>ineffective_treatment</td>
+</tr>
+<tr>
+	<td>dragAndDropToObject</td>
+	<td>//span[@id='nicotinelozenge']/img</td>
+	<td>ineffective_treatment</td>
+</tr>
+<tr>
+	<td>dragAndDropToObject</td>
+	<td>//span[@id='nicotinenasalspray']/img</td>
+	<td>ineffective_treatment</td>
+</tr>
+<tr>
+	<td>dragAndDropToObject</td>
+	<td>//span[@id='bupropion']/img</td>
+	<td>reasonable_treatment</td>
+</tr>
+<tr>
+	<td>dragAndDropToObject</td>
+	<td>//span[@id='combination']/img</td>
+	<td>best_treatment</td>
+</tr>
+<tr>
+	<td>dragAndDropToObject</td>
+	<td>//span[@id='varenicline']/img</td>
+	<td>best_treatment</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Treatments To Classify: 0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//div[@id='best_treatment']/span[@id='combination']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//div[@id='best_treatment']/span[@id='varenicline']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//div[@id='reasonable_treatment']/span[@id='bupropion']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//div[@id='ineffective_treatment']/span[@id='nicotinepatch']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//div[@id='ineffective_treatment']/span[@id='nicotinegum']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//div[@id='ineffective_treatment']/span[@id='nicotineinhaler']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//div[@id='ineffective_treatment']/span[@id='nicotinelozenge']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//div[@id='ineffective_treatment']/span[@id='nicotinenasalspray']/img</td>
+	<td></td>
+</tr>
+<!--Drag & Drop Testing-->
+<tr>
+	<td>dragAndDropToObject</td>
+	<td>//span[@id='bupropion']/img</td>
+	<td>available_treatments</td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//div[@id='available_treatments_box']/span/span[@id='bupropion']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>dragAndDropToObject</td>
+	<td>//span[@id='bupropion']/img</td>
+	<td>harmful_treatment</td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//div[@id='harmful_treatment']/span[@id='bupropion']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>dragAndDropToObject</td>
+	<td>//span[@id='bupropion']/img</td>
+	<td>reasonable_treatment</td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>//div[@id='reasonable_treatment']/span[@id='bupropion']/img</td>
+	<td></td>
+</tr>
+<!--Navigate to Prescription Selection-->
+<tr>
+	<td>clickAndWait</td>
+	<td>next</td>
+	<td></td>
+</tr>
+<!--SELECTION-->
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Virtual Patient 1: Select Best Treatment Option</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Virtual Patient 1 | Page 2 of 4</td>
+	<td></td>
+</tr>
+<!--No medication selected-->
+<tr>
+	<td>click</td>
+	<td>next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertAlert</td>
+	<td>Please select a best treatment choice.</td>
+	<td></td>
+</tr>
+<!--Single medication selection (switch from multiple to single just to test the logic out)-->
+<tr>
+	<td>click</td>
+	<td>//span[@id='combination']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='varenicline']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Click one treatment to prescribe.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextNotPresent</td>
+	<td>Treatments To Combine: 2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertAttribute</td>
+	<td>varenicline@class</td>
+	<td>varenicline treatment_draggable highlight</td>
+</tr>
+<tr>
+	<td>assertNotVisible</td>
+	<td>available_treatments</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Virtual Patient 1: Prescribe Treatment(s)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Virtual Patient 1 | Page 3 (Varenicline) of 4 </td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>fields_container1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>fields_container2</td>
+	<td></td>
+</tr>
+<!--Combination medication selection-->
+<tr>
+	<td>clickAndWait</td>
+	<td>previous</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='combination']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Now select two therapies below to combine.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Treatments To Combine: 2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextNotPresent</td>
+	<td>Click one treatment to prescribe.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertVisible</td>
+	<td>available_treatments</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertAlert</td>
+	<td>Please select two treatments to combine.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='nicotinepatch_combo']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertAttribute</td>
+	<td>nicotinepatch_combo@class</td>
+	<td>padded_image nicotinepatch treatment_draggable highlight</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Treatments To Combine: 1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='nicotinepatch_combo']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertAttribute</td>
+	<td>nicotinepatch_combo@class</td>
+	<td>padded_image nicotinepatch treatment_draggable</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Treatments To Combine: 2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='varenicline_combo']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='nicotinepatch_combo']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='nicotinegum_combo']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertAlert</td>
+	<td>You've already chosen two treatments to combine. Please deselect one of your choices and reselect this choice.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>selectFrame</td>
+	<td>relative=up</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Treatments To Combine: 0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Virtual Patient 1: Prescribe Treatment(s)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Virtual Patient 1 | Page 3 (Nicotine Patch) of 4</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementNotPresent</td>
+	<td>fields_container2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Virtual Patient 1 | Page 3 (Varenicline) of 4</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>fields_container1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>fields_container2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>next</td>
+	<td></td>
+</tr>
+<!--RESULTS-->
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Virtual Patient 1: Treatment Results</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Virtual Patient 2: Classify Treatment Options</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementNotPresent</td>
+	<td>link=Virtual Patient 3</td>
+	<td></td>
+</tr>
+<!--RESET EXERCISE-->
+<tr>
+	<td>clickAndWait</td>
+	<td>previous</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Reset Exercise</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Virtual Patient 1: Classify Treatment Options</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Treatments To Classify: 8</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>link=Virtual Patient 2</td>
 	<td></td>
 </tr>
 
