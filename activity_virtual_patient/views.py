@@ -125,7 +125,9 @@ def prescription(request, patient_id, medication_idx='0'):
             dosage2_idx = int(rx['dosage2'])
             concentration2_idx = int(rx['concentration2'])
             
-            
+    page_addendum = None
+    if len(medication) > 0:
+        page_addendum = "(%s)" % medication[0].name        
     
     ctx['medication'] =  medication
     ctx['medication_idx'] = medication_idx
@@ -136,7 +138,7 @@ def prescription(request, patient_id, medication_idx='0'):
     ctx['concentration2_idx'] = concentration2_idx
     ctx['navigate'] = True
     ctx['page_number'] = 3
-    ctx['page_addendum'] = "(%s)" % medication[0].name
+    ctx['page_addendum'] = page_addendum
     ctx['next_week'] = date.today() + timedelta(weeks=1)   
     template = loader.get_template('activity_virtual_patient/prescription.html')
     return HttpResponse(template.render(ctx))
