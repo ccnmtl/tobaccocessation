@@ -4,26 +4,16 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://localhost:8000/" />
-<title>virtualPatientFour</title>
+<title>virtualPatientTwoAndThree</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">virtualPatientFour</td></tr>
+<tr><td rowspan="1" colspan="3">virtualPatientTwoAndThree</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/assist/activity-virtual-patient/options/4/</td>
-	<td></td>
-</tr>
-<tr>
-	<td>verifyTextPresent</td>
-	<td>Virtual Patient 4: Classify Treatment Options</td>
-	<td></td>
-</tr>
-<tr>
-	<td>assertElementNotPresent</td>
-	<td>link=Post-Exam</td>
+	<td>/assist/activity-virtual-patient/options/2/</td>
 	<td></td>
 </tr>
 <tr>
@@ -87,13 +77,68 @@
 	<td></td>
 </tr>
 <tr>
-	<td>assertElementPresent</td>
-	<td>link=Post-Exam</td>
+	<td>clickAndWait</td>
+	<td>next</td>
 	<td></td>
 </tr>
 <tr>
-	<td>verifyTextPresent</td>
-	<td>Uh oh!</td>
+	<td>dragAndDropToObject</td>
+	<td>//span[@id='nicotinenasalspray']/img</td>
+	<td>reasonable_treatment</td>
+</tr>
+<tr>
+	<td>dragAndDropToObject</td>
+	<td>//span[@id='nicotinepatch']/img</td>
+	<td>reasonable_treatment</td>
+</tr>
+<tr>
+	<td>dragAndDropToObject</td>
+	<td>//span[@id='bupropion']/img</td>
+	<td>harmful_treatment</td>
+</tr>
+<tr>
+	<td>dragAndDropToObject</td>
+	<td>//span[@id='nicotinegum']/img</td>
+	<td>ineffective_treatment</td>
+</tr>
+<tr>
+	<td>dragAndDropToObject</td>
+	<td>//span[@id='nicotineinhaler']/img</td>
+	<td>ineffective_treatment</td>
+</tr>
+<tr>
+	<td>dragAndDropToObject</td>
+	<td>//span[@id='nicotinelozenge']/img</td>
+	<td>ineffective_treatment</td>
+</tr>
+<tr>
+	<td>dragAndDropToObject</td>
+	<td>//span[@id='combination']/img</td>
+	<td>best_treatment</td>
+</tr>
+<tr>
+	<td>dragAndDropToObject</td>
+	<td>//span[@id='varenicline']/img</td>
+	<td>best_treatment</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//span[@id='varenicline']/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>next</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>next</td>
 	<td></td>
 </tr>
 <tr>
@@ -103,7 +148,7 @@
 </tr>
 <tr>
 	<td>verifyTextPresent</td>
-	<td>Post-Exam</td>
+	<td>Virtual Patient 4: Classify Treatment Options</td>
 	<td></td>
 </tr>
 
