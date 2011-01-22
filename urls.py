@@ -40,6 +40,7 @@ urlpatterns += patterns('',
                        (r'^activity/prescription/', include('tobaccocessation.activity_prescription_writing.urls')),
                        (r'^activity/virtualpatient/', include('tobaccocessation.activity_virtual_patient.urls')),
                        (r'^activity/quiz/', include('quizblock.urls')),
+                       (r'^quizblock/',include('quizblock.urls')), #todo - a little extraneous. Consider how to fix.
                        ('^accounts/',include('djangowind.urls')),
                        
                        (r'^survey/',include('survey.urls')),
