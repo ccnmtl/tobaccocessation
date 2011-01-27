@@ -15,7 +15,6 @@ TIME_ZONE = 'America/New_York'
 LANGUAGE_CODE = 'en-us'
 SITE_ID = 1
 USE_I18N = False
-MEDIA_ROOT = "/var/www/tobaccocessation/uploads/"
 MEDIA_URL = '/uploads/'
 ADMIN_MEDIA_PREFIX = '/media/'
 TEMPLATE_LOADERS = (
@@ -116,8 +115,9 @@ try:
     if locals().has_key('EXTRA_INSTALLED_APPS'):
         INSTALLED_APPS = EXTRA_INSTALLED_APPS + INSTALLED_APPS
 except ImportError:
+    import sys
+    print >> sys.stderr, '***** Importing deploy_specific.settings failed'
+    sys.stderr.flush()
     pass
-
-
 
 MANAGERS = ADMINS
