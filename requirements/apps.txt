@@ -11,3 +11,4 @@ requirements/src/pagetree-0.5.6.tar.gz
 requirements/src/pageblocks-0.3.tar.gz
 requirements/src/quizblock-tobaccocessation.tar.gz
 requirements/src/django-treebeard-1.61.tar.gz
+requirements/src/django-sentry-1.5.4.tar.gz

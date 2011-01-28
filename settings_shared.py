@@ -107,7 +107,6 @@ SESSION_COOKIE_AGE = 900
 
 AUTH_PROFILE_MODULE = 'main.UserProfile'
 
-
 #if you add a 'deploy_specific' directory                                                                                                             
 #then you can put a settings.py file and templates/ overrides there                                                                                   
 try:
