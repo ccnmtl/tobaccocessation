@@ -188,13 +188,16 @@ def _unlocked(section,user,previous,profile):
     if not section or section.is_root() or profile.get_has_visited(section) or section.slug in UNLOCKED or section.hierarchy.name in UNLOCKED:
        return True
     
-    if not previous or previous.is_root() or previous.slug in UNLOCKED:
+    if not previous or previous.is_root():
         return True
     
     for p in previous.pageblock_set.all():
         if hasattr(p.block(),'unlocked'):
            if p.block().unlocked(user) == False:
               return False
+          
+    if previous.slug in UNLOCKED:
+        return True;
           
     # Special case for virtual patient as this activity was too big to fit into a "block"
     if previous.label == "Virtual Patient" and not ActivityState.is_complete(user):
