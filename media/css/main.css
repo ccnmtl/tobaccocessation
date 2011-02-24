@@ -400,6 +400,7 @@ display: block;
 	min-width: 60px;
 	text-align: center;
 	font-weight: bold;
+	font-size: 99%; /* One navtab text is a little too long for the selected images, One navtab text is a little too short for the images. Shrinking text a little */ 
 }
 
 #primarynav li.disabled
