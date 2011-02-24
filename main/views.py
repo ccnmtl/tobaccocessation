@@ -33,13 +33,24 @@ def edit_page(request,path):
     h = get_hierarchy()
     return dict(section=section,
                 module=get_module(section),
-                root=h.get_root())    
+                root=h.get_root())
+
+@login_required
+@rendered_with('main/page.html')      
+def resources(request, path):
+    h = get_hierarchy('resources')
+    section = get_section_from_path(path, h.name)
+    return _response(request, h, section, path)
 
 @login_required
 @rendered_with('main/page.html')
 def page(request,path):
+    h = get_hierarchy()
     section = get_section_from_path(path)
-        
+    return _response(request, h, section, path)
+    
+@rendered_with('main/page.html')
+def _response(request, h, section, path):
     if request.method == "POST":
         # user has submitted a form. deal with it
         proceed = True
@@ -60,7 +71,6 @@ def page(request,path):
             # giving them feedback before they proceed
             return HttpResponseRedirect(section.get_absolute_url())
     else:
-        h = Hierarchy.get_hierarchy('main')
         first_leaf = h.get_first_leaf(section)
         ancestors = first_leaf.get_ancestors()
         profile = UserProfile.objects.get_or_create(user=request.user)[0]

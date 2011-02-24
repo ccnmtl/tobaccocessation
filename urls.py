@@ -57,6 +57,9 @@ urlpatterns += patterns('',
 
                        (r'^pagetree/',include('pagetree.urls')),
                        
+                       #resources path -- content that's open by default
+                       (r'resources/(?P<path>.*)$','main.views.resources'),
+                       
                        # very important that this stays last and in this order
                        (r'^edit/(?P<path>.*)$','main.views.edit_page'),
                        (r'^(?P<path>.*)$','main.views.page'),

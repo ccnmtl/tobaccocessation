@@ -264,6 +264,8 @@ def _get_next_page(page_id, patient_id, user_state):
         next_patient = _get_next_patient(patient_id)
         if (next_patient):
             next_url = reverse('options', args=[next_patient.id])
+        else:
+            next_url = '/resources/'
 
     return next_url
 
