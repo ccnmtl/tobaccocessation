@@ -185,7 +185,7 @@ UNLOCKED = [ 'welcome', 'resources' ] # special cases
 
 def _unlocked(section,user,previous,profile):
     """ if the user can proceed past this section """
-    if not section or section.is_root() or profile.get_has_visited(section) or section.slug in UNLOCKED:
+    if not section or section.is_root() or profile.get_has_visited(section) or section.slug in UNLOCKED or section.hierarchy.name in UNLOCKED:
        return True
     
     if not previous or previous.is_root() or previous.slug in UNLOCKED:

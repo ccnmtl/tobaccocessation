@@ -44,7 +44,9 @@
 <tr>
 <td>
   {% if previous %}
-     <a href="{{previous.get_absolute_url}}" id="previous">« {{previous.label}}</a>
+     {% ifequal section.hierarchy "main" %}
+        <a href="{{previous.get_absolute_url}}" id="previous">« {{previous.label}}</a>
+     {% endifequal %}
   {% endif %}</td><td width="100%" align="center>
   <div id="page_numbering">
   {% ifequal depth 4 %}
