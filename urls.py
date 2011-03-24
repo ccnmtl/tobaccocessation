@@ -33,7 +33,7 @@ urlpatterns += patterns('',
                        
                        (r'^admin/pagetree/',include('pagetree.urls')),
                        (r'^admin/quiz/',include('quizblock.urls')),
-                       (r'^admin/(.*)', admin.site.root),
+                       (r'^admin/(.*)', admin.site.urls),
                        
                        (r'^main/', include('main.urls')),
                        (r'^activity/treatment/', include('tobaccocessation.activity_treatment_choice.urls')),
