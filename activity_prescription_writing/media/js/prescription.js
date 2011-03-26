@@ -120,11 +120,13 @@ function maybeEnableNext()
       
       if (gonext)
       {
+         setStyle('next_disabled', {'display': 'none'}) 
          setStyle('next', {'display': 'inline'}) 
          return true 
       }
       else
       {
+         setStyle('next_disabled', {'display': 'inline'}) 
          setStyle('next', {'display': 'none'}) 
          return false
       }
@@ -187,6 +189,7 @@ function loadState()
    if (!$('dosage_correct'))
    {
       setStyle('next', {'display': 'none'})
+      setStyle('next_disabled', {'display': 'inline'})
    }
    url = 'http://' + location.hostname + ':' + location.port + "/activity/prescription/load/"
    deferred = loadJSONDoc(url)

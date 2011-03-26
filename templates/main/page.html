@@ -1,5 +1,6 @@
 {% extends "base_two_col_left.html" %}
 {% load render %}
+{% load accessible %}
 
 {% block js %} 
     <script type="text/javascript" src="/site_media/js/json2.js"></script>
@@ -19,7 +20,10 @@
     <h4>Quick References</h4>
     <ul>
         <li class="reference">
-        <a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/PharmacotherapyTable.pdf"><img src="/site_media/img/icon_table.jpg" align="absmiddle" style="margin-right: 3px;"/></a>&nbsp;<a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/PharmacotherapyTable.pdf">Pharmacotherapy Table</a>
+            <a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/TobaccoCessation_CourseGuide.pdf"><img src="/site_media/img/icon_table.jpg" align="absmiddle" style="margin-right: 3px;"/></a>&nbsp;<a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/TobaccoCessation_CourseGuide.pdf">Course Guide</a>
+        </li>
+        <li class="reference">
+            <a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/PharmacotherapyTable.pdf"><img src="/site_media/img/icon_table.jpg" align="absmiddle" style="margin-right: 3px;"/></a>&nbsp;<a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/PharmacotherapyTable.pdf">Pharmacotherapy Table</a>
         </li>
     </ul>
     
@@ -44,8 +48,12 @@
 <tr>
 <td>
   {% if previous %}
-     {% ifequal section.hierarchy "main" %}
-        <a href="{{previous.get_absolute_url}}" id="previous">« {{previous.label}}</a>
+     {% ifequal section.hierarchy.name "main" %}
+        {% ifaccessible previous %}
+            <a href="{{previous.get_absolute_url}}" id="previous">« {{previous.label}}</a>
+        {% else %}
+            <div id="prev_disabled"><img align="top" src="/site_media/img/lock.png"/> {{previous.label}}</div>
+        {% endifaccessible %}
      {% endifequal %}
   {% endif %}</td><td width="100%" align="center>
   <div id="page_numbering">
@@ -64,6 +72,12 @@
   {% if next %}
      <!-- added to allow javascript access to the menu links. hack for the js activities enabling/disabling of links -->
      <input type="hidden" id="next_section_slug" name="next_section_slug" value="{{next.slug}}"/>
-     <a href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
+     {% ifaccessible next %}
+        <a href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
+        <div style="display: none; color: #7a7a7a;" id="next_disabled">{{next.label}} <img align="top" src="/site_media/img/lock.png"/></div>
+     {% else %}
+        <a style="display: none" href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
+        <div id="next_disabled">{{next.label}} <img align="top" src="/site_media/img/lock.png"/></div>
+     {% endifaccessible %}
   {% endif %}</td></tr></table>
 {% endblock %}

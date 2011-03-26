@@ -953,11 +953,18 @@ body.fluid #pagebody #sidebar_left ul li{
 	margin: 0;
 }
 
-body.fluid #pagebody #sidebar_left ul li.reference{
+body.fluid #pagebody #sidebar_left ul{
 	padding: 0px;
 	background-color: #fff;
 	color: #333;
 	margin: -5px 0 0 0;
+}
+
+li.reference{
+    padding: 0px;
+    background-color: #fff;
+    color: #333;
+    margin: -5px 0 10px 0;
 }
 
 body.fluid #pagebody #sidebar_left ul li.reference a{
@@ -1152,7 +1159,7 @@ float: left;
    font-weight: bold;
 }
 
-#content .content-nav a
+#content .content-nav a, #content .content-nav div
 {
 	background: #ca812e url('../img/bottom_button_bg.jpg') repeat-x;
 	padding: 3px 7px;
@@ -1162,7 +1169,7 @@ float: left;
 	margin-top: -3px;
 }
 
-#content .content-nav a#previous
+#content .content-nav a#previous, #content .content-nav div#prev_disabled
 {
    display: block;
    float: left;
@@ -1170,12 +1177,12 @@ float: left;
    white-space:nowrap;
 }
 
-#content .content-nav a#next
+#content .content-nav a#next, #content .content-nav div#next_disabled
 {
   white-space:nowrap;
-     display: block;
-   float: right;
-   width: auto;
+  display: block;
+  float: right;
+  width: auto;
 }
 
 #content .content-nav table, 

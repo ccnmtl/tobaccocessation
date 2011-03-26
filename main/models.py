@@ -10,6 +10,9 @@ class UserProfile(models.Model):
     last_location = models.CharField(max_length=255)
     visited = models.TextField()
     
+    def __unicode__(self):
+        return self.user.username
+    
     def __init__(self, *args, **kwargs):
         super(UserProfile, self).__init__(*args, **kwargs)
         

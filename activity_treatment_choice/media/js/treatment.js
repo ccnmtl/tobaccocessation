@@ -1,25 +1,25 @@
-_light_smoker_options = ['patch', 'gum', 'lozenge', 'inhaler', 'nasalspray']
-_moderate_smoker_options = ['patch', 'chantix', 'bupropion']
-_heavy_smoker_options = ['combination', 'chantix']
+var _light_smoker_options = ['patch', 'gum', 'lozenge', 'inhaler', 'nasalspray'];
+var _moderate_smoker_options = ['patch', 'chantix', 'bupropion'];
+var _heavy_smoker_options = ['combination', 'chantix'];
                             
 function debug(string)
 {
    if (false)
-      log("DEBUG " + string)
+      log("DEBUG " + string);
 }
 
 function validate()
 {
-   debug('validate')
+   debug('validate');
    if (checkForSuccess())
    {
-      window.location = $('next').href
-      return true
+      window.location = $('next').href;
+      return true;
    }
    else
    {
-      alert("Please complete the exercise before continuing")
-      return false
+      alert("Please complete the exercise before continuing");
+      return false;
    }
 }
 
@@ -78,20 +78,24 @@ function checkForSuccess()
       } 
    } 
   
-   setStyle('success_overlay', {'display': 'inline'})
-   setStyle('span_' + $('next_section_slug').value, {'display': 'none'})
-   setStyle($('next_section_slug').value, {'display': 'inline'})
+   setStyle('success_overlay', {'display': 'inline'});
+   setStyle('span_' + $('next_section_slug').value, {'display': 'none'});
+   setStyle($('next_section_slug').value, {'display': 'inline'});
+   
+   setStyle('next_disabled', {'display': 'none'});
+   setStyle('next', {'display': 'inline'});
+   
    return true 
 }
 
-_dropped = false
-_counter = 5
-_droppables = []
+var _dropped = false;
+var _counter = 5;
+var _droppables = [];
                
 // Deal with a Safari repaint issue. If the element is "inline", a bad repaint problem crops up. 
 onStart = function (draggable) {
    if (navigator.userAgent.indexOf('Safari') > 0)
-      draggable.element.style.display = 'block'
+      draggable.element.style.display = 'block';
 };
 
 connect(Draggables, 'start', onStart);
@@ -279,6 +283,10 @@ function saveStateSuccess()
    setStyle('span_' + $('next_section_slug').value, {'display': 'inline'})
    setStyle($('next_section_slug').value, {'display': 'none'})
    setStyle('success_overlay', {'display': 'none'})
+   
+   setStyle('next_disabled', {'display': 'none'});
+   setStyle('next', {'display': 'inline'});
+   
    setCounters()
 }
 
