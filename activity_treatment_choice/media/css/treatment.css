@@ -118,7 +118,7 @@ margin: 5px 1px 0 5px;
    -khtml-opacity: 0.8;   /*older Safari*/
    opacity: 0.8;   /*supported by current Mozilla, Safari, and Opera*/
    background-color:#c30;
-   position: absolute; left: 230px; top: 290px; width:743px; height:487px; 
+   position: absolute; left: 230px; top: 275px; width:743px; height:487px;  
    color:#fff; 
    text-align:center; 
    vertical-align:middle;
