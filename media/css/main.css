@@ -372,115 +372,53 @@ display: block;
 	float: left;
 	border: 0;
 	height: 21px;
-	background-image: url(../img/pn_tabbg_rt_off.png);
-	background-position: right top;
-	background-repeat: no-repeat;
 	margin:3px 20px 0 -10px;
 	padding:3px 10px;
+	-moz-border-radius: 10px 10px 0 0; 
+	border-radius: 10px 10px 0 0; 
+	background-color: #333;
 }
 
-#primarynav li.selected
+#primarynav li.selected, #primarynav li:hover
 {
-
-	background-image: url(../img/pn_tabbg_rt_on.png);
-
+    background-color: #EAA141;
+    
 }
 
-#primarynav li.selected .selected
+#primarynav li.selected .selected, #primarynav li.disabled .disabled
 {
-
-	background-image: url(../img/pn_tabbg_left_on.png);
-	color: #333;
+	color: black;
 	text-decoration: none;
 	display: block;
 	height:24px;
 	margin:-3px 0 0 -10px;
 	padding:3px 5px 0 13px;
-	background-repeat: no-repeat;
 	min-width: 60px;
 	text-align: center;
 	font-weight: bold;
-	font-size: 99%; /* One navtab text is a little too long for the selected images, One navtab text is a little too short for the images. Shrinking text a little */ 
 }
 
-#primarynav li.disabled
+#primarynav li.disabled, #primarynav li.disabled:hover
 {
-    display: block;
-    float: left;
-    border: 0;
-    height: 21px;
-    background-image: url(../img/pn_tabbg_rt_off.png);
-    background-position: right top;
-    background-repeat: no-repeat;
-    margin:3px 20px 0 -10px;
-    padding:3px 10px;
-}
-
-#primarynav .disabled
-{
-    text-decoration: none;
-    background-image: url(../img/pn_tabbg_left_off.png);
-    display: block;
-    height:24px;
-    margin:-3px 0 0 -10px;
-    padding:3px 5px 0 13px;
-    background-repeat: no-repeat;
-    min-width: 60px;
-    text-align: center;
-}
-
-#primarynav li.disabled:hover
-{
-   background-image: url(../img/pn_tabbg_rt_off.png);
-}
-
-#primarynav span.disabled:hover
-{
-    background-image: url(../img/pn_tabbg_left_off.png);
-}
-
-#primarynav li:hover
-{
-	background-image: url(../img/pn_tabbg_rt_on.png);
+    background-color: #333;
 }
 
 #primarynav a
 {
 	color: #ccc;
 	text-decoration: none;
-	background-image: url(../img/pn_tabbg_left_off.png);
 	display: block;
 	height:24px;
 	margin:-3px 0 0 -10px;
 	padding:3px 5px 0 13px;
-	background-repeat: no-repeat;
 	min-width: 60px;
 	text-align: center;
-
 }
-
-#primarynav b
-{
-	color: #ccc;
-	text-decoration: none;
-	background-image: url(../img/pn_tabbg_left_on.png);
-	display: block;
-	height:24px;
-	margin:-3px 0 0 -10px;
-	padding:3px 5px 0 13px;
-	background-repeat: no-repeat;
-	min-width: 60px;
-	text-align: center;
-	color: #333;
-
-}
-
 
 #primarynav a:hover
 {
 	color: #000;
 	text-decoration: none;
-	background-image: url(../img/pn_tabbg_left_on.png);
 }
 
 #primarynav #usernav li
