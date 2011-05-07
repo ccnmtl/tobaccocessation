@@ -19,16 +19,16 @@
     <h4>Quick References</h4>
     <ul>
         <li class="reference">
-            <a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/TobaccoCessation_CourseGuide.pdf" target="_blank"><img src="/site_media/img/icon_table.jpg" align="absmiddle" style="margin-right: 3px;"/></a>&nbsp;<a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/TobaccoCessation_CourseGuide.pdf" target="_blank">Course Guide</a>
+            <a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/TobaccoCessation_CourseGuide.pdf" target="_blank"><img alt="icon" src="/site_media/img/icon_table.jpg" style="margin-right: 3px; vertical-align: middle;"/></a>&nbsp;<a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/TobaccoCessation_CourseGuide.pdf" target="_blank">Course Guide</a>
         </li>
         {% ifequal module.slug "assist" %}
         <li class="reference">
-            <a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/PharmacotherapyTable.pdf" target="_blank"><img src="/site_media/img/icon_table.jpg" align="absmiddle" style="margin-right: 3px;"/></a>&nbsp;<a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/PharmacotherapyTable.pdf" target="_blank">Pharmacotherapy Table</a>
+            <a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/PharmacotherapyTable.pdf" target="_blank"><img alt="icon" src="/site_media/img/icon_table.jpg" style="margin-right: 3px; vertical-align: middle;"/></a>&nbsp;<a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/PharmacotherapyTable.pdf" target="_blank">Pharmacotherapy Table</a>
         </li>
         {% endifequal %}
         {% ifequal section.hierarchy.name "resources" %}
         <li class="reference">
-            <a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/PharmacotherapyTable.pdf" target="_blank"><img src="/site_media/img/icon_table.jpg" align="absmiddle" style="margin-right: 3px;"/></a>&nbsp;<a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/PharmacotherapyTable.pdf" target="_blank">Pharmacotherapy Table</a>
+            <a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/PharmacotherapyTable.pdf" target="_blank"><img alt="icon" src="/site_media/img/icon_table.jpg" style="margin-right: 3px; vertical-align: middle;"/></a>&nbsp;<a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/PharmacotherapyTable.pdf" target="_blank">Pharmacotherapy Table</a>
         </li>
         {% endifequal %}
     </ul>
@@ -57,7 +57,7 @@
      {% ifequal section.hierarchy.name "main" %}
         <a href="{{previous.get_absolute_url}}" id="previous">« {{previous.label}}</a>
      {% endifequal %}
-  {% endif %}</td><td width="100%" align="center>
+  {% endif %}</td><td width="100%" align="center">
   <div id="page_numbering">
   {% ifequal depth 4 %}
      {% with section.get_siblings as siblings %}

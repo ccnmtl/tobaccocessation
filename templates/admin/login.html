@@ -23,7 +23,7 @@
 <input type="hidden" name="destination" value="http://{{ request.get_host }}/accounts/windlogin/?next=/admin/&this_is_the_login_form=1" />
 <p>If you have a Columbia UNI, you already have an account and can
 login through WIND with it</p>
-<input type="submit" value="Here" />
+<input type="submit" value="Here"></input>
 </form>
 <p>otherwise: </p>
 
@@ -37,7 +37,7 @@ login through WIND with it</p>
     <input type="hidden" name="post_data" value="{{ post_data }}" /> {#<span class="help">{% trans 'Have you <a href="/password_reset/">forgotten your password</a>?' %}</span>#}
   </div>
   <div class="submit-row">
-    <label>&nbsp;</label><input type="submit" value="{% trans 'Log in' %}" />
+    <label>&nbsp;</label><input type="submit" value="{% trans 'Log in' %}"></input>
   </div>
 </form>
 
