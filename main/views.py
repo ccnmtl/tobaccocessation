@@ -65,7 +65,11 @@ def _response(request, h, section, path):
                     p.block().submit(request.user,data)
                     if hasattr(p.block(),'redirect_to_self_on_submit'):
                         proceed = not p.block().redirect_to_self_on_submit()
-        if proceed:
+                        
+        if request.is_ajax():
+            json = simplejson.dumps({'submitted': 'True'})
+            return HttpResponse(json, 'application/json')
+        elif proceed:
             return HttpResponseRedirect(section.get_next().get_absolute_url())
         else:
             # giving them feedback before they proceed
