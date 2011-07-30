@@ -4,6 +4,7 @@
 
 {% block js %}
    {{ block.super }}
+   <script type="text/javascript" src="/activity/virtualpatient/media/js/results.js"></script>
    <script type="text/javascript" src="/activity/virtualpatient/media/js/virtualpatient.js"></script>
 {% endblock %}
 
@@ -22,17 +23,11 @@
             <h3>{{patient.name}}</h3>
             <h4>{% autoescape off %}{{ patient.description }}{% endautoescape %} </h4> 
             </div>
-                 <h6>Treatment Results</h6>
-         
-             
-    <div id="treatment_feedback">
-         {% autoescape off %}{{feedback}}{% endautoescape %}
+          <h6>Treatment Results</h6>
+          <div id="treatment_feedback">
+             {% autoescape off %}{{feedback}}{% endautoescape %}
+          </div>
       </div>
-      </div>
- 
-   
-   
-      
       <input type="hidden" id="patient_id" name="patient_id" value="{{patient.id}}"/>
       <input type="hidden" id="page_id" name="page_id" value="1"/>
     </div>

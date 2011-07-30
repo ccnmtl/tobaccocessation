@@ -1124,6 +1124,11 @@ float: left;
   width: auto;
 }
 
+#content .content-nav div#next_disabled, #content .content-nav div#prev_disabled
+{  
+  background: #ca812e url('../img/bottom_button_bg_disabled.jpg') repeat-x;
+}
+
 #content .content-nav table, 
 #content .content-nav table tr, 
 #content .content-nav table tr td {

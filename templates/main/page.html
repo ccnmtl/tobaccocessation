@@ -38,6 +38,7 @@
 
 {% block content %}
    {% if not accessible %}
+      <br />
       This page is not currently accessible. Please complete your current section before moving onto a new section.
    {% else %}
 		<h2>{{ section.label }}</h2>
@@ -81,7 +82,7 @@
      <input type="hidden" id="next_section_slug" name="next_section_slug" value="{{next.slug}}"/>
      {% ifaccessible next %}
         <a href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
-        <div style="display: none; color: #7a7a7a;" id="next_disabled">{{next.label}} <img align="top" src="/site_media/img/lock.png"/></div>
+        <div style="display: none;" id="next_disabled">{{next.label}} <img align="top" src="/site_media/img/lock.png"/></div>
      {% else %}
         <a style="display: none" href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
         <div id="next_disabled">{{next.label}} <img align="top" src="/site_media/img/lock.png"/></div>

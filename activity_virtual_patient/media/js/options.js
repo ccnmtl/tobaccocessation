@@ -5,7 +5,7 @@ _dropped = false
 onStart = function (draggable) {
    if (navigator.userAgent.indexOf('Safari') > 0)
    {
-      draggable.element.style.display = 'inline-block'
+      draggable.element.style.display = 'inline-block';
    }
 };
 
@@ -30,32 +30,20 @@ function reverteffect(innerelement, top_offset, left_offset)
 
 function validate()
 {
-   // check if the "available" treatments block is now empty. if yes
-   // light up the "next" button, otherwise, hide it or disable it.
-   elems = getElementsByTagAndClassName('*', 'treatment_draggable', 'available_treatments')
-   
-   getElement('next').disabled = elems.length > 0
-   
-   if (elems.length > 0)
-   {
-      msg = 'Please classify all available treatments before continuing. You have ' + elems.length + ' more treatment'
-      if (elems.length > 1)
-         msg += 's'
-      msg += ' to classify!'
-      alert(msg)
-      return false
-   }
-   else
-   {   
-      // make sure the user has classified at least one treatment as a "best treatment choice"
-      elems = getElementsByTagAndClassName('*', 'treatment_draggable', 'best_treatment')
-      if (elems.length < 1)
-      {
-         alert('Please classify at least one choice as a "Best Treatment".')
-         return false
-      }
-      return true
-   }
+    // check if the "available" treatments block is now empty. if yes
+    // light up the "next" button, otherwise, hide it or disable it.
+    var elems = getElementsByTagAndClassName('*', 'treatment_draggable', 'available_treatments');
+    var best = getElementsByTagAndClassName('*', 'treatment_draggable', 'best_treatment');
+
+    if (elems.length == 0 && best.length > 0) {
+        getElement('next').style.display = "block";
+        getElement('next_disabled').style.display = "none";
+        return true;
+    } else {
+        getElement('next').style.display = "none";
+        getElement('next_disabled').style.display = "block";
+        return false;
+    } 
 }
 
 // On successful drop, copy the source node to the destination
@@ -71,6 +59,9 @@ function treatmentDropHandler(element, onto, event)
    $('treatments_to_classify').innerHTML = "" + elems.length
    
    _dropped = true
+   
+   // @todo check to see if next should be enabled/disabled
+   validate();
 }
 
 function setupDragDrop()
@@ -105,6 +96,8 @@ function setupPage(doc)
    debug("setupPage")
    
    setupDragDrop()
+   
+   validate();
 }
 MochiKit.Signal.connect(window, "onload", setupPage)
 

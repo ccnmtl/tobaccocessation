@@ -1,7 +1,7 @@
 function debug(string)
 {
-    if (false)
-      log("DEBUG " + string)
+    if (window.console)
+      console("DEBUG " + string)
 }
 
 function connectCallouts()
@@ -120,15 +120,15 @@ function maybeEnableNext()
       
       if (gonext)
       {
-         setStyle('next_disabled', {'display': 'none'}) 
-         setStyle('next', {'display': 'inline'}) 
-         return true 
+         setStyle('next_disabled', {'display': 'none'}); 
+         setStyle('next', {'display': 'inline'}); 
+         return true; 
       }
       else
       {
-         setStyle('next_disabled', {'display': 'inline'}) 
-         setStyle('next', {'display': 'none'}) 
-         return false
+         setStyle('next_disabled', {'display': 'inline'}); 
+         setStyle('next', {'display': 'none'}); 
+         return false;
       }
    }
 }

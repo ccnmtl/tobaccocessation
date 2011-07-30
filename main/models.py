@@ -36,7 +36,10 @@ class UserProfile(models.Model):
         self.state_object[str(section.id)] = section.label
         self.last_location = path
         self.visited = simplejson.dumps(self.state_object)
-        self.save()    
+        self.save()   
+        
+    def display_name(self):
+        return self.user.username
         
 class FlashVideoBlock(models.Model):
     pageblocks = generic.GenericRelation(PageBlock)

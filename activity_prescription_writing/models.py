@@ -65,7 +65,36 @@ class Block(models.Model):
     def medication(self):
         return Medication.objects.filter(name=self.medication_name).order_by('id')
     
-    
+    def unlocked(self, user):
+        if self.show_correct:
+            return True
+        else:
+            unlock = False
+            try: 
+                state = ActivityState.objects.get(user=user)
+                obj = simplejson.loads(state.json)
+                
+                if obj.has_key(self.medication_name):
+                    d = obj[self.medication_name]
+                    if self.medication()[0].rx_count == 1:
+                        unlock = d.has_key('dosage') and len(d['dosage']) > 0 and \
+                                 d.has_key('disp') and len(d['disp']) > 0 and \
+                                 d.has_key('sig') and len(d['sig']) > 0 and \
+                                 d.has_key('refills') and len(d['refills']) > 0
+                    else:
+                        unlock = d.has_key('dosage') and len(d['dosage']) > 0 and \
+                                 d.has_key('disp') and len(d['disp']) > 0 and \
+                                 d.has_key('sig') and len(d['sig']) > 0 and \
+                                 d.has_key('refills') and len(d['refills']) > 0 and \
+                                 d.has_key('dosage_2') and len(d['dosage_2']) > 0 and \
+                                 d.has_key('disp_2') and len(d['disp_2']) > 0 and \
+                                 d.has_key('sig_2') and len(d['sig_2']) > 0 and \
+                                 d.has_key('refills_2') and len(d['refills_2']) > 0
+            except ActivityState.DoesNotExist:
+                pass
+            
+            return unlock
+        
 class ActivityState (models.Model):
     user = models.ForeignKey(User, related_name="prescription_writing_user")
     json = models.TextField(blank=True)

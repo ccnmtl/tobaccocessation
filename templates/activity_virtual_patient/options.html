@@ -11,15 +11,13 @@
 {% block content %}
     {{ block.super }} 
     
-    
     <a class="reset_button" href="{% url reset patient.id %}" onclick="clearState(); return false;">Reset&nbsp;Exercise</a>
-  <h2>Virtual Patient {{ patient.display_order }}: Classify Treatment Options</h2>
-      <h5>Step 1: Based on the patient history below, classify ALL available treatments.</h5> 
+    <h2>Virtual Patient {{ patient.display_order }}: Classify Treatment Options</h2>
+    <h5>Step 1: Based on the patient history below, classify all eight available treatments by dragging them to selected boxes.<br />
+        Choose at least one to be your Best Treatment Choice.</h5> 
       
     <div id="patient">
-      
-         
-            <div id="about_patient">
+       <div id="about_patient">
             <div id="patient_description">
             <img src="/activity/virtualpatient/media/images/patient_{{patient.id}}.jpg" />
             <h3>{{patient.name}}</h3>
@@ -27,8 +25,6 @@
             </div>
               <h6>Patient History</h6>
             <div id="patient_history">{% autoescape off %}{{patient.history}}{% endautoescape %}</div>
-             
-    
       </div>
  
       <input type="hidden" id="patient_id" name="patient_id" value="{{patient.id}}"></input>
@@ -99,9 +95,6 @@
 	       </center>
 	    </div>
 	 </div>
-	 
-	
-
 {% endblock %}
 
 

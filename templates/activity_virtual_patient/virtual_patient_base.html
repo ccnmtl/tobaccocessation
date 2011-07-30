@@ -62,13 +62,14 @@
    </div>
 </td>
 <td>
-   {% if next_url %}
-      <a id='next' href="{{next_url}}">Next »</a>
-   {% endif %}
-   
-   {% if navigate %}
-      <a id='next' href="#" onclick="return navigate();">Next »</a>
-   {% endif %}          
+    {% if next_url or navigate %}
+        {% if next_url %}
+            <a style="display: none" id='next' href="{{next_url}}">Next »</a>
+        {% else %}{% if navigate %}
+            <a style="display: none" id='next' href="#" onclick="return navigate();">Next »</a>  
+        {% endif %}{% endif %}
+        <div style="display: none" id="next_disabled">Next » <img align="top" src="/site_media/img/lock.png"/></div>
+    {% endif %}
 </td>
 </tr>
 </table>   

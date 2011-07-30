@@ -23,38 +23,30 @@ function get_state()
 
 function validate()
 {
-   debug('validate')
    var combination = false
-   elem = getFirstElementByTagAndClassName("*", "highlight", 'best_treatment')
+   var elem = getFirstElementByTagAndClassName("*", "highlight", 'best_treatment')
    if (elem)
       combination = elem.id == 'combination'
 
-   maxHighlight = combination ? 3 : 1;
-   highlightCount = getElementsByTagAndClassName("*", "highlight").length
-   debug("highlightCount: " + highlightCount)
-   if (highlightCount == maxHighlight)
-   {
-      return true
-   }
-   else if (combination)
-   {
-      alert('Please select two treatments to combine.')
-      return false
-   }
-   else
-   {
-      alert('Please select a best treatment choice.')
-      return false
-   }
+   var maxHighlight = combination ? 3 : 1;
+   var highlightCount = getElementsByTagAndClassName("*", "highlight").length
+   
+   if (highlightCount == maxHighlight) {
+       getElement('next').style.display = "block";
+       getElement('next_disabled').style.display = "none";
+       return true;
+   } else {
+       getElement('next').style.display = "none";
+       getElement('next_disabled').style.display = "block";
+       return false;
+   } 
 }
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 function setupPage()
 {
-   debug("setupPage")
-   checkMaxHighlighted()
+   validate();
 }
 
 MochiKit.Signal.connect(window, "onload", setupPage)
@@ -72,28 +64,25 @@ function onSelectBestTreatment(elem)
    if (!hasElementClass(elem, 'highlight'))
    {
       // untoggle all classes that may be highlighted
-      highlighted = getElementsByTagAndClassName("*", "highlight")
-      forEach(highlighted,
-           function(item)
-           {
-               toggleElementClass('highlight', item)
-               if (item.id == 'combination')
-                  hideCombinationView()         
-           })
+      var highlighted = getElementsByTagAndClassName("*", "highlight");
+      for (i = 0; i < highlighted.length; i++) {
+          var item = highlighted[i];
+          removeElementClass(item, 'highlight');
+          if (item.id == 'combination')
+              hideCombinationView();         
+       }
       
       // highlight the selected treatment
-      toggleElementClass('highlight', elem)
-      if (elem.id == "combination")
-      {
-         showCombinationView()
-      }
-      else
-      {
-         setStyle('combination_directions', {'display':'none'})
-         setStyle('singletreatment_directions', {'display':'block'})
-         
+      addElementClass(elem, 'highlight');
+      if (elem.id == "combination") {
+         showCombinationView();
+      } else {
+         setStyle('combination_directions', {'display':'none'});
+         setStyle('singletreatment_directions', {'display':'block'});
       }
    }
+   
+   validate();
 }
 
 function onSelectCombinationTreatment(elem)
@@ -114,20 +103,9 @@ function onSelectCombinationTreatment(elem)
 
    // are we at the maximum treatments allowed now?
    newHighlightCount = getElementsByTagAndClassName("*", "highlight", $('available_treatments')).length
-   $('treatments_to_combine').innerHTML = 2 - newHighlightCount
-
-}
-
-function checkMaxHighlighted()
-{
-   var combination = false
-   elem = getFirstElementByTagAndClassName("*", "highlight", 'best_treatment')
-   if (elem)
-      combination = elem.id == 'combination'
-
-   maxHighlight = combination ? 3 : 1;
-   highlightCount = getElementsByTagAndClassName("*", "highlight").length
-           
+   $('treatments_to_combine').innerHTML = 2 - newHighlightCount;
+   
+   validate();
 }
 
 function showCombinationView()

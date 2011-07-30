@@ -22,6 +22,7 @@ function get_state()
 
 function validate()
 {
+   getElement('next').style.display = "block"; 
    return true;
 }
 
@@ -38,6 +39,8 @@ function setupGender()
          setStyle($('gender2'), {'margin-left': '288px'})
       }
    }
+   
+   validate();
 }
 
 MochiKit.Signal.connect(window, "onload", setupGender)
