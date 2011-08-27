@@ -1,7 +1,7 @@
 function debug(string)
 {
-    if (window.console)
-      console("DEBUG " + string)
+    if (false)
+      log("DEBUG " + string)
 }
 
 function connectCallouts()
