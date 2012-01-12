@@ -11,4 +11,7 @@ requirements/src/pagetree-0.5.9.tar.gz
 requirements/src/pageblocks-0.4.tar.gz
 requirements/src/quizblock-tobaccocessation.tar.gz
 requirements/src/django-treebeard-1.61.tar.gz
+requirements/src/django-indexer-0.2.1.tar.gz
+requirements/src/django-templatetag-sugar-0.1.tar.gz
+requirements/src/django-paging-0.2.2.tar.gz
 requirements/src/django-sentry-1.5.4.tar.gz
