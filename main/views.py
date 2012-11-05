@@ -126,11 +126,11 @@ def index(request):
 
 # templatetag
 def accessible(section, user):
-    if not user.is_authenticated:
+    try:
+        previous = section.get_previous()
+        return _unlocked(section, user, previous, user.get_profile())
+    except AttributeError:
         return False
-    
-    previous = section.get_previous()
-    return _unlocked(section, user, previous, user.get_profile())
 
 @login_required
 def is_accessible(request, section_slug):
