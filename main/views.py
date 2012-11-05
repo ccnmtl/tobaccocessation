@@ -126,6 +126,9 @@ def index(request):
 
 # templatetag
 def accessible(section, user):
+    if not user.is_authenticated:
+        return False
+    
     previous = section.get_previous()
     return _unlocked(section, user, previous, user.get_profile())
 
