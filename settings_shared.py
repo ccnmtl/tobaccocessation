@@ -1,5 +1,6 @@
 # Django settings for tobaccocessation project.
 import os.path
+import sys
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -10,6 +11,18 @@ DATABASE_USER = ''             # Not used with sqlite3.
 DATABASE_PASSWORD = ''         # Not used with sqlite3.
 DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
 DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
+
+if 'test' in sys.argv:
+    DATABASE_ENGINE = 'sqlite3'
+    DATABASE_NAME = ':memory:'
+    ADMINS = ()
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-package=main,activity_prescription_writing,activity_treatment_choice,activity_virtual_patient',
+]
 
 TIME_ZONE = 'America/New_York'
 LANGUAGE_CODE = 'en-us'
@@ -48,7 +61,7 @@ TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(__file__),"templates"),
 )
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -69,8 +82,13 @@ INSTALLED_APPS = (
     'activity_prescription_writing',
     'activity_virtual_patient',
     'quizblock',
-    'deploy_specific',  
-)
+    'deploy_specific',
+    'django_nose',
+]
+
+if 'test' in sys.argv:
+    # this should not be required for tests
+    INSTALLED_APPS.remove('deploy_specific')
 
 THUMBNAIL_SUBDIR = "thumbs"
 
