@@ -3,6 +3,7 @@ from main.views import accessible as section_accessible
 
 register = template.Library()
 
+
 class AccessibleNode(template.Node):
     def __init__(self, section, nodelist_true, nodelist_false=None):
         self.nodelist_true = nodelist_true
@@ -13,15 +14,16 @@ class AccessibleNode(template.Node):
         s = context[self.section]
         r = context['request']
         u = r.user
-        if section_accessible(s,u):
+        if section_accessible(s, u):
             return self.nodelist_true.render(context)
         else:
             return self.nodelist_false.render(context)
 
+
 @register.tag('ifaccessible')
 def accessible(parser, token):
     section = token.split_contents()[1:][0]
-    nodelist_true = parser.parse(('else','endifaccessible'))
+    nodelist_true = parser.parse(('else', 'endifaccessible'))
     token = parser.next_token()
     if token.contents == 'else':
         nodelist_false = parser.parse(('endifaccessible',))
