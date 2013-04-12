@@ -9,8 +9,13 @@ urlpatterns = patterns('',
                         {'document_root': media_root}),
                        )
 
-urlpatterns += patterns('main.views',
-                       (r'^accessible/(?P<section_slug>.*)/$',
-                        'is_accessible', {}, 'is-accessible'),
-                       (r'^clear/$', 'clear_state', {}, 'clear-state'),
-                        )
+urlpatterns += patterns(
+    'main.views',
+
+    (r'^accessible/(?P<section_slug>.*)/$',
+     'is_accessible',
+     {},
+     'is-accessible'),
+
+    (r'^clear/$', 'clear_state', {}, 'clear-state'),
+)
