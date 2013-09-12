@@ -1,18 +1,17 @@
-from tobaccocessation.activity_virtual_patient.models \
-    import ActivityState as VirtualPatientActivityState
-from tobaccocessation.activity_prescription_writing.models \
-    import ActivityState as PrescriptionWritingActivityState
-from tobaccocessation.activity_treatment_choice.models \
-    import ActivityState as TreatmentChoiceActivityState
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils import simplejson
-from tobaccocessation.main.models import UserProfile
-from pagetree.helpers import get_hierarchy, get_section_from_path, \
-    get_module
+from pagetree.helpers import get_hierarchy, get_section_from_path, get_module
 from pagetree.models import Section
+from tobaccocessation.activity_prescription_writing.models import \
+    ActivityState as PrescriptionWritingActivityState
+from tobaccocessation.activity_treatment_choice.models import \
+    ActivityState as TreatmentChoiceActivityState
+from tobaccocessation.activity_virtual_patient.models import \
+    ActivityState as VirtualPatientActivityState
+from tobaccocessation.main.models import UserProfile
 
 
 INDEX_URL = "/welcome/"
