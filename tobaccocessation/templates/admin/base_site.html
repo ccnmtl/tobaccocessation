@@ -1,0 +1,53 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }} | {% trans "Django Admin" %}{% endblock %}
+
+{% block extrahead %}
+  <link rel="stylesheet" href="/site_media/css/admin.css" type="text/css" media="all" />
+  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.3/themes/base/jquery-ui.css" type="text/css" media="all" />
+  
+  <script src="/site_media/js/jquery-1.4.2.min.js" type="text/javascript" ></script>
+  <script src="/site_media/js/jquery-ui-1.8.3.min.js" type="text/javascript"></script>
+  <script type="text/javascript" src="/site_media/js/tiny_mce/tiny_mce.js"></script>
+  
+    <script type="text/javascript">   
+    jQuery(document).ready(function() {
+        tinyMCE.init({
+           // General options
+           mode : "textareas",
+           width: "100%",
+           theme : "advanced",
+           content_css : '/site_media/css/tiny_mce.css',
+           plugins : "safari,searchreplace,paste",
+             
+           // Theme options
+           theme_advanced_buttons1 : "bold,italic,underline,|,cut,copy,paste,pastetext,pasteword,|,link,unlink,|,styleselect,|,bullist,numlist,code",
+           theme_advanced_buttons2: "",
+           theme_advanced_toolbar_location : "top",
+           theme_advanced_toolbar_align : "left",
+           editor_selector :"mceEditor",
+           paste_auto_cleanup_on_paste : true,
+           paste_create_paragraphs : true,
+           paste_create_linebreaks : true,
+           paste_use_dialog : false,
+           paste_convert_middot_lists : true,
+           paste_retain_style_properties:"font-size,font-family,font-style,color", 
+           paste_postprocess : function(pl, o) {
+              // Mac + Word paste results in a residual Word @font style section
+              // Use the built-in hooks to strip out this meta information
+              // See this thread for more info on the bug: http://tinymce.moxiecode.com/forum/viewtopic.php?id=12385&p=2
+              // Content DOM node containing the DOM structure of the clipboard
+              var content = o.node.innerHTML.replace(/@font-face[\w\W]*}/g, ''); // remove weird font-face thingies. The "." syntax doesn't work for some reason
+              o.node.innerHTML = content;
+           },
+        });
+     });
+    </script>
+{% endblock %}
+
+{% block branding %}
+    <h1 id="site-name">{% trans "Django Admin" %}</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

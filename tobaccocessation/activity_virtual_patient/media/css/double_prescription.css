@@ -1,0 +1,176 @@
+#blankrx_vp {
+   height: 285px;
+   background-image: url(/activity/prescription/media/images/double_blankrx_sm.jpg);
+   background-repeat: no-repeat;
+   background-position: top left;
+   padding: 170px 0 0 50px;
+   font-size: 85%;
+   width: 730px;
+}
+
+
+
+
+#blankrx_vp form {
+
+margin: 0 0 0 -155px;
+
+}
+
+#blankrx h3, #blankrx_vp h3 {
+
+margin: 0;
+  
+   
+}
+
+#fieldname_container, #fieldname_container2 {
+
+display:block;
+float:left;
+height:15px;
+width:135px;
+/margin: 2px -20px 0 -100px;
+
+}
+
+.fieldname {
+
+background-color:#EFC48D;
+border:1px solid #EAA141;
+display:block;
+height:15px;
+margin:2px 57px 0 -60px;
+padding:0px 3px 2px 0;
+text-align:right;
+width:150px;
+
+}
+
+.fieldname.patient {
+
+margin-top: 5px;
+}
+
+.fieldname.refills {
+
+margin-top: 90px;
+}
+
+
+#fields_container1 {
+
+margin-left:140px;
+padding:0;
+width:330px;
+
+}
+
+#fields_container2 {
+
+margin-left:520px;
+padding:0;
+width:330px;
+margin-top:-249px;
+}
+
+
+#patient_name {
+   font-weight: bold;
+   margin-left: 25px;
+   display: inline;
+}
+
+#patient_name2 {
+   font-weight: bold;
+   margin-left: 45px;
+   display: inline;
+}
+
+#date, #date2 {
+   margin-left: 120px;
+   display: inline;
+
+}
+
+#gender {
+   font-weight:bold;
+   margin:31px 0 0px 300px;
+
+}
+
+#gender2 {
+   font-weight:bold;
+   margin:31px 0 0px 315px;
+
+}
+
+#med_name, #med_name2{
+   float: left;
+   font-size: 110%;
+   font-weight: bold;
+}
+
+#concentration, #concentration2 {
+
+margin-bottom: 2px;
+float: left;
+
+}
+
+#dosage, #dosage2 {
+
+}
+
+#refill, #refill2 {
+
+   margin: 40px 5px 0 65px;
+   /margin: 35px 5px 0 65px;
+
+}
+
+
+
+
+#med_inst, #med_inst2 {
+
+border:1px solid #CCCCCC;
+background-color: #dadada;
+display:block;
+font-size:11px;
+height: 59px;
+margin:5px 5px 10px 0px;
+overflow: auto;
+padding: 5px 5px 5px 0;
+width:260px;
+}
+
+#med_inst ul, #med_inst2 ul {
+
+list-style-type: none;
+margin-left:10px;
+
+}
+
+#med_inst ul li, #med_inst2 ul li {
+
+line-height:13px;
+margin-bottom:3px;
+
+}
+
+
+
+#med_inst2 ul {
+
+list-style-type: none;
+margin-left:10px;
+
+}
+
+#med_inst2 ul li {
+
+line-height:13px;
+margin-bottom:3px;
+
+}

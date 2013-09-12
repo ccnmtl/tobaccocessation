@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block css %}{% endblock %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block standardnav %}
+   {% include "project_standard_nav.html" %}
+{% endblock %}
+
+{% block primarynavtabs %}
+   <ul>
+      <li><a href="/welcome/">Welcome</a></li>
+   </ul>
+{% endblock %}
+
+{% block js %}
+   {{ block.super }}
+   
+   <script type="text/javascript">
+   <!-- 
+   
+       function validate() {
+           var emptyString = /^\s*$/
+           var msg = "";
+
+           if (emptyString.test(document.forms.feedback.email.value)) {
+               msg = "<p>Please enter your email address.</p>";
+           } else if (emptyString.test(document.forms.feedback.name.value)) {
+               msg = "<p>Please enter your name.</p>";
+           } else if (emptyString.test(document.forms.feedback.subject.value)) {
+               msg = "<p>Please enter a brief subject line.</p>";
+           } else if (emptyString.test(document.forms.feedback.description.value)) {
+               msg = "<p>Please enter your comment, suggestion or question.</p>";
+           }
+
+           element = document['msg'] || document.getElementById('msg');
+           element.innerHTML = msg;
+
+           return msg.length < 1;
+       }
+   -->
+   </script>
+   
+{% endblock %}
+
+{% block content %}
+    <div style="margin-top: 10px; margin-bottom: 5px;">
+    
+    <h1 class="title">Contact Us</h1>
+    
+    <p>If you have comments, suggestions, or questions about this site, or are having a problem using it, please contact us using the following form.</p>
+
+    <div id="contact">
+        <div id="msg" class="msg">
+            {% if request.GET.received %}
+                <p>Thank you for your comments.</p>
+            {% endif %}
+        </div>
+   
+        <form id="contactform" action="http://pmt.ccnmtl.columbia.edu/external_add_item.pl" method="post" name="feedback" onsubmit="return validate()">
+            <table>
+                <tr><td class="labelcell"><label for="email">Your Email address:</label></td><td><input class="text" type="text" id="email" name="email" value="{{user.email}}"/></td></tr>
+                <tr><td class="labelcell"><label for="name">Your Name:</label></td><td><input class="text" type="text" id="name" name="name" value="{{ user.get_full_name }}"/></td></tr>
+                <tr><td class="labelcell"><label for="subject">Subject:</label></td><td><input class="text" type="text" id="subject" name="title" value=""/></td></tr>
+                <tr><td class="labelcell"><label for="description">Comment or Problem:</label></td><td><textarea rows="4" cols="35" id="description" name="description"></textarea></td></tr>
+                <tr><td/><td class="submitcell"><input type="submit" name="add item" value="Send Feedback"/></td></tr>
+            </table>
+            
+            <input type="hidden" name="title" value="Contact request from Tobacco Cessation web user"></input>
+            <input type="hidden" name="pid" value="394"></input>
+            <input type="hidden" name="mid" value="2525"></input>
+            <input type="hidden" name="type" value="bug"></input>
+            <input type="hidden" name="assigned_to"  value="csmalletz"></input>
+            <input type="hidden" name="estimated_time" value="1h"></input>
+            <input type="hidden" name="redirect_url" value="http://{{request.get_host}}/contact?received=true"></input>
+            
+        </form>
+     </div>
+     </div>
+{% endblock %}

@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block js %}
+<script type="text/javascript" src="/site_media/js/mochikit/MochiKit/MochiKit.js"></script>
+<script type="text/javascript" src="/site_media/js/tabber.js"></script>
+<script type="text/javascript" src="/site_media/js/dragdropreorder.js"></script>
+
+<script type="text/javascript">
+var saveOrder = function() {
+   saveOrderOfChildren();
+   saveOrderOfPageBlocks();
+};
+
+var saveOrderOfChildren = function() {
+    var url = "/pagetree/reorder_section_children/{{section.id}}/?";
+    var p = $('children-order-list');
+    var lis = p.getElementsByTagName('li');
+    var cnt = 0;
+    for (var i = 0; i < lis.length; i++) {
+        var li = lis[i];
+        var id = li.id;
+        var parts = id.split("-");
+        url += "section_id_" + i + "=" + parts[1] + ";";
+        cnt++;
+    }
+    if (cnt > 1) {
+        var req = new XMLHttpRequest();
+        req.open("POST",url,true);
+        req.send(null);
+    }
+};
+
+var saveOrderOfPageBlocks = function() {
+    var url = "/pagetree/reorder_pageblocks/{{section.id}}/?";
+    var p = $('blocks');
+    var divs = p.getElementsByTagName('div');
+    var cnt = 0;
+    for (var i = 0; i < divs.length; i++) {
+        var div = divs[i];
+	if (div.className.indexOf("draggable") != -1) {
+		var id = div.id;
+		var parts = id.split("-");
+		url += "pageblock_id_" + i + "=" + parts[1] + ";";
+                cnt++;
+        }
+    }
+    if (cnt > 1) {
+        var req = new XMLHttpRequest();
+        req.open("POST",url,true);
+        req.send(null);
+    }
+
+}
+
+</script>
+{% endblock %}
+
+{% block sidenav %}
+	<!-- ###### Secondary Navigation ###### -->
+	<div id="secondary_navigation">
+		<div id="fadetop"></div>
+		<div class="block">
+			<h3>Sections</h3>
+{% with "/edit" as menu_base %}
+{% include "main/menu.html" %}
+{% endwith %}
+		</div><!-- div id="block" -->
+		<div id="fadebottom"></div>
+	</div><!-- div id="secondary_navigation" -->
+{% endblock %}
+
+
+{% block content %}
+<a href="{{section.get_absolute_url}}">view page</a>
+<h1>{{ section.label }}</h1>
+
+<div class="tabber">
+<div id="blocks" class="tabbertab" title="edit blocks" class="dragparent"/>
+{% for block in section.pageblock_set.all %}
+<div class="block-edit draggable" id="pageblock-{{block.id}}">
+{% if block.label %}<h3>{{block.label}}</h3>{% endif %}
+<form action="{% url delete-pageblock block.id %}" method="post">
+<input type="submit" value="delete block {{block.ordinality}}" />
+</form>
+<form action="{% url edit-pageblock block.id %}" method="post"
+{% if block.edit_form.is_multipart %}enctype="multipart/form-data"{% endif %}>
+<table width="100%">
+{{ block.default_edit_form.as_table }}
+{% with block.edit_form as ef %}
+{{ ef.as_table }}
+{% if ef.alt_text %}
+<tr><td colspan="2">
+{{ ef.alt_text|safe }}
+</td></tr>
+{% endif %}
+{% endwith %}
+</table>
+<input type="submit" value="save" />
+</form>
+</div>
+{% endfor %}
+</div>
+
+<div id="children" class="tabbertab" title="children">
+
+<ul id="children-order-list" class="dragparent"> drag and drop to reorder
+{% for child in section.get_children %}
+<li class="draggable"
+    id="child-{{child.id}}">[<a href="/delete_section/{{child.id}}/">delete</a>]
+  {{child.label}}
+</li>
+{% endfor %}
+</ul>
+
+<form action="{% url add-child-section section.id %}" method="post">
+<table>
+{{ section.add_child_section_form.as_table }}
+</table>
+<input type="submit" value="add child section" />
+</form>
+</div>
+
+<div id="add-pageblock" class="tabbertab" title="add page block">
+
+{% for blocktype in section.available_pageblocks %}
+{% if blocktype %}
+<form action="{% url add-pageblock section.id %}"
+{% if blocktype.add_form.is_multipart %}
+enctype="multipart/form-data"
+{% endif %}
+method="post">
+<fieldset>
+  <legend>add {{ blocktype.display_name }}</legend>
+<input type="hidden" name="blocktype" value="{{blocktype.display_name}}"/>
+<table width="100%">
+{{section.add_pageblock_form.as_table}}
+{{blocktype.add_form.as_table}}
+</table>
+<input type="submit" value="add {{blocktype.display_name}}" />
+</fieldset>
+</form>
+{% endif %}
+{% endfor %}
+
+
+</div>
+
+<div id="edit-page" class="tabbertab" title="edit section" />
+
+<form action="{% url delete-section section.id %}" method="post">
+<input type="submit" value="delete this page" />
+</form>
+
+<form action="{% url edit-section section.id %}" method="post">
+<fieldset><legend>Edit Page</legend>
+<table>
+{{ section.edit_form.as_table }}
+</table>
+<input type="submit" value="save" />
+</fieldset>
+</form>
+</div>
+</div>
+
+{% endblock %}
+
+{% block content-nav %}
+
+{% if section.get_previous %}
+<a href="/edit{{section.get_previous.get_absolute_url}}" id="previous">« {{section.get_previous.label}}</a>
+{% endif %}
+
+{% if section.get_next %}
+<a href="/edit{{section.get_next.get_absolute_url}}" id="next">{{section.get_next.label}} »</a>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,135 @@
+
+#treatment_header {
+  width: 800px;
+}
+#treatment_leftcol {
+   float: left;
+   width: 135px;
+   padding: 0 0.25em 0 0.25em;
+}
+
+#treatment_leftcol h6 {
+   background-color: #eba54d;
+   color: #000;
+   padding: .25em 1em .25em 1em;
+ }
+
+#treatment_centercol {
+  float: left;
+  width: 425px;
+  margin-right: .5em;
+  padding:  0 0.25em 0 0.25em;
+}
+
+#treatment_centercol h6 {
+   background-color: #eba54d;
+   color: #000;
+   padding: .25em 1em .25em 1em;
+}
+
+#treatment_rightcol {
+  float: left;
+  width: 175px;
+
+ 
+}
+
+#treatment_rightcol h6 {
+   background-color: #383838;
+   color: #fff;
+   padding: .25em 1em .25em 1em;
+   
+}
+
+#treatment_footer {
+  clear: both;
+  width: 100%;
+  height: 80px;
+}
+
+.smoker_quantity {
+	height: 134px;
+	border: 1px solid #000;
+	margin-bottom: 1em;
+	text-align: center;
+	padding-top:23px;
+}
+
+.smoker_quantity .footer {
+	background-color: #333333;
+	color: white;
+	text-align: center;
+	vertical-align: bottom;
+	height: 34px;
+	font-size: 80%;
+}
+
+.treatment_choice {
+   height: 140px;
+   border: 1px solid #000;
+   
+   background-repeat: no-repeat;
+   background-position: center center; 
+   background-image: url(/activity/treatment/media/images/treatment_choice.jpg);
+}
+
+.treatment_choice p {
+	margin-top: 1em;
+	margin-left: 1em;
+	color: #989898;
+}
+
+.countdown {
+	text-align: left;
+	font-size: 80%;
+	margin-bottom: 1em;
+	margin-left: 10px;
+}
+
+.treatments
+{
+	background-color: #eba54d;
+	height: 300px;
+	width: 100%;
+	text-align: center;
+}
+
+.treatment
+{
+   background-repeat: no-repeat;
+   background-position: center center; 
+   background-color: #eba54d;
+   border: 0px;
+   height: 48px;
+ 
+}
+
+.treatment_trashable img {
+
+margin: 5px 1px 0 5px;
+}
+
+#success_overlay
+{
+   z-index: 10000;
+   filter: alpha(opacity=50); /*older IE*/
+   filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50); /* IE */
+   -moz-opacity: .8; /*older Mozilla*/
+   -khtml-opacity: 0.8;   /*older Safari*/
+   opacity: 0.8;   /*supported by current Mozilla, Safari, and Opera*/
+   background-color:#c30;
+   position: absolute; left: 230px; top: 275px; width:743px; height:487px; 
+   color:#fff; 
+   text-align:center; 
+   vertical-align:middle;
+   padding: 50px 5px 5px 5px;
+}
+
+#success_overlay a
+{
+	color:#fff;
+}
+
+a.reset_button {
+	margin: -3em 0.2em 0 0;
+}

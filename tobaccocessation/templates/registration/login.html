@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<br />
+<div style="background-color: #F5E2C7; padding: 20px; margin: 0px 5px 0px 30px; width: 285px; border: black solid 1px; float: right;">
+    
+    <div style="padding-bottom: 5px">
+        <h1>Log In</h1>
+    </div>
+        
+    <div style="padding-bottom: 5px">
+        <h6>Columbia Users:</h6>
+        <form method="get" action="{{ wind_base }}login">
+            <input type="hidden" name="service" value="{{ wind_service }}"></input>
+            <input type="hidden" name="destination" value="http://{{ request.get_host }}/accounts/windlogin/?next={{ next }}"></input>
+            <input type="submit" value="Log In with Columbia UNI"></input>
+        </form>
+    </div>
+    
+    <hr />
+    
+    <div style="padding-top: 5px">
+        <h6>All Other Users:</h6>
+
+        <div style="background-color: #CCCCCC; font-size: 85%; font-weight: bold; padding-left: 5px;">
+            {% if form.username.errors %}
+                <p>Please enter your username.</p>
+            {% else %}    
+                {% if form.password.errors %}
+                    <p>Please enter your password.</p>
+                {% else %}                
+                    {% if form.errors %}
+                        <p>Please enter a correct username and password. Note that both fields are case-sensitive.</p>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        </div>
+        
+        <form method="post" action=".">
+            <table>
+            <tr><td style="border: hidden;"><label for="id_username">Username:&nbsp;</label></td><td style="border: hidden">{{ form.username }}</td></tr>
+            <tr><td style="border: hidden; padding-top: 3px;"><label for="id_password">Password:&nbsp;</label></td><td style="border: hidden; padding-top: 5px;">{{ form.password }}</td></tr>
+            <tr><td colspan="2" style="border: hidden; text-align: right; padding-top: 7px;"><input type="submit" value="Log In"></input></td></tr>
+            </table>
+            <input type="hidden" name="next" value="{{ next }}"></input>
+        </form>
+    </div>
+</div>
+
+<h1>Welcome to Tobacco Cessation</h1>
+<p>
+This educational website provides students in the Columbia College of Dental Medicine with multimedia 
+learning modules on pharmacotherapy regimens for tobacco cessation, including demonstrative videos, immediate-response quizzes, 
+and treatment activities on tobacco cessation pharmacotherapy.
+</p>
+<p>
+The Columbia College of Dental Medicine is one of the few dental schools in the US that teaches about tobacco cessation. 
+With this new site, the College and CCNMTL intend students to come away with a strong understanding of available tobacco cessation 
+pharmacotherapies and to be empowered to effectively encourage tobacco cessation in their future dental practice.
+</p>
+
+{% endblock %}
