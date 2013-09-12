@@ -15,7 +15,7 @@ from tobaccocessation.activity_virtual_patient.models import DosageChoice, \
 @login_required
 def root(request):
     first_patient = Patient.objects.get(display_order=1)
-    url = '/assist/activity-virtual-patient/options/%s' % (first_patient.id)
+    url = '/assist/activity-virtual-patient/options/%s/' % (first_patient.id)
 
     return HttpResponseRedirect(url)
 

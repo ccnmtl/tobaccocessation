@@ -61,8 +61,8 @@ class Block(models.Model):
         return EditForm()
 
     def edit(self, vals, files):
-        medication_name = vals.get('medication_name', '')
-        show_correct = vals.get('show_correct', '')
+        self.medication_name = vals.get('medication_name', '')
+        self.show_correct = vals.get('show_correct', '')
         self.save()
 
     def medication(self):

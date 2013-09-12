@@ -2,3 +2,6 @@ local_settings.py
 .coverage
 ve
 *.pyc
+.project
+.pydevproject
+reports

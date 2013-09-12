@@ -1,17 +1,12 @@
 from django.conf import settings
-from django.conf.urls.defaults import patterns
+from django.conf.urls import include, patterns, url
 from django.contrib import admin
 from main.urls import *
-from pagetree.urls import *
-from quizblock.urls import *
-from tobaccocessation.activity_prescription_writing.urls import *
-from tobaccocessation.activity_treatment_choice.urls import *
 from tobaccocessation.activity_virtual_patient.urls import *
 import os.path
-from survey.urls import *
 admin.autodiscover()
 
-site_media_root = os.path.join(os.path.dirname(__file__), "media")
+site_media_root = os.path.join(os.path.dirname(__file__), "../media")
 
 login_page = (r'^accounts/', include('django.contrib.auth.urls'))
 if hasattr(settings, 'WIND_BASE'):
@@ -39,7 +34,7 @@ urlpatterns += patterns(
      'django.views.static.serve',
      {'document_root': os.path.abspath(os.path.dirname(__file__)),
       'path': 'crossdomain.xml'}),
-    (r'^$', 'main.views.index'),
+    (r'^$', 'tobaccocessation.main.views.index'),
     (r'^accounts/logout/$',
      'django.contrib.auth.views.logout',
      {'next_page': redirect_after_logout}),
@@ -49,7 +44,7 @@ urlpatterns += patterns(
     (r'^admin/quiz/', include('quizblock.urls')),
     (r'^admin/', include(admin.site.urls)),
 
-    (r'^main/', include('main.urls')),
+    (r'^main/', include('tobaccocessation.main.urls')),
     (r'^activity/treatment/', include(
         'tobaccocessation.activity_treatment_choice.urls')),
     (r'^activity/prescription/',
@@ -61,7 +56,6 @@ urlpatterns += patterns(
      include('quizblock.urls')),
     ('^accounts/', include('djangowind.urls')),
 
-    (r'^survey/', include('survey.urls')),
     (r'^site_media/(?P<path>.*)$',
      'django.views.static.serve', {'document_root': site_media_root}),
     (r'^uploads/(?P<path>.*)$', 'django.views.static.serve',
@@ -69,8 +63,7 @@ urlpatterns += patterns(
 
     # completely override pagetree for virtual patient. it's
     # too much to fit it into the structure
-    url(
-    r'^assist/activity-virtual-patient/$',
+    url(r'^assist/activity-virtual-patient/$',
     'tobaccocessation.activity_virtual_patient.views.root', name='root'),
     url(r'^assist/activity-virtual-patient/options/(?P<patient_id>\d+)/$',
         'tobaccocessation.activity_virtual_patient.views.options',
@@ -92,9 +85,9 @@ urlpatterns += patterns(
     (r'^pagetree/', include('pagetree.urls')),
 
     # resources path -- content that's open by default
-    (r'resources/(?P<path>.*)$', 'main.views.resources'),
+    (r'resources/(?P<path>.*)$', 'tobaccocessation.main.views.resources'),
 
     # very important that this stays last and in this order
-    (r'^edit/(?P<path>.*)$', 'main.views.edit_page'),
-    (r'^(?P<path>.*)$', 'main.views.page'),
+    (r'^edit/(?P<path>.*)$', 'tobaccocessation.main.views.edit_page'),
+    (r'^(?P<path>.*)$', 'tobaccocessation.main.views.page'),
 )

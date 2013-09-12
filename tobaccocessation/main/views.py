@@ -1,13 +1,19 @@
-from activity_virtual_patient.models import ActivityState
+from tobaccocessation.activity_virtual_patient.models \
+    import ActivityState as VirtualPatientActivityState
+from tobaccocessation.activity_prescription_writing.models \
+    import ActivityState as PrescriptionWritingActivityState
+from tobaccocessation.activity_treatment_choice.models \
+    import ActivityState as TreatmentChoiceActivityState
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils import simplejson
-from main.models import UserProfile
+from tobaccocessation.main.models import UserProfile
 from pagetree.helpers import get_hierarchy, get_section_from_path, \
     get_module
 from pagetree.models import Section
+
 
 INDEX_URL = "/welcome/"
 
@@ -102,7 +108,7 @@ def _response(request, h, section, path):
 
         # the previous node is the last leaf, if one exists.
         prev = _get_previous_leaf(first_leaf)
-        next = first_leaf.get_next()
+        next_page = first_leaf.get_next()
 
         # Is this section unlocked now?
         can_access = _unlocked(first_leaf, request.user, prev, profile)
@@ -121,7 +127,7 @@ def _response(request, h, section, path):
                     module=module,
                     root=ancestors[0],
                     previous=prev,
-                    next=next,
+                    next=next_page,
                     depth=first_leaf.depth,
                     request=request,
                     leftnav=leftnav)
@@ -173,19 +179,13 @@ def clear_state(request):
     quizblock.models.Submission.objects.filter(user=request.user).delete()
 
     # clear prescription writing
-    import activity_prescription_writing
-    activity_prescription_writing.models.ActivityState.objects.filter(
-        user=request.user).delete()
+    PrescriptionWritingActivityState.objects.filter(user=request.user).delete()
 
     # clear treatment choices
-    import activity_treatment_choice
-    activity_treatment_choice.models.ActivityState.objects.filter(
-        user=request.user).delete()
+    TreatmentChoiceActivityState.objects.filter(user=request.user).delete()
 
     # clear virtual patient
-    import activity_virtual_patient
-    activity_virtual_patient.models.ActivityState.objects.filter(
-        user=request.user).delete()
+    VirtualPatientActivityState.objects.filter(user=request.user).delete()
 
     return HttpResponseRedirect(INDEX_URL)
 
@@ -235,7 +235,7 @@ def _unlocked(section, user, previous, profile):
     # Special case for virtual patient as this activity was too big to fit
     # into a "block"
     if (previous.label == "Virtual Patient" and
-            not ActivityState.is_complete(user)):
+            not VirtualPatientActivityState.is_complete(user)):
         return False
 
     return profile.get_has_visited(previous)

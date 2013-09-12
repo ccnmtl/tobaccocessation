@@ -1,5 +1,5 @@
 from django import template
-from main.views import accessible as section_accessible
+from tobaccocessation.main.views import accessible as section_accessible
 
 register = template.Library()
 
