@@ -1,8 +1,6 @@
 from django.conf import settings
 from django.conf.urls import include, patterns, url
 from django.contrib import admin
-from main.urls import *
-from tobaccocessation.activity_virtual_patient.urls import *
 import os.path
 admin.autodiscover()
 
@@ -62,7 +60,7 @@ urlpatterns += patterns(
     # completely override pagetree for virtual patient. it's
     # too much to fit it into the structure
     url(r'^assist/activity-virtual-patient/$',
-    'tobaccocessation.activity_virtual_patient.views.root', name='root'),
+        'tobaccocessation.activity_virtual_patient.views.root', name='root'),
     url(r'^assist/activity-virtual-patient/options/(?P<patient_id>\d+)/$',
         'tobaccocessation.activity_virtual_patient.views.options',
         name='options'),

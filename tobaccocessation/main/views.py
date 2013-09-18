@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils import simplejson
-from pagetree.helpers import get_hierarchy, get_section_from_path, get_module
+from pagetree.helpers import get_section_from_path, get_module
 from pagetree.models import Section
 from tobaccocessation.activity_prescription_writing.models import \
     ActivityState as PrescriptionWritingActivityState
