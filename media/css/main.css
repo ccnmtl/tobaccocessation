@@ -126,8 +126,7 @@ li
 }
 
 
-a
-{
+a {
 	color: #84240a;
 }
 
@@ -707,6 +706,19 @@ display: block;
 
 /* ########## MT-preserved style definitions ########## */
 
+div#edit-blocks-tab div.row-fluid {
+    padding: 5px 0;
+    margin: 5px 0;
+}
+
+div#edit-blocks-tab div.row-fluid.odd {
+    background-color: #f9f9f9;
+}
+
+ul.nav.pull-right {
+    float: right !important;
+}
+
 .mt-image-left
 {
 	float: left;
@@ -1064,9 +1076,7 @@ float: left;
 
 #subnav a
 {
-   color: 333;
    text-decoration: none;
-
 }
 
 

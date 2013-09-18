@@ -3,13 +3,14 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title>Tobacco Cessation: {% block title %}{% endblock %}</title>
+    {% block css %}{% endblock %}
 	<link rel="stylesheet" href="/site_media/css/main.css" media="screen" />
 	<link rel="stylesheet" href="/site_media/css/print.css" media="print" />
 	<!--[if IE 6]>
 	<link rel="stylesheet" href="/site_media/css/main_ie6_2coll.css" media="screen" />
 	<![endif]-->
 	<link rel="shortcut icon" href="/site_media/img/favicon.ico" type="image/x-icon" />
-	{% block css %}{% endblock %}
+	
 	{% block js %}{% endblock %}
 	{% block feeds %}{% endblock %}
 </head>
@@ -25,50 +26,43 @@
 <div id="container">
 
 
-{% block masthead %}
-	<!-- ###### Site banner ###### -->
-	<div id="header">
-		<!-- Project title/logo --><h1 id="logo_project"><a href="./" title="Project Title: Project Django"><span>Project Title: Project Django </span></a></h1>	
-		{% block standardnav %}
-            {% include "project_standard_nav.html" %}
-		{% endblock %}
-		<!-- CCNMTL title/logo --><h4><a id="logo_ccnmtl"href="http://ccnmtl.columbia.edu" target="_blank" title="Columbia Center for New Media Teaching and Learning"><span>Produced by the Columbia Center for New Media Teaching and Learning</span></a><a id="logo_dental" href="http://dental.columbia.edu" target="_blank" title="Columbia University College of Dental Medicine"><span>Produced for the Columbia University College of Dental Medicine</span></a></h4>
-	</div><!-- id="header" -->
-{% endblock %}
+    {% block masthead %}
+    	<!-- ###### Site banner ###### -->
+    	<div id="header">
+    		<!-- Project title/logo --><h1 id="logo_project"><a href="./" title="Project Title: Project Django"><span>Project Title: Project Django </span></a></h1>	
+    		{% block standardnav %}
+                {% include "project_standard_nav.html" %}
+    		{% endblock %}
+    		<!-- CCNMTL title/logo --><h4><a id="logo_ccnmtl"href="http://ccnmtl.columbia.edu" target="_blank" title="Columbia Center for New Media Teaching and Learning"><span>Produced by the Columbia Center for New Media Teaching and Learning</span></a><a id="logo_dental" href="http://dental.columbia.edu" target="_blank" title="Columbia University College of Dental Medicine"><span>Produced for the Columbia University College of Dental Medicine</span></a></h4>
+    	</div><!-- id="header" -->
+    {% endblock %}
 
 	<!-- ###### Don't touch this ###### -->
 	<div class="visualclear"></div>
-	
 
-{% block primarynav %}
-	<!-- ###### Primary navigation ###### -->
-	<div id="primarynav">
-		<div class="encase" id="{% block navalignment %}leftside{% endblock %}">
-{% comment %}
-###### FOR ALIGNMENT OF TABS on the primary navigation--
-   leftside : all tabs aligning to the left, login to the right
-   rightside :  all tabs aligning to the right, login to the left
-{% endcomment %}
+    {% block primarynav %}
+    	<!-- ###### Primary navigation ###### -->
+    	<div id="primarynav">
+    		<div class="encase" id="{% block navalignment %}leftside{% endblock %}">
+    			{% block primarynavtabs %}
+                    {% include "project_primary_nav.html" %}
+    			{% endblock %}
+    			
+    			{% block usernav %}{% endblock %}
+    		</div><!-- id="leftside/rightside" -->
+    	</div><!-- id="primarynav" -->
+    {% endblock %}
 
-			{% block primarynavtabs %}
-                {% include "project_primary_nav.html" %}
-			{% endblock %}
-			
-			{% block usernav %}{% endblock %}
-
-		</div><!-- id="leftside/rightside" -->
-	</div><!-- id="primarynav" -->
-{% endblock %}
-
-{% comment %} not using this now <div id="breadcrumbs">{% block breadcrumbs %}{% endblock %}</div> {% endcomment %}
-
-<div id="subnav">
-   {% block subnav %}
-        {% with module as selected_parent %}
-            {% include "project_sub_nav.html" %}
-        {% endwith %}
-   {% endblock %}
-</div>
+    <div id="subnav">
+       {% block subnav %}
+            {% with module as selected_parent %}
+                {% include "project_sub_nav.html" %}
+            {% endwith %}
+            
+            {% block navrightextra %}
+            {% endblock %}
+       {% endblock %}
+    </div>
 
 
 	<!-- ###### Page: Sidebars and Content ###### -->

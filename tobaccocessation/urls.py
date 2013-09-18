@@ -40,10 +40,8 @@ urlpatterns += patterns(
      {'next_page': redirect_after_logout}),
     login_page,  # see above
 
-    (r'^admin/pagetree/', include('pagetree.urls')),
-    (r'^admin/quiz/', include('quizblock.urls')),
     (r'^admin/', include(admin.site.urls)),
-
+    (r'^smoketest/', include('smoketest.urls')),
     (r'^main/', include('tobaccocessation.main.urls')),
     (r'^activity/treatment/', include(
         'tobaccocessation.activity_treatment_choice.urls')),
@@ -85,7 +83,10 @@ urlpatterns += patterns(
     (r'^pagetree/', include('pagetree.urls')),
 
     # resources path -- content that's open by default
-    (r'resources/(?P<path>.*)$', 'tobaccocessation.main.views.resources'),
+    (r'^edit/resources/(?P<path>.*)$',
+     'tobaccocessation.main.views.edit_resources'),
+    (r'^resources/(?P<path>.*)$',
+     'tobaccocessation.main.views.resources'),
 
     # very important that this stays last and in this order
     (r'^edit/(?P<path>.*)$', 'tobaccocessation.main.views.edit_page'),

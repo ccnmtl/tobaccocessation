@@ -2,34 +2,33 @@
 {% load getroot %}
 
 {% block primarynavtabs %}
-<ul>
-   {% getroot main as root %}
-   {% for s in root.get_children %}
-      {% ifequal s.slug module.slug %}
-         <li class="selected"><span class="selected">{{s.label}}</span></li>
-      {% else %}{% ifequal s.slug section.slug %}
-         <li class="selected"><span class="selected">{{s.label}}</span></li>
-      {% else %}{% ifaccessible s %}
-         <li><a href="{{s.get_absolute_url}}">{{s.label}}</a></li>
-      {% else %}
-         <li id="{{s.slug}}" style="display: none"><a href="{{s.get_absolute_url}}">{{s.label}}</a></li>
-         <li id="span_{{s.slug}}" class="disabled"><span class="disabled">{{s.label}}</span></li>
-      {% endifaccessible %}{% endifequal %}{% endifequal %}
-   {% endfor %}
-   
-   {% getroot resources as root %}
-   {% for s in root.get_children %}
-      {% ifequal s.slug module.slug %}
-         <li class="selected"><span class="selected">{{s.label}}</span></li>
-      {% else %}{% ifequal s.slug section.slug %}
-         <li class="selected"><span class="selected">{{s.label}}</span></li>
-      {% else %}{% ifaccessible s %}
-         <li><a href="{{s.get_absolute_url}}">{{s.label}}</a></li>
-      {% else %}
-         <li id="{{s.slug}}" style="display: none"><a href="{{s.get_absolute_url}}">{{s.label}}</a></li>
-         <li id="span_{{s.slug}}" class="disabled"><span class="disabled">{{s.label}}</span></li>
-      {% endifaccessible %}{% endifequal %}{% endifequal %}
-   {% endfor %}
-</ul>
-
+    <ul>
+       {% getroot main as root %}
+       {% for s in root.get_children %}
+          {% ifequal s.slug module.slug %}
+             <li class="selected"><span class="selected">{{s.label}}</span></li>
+          {% else %}{% ifequal s.slug section.slug %}
+             <li class="selected"><span class="selected">{{s.label}}</span></li>
+          {% else %}{% ifaccessible s %}
+             <li><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></li>
+          {% else %}
+             <li id="{{s.slug}}" style="display: none"><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></li>
+             <li id="span_{{s.slug}}" class="disabled"><span class="disabled">{{s.label}}</span></li>
+          {% endifaccessible %}{% endifequal %}{% endifequal %}
+       {% endfor %}
+       
+       {% getroot resources as root %}
+       {% for s in root.get_children %}
+          {% ifequal s.slug module.slug %}
+             <li class="selected"><span class="selected">{{s.label}}</span></li>
+          {% else %}{% ifequal s.slug section.slug %}
+             <li class="selected"><span class="selected">{{s.label}}</span></li>
+          {% else %}{% ifaccessible s %}
+             <li><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></li>
+          {% else %}
+             <li id="{{s.slug}}" style="display: none"><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></li>
+             <li id="span_{{s.slug}}" class="disabled"><span class="disabled">{{s.label}}</span></li>
+          {% endifaccessible %}{% endifequal %}{% endifequal %}
+       {% endfor %}
+    </ul>
 {% endblock %}
