@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from pagetree.models import Hierarchy, Section
-from tobaccocessation.main.models import UserProfile, FlashVideoBlock
+from tobaccocessation.main.models import UserProfile
 
 
 class UserProfileTest(TestCase):
@@ -22,8 +22,6 @@ class UserProfileTest(TestCase):
 
         self.section1 = Section.objects.get(slug="section-1")
         self.section2 = Section.objects.get(slug="section-2")
-
-
 
     def tearDown(self):
         self.user.delete()
@@ -64,4 +62,3 @@ class UserProfileTest(TestCase):
         profile = UserProfile.objects.get(user=user)
         display_name = UserProfile.display_name(profile)
         self.assertEqual(display_name, 'test_student')
-
