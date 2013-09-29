@@ -5,7 +5,7 @@
 {% block js %} 
     <script type="text/javascript" src="/site_media/js/json2.js"></script>
     <script src="/site_media/js/jquery-1.10.1.min.js" type="text/javascript" ></script>
-    <script src="/site_media/js/jquery-ui-1.10.3.min.js" type="text/javascript" ></script>
+    <script src="/site_media/js/jquery-ui-1.10.3.min.js" type="text/javascript" ></script>        
 {% endblock %}
 
 {% block title %}{{section.label}}{% endblock %}
@@ -72,29 +72,34 @@
             <div id="prev_disabled"><img align="top" src="/site_media/img/lock.png"/> {{previous.label}}</div>
         {% endifaccessible %}
      {% endifequal %}
-  {% endif %}</td><td width="100%" align="center>
-  <div id="page_numbering">
-  {% ifequal depth 4 %}
-     {% with section.get_siblings as siblings %}
-        {% with section.get_parent as parent %}
-		     {% for sibling in siblings %}
-		        {% ifequal sibling section %}
-		           {{parent.label}} | Page {{forloop.counter}} of {{siblings|length}}
-		        {% endifequal %}
-		     {% endfor %}
-		  {% endwith %}
-	  {% endwith %} 
-  {% endifequal %}
-  	  </div></td><td>
+  {% endif %}
+</td>
+<td width="100%" align="center">
+  
+{% ifequal depth 4 %}
+    <div id="page_numbering">
+    {% with section.get_siblings as siblings %}
+    {% with section.get_parent as parent %}
+	     {% for sibling in siblings %}
+	        {% ifequal sibling section %}
+	           {{parent.label}} | Page {{forloop.counter}} of {{siblings|length}}
+	        {% endifequal %}
+	     {% endfor %}
+	{% endwith %}{% endwith %}
+    </div> 
+{% endifequal %}
+  	  
+</td>
+<td>
   {% if next %}
      <!-- added to allow javascript access to the menu links. hack for the js activities enabling/disabling of links -->
      <input type="hidden" id="next_section_slug" name="next_section_slug" value="{{next.slug}}"/>
      {% ifaccessible next %}
         <a href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
-        <div style="display: none;" id="next_disabled">{{next.label}} <img align="top" src="/site_media/img/lock.png"/></div>
+        <div style="display: none;" id="next_disabled">{{next.label}} <img align="top" src="/site_media/img/lock.png" alt="locked"/></div>
      {% else %}
         <a style="display: none" href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
-        <div id="next_disabled">{{next.label}} <img align="top" src="/site_media/img/lock.png"/></div>
+        <div id="next_disabled">{{next.label}} <img align="top" src="/site_media/img/lock.png" alt="locked"/></div>
      {% endifaccessible %}
   {% endif %}</td></tr></table>
 {% endblock %}
