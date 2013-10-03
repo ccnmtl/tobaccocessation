@@ -1,5 +1,6 @@
 from datetime import timedelta, date
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import MultipleObjectsReturned
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
@@ -8,8 +9,7 @@ from django.utils import simplejson
 from pagetree.models import Hierarchy
 from tobaccocessation.activity_virtual_patient.models import DosageChoice, \
     ConcentrationChoice, Medication, Patient, TreatmentClassification, \
-    TreatmentOptionReasoning, TreatmentOption, TreatmentFeedback, \
-    ActivityState
+    TreatmentOptionReasoning, TreatmentOption, TreatmentFeedback, ActivityState
 
 
 @login_required
@@ -260,6 +260,9 @@ def _get_user_state(request):
 
         stored_state = ActivityState.objects.create(
             user=request.user, json=simplejson.dumps(state))
+    except MultipleObjectsReturned:
+        a = ActivityState.objects.filter(user=request.user).order_by(id)
+        stored_state = a[0]
 
     return simplejson.loads(stored_state.json)
 
@@ -280,7 +283,8 @@ def _save_user_state(request, patient_id):
 
 
 def _save(request, user_state):
-    stored_state = ActivityState.objects.get(user=request.user)
+    a = ActivityState.objects.filter(user=request.user).order_by('id')
+    stored_state = a[0]
     stored_state.json = simplejson.dumps(user_state)
     stored_state.save()
 
