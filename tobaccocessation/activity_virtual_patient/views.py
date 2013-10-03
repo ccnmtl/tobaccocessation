@@ -261,7 +261,7 @@ def _get_user_state(request):
         stored_state = ActivityState.objects.create(
             user=request.user, json=simplejson.dumps(state))
     except MultipleObjectsReturned:
-        a = ActivityState.objects.filter(user=request.user).order_by(id)
+        a = ActivityState.objects.filter(user=request.user).order_by('id')
         stored_state = a[0]
 
     return simplejson.loads(stored_state.json)
