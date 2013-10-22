@@ -1,14 +1,18 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.test.client import Client
-
+from tobaccocessation.activity_treatment_choice.views import loadstate, savestate
+from django.contrib.auth.models import User
+from django.test import TestCase, RequestFactory
 
 class SimpleViewTest(TestCase):
     def setUp(self):
         self.c = Client()
+        self.factory = RequestFactory()
         self.user = User.objects.create_user('test_student',
                                              'test@ccnmtl.com',
                                              'testpassword')
+        self.user.save()
 
     def tearDown(self):
         self.user.delete()
@@ -27,3 +31,15 @@ class SimpleViewTest(TestCase):
         # smoketests themselves don't have an error
         response = self.c.get("/smoketest/")
         self.assertEquals(response.status_code, 200)
+
+    def test_load_state(self):
+        request = self.factory.get('/load/')
+        request.user = self.user
+        response = loadstate(request)
+        self.assertEqual(response.status_code, 200)
+
+    def test_save_state(self):
+        request = self.factory.post('/save/', {'json':'need json'})
+        request.user = self.user
+        response = savestate(request)
+        self.assertEqual(response.status_code, 200)

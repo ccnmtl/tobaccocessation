@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from pagetree.models import Hierarchy, Section
-from tobaccocessation.main.models import UserProfile, FlashVideoBlock
+from tobaccocessation.main.models import UserProfile
+from django import forms
 
 
 class UserProfileTest(TestCase):
@@ -64,4 +65,5 @@ class UserProfileTest(TestCase):
         profile = UserProfile.objects.get(user=user)
         display_name = UserProfile.display_name(profile)
         self.assertEqual(display_name, 'test_student')
+
 
