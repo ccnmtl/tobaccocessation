@@ -39,7 +39,7 @@ SOUTH_TESTS_MIGRATE = False
 
 NOSE_ARGS = [
     '--with-coverage',
-    '--cover-package=tobaccocessation']
+    '--cover-package=tobaccocessation,tobaccocessation.activity_prescription_writing,tobaccocessation.activity_treatment_choice,tobaccocessation.activity_virtual_patient']
 
 JENKINS_TASKS = (
     'django_jenkins.tasks.run_pylint',
