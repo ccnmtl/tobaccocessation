@@ -1219,15 +1219,9 @@ padding:3px;
 }
 
 #page_numbering {
-
-width: auto;
-float: left;
-
-
+    width: auto;
+    background: none !important;
 }
-
-
-
 
 #module_indicator {
 	border: 1px solid #ccc;
