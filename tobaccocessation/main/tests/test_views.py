@@ -60,26 +60,11 @@ class TestSimpleViews(TestCase):
         response = savestate(request)
         self.assertEqual(response.status_code, 200)
 
-    # def test_perscription_writing_load_state(self):
-    #     request = self.factory.get('/activity/perscription/load/')
-    #     request.user = self.user
-    #     response = loadstate(request)
-    #     self.assertEqual(response.status_code, 200)
-
-    # def test_perscription_writing_save_state(self):
-    #     request = self.factory.post('/activity/perscription/save/', {'json':'need json'})
-    #     request.user = self.user
-    #     response = savestate(request)
-    #     self.assertEqual(response.status_code, 200)
 
 
 
     '''Test Views in Main'''
     def test_index(self):
-        # request = self.factory.get('/')
-        # request.user = self.user
-        # response = index(request)
-        # self.assertEqual(response.status_code, 200)
         self.c = Client()
         self.c.login(username='test_student', password='testpassword')
         self.response = self.c.get('/')
