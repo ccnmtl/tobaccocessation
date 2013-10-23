@@ -8,7 +8,7 @@ from django.test import TestCase, RequestFactory
 from pagetree.models import Hierarchy, Section
 
 
-class SimpleViewTest(TestCase):
+class TestSimpleViews(TestCase):
     def setUp(self):
         self.c = Client()
         self.factory = RequestFactory()
@@ -47,17 +47,30 @@ class SimpleViewTest(TestCase):
         response = self.c.get("/smoketest/")
         self.assertEquals(response.status_code, 200)
 
-    def test_load_state(self):
-        request = self.factory.get('/load/')
+    def test_treatment_choice_load_state(self):
+        request = self.factory.get('/activity/treatment/load/')
         request.user = self.user
         response = loadstate(request)
         self.assertEqual(response.status_code, 200)
 
-    def test_save_state(self):
-        request = self.factory.post('/save/', {'json':'need json'})
+    def test_treatment_choice_save_state(self):
+        request = self.factory.post('/activity/treatment/save/', {'json':'need json'})
         request.user = self.user
         response = savestate(request)
         self.assertEqual(response.status_code, 200)
+
+    # def test_perscription_writing_load_state(self):
+    #     request = self.factory.get('/activity/perscription/load/')
+    #     request.user = self.user
+    #     response = loadstate(request)
+    #     self.assertEqual(response.status_code, 200)
+
+    # def test_perscription_writing_save_state(self):
+    #     request = self.factory.post('/activity/perscription/save/', {'json':'need json'})
+    #     request.user = self.user
+    #     response = savestate(request)
+    #     self.assertEqual(response.status_code, 200)
+
 
 
     '''Test Views in Main'''
