@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User
+import json
+import simplejson as json
 from django.test import TestCase, RequestFactory
 from django.test.client import Client
 from tobaccocessation.activity_prescription_writing.views import loadstate, savestate
@@ -31,14 +33,15 @@ class TestOtherSimpleViews(TestCase):
     def tearDown(self):
         self.user.delete()
 
-    # def test_perscription_writing_load_state(self):
-    #     request = self.factory.get('/activity/perscription/load/')
-    #     request.user = self.user
-    #     response = loadstate(request)
-    #     self.assertEqual(response.status_code, 200)
+    def test_perscription_writing_load_state(self):
+        request = self.factory.get('/activity/perscription/load/')
+        request.user = self.user
+        response = loadstate(request)
+        self.assertEqual(response.status_code, 200)
 
     # def test_perscription_writing_save_state(self):
-    #     request = self.factory.post('/activity/perscription/save/', {'json':'need json'})
+    #     json_data = json.dumps(['json', {'need json': ('garbage', None, 1.0, 2)}]) #\'json\'
+    #     request = self.factory.post('/activity/perscription/save/', {"\json":'need json'}, content_type="application/json")
     #     request.user = self.user
     #     response = savestate(request)
     #     self.assertEqual(response.status_code, 200)

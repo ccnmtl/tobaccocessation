@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.test.client import Client
+from django.utils import simplejson
 from tobaccocessation.activity_treatment_choice.views import loadstate, savestate
 from tobaccocessation.main.views import index, accessible, is_accessible
 from django.contrib.auth.models import User
