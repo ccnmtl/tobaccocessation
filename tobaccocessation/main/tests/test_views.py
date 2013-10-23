@@ -2,9 +2,11 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.test.client import Client
 from tobaccocessation.activity_treatment_choice.views import loadstate, savestate
-from tobaccocessation.main.views import index
+from tobaccocessation.main.views import index, accessible, is_accessible
 from django.contrib.auth.models import User
 from django.test import TestCase, RequestFactory
+from pagetree.models import Hierarchy, Section
+
 
 class SimpleViewTest(TestCase):
     def setUp(self):
@@ -14,6 +16,18 @@ class SimpleViewTest(TestCase):
                                              'test@ccnmtl.com',
                                              'testpassword')
         self.user.save()
+
+        self.hierarchy = Hierarchy(name="main", base_url="/")
+        self.hierarchy.save()
+
+        root = Section.add_root(label="Root", slug="",
+                                hierarchy=self.hierarchy)
+
+        root.append_child("Section 1", "section-1")
+        root.append_child("Section 2", "section-2")
+
+        self.section1 = Section.objects.get(slug="section-1")
+        self.section2 = Section.objects.get(slug="section-2")
 
     def tearDown(self):
         self.user.delete()
@@ -60,6 +74,10 @@ class SimpleViewTest(TestCase):
 
     def test_accessible(self):
         pass
+        #'''Need better test...'''
+        #self.user = User.objects.get(username='test_student')
+        #self.accessible = accessible(self.section1, self.user)
+        #self.assertIsNotNull(self.accessible)
 
 
     def test_is_accessible(self):
