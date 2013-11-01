@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.test.client import Client
 from tobaccocessation.activity_prescription_writing.models import Medication, Block
 
-class TestModelsNoUser(TestCase):
+class TestModelsMedBlock(TestCase):
     def setUp(self):
         self.medication = Medication(name="medication name", refills=2, sort_order=2, rx_count=1)
         self.medication.save()

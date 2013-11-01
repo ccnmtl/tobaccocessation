@@ -30,6 +30,12 @@ class TestOtherSimpleViews(TestCase):
         self.section1 = Section.objects.get(slug="section-1")
         self.section2 = Section.objects.get(slug="section-2")
 
+        self.staff = User.objects.create_user('test_staff',
+                                             'test@ccnmtl.com',
+                                             'staffpassword')
+        self.staff.save()
+
+
     def tearDown(self):
         self.user.delete()
 
@@ -38,6 +44,9 @@ class TestOtherSimpleViews(TestCase):
         request.user = self.user
         response = loadstate(request)
         self.assertEqual(response.status_code, 200)
+
+
+
 
     # def test_perscription_writing_save_state(self):
     #     json_data = json.dumps(['json', {'need json': ('garbage', None, 1.0, 2)}]) #\'json\'

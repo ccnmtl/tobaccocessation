@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.test.client import Client
 from tobaccocessation.activity_treatment_choice.models import Block
 
-class TestModelsNoUser(TestCase):
+class TestModelsOther(TestCase):
     def setUp(self):
         self.block = Block()
         self.block.save()
