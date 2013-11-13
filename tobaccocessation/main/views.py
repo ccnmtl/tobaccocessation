@@ -12,10 +12,11 @@ from tobaccocessation.activity_treatment_choice.models import \
 from tobaccocessation.activity_virtual_patient.models import \
     ActivityState as VirtualPatientActivityState
 from tobaccocessation.main.models import UserProfile
-
+from registration.forms import RegistrationForm
+from django import forms
 
 INDEX_URL = "/welcome/"
-
+UNLOCKED = ['welcome', 'resources']  # special cases
 
 class rendered_with(object):
     def __init__(self, template_name):
@@ -222,7 +223,7 @@ def _get_previous_leaf(section):
     # made it through without finding ourselves? weird.
     return None
 
-UNLOCKED = ['welcome', 'resources']  # special cases
+#UNLOCKED = ['welcome', 'resources']  # special cases
 
 
 def _unlocked(section, user, previous, profile):
@@ -252,3 +253,21 @@ def _unlocked(section, user, previous, profile):
         return False
 
     return profile.get_has_visited(previous)
+
+
+class CreateAccountForm(RegistrationForm):
+    '''This is a form class that will be used
+    to allow guest users to create guest accounts.'''
+    first_name = forms.CharField(
+        max_length=25, required=True, label="First Name")
+    last_name = forms.CharField(
+        max_length=25, required=True, label="Last Name")
+    username = forms.CharField(
+        max_length=25, required=True, label="Username")
+    password1 = forms.CharField(
+        max_length=25, widget=forms.PasswordInput, required=True,
+        label="Password")
+    password2 = forms.CharField(
+        max_length=25, widget=forms.PasswordInput, required=True,
+        label="Confirm Password")
+    email = forms.EmailField()

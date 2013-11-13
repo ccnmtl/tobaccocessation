@@ -1,30 +1,33 @@
 from django.conf import settings
+import django.conf.urls
 from django.conf.urls import include, patterns, url
+from django.views.generic import TemplateView
 from django.contrib import admin
 import os.path
 admin.autodiscover()
+from registration.backends.default.views import RegistrationView
+from tobaccocessation.main.views import CreateAccountForm
 
 site_media_root = os.path.join(os.path.dirname(__file__), "../media")
 
 login_page = (r'^accounts/', include('django.contrib.auth.urls'))
 if hasattr(settings, 'WIND_BASE'):
     login_page = (r'^accounts/', include('djangowind.urls'))
+    auth_urls = (r'^accounts/', include('djangowind.urls'))
+    logout_page = (
+        r'^accounts/logout/$',
+        'djangowind.views.logout',
+        {'next_page': '/'})
 redirect_after_logout = getattr(settings, 'LOGOUT_REDIRECT_URL', None)
+#auth_urls = (r'^accounts/', include('django.contrib.auth.urls'))
 
-urlpatterns = patterns('django.views.generic.simple',
 
-                      (r'^about',
-                       'direct_to_template',
-                       {'template': 'flatpages/about.html'}),
 
-                      (r'^help',
-                       'direct_to_template',
-                       {'template': 'flatpages/help.html'}),
-
-                      (r'^contact',
-                       'direct_to_template',
-                       {'template': 'flatpages/contact.html'}),
-                       )
+urlpatterns = patterns('',#'django.views.generic.simple',
+                      (r'^about/', TemplateView.as_view(template_name="flatpages/about.html")),
+                      (r'^help/', TemplateView.as_view(template_name="flatpages/help.html")),
+                      (r'^contact/', TemplateView.as_view(template_name="flatpages/contact.html")),
+                      )
 
 urlpatterns += patterns(
     '',
@@ -37,7 +40,10 @@ urlpatterns += patterns(
      'django.contrib.auth.views.logout',
      {'next_page': redirect_after_logout}),
     login_page,  # see above
-
+    url(r'^accounts/register/$', RegistrationView.as_view(
+        form_class=CreateAccountForm),
+        name='registration_register'),
+    (r'^accounts/', include('registration.backends.default.urls')),
     (r'^admin/', include(admin.site.urls)),
     (r'^smoketest/', include('smoketest.urls')),
     (r'^main/', include('tobaccocessation.main.urls')),
@@ -50,7 +56,7 @@ urlpatterns += patterns(
     (r'^activity/quiz/', include('quizblock.urls')),
     (r'^quizblock/',
      include('quizblock.urls')),
-    ('^accounts/', include('djangowind.urls')),
+    #('^accounts/', include('djangowind.urls')),
 
     (r'^site_media/(?P<path>.*)$',
      'django.views.static.serve', {'document_root': site_media_root}),
