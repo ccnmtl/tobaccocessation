@@ -16,6 +16,5 @@ class ViewTest(TestCase):
 
     def test_index(self):
         # it should redirect us somewhere.
-        self.c = Client()
         response = self.c.get("/")
         self.assertEquals(response.status_code, 302)
