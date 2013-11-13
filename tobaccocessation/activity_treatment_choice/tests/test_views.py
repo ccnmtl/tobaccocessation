@@ -4,6 +4,7 @@ from django.test.client import Client
 
 
 class ViewTest(TestCase):
+
     def setUp(self):
         self.c = Client()
         self.user = User.objects.create_user('test_student',
@@ -15,5 +16,6 @@ class ViewTest(TestCase):
 
     def test_index(self):
         # it should redirect us somewhere.
+        self.c = Client()
         response = self.c.get("/")
         self.assertEquals(response.status_code, 302)
