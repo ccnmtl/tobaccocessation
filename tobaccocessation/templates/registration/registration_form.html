@@ -1,0 +1,63 @@
+{% extends "registration/base_registration.html" %}
+{% load i18n admin_static %}
+{% block title %}Sign up for an account{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href='{% static "admin/css/widgets.css" %}' />        
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" src="/site_media/bootstrap-multiselect/js/bootstrap-multiselect.js"></script>
+   
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            jQuery('#id_state').addClass("multiselect");
+            jQuery('#id_state').multiselect({
+              buttonClass: 'btn',
+              buttonWidth: 'auto',
+              buttonContainer: '<div class="btn-group" />',
+              maxHeight: false,
+              buttonText: function(options) {
+                if (options.length == 0) {
+                  return 'None selected <b class="caret"></b>';
+                }
+                else if (options.length > 3) {
+                  return options.length + ' selected  <b class="caret"></b>';
+                }
+                else {
+                  var selected = '';
+                  options.each(function() {
+                    selected += jQuery(this).text() + ', ';
+                  });
+                  return selected.substr(0, selected.length -2) + ' <b class="caret"></b>';
+                }
+              }
+            });
+        });
+    </script>    
+{% endblock %}
+
+{% block registration_content %}
+    <h2 class="pagetitle signuptitle">Sign up for an account</h2>
+    
+    <div class="p">Use the following form to create a new account to access Teach Dentistry.</div>
+    
+    
+    <div class="p">
+    If you already have a username or password, but have forgotten either,
+        <a href="{% url auth_password_reset %}">reset them here</a>.
+    </div>
+    
+    <div class="p"><i><span style="color: #c00; font-size: 20px;">*</span> Indicates required field</i></div>
+    
+    <form method="post" action="." class="register">
+      {{ form.as_p }}
+      
+      <input class="btn btn-primary" type="submit" value="{% trans 'Sign up!' %}" />
+    </form>
+
+{% endblock %}
+
+
