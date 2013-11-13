@@ -1,5 +1,4 @@
 from django.conf import settings
-import django.conf.urls
 from django.conf.urls import include, patterns, url
 from django.views.generic import TemplateView
 from django.contrib import admin
@@ -19,15 +18,16 @@ if hasattr(settings, 'WIND_BASE'):
         'djangowind.views.logout',
         {'next_page': '/'})
 redirect_after_logout = getattr(settings, 'LOGOUT_REDIRECT_URL', None)
-#auth_urls = (r'^accounts/', include('django.contrib.auth.urls'))
 
-
-
-urlpatterns = patterns('',#'django.views.generic.simple',
-                      (r'^about/', TemplateView.as_view(template_name="flatpages/about.html")),
-                      (r'^help/', TemplateView.as_view(template_name="flatpages/help.html")),
-                      (r'^contact/', TemplateView.as_view(template_name="flatpages/contact.html")),
-                      )
+urlpatterns = patterns(
+    '',  # 'django.views.generic.simple',
+    (r'^about/',
+     TemplateView.as_view(template_name="flatpages/about.html")),
+    (r'^help/',
+     TemplateView.as_view(template_name="flatpages/help.html")),
+    (r'^contact/',
+     TemplateView.as_view(template_name="flatpages/contact.html")),
+)
 
 urlpatterns += patterns(
     '',

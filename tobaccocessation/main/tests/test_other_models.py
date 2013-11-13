@@ -1,6 +1,6 @@
 from django.test import TestCase
-from django.test.client import Client
 from tobaccocessation.activity_treatment_choice.models import Block
+
 
 class TestModelsOther(TestCase):
     def setUp(self):
@@ -21,6 +21,7 @@ class TestModelsOther(TestCase):
 
     # def test_block_create(self):
     #     c = Client()
-    #     self.request = c.post('/some_page/', {'medication_name': 'medication name', 'show_correct': False})
+    #     self.request = c.post('/some_page/', {
+    #         'medication_name': 'medication name', 'show_correct': False})
     #     self.block_create = self.block.create(self.request)
     #     self.assertIsNotNone(self.block_create)

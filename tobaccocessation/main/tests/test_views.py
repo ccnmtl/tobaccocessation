@@ -1,9 +1,6 @@
-from django.contrib.auth.models import User
-from django.test import TestCase
 from django.test.client import Client
-from django.utils import simplejson
-from tobaccocessation.activity_treatment_choice.views import loadstate, savestate
-from tobaccocessation.main.views import index, accessible, is_accessible
+from tobaccocessation.activity_treatment_choice.views import loadstate, \
+    savestate
 from django.contrib.auth.models import User
 from django.test import TestCase, RequestFactory
 from pagetree.models import Hierarchy, Section
@@ -55,30 +52,26 @@ class TestSimpleViews(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_treatment_choice_save_state(self):
-        request = self.factory.post('/activity/treatment/save/', {'json':'need json'})
+        request = self.factory.post('/activity/treatment/save/',
+                                    {'json': 'need json'})
         request.user = self.user
         response = savestate(request)
         self.assertEqual(response.status_code, 200)
 
-
-
-
     '''Test Views in Main'''
-    def test_index(self):
+    def test_index2(self):
         self.c = Client()
         self.c.login(username='test_student', password='testpassword')
         self.response = self.c.get('/')
         self.assertEqual(self.response.status_code, 302)
 
-
 #    def test_flash_creation(self):
 #        self.flash_create = self.c.post(
-        #self.flash_create = self.c.post('/', {'file_url': 'medication name', 'image_url': Falsewidth'height})
-    #     self.request = 
+        #self.flash_create = self.c.post('/', {
+        #'file_url': 'medication name', 'image_url': Falsewidth'height})
+    #     self.request =
     #     self.block_create = self.block.create(self.request)
     #     self.assertIsNotNone(self.block_create)
-
-
 
     def test_accessible(self):
         pass
@@ -87,10 +80,8 @@ class TestSimpleViews(TestCase):
         #self.accessible = accessible(self.section1, self.user)
         #self.assertIsNotNull(self.accessible)
 
-
     def test_is_accessible(self):
         pass
-
 
     def test_clear_state(self):
         pass

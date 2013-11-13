@@ -11,7 +11,7 @@
 {% block content %}
     {{ block.super }} 
     
-     <a class="reset_button" href="{% url reset patient.id %}" onclick="clearState(); return false;">Reset&nbsp;Exercise</a>
+     <a class="reset_button" href="{% url "reset" patient.id %}" onclick="clearState(); return false;">Reset&nbsp;Exercise</a>
    <h2>Virtual Patient {{ patient.display_order }}: Select Best Treatment Option</h2>
     <h5>Step 2: Based upon your previous rationale, choose treatment(s) to actually prescribe for this patient.</h5> 
     <div id="patient">
