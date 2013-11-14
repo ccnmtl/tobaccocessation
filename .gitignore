@@ -7,3 +7,4 @@ ve
 .pydevproject
 reports
 uploads
+.DS_Store
