@@ -43,20 +43,21 @@ urlpatterns += patterns(
     login_page,  # see above
     url(r'^accounts/register/$', RegistrationView.as_view(
         form_class=CreateAccountForm),
-        name='registration_register'),  # missing
-    (r'^accounts/', include('registration.backends.default.urls')),  # missing
-    (r'^admin/', include(admin.site.urls)),  # templates gone
+        name='registration_register'),
+    (r'^accounts/', include('registration.backends.default.urls')),
+    (r'^admin/', include(admin.site.urls)),
     (r'^smoketest/', include('smoketest.urls')),
-    (r'^main/', include('tobaccocessation.main.urls')),  # missing
+    (r'^main/', include('tobaccocessation.main.urls')),
+    (r'^profile/', include('tobaccocessation.main.urls')),
     (r'^activity/treatment/', include(
-        'tobaccocessation.activity_treatment_choice.urls')),  # missing
-    (r'^activity/prescription/',   # missing
+        'tobaccocessation.activity_treatment_choice.urls')),
+    (r'^activity/prescription/',
      include('tobaccocessation.activity_prescription_writing.urls')),
     (r'^activity/virtualpatient/',
      include('tobaccocessation.activity_virtual_patient.urls')),
-    (r'^activity/quiz/', include('quizblock.urls')),  # missing
+    (r'^activity/quiz/', include('quizblock.urls')),
     (r'^quizblock/',
-     include('quizblock.urls')),  # missing
+     include('quizblock.urls')),
     #('^accounts/', include('djangowind.urls')),
 
     (r'^site_media/(?P<path>.*)$',
