@@ -101,6 +101,7 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = [
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -109,7 +110,6 @@ INSTALLED_APPS = [
     'django.contrib.markup',
     'staticmedia',
     'sorl.thumbnail',
-    'django.contrib.admin',
     'tagging',
     'typogrify',
     'munin',
