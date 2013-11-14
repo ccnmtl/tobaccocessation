@@ -111,7 +111,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
     'django.contrib.markup',
-    'django.contrib.staticfiles', #mayeb?
+    'django.contrib.staticfiles',  # maybe?
     'staticmedia',
     'sorl.thumbnail',
     'tagging',

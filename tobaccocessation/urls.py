@@ -1,8 +1,6 @@
 from django.conf.urls import include, patterns, url
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
 from django.conf import settings
-import django.conf.urls
 from django.views.generic import TemplateView
 import os.path
 admin.autodiscover()
@@ -22,13 +20,15 @@ if hasattr(settings, 'WIND_BASE'):
         {'next_page': '/'})
 redirect_after_logout = getattr(settings, 'LOGOUT_REDIRECT_URL', None)
 
-
-
-urlpatterns = patterns('',#'django.views.generic.simple',
-                      (r'^about/', TemplateView.as_view(template_name="flatpages/about.html")),
-                      (r'^help/', TemplateView.as_view(template_name="flatpages/help.html")),
-                      (r'^contact/', TemplateView.as_view(template_name="flatpages/contact.html")),
-                      )
+urlpatterns = patterns(
+    '',  # 'django.views.generic.simple',
+    (r'^about/',
+     TemplateView.as_view(template_name="flatpages/about.html")),
+    (r'^help/',
+     TemplateView.as_view(template_name="flatpages/help.html")),
+    (r'^contact/',
+     TemplateView.as_view(template_name="flatpages/contact.html")),
+)
 
 urlpatterns += patterns(
     '',
@@ -43,20 +43,20 @@ urlpatterns += patterns(
     login_page,  # see above
     url(r'^accounts/register/$', RegistrationView.as_view(
         form_class=CreateAccountForm),
-        name='registration_register'), # missing
-    (r'^accounts/', include('registration.backends.default.urls')), # missing
-    (r'^admin/', include(admin.site.urls)), # templates gone
+        name='registration_register'),  # missing
+    (r'^accounts/', include('registration.backends.default.urls')),  # missing
+    (r'^admin/', include(admin.site.urls)),  # templates gone
     (r'^smoketest/', include('smoketest.urls')),
-    (r'^main/', include('tobaccocessation.main.urls')), #missing
+    (r'^main/', include('tobaccocessation.main.urls')),  # missing
     (r'^activity/treatment/', include(
-        'tobaccocessation.activity_treatment_choice.urls')), # missing
-    (r'^activity/prescription/',
-     include('tobaccocessation.activity_prescription_writing.urls')),# missing
+        'tobaccocessation.activity_treatment_choice.urls')),  # missing
+    (r'^activity/prescription/',   # missing
+     include('tobaccocessation.activity_prescription_writing.urls')),
     (r'^activity/virtualpatient/',
      include('tobaccocessation.activity_virtual_patient.urls')),
-    (r'^activity/quiz/', include('quizblock.urls')), # missing
+    (r'^activity/quiz/', include('quizblock.urls')),  # missing
     (r'^quizblock/',
-     include('quizblock.urls')), # missing
+     include('quizblock.urls')),  # missing
     #('^accounts/', include('djangowind.urls')),
 
     (r'^site_media/(?P<path>.*)$',
@@ -66,14 +66,15 @@ urlpatterns += patterns(
 
     # completely override pagetree for virtual patient. it's
     # too much to fit it into the structure
+    # default to next view
     url(r'^assist/activity-virtual-patient/$',
-        'tobaccocessation.activity_virtual_patient.views.root', name='root'), # default to next view
+        'tobaccocessation.activity_virtual_patient.views.root', name='root'),
     url(r'^assist/activity-virtual-patient/options/(?P<patient_id>\d+)/$',
         'tobaccocessation.activity_virtual_patient.views.options',
         name='options'),
     url(r'^assist/activity-virtual-patient/selection/(?P<patient_id>\d+)/$',
         'tobaccocessation.activity_virtual_patient.views.selection',
-        name='selection'), # get 404
+        name='selection'),  # get 404
     url(r'^assist/activity-virtual-patient/prescription/(?P<patient_id>\d+)/$',
         'tobaccocessation.activity_virtual_patient.views.prescription',
         name='prescription'),
