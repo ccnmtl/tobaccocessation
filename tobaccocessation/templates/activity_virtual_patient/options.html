@@ -11,7 +11,7 @@
 {% block content %}
     {{ block.super }} 
     
-    <a class="reset_button" href="{% url reset patient.id %}" onclick="clearState(); return false;">Reset&nbsp;Exercise</a>
+    <a class="reset_button" href="{% url 'reset' patient.id %}" onclick="clearState(); return false;">Reset&nbsp;Exercise</a>
     <h2>Virtual Patient {{ patient.display_order }}: Classify Treatment Options</h2>
     <h5>Step 1: Based on the patient history below, classify all eight available treatments by dragging them to selected boxes.<br />
         Choose at least one to be your Best Treatment Choice.</h5> 

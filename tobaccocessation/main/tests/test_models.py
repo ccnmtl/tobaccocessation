@@ -1,10 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
-from django.test.client import Client
 from pagetree.models import Hierarchy, Section
 from tobaccocessation.main.models import UserProfile, FlashVideoBlock
-from django import forms
-
 
 
 class UserProfileTest(TestCase):
@@ -66,7 +63,6 @@ class UserProfileTest(TestCase):
         display_name = UserProfile.display_name(profile)
         self.assertEqual(display_name, 'test_student')
 
-
     def test_edit_flash_form(self):
         self.flash = FlashVideoBlock(width=4, height=3)
         self.flash.save()
@@ -84,4 +80,3 @@ class UserProfileTest(TestCase):
     #     self.response = self.c.post("/")
     #     self.create_flash_block = FlashVideoBlock.create(self.response)
     #     self.assertIsNotNone(self.create_flash_block)
-

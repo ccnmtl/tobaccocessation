@@ -40,7 +40,10 @@ SOUTH_TESTS_MIGRATE = False
 
 NOSE_ARGS = [
     '--with-coverage',
-    '--cover-package=tobaccocessation,tobaccocessation.activity_prescription_writing,tobaccocessation.activity_treatment_choice,tobaccocessation.activity_virtual_patient']
+    ('--cover-package=tobaccocessation,'
+     'tobaccocessation.activity_prescription_writing,'
+     'tobaccocessation.activity_treatment_choice,'
+     'tobaccocessation.activity_virtual_patient')]
 
 JENKINS_TASKS = (
     'django_jenkins.tasks.run_pylint',
@@ -182,7 +185,8 @@ WIND_AFFIL_HANDLERS = ['djangowind.auth.AffilGroupMapper',
                        'djangowind.auth.SuperuserMapper']
 WIND_STAFF_MAPPER_GROUPS = ['tlc.cunix.local:columbia.edu']
 WIND_SUPERUSER_MAPPER_GROUPS = ['anp8', 'jb2410', 'zm4', 'egr2107',
-                                'sld2131', 'amm8', 'mar227', 'jed2161', 'cld2156']
+                                'sld2131', 'amm8', 'mar227', 'jed2161',
+                                'cld2156']
 
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_COOKIE_HTTPONLY = True

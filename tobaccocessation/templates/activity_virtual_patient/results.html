@@ -11,7 +11,7 @@
 {% block content %}
     {{ block.super }}
      
-    <a class="reset_button" href="{% url reset patient.id %}" onclick="clearState(); return false;">Reset&nbsp;Exercise</a>
+    <a class="reset_button" href="{% url 'reset' patient.id %}" onclick="clearState(); return false;">Reset&nbsp;Exercise</a>
    <h2>Virtual Patient {{ patient.display_order }}: Treatment Results</h2>
     
      <div id="patient">
