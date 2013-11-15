@@ -2,7 +2,7 @@
 
 {% block title %}Virtual Patient {{ patient.display_order }}: Treatment Results{% endblock %}
 
-{% block js %}
+{% block extrajs %}
    {{ block.super }}
    <script type="text/javascript" src="/activity/virtualpatient/media/js/results.js"></script>
 {% endblock %}

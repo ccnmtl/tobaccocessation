@@ -1,7 +1,7 @@
 {% extends "base_two_col_left.html" %}
 {% load render accessible %}
 
-{% block css %}
+{% block extrahead %}
     {% for block in section.pageblock_set.all %}
         {% rendercss block %}
     {% endfor %}
@@ -9,7 +9,9 @@
 
 {% block js %} 
     <script type="text/javascript" src="/site_media/js/json2.js"></script>
-    
+{% endblock %}
+
+{% block extrajs %}
     {% for block in section.pageblock_set.all %}
         {% renderjs block %}
     {% endfor %}

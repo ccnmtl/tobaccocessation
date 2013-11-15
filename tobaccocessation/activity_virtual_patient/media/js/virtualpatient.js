@@ -27,14 +27,11 @@ _onbeforeunload = MochiKit.Signal.connect(window, "onbeforeunload", saveStateSyn
 
 //////////////////////////////////////////////////////////////////////////////
 
-function onXHRSuccess(response)
-{
-   doc = JSON.parse(response.responseText, null);
-   window.location = doc.redirect ;
+function onXHRSuccess(response) {
+   window.location = response.redirect ;
 }
 
-function onXHRError(err)
-{
+function onXHRError(err) {
    // do something intelligent here
 }
 
@@ -52,12 +49,13 @@ function navigate()
 
    var jsontxt = get_state(); // defined by individual pages
    
-   var deferred = doXHR(url, 
-         { 
-            method: 'POST', 
-            sendContent: queryString({'json': jsontxt})
-         });
-   deferred.addCallbacks(onXHRSuccess, onXHRError);
+   jQuery.ajax({
+       type: 'POST',
+       url: url,
+       data: queryString({'json': jsontxt}),
+       dataType: 'json',
+       error: onXHRError,
+       success: onXHRSuccess});
    return false;
 }
 

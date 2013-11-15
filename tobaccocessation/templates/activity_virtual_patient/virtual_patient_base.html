@@ -1,7 +1,7 @@
 {% extends "base_two_col_left.html" %}
 {% load smartif %}
 
-{% block css %}
+{% block extrahead %}
    {{ block.super }}
    <link href="/activity/virtualpatient/media/css/virtualpatient.css" rel="stylesheet" type="text/css" />
 {% endblock %}
@@ -12,7 +12,10 @@
    <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/Visual.js"></script>
    <script type="text/javascript" src="/site_media/js/mochikit/MochiKit/DragAndDrop.js"></script>
    <script type="text/javascript" src="/site_media/js/json2.js"></script>
-   <script type="text/javascript" src="/activity/treatment/media/js/virtualpatient.js"></script>
+{% endblock %}
+
+{% block extrajs %}   
+   <script type="text/javascript" src="/activity/virtualpatient/media/js/virtualpatient.js"></script>
 {% endblock %}
 
 {% block sidebarleft %}
