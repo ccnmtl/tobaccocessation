@@ -8,3 +8,5 @@ ve
 reports
 uploads
 .DS_Store
+.settings
+media/CACHE/
