@@ -21,15 +21,15 @@ Drag = {
         */
 
       try {
-	 Drag._offset = Drag._diff(
-				   e.mouse().page,
-				   getElementPosition(Drag._target));
-	 Drag._tadim = getElementDimensions(handle_map[Drag._target.id]);
-	 }
+     Drag._offset = Drag._diff(
+                   e.mouse().page,
+                   getElementPosition(Drag._target));
+     Drag._tadim = getElementDimensions(handle_map[Drag._target.id]);
+     }
       catch (err) {
-	 alert(err);
-	 }
-      Drag._lastmouse = e.mouse().page,
+     alert(err);
+     }
+      Drag._lastmouse = e.mouse().page;
       Drag._move = connect(document, 'onmousemove', Drag._drag);
       Drag._down = connect(document, 'onmouseup', Drag._stop);
    },
@@ -43,16 +43,16 @@ Drag = {
          return new MochiKit.Style.Coordinates(lhs.x - rhs.x, lhs.y - rhs.y);
       },
       _ddiff: function(lhs, rhs) {
-	 return new MochiKit.Style.Dimensions(lhs.w - rhs.w, lhs.h - rhs.h);
+     return new MochiKit.Style.Dimensions(lhs.w - rhs.w, lhs.h - rhs.h);
       },
         
       _drag: function(e) {
          e.stop();
-	 var ta = handle_map[Drag._target.id];
+     var ta = handle_map[Drag._target.id];
          setElementPosition(Drag._target,Drag._diff(e.mouse().page, Drag._offset));
-	 var mousediff = Drag._diff(e.mouse().page, Drag._lastmouse);
-	 setElementDimensions(ta, {w : Drag._tadim.w + mousediff.x, 
-	    h : Drag._tadim.h + mousediff.y});
+     var mousediff = Drag._diff(e.mouse().page, Drag._lastmouse);
+     setElementDimensions(ta, {w : Drag._tadim.w + mousediff.x, 
+        h : Drag._tadim.h + mousediff.y});
       },
     
       _stop: function(e) {
@@ -80,7 +80,7 @@ function makeResizable(ta) {
                                 
 function initTextAreas () {     
    forEach(getElementsByTagAndClassName('textarea','resizable'),
-	   function (ta) {makeResizable(ta);});
-};
+       function (ta) {makeResizable(ta);});
+}
                                 
 addLoadEvent(initTextAreas);

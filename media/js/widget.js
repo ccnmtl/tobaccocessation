@@ -1,17 +1,17 @@
 
 function insensitiveSort(a,b) {
-  string = a + b
-  a = a.toLowerCase()
-  b = b.toLowerCase()
+  string = a + b;
+  a = a.toLowerCase();
+  b = b.toLowerCase();
   if (a < b) return -1;
   if (a > b) return 1;
   return 0;
 }
 
 function move (from, to) {
-    var fbox = new Array();
-    var tbox = new Array();
-    var lookup = new Array();
+    var fbox = [];
+    var tbox = [];
+    var lookup = [];
 
     // Copy data from 'to' and 'from' boxes into 'tbox' and 'fbox'
     // arrays; if an item in 'from' is selected, it gets moved into
@@ -42,7 +42,7 @@ function move (from, to) {
     // the screen. So if the 'from' box is going to be empty, we fill it with
     // an empty option. We then check for this dummy option up above
     // (value == -1) to get rid of it when we don't need it.
-    if (fbox.length == 0)
+    if (fbox.length === 0)
         from[0] = new Option('', -1);
     for (i=0; i<fbox.length; i++)
         from[i] = new Option(fbox[i], lookup[fbox[i]]);

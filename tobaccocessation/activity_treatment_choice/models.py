@@ -12,6 +12,8 @@ class Block(models.Model):
     display_name = "Activity: Treatment Choice"
     treatments = ['patch', 'bupropion', 'nasalspray', 'lozenge',
                   'inhaler', 'chantix', 'gum', 'combination']
+    js_template_file = "activity_treatment_choice/treatment_js.html"
+    css_template_file = "activity_treatment_choice/treatment_css.html"
 
     def pageblock(self):
         return self.pageblocks.all()[0]
