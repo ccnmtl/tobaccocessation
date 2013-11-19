@@ -4,12 +4,35 @@ from django.contrib.contenttypes import generic
 from django.db import models
 from django.utils import simplejson
 from pagetree.models import PageBlock
+from registration.forms import RegistrationForm
+from django.dispatch import Signal
+
+
+
+# class Role(models.Model):
+#     STUDENT = 'ST'
+#     PERIO = 'PR'
+#     ORAL_SURGERY = 'OS'
+#     GEN_PRACTICE = 'GP'
+
+#     ROLE_CHOICES = (
+
+#         (STUDENT, 'Student'),
+#         (PERIO, 'Perio'),
+#         (ORAL_SURGERY, 'Oral Surgeon'),
+#         (GEN_PRACTICE, 'General Practitioner'),
+#     )
+#     name = models.CharField(max_length=2, choices=ROLE_CHOICES)
+
+#     def __unicode__(self):
+#        return self.name
 
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, related_name="application_user")
     last_location = models.CharField(max_length=255)
     visited = models.TextField()
+    #role = models.ForeignKey(Role, null=True, blank=True)
 
     def __unicode__(self):
         return self.user.username
@@ -42,6 +65,38 @@ class UserProfile(models.Model):
     def display_name(self):
         return self.user.username
 
+
+
+# class UserProfileForm(forms.Form):
+#     '''Form which will be used to obtain further
+#     information from the user.'''
+#     #first_name = forms.CharField(max_length=256)
+#     #last_name = forms.CharField(max_length=256)
+#     #gender = forms.ChoiceField(
+#     #    initial="-----", choices=GENDER_CHOICES, label='Your gender')
+
+#     role = forms.ChoiceField(
+#         choices=Role.ROLE_CHOICES,
+#         label="Select your role in this course")
+#     #dental_school = models.CharField(max_length=1024,
+#     #                                choices=DENTAL_SCHOOL_CHOICES)
+
+class CreateAccountForm(RegistrationForm):
+    '''This is a form class that will be used
+    to allow guest users to create guest accounts.'''
+    first_name = forms.CharField(
+        max_length=25, required=True, label="First Name")
+    last_name = forms.CharField(
+        max_length=25, required=True, label="Last Name")
+    username = forms.CharField(
+        max_length=25, required=True, label="Username")
+    password1 = forms.CharField(
+        max_length=25, widget=forms.PasswordInput, required=True,
+        label="Password")
+    password2 = forms.CharField(
+        max_length=25, widget=forms.PasswordInput, required=True,
+        label="Confirm Password")
+    email = forms.EmailField()
 
 class FlashVideoBlock(models.Model):
     pageblocks = generic.GenericRelation(PageBlock)

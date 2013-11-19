@@ -1,23 +1,24 @@
 from django import forms
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, render
 from django.template import RequestContext
 from django.utils import simplejson
 from pagetree.helpers import get_section_from_path, get_module
 from pagetree.models import Section
-from registration.forms import RegistrationForm
 from tobaccocessation.activity_prescription_writing.models import \
     ActivityState as PrescriptionWritingActivityState
 from tobaccocessation.activity_treatment_choice.models import \
     ActivityState as TreatmentChoiceActivityState
 from tobaccocessation.activity_virtual_patient.models import \
     ActivityState as VirtualPatientActivityState
-from tobaccocessation.main.models import UserProfile
+from tobaccocessation.main.models import UserProfile, UserProfileForm, Role
+import django.core.exceptions
+from django.db import DatabaseError
 
 INDEX_URL = "/welcome/"
 UNLOCKED = ['welcome', 'resources']  # special cases
-
+CREATE_PROFILE = "/profile/"
 
 class rendered_with(object):
     def __init__(self, template_name):
@@ -147,15 +148,48 @@ def _response(request, section, path):
                     request=request,
                     leftnav=leftnav)
 
+#not sure if this is right
+def get_or_create_profile(user, section):
+    if user.is_anonymous():
+        return None
+    try:
+        user_profile, created = UserProfile.objects.get_or_create(user=user)
+    except django.core.exceptions.MultipleObjectsReturned:
+        user_profile = UserProfile.objects.filter(user=user)[0]
+        created = False
+    if created:
+        first_leaf = section.hierarchy.get_first_leaf(section)
+        ancestors = first_leaf.get_ancestors()
+        for a in ancestors:
+            user_profile.save_visit(a)
+    return user_profile
+
+
+@login_required
+def create_profile(request):
+    """Redirect Profileless User to create a profile."""
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST)
+        role = request.POST['role']
+        new_role = Role(name=role)
+        new_role.save()
+        new_profile = UserProfile(user=request.user, role=new_role)
+        new_profile.save()
+        return HttpResponseRedirect('/')
+    else:
+        form = UserProfileForm()  # An unbound form
+
+    return render(request, 'main/create_profile.html', {
+        'form': form,
+    })
 
 @login_required
 def index(request):
     try:
-        profile = request.user.get_profile()
+        profile = UserProfile.objects.get_or_create(user=request.user)#request.user.get_or_create_profile()
         url = profile.last_location
-    except UserProfile.DoesNotExist:
-        url = INDEX_URL
-
+    except DatabaseError:
+        url = CREATE_PROFILE
     return HttpResponseRedirect(url)
 
 # templatetag
@@ -256,40 +290,6 @@ def _unlocked(section, user, previous, profile):
     return profile.get_has_visited(previous)
 
 
-class CreateAccountForm(RegistrationForm):
-    '''This is a form class that will be used
-    to allow guest users to create guest accounts.'''
-    first_name = forms.CharField(
-        max_length=25, required=True, label="First Name")
-    last_name = forms.CharField(
-        max_length=25, required=True, label="Last Name")
-    username = forms.CharField(
-        max_length=25, required=True, label="Username")
-    password1 = forms.CharField(
-        max_length=25, widget=forms.PasswordInput, required=True,
-        label="Password")
-    password2 = forms.CharField(
-        max_length=25, widget=forms.PasswordInput, required=True,
-        label="Confirm Password")
-    email = forms.EmailField()
 
 
-class CreateProfileForm(RegistrationForm):
-    '''This form will be used to gather the
-    detailed profile information which is not
-    already included in the defualt profile.'''
-    pass
-    # first_name = forms.CharField(
-    #     max_length=25, required=True, label="First Name")
-    # last_name = forms.CharField(
-    #     max_length=25, required=True, label="Last Name")
-    # username = forms.CharField(
-    #     max_length=25, required=True, label="Username")
-    # password1 = forms.CharField(
-    #     max_length=25, widget=forms.PasswordInput, required=True,
-    #     label="Password")
-    # password2 = forms.CharField(
-    #     max_length=25, widget=forms.PasswordInput, required=True,
-    #     label="Confirm Password")
-    # email = forms.EmailField()
 
