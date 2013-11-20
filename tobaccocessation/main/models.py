@@ -9,30 +9,30 @@ from django.dispatch import Signal
 
 
 
-# class Role(models.Model):
-#     STUDENT = 'ST'
-#     PERIO = 'PR'
-#     ORAL_SURGERY = 'OS'
-#     GEN_PRACTICE = 'GP'
+class Role(models.Model):
+    STUDENT = 'ST'
+    PERIO = 'PR'
+    ORAL_SURGERY = 'OS'
+    GEN_PRACTICE = 'GP'
 
-#     ROLE_CHOICES = (
+    ROLE_CHOICES = (
 
-#         (STUDENT, 'Student'),
-#         (PERIO, 'Perio'),
-#         (ORAL_SURGERY, 'Oral Surgeon'),
-#         (GEN_PRACTICE, 'General Practitioner'),
-#     )
-#     name = models.CharField(max_length=2, choices=ROLE_CHOICES)
+        (STUDENT, 'Student'),
+        (PERIO, 'Perio'),
+        (ORAL_SURGERY, 'Oral Surgeon'),
+        (GEN_PRACTICE, 'General Practitioner'),
+    )
+    name = models.CharField(max_length=2, choices=ROLE_CHOICES)
 
-#     def __unicode__(self):
-#        return self.name
+    def __unicode__(self):
+       return self.name
 
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, related_name="application_user")
     last_location = models.CharField(max_length=255)
     visited = models.TextField()
-    #role = models.ForeignKey(Role, null=True, blank=True)
+    role = models.ForeignKey(Role, null=True, blank=True)
 
     def __unicode__(self):
         return self.user.username
@@ -67,17 +67,17 @@ class UserProfile(models.Model):
 
 
 
-# class UserProfileForm(forms.Form):
-#     '''Form which will be used to obtain further
-#     information from the user.'''
+class UserProfileForm(forms.Form):
+    '''Form which will be used to obtain further
+    information from the user.'''
 #     #first_name = forms.CharField(max_length=256)
 #     #last_name = forms.CharField(max_length=256)
 #     #gender = forms.ChoiceField(
 #     #    initial="-----", choices=GENDER_CHOICES, label='Your gender')
 
-#     role = forms.ChoiceField(
-#         choices=Role.ROLE_CHOICES,
-#         label="Select your role in this course")
+    role = forms.ChoiceField(
+        choices=Role.ROLE_CHOICES,
+        label="Select your role in this course")
 #     #dental_school = models.CharField(max_length=1024,
 #     #                                choices=DENTAL_SCHOOL_CHOICES)
 

@@ -15,6 +15,7 @@ from tobaccocessation.activity_virtual_patient.models import \
 from tobaccocessation.main.models import UserProfile, UserProfileForm, Role
 import django.core.exceptions
 from django.db import DatabaseError
+from django.core.exceptions import MultipleObjectsReturned
 
 INDEX_URL = "/welcome/"
 UNLOCKED = ['welcome', 'resources']  # special cases
@@ -149,20 +150,20 @@ def _response(request, section, path):
                     leftnav=leftnav)
 
 #not sure if this is right
-def get_or_create_profile(user, section):
-    if user.is_anonymous():
-        return None
-    try:
-        user_profile, created = UserProfile.objects.get_or_create(user=user)
-    except django.core.exceptions.MultipleObjectsReturned:
-        user_profile = UserProfile.objects.filter(user=user)[0]
-        created = False
-    if created:
-        first_leaf = section.hierarchy.get_first_leaf(section)
-        ancestors = first_leaf.get_ancestors()
-        for a in ancestors:
-            user_profile.save_visit(a)
-    return user_profile
+# def get_or_create_profile(user, section):
+#     if user.is_anonymous():
+#         return None
+#     try:
+#         user_profile, created = UserProfile.objects.get_or_create(user=user)
+#     except django.core.exceptions.MultipleObjectsReturned:
+#         user_profile = UserProfile.objects.filter(user=user)[0]
+#         created = False
+#     if created:
+#         first_leaf = section.hierarchy.get_first_leaf(section)
+#         ancestors = first_leaf.get_ancestors()
+#         for a in ancestors:
+#             user_profile.save_visit(a)
+#     return user_profile
 
 
 @login_required
@@ -183,16 +184,22 @@ def create_profile(request):
         'form': form,
     })
 
+
+
+
+
 @login_required
 def index(request):
     try:
-        profile = UserProfile.objects.get_or_create(user=request.user)#request.user.get_or_create_profile()
+        profile = UserProfile.objects.get(user=request.user)
+        url = INDEX_URL#url = profile.last_location - why did I do this again?
+    except django.core.exceptions.MultipleObjectsReturned:
+        profile = UserProfile.objects.filter(user=request.user)[0]
         url = profile.last_location
-    except DatabaseError:
+    except UserProfile.DoesNotExist:
         url = CREATE_PROFILE
     return HttpResponseRedirect(url)
 
-# templatetag
 
 
 def accessible(section, user):
