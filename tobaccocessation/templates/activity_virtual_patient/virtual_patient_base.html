@@ -14,7 +14,8 @@
    <script type="text/javascript" src="/site_media/js/json2.js"></script>
 {% endblock %}
 
-{% block extrajs %}   
+{% block extrajs %}
+   {{ block.super }}
    <script type="text/javascript" src="/activity/virtualpatient/media/js/virtualpatient.js"></script>
 {% endblock %}
 
@@ -27,7 +28,7 @@
             <li class="selected"><span class="selected">Virtual Patient {{p.display_order }}</span></li>
          {% else %}
             {% if p.completed %}
-                <li><a href="/assist/activity-virtual-patient/options/{{p.id}}">Virtual Patient {{p.display_order}}</a></li>
+                <li><a href="/assist/activity-virtual-patient/options/{{p.id}}/">Virtual Patient {{p.display_order}}</a></li>
             {% else %}
                 <li><span class="disabled_link">Virtual Patient {{p.display_order}}</span></li>
             {% endif %}

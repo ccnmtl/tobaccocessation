@@ -17,8 +17,7 @@
 	    {% block css %}{% endblock %}
     {% endcompress %}
     
-    {% block extrahead %}
-    {% endblock %}	
+    {% block extrahead %}{% endblock %}	
 </head>
 <body class="one_column {% block widthtype %}fluid{% endblock %}">
     <div id="container">    
@@ -121,6 +120,8 @@
     {% compress js %}
         {% block js %}{% endblock %}
     {% endcompress %}
+    
+    {% block extrajs %}{% endblock %}
     
     {% if STAGING_ENV %}
         <div class="alert alert-error"

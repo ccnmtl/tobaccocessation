@@ -2,6 +2,7 @@
 {% load render accessible %}
 
 {% block extrahead %}
+    {{ block.super }}
     {% for block in section.pageblock_set.all %}
         {% rendercss block %}
     {% endfor %}

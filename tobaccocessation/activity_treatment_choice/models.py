@@ -8,10 +8,11 @@ from pagetree.models import PageBlock
 
 class Block(models.Model):
     pageblocks = generic.GenericRelation(PageBlock)
-    template_file = "activity_treatment_choice/treatment.html"
     display_name = "Activity: Treatment Choice"
     treatments = ['patch', 'bupropion', 'nasalspray', 'lozenge',
                   'inhaler', 'chantix', 'gum', 'combination']
+
+    template_file = "activity_treatment_choice/treatment.html"
     js_template_file = "activity_treatment_choice/treatment_js.html"
     css_template_file = "activity_treatment_choice/treatment_css.html"
 
