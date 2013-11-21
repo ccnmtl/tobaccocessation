@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 import os.path
 admin.autodiscover()
 from registration.backends.default.views import RegistrationView
-from tobaccocessation.main.views import CreateAccountForm
+from tobaccocessation.main.models import CreateAccountForm
 
 
 site_media_root = os.path.join(os.path.dirname(__file__), "../media")
@@ -48,7 +48,7 @@ urlpatterns += patterns(
     (r'^admin/', include(admin.site.urls)),
     (r'^smoketest/', include('smoketest.urls')),
     (r'^main/', include('tobaccocessation.main.urls')),
-    (r'^profile/', include('tobaccocessation.main.urls')),
+    (r'^profile/', 'tobaccocessation.main.views.create_profile'),
     (r'^activity/treatment/', include(
         'tobaccocessation.activity_treatment_choice.urls')),
     (r'^activity/prescription/',
