@@ -321,14 +321,15 @@ function clearState()
                          removeElement(child);
                       });
            });
-           
-   // contact the server and save the clearedstate
-  deferred = doXHR(url, 
-        { 
-           method: 'POST', 
-           sendContent: queryString({'json': JSON.stringify(doc, null)})
-        });
-  deferred.addCallbacks(saveStateSuccess, saveStateError);
+  
+  jQuery.ajax({
+      type: 'POST',
+      url: url,
+      data: queryString({'json': JSON.stringify(doc, null)}),
+      dataType: 'json',
+      error: saveStateError,
+      success: saveStateSuccess});
+  return false;  
 }
 
 function setCounters()

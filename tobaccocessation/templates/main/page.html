@@ -13,6 +13,7 @@
 {% endblock %}
 
 {% block extrajs %}
+    {{ block.super }}
     {% for block in section.pageblock_set.all %}
         {% renderjs block %}
     {% endfor %}
