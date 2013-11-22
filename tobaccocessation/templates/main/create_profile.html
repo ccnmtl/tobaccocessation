@@ -11,24 +11,63 @@
 
 <form action="" method="post">{% csrf_token %}
     {{ form.non_field_errors }}
+
 <br/>
     <div class="fieldWrapper">
-        {{ form.role.errors }}
-        <label for="id_sender">How would you describe your role in this course?</label>
-        {{ form.role }}
+        {{ form.first_name.errors }}
+        <label for="id_sender">First Name: </label>
+        {{ form.first_name }}
     </div>
 <br/>
-<!--    <div class="fieldWrapper">
-        {{ form.subject.errors }}
-        <label for="id_subject">Email subject:</label>
-        {{ form.subject }}
+
+    <div class="fieldWrapper">
+        {{ form.last_name.errors }}Last Name: </label>
+        {{ form.last_name }}
+    </div>
+
+<br/>
+    <div class="fieldWrapper">
+        {{ form.username.errors }}
+        <label for="id_sender">Desired Username: </label>
+        {{ form.username }}
+    </div>
+<br/>
+
+
+<br/>
+    <div class="fieldWrapper">
+        {{ form.gender.errors }}
+        <label for="id_sender">Gender: </label>
+        {{ form.gender }}
+    </div>
+<br/>
+
+    <div class="fieldWrapper">
+        {{ form.is_faculty.errors }}
+        <label for="id_subject">Are you a faculty memeber or a student?</label>
+        {{ form.is_faculty }}
     </div>
 <br/>
     <div class="fieldWrapper">
-        {{ form.message.errors }}
-        <label for="id_message">Your message:</label>
-        {{ form.message }}
-    </div> -->
+        {{ form.institute.errors }}
+        <label for="id_message">Institution Affiliation: </label>
+        {{ form.institute }}
+    </div>
+
+<br>
+    <div class="fieldWrapper">
+        {{ form.specialty.errors }}
+        <label for="id_sender">How would you describe your specialty?</label>
+        {{ form.specialty }}
+    </div>
+<br/>
+
+    <div class="fieldWrapper">
+        {{ form.year_of_graduation.errors }}
+        <label for="id_sender">What year did you graduate?</label>
+        {{ form.year_of_graduation }}
+    </div>
+<br/>
 
     <p><input type="submit" value="Submit" /></p>
 </form>

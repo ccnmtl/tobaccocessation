@@ -12,14 +12,15 @@ from tobaccocessation.activity_treatment_choice.models import \
     ActivityState as TreatmentChoiceActivityState
 from tobaccocessation.activity_virtual_patient.models import \
     ActivityState as VirtualPatientActivityState
-from tobaccocessation.main.models import UserProfile, UserProfileForm, Role
+from tobaccocessation.main.models import QuickFixProfileForm, UserProfile
 import django.core.exceptions
 from django.db import DatabaseError
 from django.core.exceptions import MultipleObjectsReturned
 
+
 INDEX_URL = "/welcome/"
 UNLOCKED = ['welcome', 'resources']  # special cases
-CREATE_PROFILE = "/profile/"
+CREATE_PROFILE = "profile/profile/"
 
 class rendered_with(object):
     def __init__(self, template_name):
@@ -149,42 +150,101 @@ def _response(request, section, path):
                     request=request,
                     leftnav=leftnav)
 
-#not sure if this is right
-# def get_or_create_profile(user, section):
-#     if user.is_anonymous():
-#         return None
-#     try:
-#         user_profile, created = UserProfile.objects.get_or_create(user=user)
-#     except django.core.exceptions.MultipleObjectsReturned:
-#         user_profile = UserProfile.objects.filter(user=user)[0]
-#         created = False
-#     if created:
-#         first_leaf = section.hierarchy.get_first_leaf(section)
-#         ancestors = first_leaf.get_ancestors()
-#         for a in ancestors:
-#             user_profile.save_visit(a)
-#     return user_profile
-
 
 @login_required
-def create_profile(request):
+def non_columbia_create_profile(request):
     """Redirect Profileless User to create a profile."""
+    user =request.user
     if request.method == 'POST':
-        form = UserProfileForm(request.POST)
-        role = request.POST['role']
-        new_role = Role(name=role)
-        new_role.save()
-        new_profile = UserProfile(user=request.user, role=new_role)
-        new_profile.save()
+        try:
+            user_profile = UserProfile.objects.get(user=user)
+        except UserProfile.DoesNotExist:
+            user_profile = UserProfile(user=user)
+        user.first_name = form.data['first_name']
+        user.last_name = form.data['last_name']
+        user.save()
+        user_profile.gender = form.data['gender']
+        user_profile.year_of_graduation = form.data['year_of_graduation']
+        user_profile.race = form.data['race']
+        user_profile.age = form.data['age']
+        user_profile.is_faculty = form.data['is_faculty']
+        user_profile.specialty = form.data['specialty']
+        user_profile.institute = form.data['institute']
+        user_profile.user = user # not sure how this goes
+        user_profile.save()
         return HttpResponseRedirect('/')
     else:
-        form = UserProfileForm()  # An unbound form
+        form = QuickFixProfileForm()  # An unbound form
 
-    return render(request, 'main/create_profile.html', {
+    return render(request, 'main/non_columbia_create_profile.html', {
+        'form': form,
+    })
+
+def columbia_create_profile(request):
+    """Redirect Columbia User with no profile to create a profile
+    - we already have their username, first_name, last_name,
+    and email."""
+    user =request.user
+    if request.method == 'POST':
+        try:
+            user_profile = UserProfile.objects.get(user=user)
+        except UserProfile.DoesNotExist:
+            user_profile = UserProfile(user=user)
+
+        user_profile.gender = form.data['gender']
+        user_profile.year_of_graduation = form.data['year_of_graduation']
+        user_profile.race = form.data['race']
+        user_profile.age = form.data['age']
+        user_profile.is_faculty = form.data['is_faculty']
+        user_profile.specialty = form.data['specialty']
+        user_profile.institute = 'I1'
+        user_profile.save()
+        return HttpResponseRedirect('/')
+    else:
+        form = QuickFixProfileForm()  # An unbound form
+
+    return render(request, 'main/non_columbia_create_profile.html', {
         'form': form,
     })
 
 
+# def update_user_profile(sender, user, request, **kwargs):
+#     form = UserProfileForm(request.POST)
+
+#     try:
+#         user_profile = UserProfile.objects.get(user=user)
+#     except UserProfile.DoesNotExist:
+#         user_profile = UserProfile(user=user)
+
+#     user.first_name = form.data['first_name']
+#     user.last_name = form.data['last_name']
+#     user.save()
+
+#     user_profile.gender = form.data['gender']
+#     user_profile.primary_discipline = form.data['primary_discipline']
+#     user_profile.primary_other_dental_discipline =  \
+#         form.data['primary_other_dental_discipline']
+#     user_profile.primary_other_discipline = \
+#         form.data['primary_other_discipline']
+#     user_profile.year_of_graduation = form.data['year_of_graduation']
+#     user_profile.dental_school = form.data['dental_school']
+#     user_profile.postal_code = form.data['postal_code']
+#     user_profile.plan_to_teach = form.data['plan_to_teach']
+#     user_profile.qualified_to_teach = form.data['qualified_to_teach']
+#     user_profile.opportunities_to_teach = form.data['opportunities_to_teach']
+#     user_profile.possible_to_teach = form.data['possible_to_teach']
+#     user_profile.ethnicity = form.data['ethnicity']
+#     user_profile.race = form.data['race']
+#     user_profile.age = form.data['age']
+#     user_profile.highest_degree = form.data['highest_degree']
+
+#     user_profile.state = u','.join(request.POST.getlist('state'))
+#     user_profile.work_description = \
+#         u','.join(request.POST.getlist('work_description'))
+
+#     user_profile.save()
+
+# user_registered.connect(update_user_profile)
 
 
 
