@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from pagetree.models import Hierarchy, Section
 from tobaccocessation.main.models import UserProfile, FlashVideoBlock
+import time
 
 
 class UserProfileTest(TestCase):
@@ -39,17 +40,18 @@ class UserProfileTest(TestCase):
         self.assertTrue(profile.get_has_visited(self.section1))
         self.assertTrue(profile.get_has_visited(self.section2))
 
-    def test_set_last_location(self):
+    def test_get_last_location(self):
         user = User.objects.get(username='test_student')
         profile = UserProfile.objects.get(user=user)
 
-        self.assertFalse(profile.get_has_visited(self.section1))
-        self.assertFalse(profile.get_has_visited(self.section2))
+        self.assertFalse(profile.set_has_visited([self.section1]))
+        time.sleep(5)
+        self.assertFalse(profile.set_has_visited([self.section2]))
 
-        profile.save_last_location('/section-1/', self.section1)
+        self.assertEquals(profile.get_last_location(), self.section2)
 
-        self.assertTrue(profile.get_has_visited(self.section1))
-        self.assertFalse(profile.get_has_visited(self.section2))
+        self.assertFalse(profile.set_has_visited([self.section1]))
+        self.assertEquals(profile.get_last_location(), self.section1)
 
     def test_user_unicode(self):
         user = User.objects.get(username='test_student')

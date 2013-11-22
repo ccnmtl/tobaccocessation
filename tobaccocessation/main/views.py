@@ -1,4 +1,3 @@
-from django import forms
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, render
@@ -13,13 +12,11 @@ from tobaccocessation.activity_treatment_choice.models import \
 from tobaccocessation.activity_virtual_patient.models import \
     ActivityState as VirtualPatientActivityState
 from tobaccocessation.main.models import UserProfile, UserProfileForm, Role
-import django.core.exceptions
-from django.db import DatabaseError
-from django.core.exceptions import MultipleObjectsReturned
 
 INDEX_URL = "/welcome/"
 UNLOCKED = ['welcome', 'resources']  # special cases
 CREATE_PROFILE = "/profile/"
+
 
 class rendered_with(object):
     def __init__(self, template_name):
@@ -129,8 +126,6 @@ def _response(request, section, path):
 
         # Is this section unlocked now?
         can_access = _unlocked(first_leaf, request.user, prev, profile)
-        if can_access:
-            profile.save_last_location(request.path, first_leaf)
 
         module = None
         if not first_leaf.is_root() and len(ancestors) > 1:
@@ -185,21 +180,14 @@ def create_profile(request):
     })
 
 
-
-
-
 @login_required
 def index(request):
     try:
-        profile = UserProfile.objects.get(user=request.user)
-        url = INDEX_URL#url = profile.last_location - why did I do this again?
-    except django.core.exceptions.MultipleObjectsReturned:
-        profile = UserProfile.objects.filter(user=request.user)[0]
-        url = profile.last_location
+        UserProfile.objects.get(user=request.user)
+        url = INDEX_URL
     except UserProfile.DoesNotExist:
         url = CREATE_PROFILE
     return HttpResponseRedirect(url)
-
 
 
 def accessible(section, user):
@@ -295,8 +283,3 @@ def _unlocked(section, user, previous, profile):
         return False
 
     return profile.get_has_visited(previous)
-
-
-
-
-

@@ -54,7 +54,7 @@ def options(request, patient_id):
     user_state = _get_user_state(request)
     ctx = get_base_context(request, 'options', user_state, patient_id)
 
-    request.user.get_profile().save_last_location(request.path, ctx['section'])
+    request.user.get_profile().set_has_visited([ctx['section']])
 
     # setup new state object if the user is seeing this patient for the first
     # time.
@@ -77,7 +77,7 @@ def options(request, patient_id):
 def selection(request, patient_id):
     user_state = _get_user_state(request)
     ctx = get_base_context(request, 'selection', user_state, patient_id)
-    request.user.get_profile().save_last_location(request.path, ctx['section'])
+    request.user.get_profile().set_has_visited([ctx['section']])
 
     # do a quick check to verify everything is correct in the land of the
     # patient state
@@ -110,7 +110,7 @@ def prescription(request, patient_id, medication_idx='0'):
     user_state = _get_user_state(request)
     ctx = get_base_context(request, 'prescription', user_state, patient_id)
 
-    request.user.get_profile().save_last_location(request.path, ctx['section'])
+    request.user.get_profile().set_has_visited([ctx['section']])
 
     idx = int(medication_idx)
 
@@ -167,7 +167,7 @@ def prescription(request, patient_id, medication_idx='0'):
 def results(request, patient_id):
     user_state = _get_user_state(request)
     ctx = get_base_context(request, 'results', user_state, patient_id)
-    request.user.get_profile().save_last_location(request.path, ctx['section'])
+    request.user.get_profile().set_has_visited([ctx['section']])
 
     patient_state = user_state['patients'][patient_id]
 
