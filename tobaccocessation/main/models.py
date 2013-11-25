@@ -12,7 +12,7 @@ from tobaccocessation.main.choices import GENDER_CHOICES, \
     RACE_CHOICES, AGE_CHOICES, HISPANIC_LATINO
 
 class UserProfile(models.Model):
-
+    #  ALL_CU group affiliations
     user = models.ForeignKey(User, related_name="application_user")
     last_location = models.CharField(max_length=255)
     visited = models.TextField()
@@ -21,7 +21,7 @@ class UserProfile(models.Model):
     institute = models.CharField(max_length=2, null=True, choices=INSTITUTION_CHOICES)
     specialty = models.CharField(max_length=2, null=True, choices=SPECIALTY_CHOICES)
     hispanic_latino = models.CharField(max_length=1, null=True, choices=HISPANIC_LATINO)
-    year_of_graduation = models.PositiveIntegerField(null=True)
+    year_of_graduation = models.PositiveIntegerField(null=True, blank=True)
 
     def __unicode__(self):
         return self.user.username

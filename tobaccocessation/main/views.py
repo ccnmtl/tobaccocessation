@@ -20,7 +20,9 @@ from django.core.exceptions import MultipleObjectsReturned
 
 INDEX_URL = "/welcome/"
 UNLOCKED = ['welcome', 'resources']  # special cases
-CREATE_PROFILE = "profile/profile/"
+CREATE_COL_PROFILE = "c_profile/" # says form referenced before assignment
+CREATE_NOCOL_PROFILE = "nonc_profile/"
+
 
 class rendered_with(object):
     def __init__(self, template_name):
@@ -186,6 +188,7 @@ def columbia_create_profile(request):
     and email."""
     user =request.user
     if request.method == 'POST':
+        form = QuickFixProfileForm()
         try:
             user_profile = UserProfile.objects.get(user=user)
         except UserProfile.DoesNotExist:
@@ -203,48 +206,41 @@ def columbia_create_profile(request):
     else:
         form = QuickFixProfileForm()  # An unbound form
 
-    return render(request, 'main/non_columbia_create_profile.html', {
+    return render(request, 'main/columbia_create_profile.html', {
         'form': form,
     })
 
 
-# def update_user_profile(sender, user, request, **kwargs):
-#     form = UserProfileForm(request.POST)
+def update_profile(request):
+    user =request.user
+    if request.method == 'POST':
+        try:
+            user_profile = UserProfile.objects.get(user=user)
+        except UserProfile.DoesNotExist:
+            # should probably have something else since they shouldn't be updating a profile they dont have...
+            user_profile = UserProfile(user=user)
+        user.first_name = form.data['first_name']
+        user.last_name = form.data['last_name']
+        user.username = form.data['username']
+        user.email = form.data['email']
+        user.save()
+        user_profile.gender = form.data['gender']
+        user_profile.year_of_graduation = form.data['year_of_graduation']
+        user_profile.race = form.data['race']
+        user_profile.age = form.data['age']
+        user_profile.is_faculty = form.data['is_faculty']
+        user_profile.specialty = form.data['specialty']
+        user_profile.institute = form.data['institute']
+        user_profile.user = user # not sure how this goes
+        user_profile.save()
+        return HttpResponseRedirect('/')
+    else:
+        form = QuickFixProfileForm()  # An unbound form
 
-#     try:
-#         user_profile = UserProfile.objects.get(user=user)
-#     except UserProfile.DoesNotExist:
-#         user_profile = UserProfile(user=user)
+    return render(request, 'main/update_profile.html', {
+        'form': form,
+    })
 
-#     user.first_name = form.data['first_name']
-#     user.last_name = form.data['last_name']
-#     user.save()
-
-#     user_profile.gender = form.data['gender']
-#     user_profile.primary_discipline = form.data['primary_discipline']
-#     user_profile.primary_other_dental_discipline =  \
-#         form.data['primary_other_dental_discipline']
-#     user_profile.primary_other_discipline = \
-#         form.data['primary_other_discipline']
-#     user_profile.year_of_graduation = form.data['year_of_graduation']
-#     user_profile.dental_school = form.data['dental_school']
-#     user_profile.postal_code = form.data['postal_code']
-#     user_profile.plan_to_teach = form.data['plan_to_teach']
-#     user_profile.qualified_to_teach = form.data['qualified_to_teach']
-#     user_profile.opportunities_to_teach = form.data['opportunities_to_teach']
-#     user_profile.possible_to_teach = form.data['possible_to_teach']
-#     user_profile.ethnicity = form.data['ethnicity']
-#     user_profile.race = form.data['race']
-#     user_profile.age = form.data['age']
-#     user_profile.highest_degree = form.data['highest_degree']
-
-#     user_profile.state = u','.join(request.POST.getlist('state'))
-#     user_profile.work_description = \
-#         u','.join(request.POST.getlist('work_description'))
-
-#     user_profile.save()
-
-# user_registered.connect(update_user_profile)
 
 
 
@@ -257,8 +253,9 @@ def index(request):
         profile = UserProfile.objects.filter(user=request.user)[0]
         url = profile.last_location
     except UserProfile.DoesNotExist:
-        url = CREATE_PROFILE
+        url = CREATE_COL_PROFILE
     return HttpResponseRedirect(url)
+    # CREATE_NOCOL_PROFILE - we need to account for columbia vs non columbia users
 
 
 
@@ -357,6 +354,17 @@ def _unlocked(section, user, previous, profile):
     return profile.get_has_visited(previous)
 
 
+def ajax_consent(request):
+    if request.is_ajax():
+        test = "TRUE"
 
+    if request.method == 'POST':
+        form = DonateForm(request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+        form = DonateForm()
+        test = "FALSE"
 
+    return render_to_response('donate_form.html', {'form':form,'test':test}, context_instance=RequestContext(request))
 
