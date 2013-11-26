@@ -201,69 +201,6 @@ def create_profile(request):
     })
 
 
-@login_required
-def non_columbia_create_profile(request):
-    """Redirect Profileless User to create a profile."""
-    user = request.user
-    if request.method == 'POST':
-        try:
-            user_profile = UserProfile.objects.get(user=user)
-        except UserProfile.DoesNotExist:
-            user_profile = UserProfile(user=user)
-        user.username = form.data['username']
-        user.email = form.data['email']
-        user.first_name = form.data['first_name']
-        user.last_name = form.data['last_name']
-        user.save()
-        user_profile.institute = form.data['institute']
-        user_profile.is_faculty = form.data['is_faculty']
-
-        user_profile.year_of_graduation = form.data['year_of_graduation']
-        user_profile.specialty = form.data['specialty']
-        user_profile.gender = form.data['gender']
-        user_profile.hispanic_latino = form.data['hispanic_latino']
-        user_profile.race = form.data['race']
-        user_profile.age = form.data['age']
-        user_profile.user = user # not sure how this goes
-        user_profile.save()
-        return HttpResponseRedirect('/')
-    else:
-        form = QuickFixProfileForm()  # An unbound form
-
-    return render(request, 'main/non_columbia_create_profile.html', {
-        'form': form,
-    })
-
-
-def columbia_create_profile(request):
-    """Redirect Columbia User with no profile to create a profile
-    - we already have their username, first_name, last_name,
-    and email."""
-    user = request.user
-    if request.method == 'POST':
-        form = QuickFixProfileForm()
-        try:
-            user_profile = UserProfile.objects.get(user=user)
-        except UserProfile.DoesNotExist:
-            user_profile = UserProfile(user=user)
-
-        user_profile.is_faculty = form.data['is_faculty']
-        user_profile.year_of_graduation = form.data['year_of_graduation']
-        user_profile.specialty = form.data['specialty']
-        user_profile.gender = form.data['gender']
-        user_profile.hispanic_latino = form.data['hispanic_latino']
-        user_profile.race = form.data['race']
-        user_profile.age = form.data['age']
-        user_profile.institute = 'I1'
-        user_profile.save()
-        return HttpResponseRedirect('/')
-    else:
-        form = QuickFixProfileForm()  # An unbound form
-
-    return render(request, 'main/columbia_create_profile.html', {
-        'form': form,
-    })
-
 
 def update_profile(request):
     user = request.user

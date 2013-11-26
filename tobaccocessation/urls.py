@@ -52,21 +52,15 @@ urlpatterns += patterns(
     (r'^main/', include('tobaccocessation.main.urls')),
 
 
-    # (r'^c_update_profile/', 'tobaccocessation.main.views.update_c_profile'),
-    # (r'^nonc_update_profile/', 'tobaccocessation.main.views.update_no_profile'),
-    # (r'^ajax_two/', 'tobaccocessation.main.views.ajax_two'),
-    # (r'^ajax_consent/', 'tobaccocessation.main.views.ajax_consent'),
-
+    url(r'^update_profile/',
+        'tobaccocessation.main.views.update_profile',
+        name="create_profile"),
     url(r'^create_profile/',
         'tobaccocessation.main.views.create_profile',
         name="create_profile"),
 
-    url(r'^nonc_profile/',
-        'tobaccocessation.main.views.non_columbia_create_profile',
-        name="non_columbia_profile"),
-    url(r'^c_profile/',
-        'tobaccocessation.main.views.columbia_create_profile',
-        name="columbia_profile"),
+    # (r'^ajax_two/', 'tobaccocessation.main.views.ajax_two'),
+    # (r'^ajax_consent/', 'tobaccocessation.main.views.ajax_consent'),
 
 
     (r'^activity/treatment/', include(
