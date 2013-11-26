@@ -12,14 +12,14 @@ class UserProfileTest(TestCase):
                                              'test@ccnmtl.com',
                                              'testpassword')
         UserProfile.objects.get_or_create(user=self.user)[0]
-        self.hierarchy = Hierarchy(name="main", base_url="/")
+        self.hierarchy = Hierarchy(name="student", base_url="/")
         self.hierarchy.save()
 
-        root = Section.add_root(label="Root", slug="",
-                                hierarchy=self.hierarchy)
+        self.root = Section.add_root(label="Root", slug="",
+                                     hierarchy=self.hierarchy)
 
-        root.append_child("Section 1", "section-1")
-        root.append_child("Section 2", "section-2")
+        self.root.append_child("Section 1", "section-1")
+        self.root.append_child("Section 2", "section-2")
 
         self.section1 = Section.objects.get(slug="section-1")
         self.section2 = Section.objects.get(slug="section-2")
@@ -44,13 +44,16 @@ class UserProfileTest(TestCase):
         user = User.objects.get(username='test_student')
         profile = UserProfile.objects.get(user=user)
 
-        self.assertFalse(profile.set_has_visited([self.section1]))
+        # By default, the 1st leaf is returned if there are no visits
+        self.assertEquals(profile.last_location(), self.section1)
+
+        profile.set_has_visited([self.section1])
         time.sleep(5)
-        self.assertFalse(profile.set_has_visited([self.section2]))
+        profile.set_has_visited([self.section2])
 
         self.assertEquals(profile.last_location(), self.section2)
 
-        self.assertFalse(profile.set_has_visited([self.section1]))
+        profile.set_has_visited([self.section1])
         self.assertEquals(profile.last_location(), self.section1)
 
     def test_user_unicode(self):
@@ -65,6 +68,25 @@ class UserProfileTest(TestCase):
         display_name = UserProfile.display_name(profile)
         self.assertEqual(display_name, 'test_student')
 
+    def test_default_role(self):
+        user = User.objects.get(username='test_student')
+        profile = UserProfile.objects.get(user=user)
+
+        self.assertEquals("student", profile.role())
+
+    def test_percent_complete(self):
+        user = User.objects.get(username='test_student')
+        profile = UserProfile.objects.get(user=user)
+
+        self.assertEquals(0, profile.percent_complete())
+
+        profile.set_has_visited([self.root, self.section1])
+        self.assertEquals(66, profile.percent_complete())
+        profile.set_has_visited([self.section2])
+        self.assertEquals(100, profile.percent_complete())
+
+
+class FlashVideoBlockTest(TestCase):
     def test_edit_flash_form(self):
         self.flash = FlashVideoBlock(width=4, height=3)
         self.flash.save()

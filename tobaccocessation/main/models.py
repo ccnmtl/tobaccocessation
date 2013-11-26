@@ -79,7 +79,7 @@ class UserProfile(models.Model):
     def role(self):
         if (self.is_faculty == 'ST' or
             self.specialty == 'S2' or
-            self.specialty is None):
+                self.specialty is None):
             # Student, Pre-Doctoral Student or None
             return "student"
         elif self.specialty in ['S1', 'S3', 'S5', 'S8']:
