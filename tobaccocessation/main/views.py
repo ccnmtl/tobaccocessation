@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
@@ -12,12 +13,8 @@ from tobaccocessation.activity_treatment_choice.models import \
 from tobaccocessation.activity_virtual_patient.models import \
     ActivityState as VirtualPatientActivityState
 from tobaccocessation.main.models import QuickFixProfileForm, UserProfile
-import django.core.exceptions
 
-INDEX_URL = "/welcome/"
-UNLOCKED = ['welcome', 'resources']  # special cases
-CREATE_COL_PROFILE = "c_profile/"  # says form referenced before assignment
-CREATE_NOCOL_PROFILE = "nonc_profile/"
+UNLOCKED = ['resources']  # special cases
 
 
 class rendered_with(object):
@@ -38,6 +35,22 @@ class rendered_with(object):
         return rendered_func
 
 
+@login_required
+@rendered_with('main/index.html')
+def index(request):
+    profiles = UserProfile.objects.filter(user=request.user)
+    if len(profiles) > 0 and profiles[0].has_consented():
+        return {'user': request.user,
+                'profile': profiles[0]}
+
+    # Consider refactoring these into a single consent/profile
+    # template that is driven by user & userprofile attributes
+    if len(request.user.groups.filter(name='ALL_CU')) > 0:
+        return HttpResponseRedirect(reverse('columbia_profile'))
+    else:
+        return HttpResponseRedirect(reverse('non_columbia_profile'))
+
+
 def _edit_response(request, section, path):
     first_leaf = section.hierarchy.get_first_leaf(section)
 
@@ -51,9 +64,16 @@ def _edit_response(request, section, path):
 
 @user_passes_test(lambda u: u.is_staff)
 @rendered_with('main/edit_page.html')
-def edit_page(request, path):
-    section = get_section_from_path(path, "main")
+def edit_page(request, hierarchy, path):
+    section = get_section_from_path(path, hierarchy)
     return _edit_response(request, section, path)
+
+
+@login_required
+@rendered_with('main/page.html')
+def page(request, hierarchy, path):
+    section = get_section_from_path(path, hierarchy)
+    return _response(request, section, path)
 
 
 @user_passes_test(lambda u: u.is_staff)
@@ -67,13 +87,6 @@ def edit_resources(request, path):
 @rendered_with('main/page.html')
 def resources(request, path):
     section = get_section_from_path(path, "resources")
-    return _response(request, section, path)
-
-
-@login_required
-@rendered_with('main/page.html')
-def page(request, path):
-    section = get_section_from_path(path, "main")
     return _response(request, section, path)
 
 
@@ -115,12 +128,13 @@ def _response(request, section, path):
     else:
         first_leaf = h.get_first_leaf(section)
         ancestors = first_leaf.get_ancestors()
-        profile = UserProfile.objects.get_or_create(user=request.user)[0]
+        profile = UserProfile.objects.filter(user=request.user)[0]
 
         # Skip to the first leaf, make sure to mark these sections as visited
         if (section != first_leaf):
             profile.set_has_visited(ancestors)
-            return HttpResponseRedirect(first_leaf.get_absolute_url())
+            url = "/%s%s" % ("pages", first_leaf.get_absolute_url())
+            return HttpResponseRedirect(url)
 
         # the previous node is the last leaf, if one exists.
         prev = _get_previous_leaf(first_leaf)
@@ -128,6 +142,8 @@ def _response(request, section, path):
 
         # Is this section unlocked now?
         can_access = _unlocked(first_leaf, request.user, prev, profile)
+        if can_access:
+            profile.set_has_visited([section])
 
         module = None
         if not first_leaf.is_root() and len(ancestors) > 1:
@@ -241,21 +257,6 @@ def update_profile(request):
     })
 
 
-@login_required
-def index(request):
-    try:
-        profile = UserProfile.objects.get(user=request.user)
-        url = INDEX_URL
-    except django.core.exceptions.MultipleObjectsReturned:
-        profile = UserProfile.objects.filter(user=request.user)[0]
-        url = INDEX_URL
-    except UserProfile.DoesNotExist:
-        url = CREATE_COL_PROFILE
-    return HttpResponseRedirect(url)
-    # CREATE_NOCOL_PROFILE -
-    # we need to account for columbia vs non columbia users
-
-
 def accessible(section, user):
     try:
         previous = section.get_previous()
@@ -297,7 +298,7 @@ def clear_state(request):
     # clear virtual patient
     VirtualPatientActivityState.objects.filter(user=request.user).delete()
 
-    return HttpResponseRedirect(INDEX_URL)
+    return HttpResponseRedirect(reverse("index"))
 
 #####################################################################
 ## View Utility Methods

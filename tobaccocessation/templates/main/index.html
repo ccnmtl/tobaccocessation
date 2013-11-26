@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+    {{ block.super }}
+{% endblock %}
+
+{% block js %}{% endblock %}
+
+{% block extrajs %}
+    {{ block.super }}
+{% endblock %}
+
+{% block title %}Home{% endblock %}
+
+{% block pagetitle %}Landing Page{% endblock %}
+                    
+{% block content %}
+<div>Role: {{ profile.role }}</div>
+{% with profile.last_location as section %}
+<div>Last Location: <a href="pages{{section.get_absolute_url}}">{{section.label}}</a></div>
+{% endwith %} 
+{% endblock %}

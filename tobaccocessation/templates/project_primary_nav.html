@@ -3,7 +3,6 @@
 
 {% block primarynavtabs %}
     <ul>
-       {% getroot main as root %}
        {% for s in root.get_children %}
           {% ifequal s.slug module.slug %}
              <li class="selected"><span class="selected">{{s.label}}</span></li>
@@ -17,8 +16,8 @@
           {% endifaccessible %}{% endifequal %}{% endifequal %}
        {% endfor %}
        
-       {% getroot resources as root %}
-       {% for s in root.get_children %}
+       {% getroot resources as resources_root %}
+       {% for s in resources_root.get_children %}
           {% ifequal s.slug module.slug %}
              <li class="selected"><span class="selected">{{s.label}}</span></li>
           {% else %}{% ifequal s.slug section.slug %}

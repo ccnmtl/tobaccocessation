@@ -53,7 +53,7 @@ AGE_CHOICES = (
 
 SPECIALTY_CHOICES = (
     ('-----', '-----'),
-    ('S1', 'General Practitice'),
+    ('S1', 'General Practice'),
     ('S2', 'Pre-Doctoral Student'),
     ('S3', 'Endodontics'),
     ('S4', 'Oral and Maxillofacial Surgery'),

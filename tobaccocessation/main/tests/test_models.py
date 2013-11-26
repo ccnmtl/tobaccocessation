@@ -40,7 +40,7 @@ class UserProfileTest(TestCase):
         self.assertTrue(profile.get_has_visited(self.section1))
         self.assertTrue(profile.get_has_visited(self.section2))
 
-    def test_get_last_location(self):
+    def test_last_location(self):
         user = User.objects.get(username='test_student')
         profile = UserProfile.objects.get(user=user)
 
@@ -48,10 +48,10 @@ class UserProfileTest(TestCase):
         time.sleep(5)
         self.assertFalse(profile.set_has_visited([self.section2]))
 
-        self.assertEquals(profile.get_last_location(), self.section2)
+        self.assertEquals(profile.last_location(), self.section2)
 
         self.assertFalse(profile.set_has_visited([self.section1]))
-        self.assertEquals(profile.get_last_location(), self.section1)
+        self.assertEquals(profile.last_location(), self.section1)
 
     def test_user_unicode(self):
         user = User.objects.get(username='test_student')

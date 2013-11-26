@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.db import models
 from django.forms import ModelForm
-from pagetree.models import PageBlock, Section
+from pagetree.models import PageBlock, Section, Hierarchy
 from registration.forms import RegistrationForm
 from tobaccocessation.main.choices import GENDER_CHOICES, FACULTY_CHOICES, \
     INSTITUTION_CHOICES, SPECIALTY_CHOICES, RACE_CHOICES, AGE_CHOICES, \
@@ -17,8 +17,12 @@ class UserVisit(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
+    def __unicode__(self):
+        return "%s %s" % (self.user.username, self.section)
+
     class Meta:
         unique_together = ("user", "section")
+        ordering = ["user", "section"]
 
 
 class UserProfile(models.Model):
@@ -39,8 +43,8 @@ class UserProfile(models.Model):
     def __unicode__(self):
         return self.user.username
 
-    def __init__(self, *args, **kwargs):
-        super(UserProfile, self).__init__(*args, **kwargs)
+    class Meta:
+        ordering = ["user"]
 
     def get_has_visited(self, section):
         return len(self.visits.filter(user=self.user, section=section)) > 0
@@ -57,15 +61,36 @@ class UserProfile(models.Model):
                 visit.save()
                 self.visits.add(visit)
 
-    def get_last_location(self):
+    def last_location(self):
         visits = self.visits.filter(user=self.user).order_by('-modified')
         if len(visits) > 0:
             return visits[0].section
         else:
-            return None
+            hierarchy = Hierarchy.get_hierarchy(self.role())
+            return hierarchy.get_first_leaf(hierarchy.get_root())
 
     def display_name(self):
         return self.user.username
+
+    def has_consented(self):
+        # return self.consent
+        return True
+
+    def role(self):
+        if (self.is_faculty == 'ST' or
+            self.specialty == 'S2' or
+            self.specialty is None):
+            # Student, Pre-Doctoral Student or None
+            return "student"
+        elif self.specialty in ['S1', 'S3', 'S5', 'S8']:
+            # General Practice, Endodontics, Pediatric Dentistry, Other
+            return "general"
+        elif self.specialty in ['S4']:
+            # Oral and Maxillofacial Surgery
+            return "surgery"
+        elif self.specialty in ['S6', 'S7']:
+            # Periodontics, Posthodontics
+            return 'perio'
 
 
 class QuickFixProfileForm(forms.Form):
