@@ -13,6 +13,7 @@ from tobaccocessation.activity_treatment_choice.models import \
 from tobaccocessation.activity_virtual_patient.models import \
     ActivityState as VirtualPatientActivityState
 from tobaccocessation.main.models import QuickFixProfileForm, UserProfile
+from django.contrib.auth.models import User, Group
 
 UNLOCKED = ['resources']  # special cases
 
@@ -46,7 +47,8 @@ def index(request):
     # Consider refactoring these into a single consent/profile
     # template that is driven by user & userprofile attributes
     if len(request.user.groups.filter(name='ALL_CU')) > 0:
-        return HttpResponseRedirect(reverse('columbia_profile'))
+        return HttpResponseRedirect(reverse('create_profile'))
+        #return HttpResponseRedirect(reverse('columbia_profile'))
     else:
         return HttpResponseRedirect(reverse('non_columbia_profile'))
 
@@ -161,6 +163,42 @@ def _response(request, section, path):
                     depth=first_leaf.depth,
                     request=request,
                     leftnav=leftnav)
+
+
+
+def create_profile(request):
+    profiles = UserProfile.objects.filter(user=request.user)
+    not_columbia = True
+    print len(request.user.groups.filter(name='ALL_CU'))
+    if len(request.user.groups.filter(name='ALL_CU')) > 0:
+        not_columbia = False
+    user_profile = UserProfile(user=request.user)
+    if request.method == 'POST':
+        form = QuickFixProfileForm()
+        if not_columbia==True:
+            user.username = form.data['username']
+            user.email = form.data['email']
+            user.first_name = form.data['first_name']
+            user.last_name = form.data['last_name']
+            user.save()
+            user_profile.institute = form.data['institute']
+        elif not_columbia==False:
+            user_profile.institute = 'I1'
+        user_profile.is_faculty = form.data['is_faculty']
+        user_profile.year_of_graduation = form.data['year_of_graduation']
+        user_profile.specialty = form.data['specialty']
+        user_profile.gender = form.data['gender']
+        user_profile.hispanic_latino = form.data['hispanic_latino']
+        user_profile.race = form.data['race']
+        user_profile.age = form.data['age']
+        user_profile.save()
+        return HttpResponseRedirect('/')
+    else:
+        form = QuickFixProfileForm()  # An unbound form
+
+    return render(request, 'main/create_profile.html', {
+        'form': form, 'not_columbia': not_columbia
+    })
 
 
 @login_required
@@ -384,12 +422,3 @@ def ajax_consent(request):
         # form = DonateForm()
         # test = "FALSE"
 
-<<<<<<< HEAD
-    return render_to_response('main/ajax_page.html')#, {'form':form,'test':test}, context_instance=RequestContext(request))
-
-=======
-    return render_to_response('donate_form.html',
-                              {'form': form,
-                               'test': test},
-                              context_instance=RequestContext(request))
->>>>>>> 2538ec7f67467a17ac356f4a9a4915358ff526e6

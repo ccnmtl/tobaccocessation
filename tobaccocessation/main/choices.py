@@ -1,16 +1,33 @@
-FACULTY_CHOICES = (
-    ('-----', '-----'),
-    ('ST', 'Student'),
-    ('FA', 'Faculty'),
-)
-
 INSTITUTION_CHOICES = (
     ('-----', '-----'),
     ('I1', 'Columbia University'),
     ('I2', 'Jacobi Medical Center'),
     ('I3', 'St. Barnabas Hospital'),
-    ('IF', 'None of the Above'),
+    ('IF', 'Other'),
 )
+
+
+FACULTY_CHOICES = (
+    ('-----', '-----'),
+    ('ST', 'Student'),
+    ('FA', 'Faculty'),
+    ('OT', 'Other'),
+)
+
+
+SPECIALTY_CHOICES = (
+    ('-----', '-----'),
+    ('S1', 'General Practice'),
+    ('S2', 'Pre-Doctoral Student'),
+    ('S3', 'Endodontics'),
+    ('S4', 'Oral and Maxillofacial Surgery'),
+    ('S5', 'Pediatric Dentistry'),
+    ('S6', 'Periodontics'),
+    ('S7', 'Posthodontics'),
+    ('S8', 'Orthodontics'),
+    ('S9', 'Other'),
+)
+
 
 GENDER_CHOICES = (
     ('-----', '-----'),
@@ -51,14 +68,4 @@ AGE_CHOICES = (
     ('A7', '70 Years or Older'),
 )
 
-SPECIALTY_CHOICES = (
-    ('-----', '-----'),
-    ('S1', 'General Practice'),
-    ('S2', 'Pre-Doctoral Student'),
-    ('S3', 'Endodontics'),
-    ('S4', 'Oral and Maxillofacial Surgery'),
-    ('S5', 'Pediatric Dentistry'),
-    ('S6', 'Periodontics'),
-    ('S7', 'Posthodontics'),
-    ('S8', 'Other'),
-)
+

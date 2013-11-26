@@ -13,46 +13,65 @@
     {{ form.non_field_errors }}
 
 <br/>
-    <div class="fieldWrapper">
-        {{ form.first_name.errors }}
-        <label for="id_sender">First Name: </label>
-        {{ form.first_name }}
-    </div>
-<br/>
 
-    <div class="fieldWrapper">
-        {{ form.last_name.errors }}Last Name: </label>
-        {{ form.last_name }}
-    </div>
+{% if not_columbia %}
 
-<br/>
-    <div class="fieldWrapper">
-        {{ form.username.errors }}
-        <label for="id_sender">Desired Username: </label>
-        {{ form.username }}
-    </div>
-<br/>
+    <div name="will_disapper">
+        <div class="fieldWrapper">
+          {{ form.first_name.errors }}
+          <label for="id_sender">First Name: </label>
+          {{ form.first_name }}
+        </div>
+        <br/>
 
+        <div class="fieldWrapper">
+          {{ form.last_name.errors }}Last Name: </label>
+          {{ form.last_name }}
+        </div>
 
-<br/>
-    <div class="fieldWrapper">
-        {{ form.gender.errors }}
-        <label for="id_sender">Gender: </label>
-        {{ form.gender }}
-    </div>
-<br/>
+        <br/>
+        <div class="fieldWrapper">
+            {{ form.username.errors }}
+            <label for="id_sender">Desired Username: </label>
+            {{ form.username }}
+        </div>
+        <br/>
 
-    <div class="fieldWrapper">
-        {{ form.is_faculty.errors }}
-        <label for="id_subject">Are you a faculty memeber or a student?</label>
-        {{ form.is_faculty }}
+        <br/>
+        <div class="fieldWrapper">
+            {{ form.email.errors }}
+            <label for="id_sender">Email: </label>
+            {{ form.email }}
+        </div>
+        <br/>
     </div>
-<br/>
+    <br/>
+
+{% endif %}
+
+        <div class="fieldWrapper">
+            {{ form.gender.errors }}
+            <label for="id_sender">Gender: </label>
+            {{ form.gender }}
+        </div>
+        <br/>
+
+        <div class="fieldWrapper">
+            {{ form.is_faculty.errors }}
+            <label for="id_subject">Are you a faculty memeber or a student?</label>
+            {{ form.is_faculty }}
+        </div>
+        <br/>
+
+{% if not_columbia %}
+
     <div class="fieldWrapper">
         {{ form.institute.errors }}
         <label for="id_message">Institution Affiliation: </label>
         {{ form.institute }}
     </div>
+
+{% endif %}
 
 <br>
     <div class="fieldWrapper">
@@ -69,6 +88,21 @@
     </div>
 <br/>
 
+    <div class="fieldWrapper">
+        {{ form.age.errors }}
+        <label for="id_sender">Age: </label>
+        {{ form.age }}
+    </div>
+
+<br/>
+
+    <div class="fieldWrapper">
+        {{ form.hispanic_latino.errors }}
+        <label for="id_sender">Race: </label>
+        {{ form.hispanic_latino }}
+    </div>
+
+<br/>
     <p><input type="submit" value="Submit" /></p>
 </form>
 
