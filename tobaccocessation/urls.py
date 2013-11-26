@@ -52,6 +52,8 @@ urlpatterns += patterns(
     (r'^c_profile/', 'tobaccocessation.main.views.columbia_create_profile'),
     (r'^c_update_profile/', 'tobaccocessation.main.views.update_c_profile'),
     (r'^nonc_update_profile/', 'tobaccocessation.main.views.update_no_profile'),
+    (r'^ajax_two/', 'tobaccocessation.main.views.ajax_two'),
+    (r'^ajax_consent/', 'tobaccocessation.main.views.ajax_consent'),
     (r'^activity/treatment/', include(
         'tobaccocessation.activity_treatment_choice.urls')),
     (r'^activity/prescription/',

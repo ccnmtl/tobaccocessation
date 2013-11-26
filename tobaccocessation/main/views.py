@@ -162,16 +162,19 @@ def non_columbia_create_profile(request):
             user_profile = UserProfile.objects.get(user=user)
         except UserProfile.DoesNotExist:
             user_profile = UserProfile(user=user)
+        user.username = form.data['username']
+        user.email = form.data['email']
         user.first_name = form.data['first_name']
         user.last_name = form.data['last_name']
         user.save()
-        user_profile.gender = form.data['gender']
+        user_profile.institute = form.data['institute']
+        user_profile.is_faculty = form.data['is_faculty']
         user_profile.year_of_graduation = form.data['year_of_graduation']
+        user_profile.specialty = form.data['specialty']
+        user_profile.gender = form.data['gender']
+        user_profile.hispanic_latino = form.data['hispanic_latino']
         user_profile.race = form.data['race']
         user_profile.age = form.data['age']
-        user_profile.is_faculty = form.data['is_faculty']
-        user_profile.specialty = form.data['specialty']
-        user_profile.institute = form.data['institute']
         user_profile.user = user # not sure how this goes
         user_profile.save()
         return HttpResponseRedirect('/')
@@ -194,12 +197,13 @@ def columbia_create_profile(request):
         except UserProfile.DoesNotExist:
             user_profile = UserProfile(user=user)
 
-        user_profile.gender = form.data['gender']
+        user_profile.is_faculty = form.data['is_faculty']
         user_profile.year_of_graduation = form.data['year_of_graduation']
+        user_profile.specialty = form.data['specialty']
+        user_profile.gender = form.data['gender']
+        user_profile.hispanic_latino = form.data['hispanic_latino']
         user_profile.race = form.data['race']
         user_profile.age = form.data['age']
-        user_profile.is_faculty = form.data['is_faculty']
-        user_profile.specialty = form.data['specialty']
         user_profile.institute = 'I1'
         user_profile.save()
         return HttpResponseRedirect('/')
@@ -353,18 +357,35 @@ def _unlocked(section, user, previous, profile):
 
     return profile.get_has_visited(previous)
 
+def ajax_two(request):
+    if request.is_ajax():
+        print "request is ajax"
+    if request.method == 'POST':
+        print "request is POST"
+        '''Consent has been granted - show them the page.'''
+        html = "<p>This should be appended to the form after it is returned - will eventually be used to give consent form.</p>"
+        #return HttpResponse(simplejson.dumps({'result': 'success', exercise: amount}))
+    else:
+        print "else..."
+#    return render_to_response('main/ajax_page.html')
 
 def ajax_consent(request):
     if request.is_ajax():
-        test = "TRUE"
+        print "request is ajax"
 
     if request.method == 'POST':
-        form = DonateForm(request.POST)
-        if form.is_valid():
-            form.save()
+        print "request is POST"
+        '''Consent has been granted - show them the page.'''
+        html = "<p>This should be appended to the form after it is returned - will eventually be used to give consent form.</p>"
+        #return HttpResponse(simplejson.dumps({'result': 'success', exercise: amount}))
+        #return html
+        # form = DonateForm(request.POST)
+        # if form.is_valid():
+        #     form.save()
     else:
-        form = DonateForm()
-        test = "FALSE"
+        print "else..."
+        # form = DonateForm()
+        # test = "FALSE"
 
-    return render_to_response('donate_form.html', {'form':form,'test':test}, context_instance=RequestContext(request))
+    return render_to_response('main/ajax_page.html')#, {'form':form,'test':test}, context_instance=RequestContext(request))
 
