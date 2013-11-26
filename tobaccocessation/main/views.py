@@ -43,14 +43,8 @@ def index(request):
     if len(profiles) > 0 and profiles[0].has_consented():
         return {'user': request.user,
                 'profile': profiles[0]}
-
-    # Consider refactoring these into a single consent/profile
-    # template that is driven by user & userprofile attributes
-    if len(request.user.groups.filter(name='ALL_CU')) > 0:
-        return HttpResponseRedirect(reverse('create_profile'))
-        #return HttpResponseRedirect(reverse('columbia_profile'))
     else:
-        return HttpResponseRedirect(reverse('non_columbia_profile'))
+        return HttpResponseRedirect(reverse('create_profile'))
 
 
 def _edit_response(request, section, path):
