@@ -1,45 +1,27 @@
 from django import forms
+from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.db import models
-from pagetree.models import PageBlock, Section
+from django.utils import simplejson
+from pagetree.models import PageBlock
 from registration.forms import RegistrationForm
-
-
-class Role(models.Model):
-    STUDENT = 'ST'
-    PERIO = 'PR'
-    ORAL_SURGERY = 'OS'
-    GEN_PRACTICE = 'GP'
-
-    ROLE_CHOICES = (
-
-        (STUDENT, 'Student'),
-        (PERIO, 'Perio'),
-        (ORAL_SURGERY, 'Oral Surgeon'),
-        (GEN_PRACTICE, 'General Practitioner'),
-    )
-    name = models.CharField(max_length=2, choices=ROLE_CHOICES)
-
-    def __unicode__(self):
-        return self.name
-
-
-class UserVisit(models.Model):
-    user = models.ForeignKey(User)
-    section = models.ForeignKey(Section)
-    count = models.IntegerField(default=1)
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        unique_together = ("user", "section")
-
+from django.dispatch import Signal
+from tobaccocessation.main.choices import GENDER_CHOICES, \
+    FACULTY_CHOICES, INSTITUTION_CHOICES, SPECIALTY_CHOICES, \
+    RACE_CHOICES, AGE_CHOICES, HISPANIC_LATINO
 
 class UserProfile(models.Model):
+    #  ALL_CU group affiliations
     user = models.ForeignKey(User, related_name="application_user")
-    role = models.ForeignKey(Role, null=True, blank=True)
-    visits = models.ManyToManyField(UserVisit, null=True, blank=True)
+    last_location = models.CharField(max_length=255)
+    visited = models.TextField()
+    gender = models.CharField(max_length=1, null=True, choices=GENDER_CHOICES)
+    is_faculty = models.CharField(max_length=2, null=True, choices=FACULTY_CHOICES)
+    institute = models.CharField(max_length=2, null=True, choices=INSTITUTION_CHOICES)
+    specialty = models.CharField(max_length=2, null=True, choices=SPECIALTY_CHOICES)
+    hispanic_latino = models.CharField(max_length=1, null=True, choices=HISPANIC_LATINO)
+    year_of_graduation = models.PositiveIntegerField(null=True, blank=True)
 
     def __unicode__(self):
         return self.user.username
@@ -73,19 +55,32 @@ class UserProfile(models.Model):
         return self.user.username
 
 
-class UserProfileForm(forms.Form):
-    '''Form which will be used to obtain further
-    information from the user.'''
-#     #first_name = forms.CharField(max_length=256)
-#     #last_name = forms.CharField(max_length=256)
-#     #gender = forms.ChoiceField(
-#     #    initial="-----", choices=GENDER_CHOICES, label='Your gender')
+class QuickFixProfileForm(forms.Form):
+    first_name = forms.CharField(max_length=50)
+    last_name = forms.CharField(max_length=50)
+    is_faculty = forms.ChoiceField(choices=FACULTY_CHOICES)
+    institute = forms.ChoiceField(choices=INSTITUTION_CHOICES)
+    gender = forms.ChoiceField(initial="-----", choices=GENDER_CHOICES)
+    year_of_graduation = forms.IntegerField(
+        min_value=1900, max_value=3000,
+        label="What year did you graduate?")
+    race = forms.ChoiceField(choices=RACE_CHOICES)
+    hispanic_latino = forms.ChoiceField(choices=HISPANIC_LATINO)
+    age = forms.ChoiceField(choices=AGE_CHOICES)
+    specialty = forms.ChoiceField(choices=SPECIALTY_CHOICES)
 
-    role = forms.ChoiceField(
-        choices=Role.ROLE_CHOICES,
-        label="Select your role in this course")
-#     #dental_school = models.CharField(max_length=1024,
-#     #                                choices=DENTAL_SCHOOL_CHOICES)
+
+class ColumbiaUserProfileForm(ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['gender', 'is_faculty', 'specialty', 'year_of_graduation']
+
+
+class NonColumbiaUserProfileForm(ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['gender', 'is_faculty', 'institute', 'specialty', 'year_of_graduation']
+
 
 
 class CreateAccountForm(RegistrationForm):
@@ -104,7 +99,6 @@ class CreateAccountForm(RegistrationForm):
         max_length=25, widget=forms.PasswordInput, required=True,
         label="Confirm Password")
     email = forms.EmailField()
-
 
 class FlashVideoBlock(models.Model):
     pageblocks = generic.GenericRelation(PageBlock)

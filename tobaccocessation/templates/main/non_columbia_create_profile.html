@@ -26,20 +26,37 @@
     </div>
 
 <br/>
+
     <div class="fieldWrapper">
-        {{ form.username.errors }}
-        <label for="id_sender">Desired Username: </label>
-        {{ form.username }}
+        {{ form.age.errors }}
+        <label for="id_sender">Age: </label>
+        {{ form.age }}
     </div>
-<br/>
-
 
 <br/>
+
+    <div class="fieldWrapper">
+        {{ form.race.errors }}
+        <label for="id_sender">Race: </label>
+        {{ form.race }}
+    </div>
+
+<br/>
+
+    <div class="fieldWrapper">
+        {{ form.hispanic_latino.errors }}
+        <label for="id_sender">Race: </label>
+        {{ form.hispanic_latino }}
+    </div>
+
+<br/>
+
     <div class="fieldWrapper">
         {{ form.gender.errors }}
         <label for="id_sender">Gender: </label>
         {{ form.gender }}
     </div>
+
 <br/>
 
     <div class="fieldWrapper">
@@ -47,6 +64,7 @@
         <label for="id_subject">Are you a faculty memeber or a student?</label>
         {{ form.is_faculty }}
     </div>
+
 <br/>
     <div class="fieldWrapper">
         {{ form.institute.errors }}
