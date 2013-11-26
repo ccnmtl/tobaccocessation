@@ -92,6 +92,13 @@ class UserProfile(models.Model):
             # Periodontics, Posthodontics
             return 'perio'
 
+    def percent_complete(self):
+        hierarchy = Hierarchy.get_hierarchy(self.role())
+        visited = UserVisit.objects.filter(user=self.user,
+                                           section__hierarchy=hierarchy)
+        sections = Section.objects.filter(hierarchy=hierarchy)
+        return int(len(visited) / float(len(sections)) * 100)
+
 
 class QuickFixProfileForm(forms.Form):
     first_name = forms.CharField(max_length=50)

@@ -9,8 +9,12 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 
 class UserVisitAdmin(admin.ModelAdmin):
+    def section_description(self, obj):
+        return "[%s] %s" % (obj.section.id, obj.section)
+
     search_fields = ['user__username']
-    list_display = ['user', 'section', 'count', 'created', 'modified']
+    list_display = ['user', 'section_description',
+                    'count', 'created', 'modified']
 
 
 admin.site.register(UserProfile, UserProfileAdmin)
