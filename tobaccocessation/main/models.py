@@ -1,58 +1,103 @@
 from django import forms
-from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.db import models
-from django.utils import simplejson
-from pagetree.models import PageBlock
+from django.forms import ModelForm
+from pagetree.models import PageBlock, Section, Hierarchy
 from registration.forms import RegistrationForm
-from django.dispatch import Signal
-from tobaccocessation.main.choices import GENDER_CHOICES, \
-    FACULTY_CHOICES, INSTITUTION_CHOICES, SPECIALTY_CHOICES, \
-    RACE_CHOICES, AGE_CHOICES, HISPANIC_LATINO
+from tobaccocessation.main.choices import GENDER_CHOICES, FACULTY_CHOICES, \
+    INSTITUTION_CHOICES, SPECIALTY_CHOICES, RACE_CHOICES, AGE_CHOICES, \
+    HISPANIC_LATINO
+
+
+class UserVisit(models.Model):
+    user = models.ForeignKey(User)
+    section = models.ForeignKey(Section)
+    count = models.IntegerField(default=1)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return "%s %s" % (self.user.username, self.section)
+
+    class Meta:
+        unique_together = ("user", "section")
+        ordering = ["user", "section"]
+
 
 class UserProfile(models.Model):
     #  ALL_CU group affiliations
     user = models.ForeignKey(User, related_name="application_user")
-    last_location = models.CharField(max_length=255)
-    visited = models.TextField()
+    visits = models.ManyToManyField(UserVisit, null=True, blank=True)
     gender = models.CharField(max_length=1, null=True, choices=GENDER_CHOICES)
-    is_faculty = models.CharField(max_length=2, null=True, choices=FACULTY_CHOICES)
-    institute = models.CharField(max_length=2, null=True, choices=INSTITUTION_CHOICES)
-    specialty = models.CharField(max_length=2, null=True, choices=SPECIALTY_CHOICES)
-    hispanic_latino = models.CharField(max_length=1, null=True, choices=HISPANIC_LATINO)
+    is_faculty = models.CharField(max_length=2, null=True,
+                                  choices=FACULTY_CHOICES)
+    institute = models.CharField(max_length=2, null=True,
+                                 choices=INSTITUTION_CHOICES)
+    specialty = models.CharField(max_length=2, null=True,
+                                 choices=SPECIALTY_CHOICES)
+    hispanic_latino = models.CharField(max_length=1, null=True,
+                                       choices=HISPANIC_LATINO)
     year_of_graduation = models.PositiveIntegerField(null=True, blank=True)
 
     def __unicode__(self):
         return self.user.username
 
-    def __init__(self, *args, **kwargs):
-        super(UserProfile, self).__init__(*args, **kwargs)
-
-        if (len(self.visited) > 0):
-            self.state_object = simplejson.loads(self.visited)
-        else:
-            self.state_object = {}
+    class Meta:
+        ordering = ["user"]
 
     def get_has_visited(self, section):
-        has_visited = str(section.id) in self.state_object
-        return has_visited
+        return len(self.visits.filter(user=self.user, section=section)) > 0
 
     def set_has_visited(self, sections):
-        for s in sections:
-            self.state_object[str(s.id)] = s.label
+        for sect in sections:
+            visits = self.visits.filter(user=self.user,
+                                        section=sect)
+            if len(visits) > 0:
+                visits[0].count = visits[0].count + 1
+                visits[0].save()
+            else:
+                visit = UserVisit(user=self.user, section=sect)
+                visit.save()
+                self.visits.add(visit)
 
-        self.visited = simplejson.dumps(self.state_object)
-        self.save()
-
-    def save_last_location(self, path, section):
-        self.state_object[str(section.id)] = section.label
-        self.last_location = path
-        self.visited = simplejson.dumps(self.state_object)
-        self.save()
+    def last_location(self):
+        visits = self.visits.filter(user=self.user).order_by('-modified')
+        if len(visits) > 0:
+            return visits[0].section
+        else:
+            hierarchy = Hierarchy.get_hierarchy(self.role())
+            return hierarchy.get_first_leaf(hierarchy.get_root())
 
     def display_name(self):
         return self.user.username
+
+    def has_consented(self):
+        # return self.consent
+        return True
+
+    def role(self):
+        if (self.is_faculty == 'ST' or
+            self.specialty == 'S2' or
+                self.specialty is None):
+            # Student, Pre-Doctoral Student or None
+            return "student"
+        elif self.specialty in ['S1', 'S3', 'S5', 'S8']:
+            # General Practice, Endodontics, Pediatric Dentistry, Other
+            return "general"
+        elif self.specialty in ['S4']:
+            # Oral and Maxillofacial Surgery
+            return "surgery"
+        elif self.specialty in ['S6', 'S7']:
+            # Periodontics, Posthodontics
+            return 'perio'
+
+    def percent_complete(self):
+        hierarchy = Hierarchy.get_hierarchy(self.role())
+        visited = UserVisit.objects.filter(user=self.user,
+                                           section__hierarchy=hierarchy)
+        sections = Section.objects.filter(hierarchy=hierarchy)
+        return int(len(visited) / float(len(sections)) * 100)
 
 
 class QuickFixProfileForm(forms.Form):
@@ -73,14 +118,20 @@ class QuickFixProfileForm(forms.Form):
 class ColumbiaUserProfileForm(ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['gender', 'is_faculty', 'specialty', 'year_of_graduation']
+        fields = ['gender',
+                  'is_faculty',
+                  'specialty',
+                  'year_of_graduation']
 
 
 class NonColumbiaUserProfileForm(ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['gender', 'is_faculty', 'institute', 'specialty', 'year_of_graduation']
-
+        fields = ['gender',
+                  'is_faculty',
+                  'institute',
+                  'specialty',
+                  'year_of_graduation']
 
 
 class CreateAccountForm(RegistrationForm):
@@ -99,6 +150,7 @@ class CreateAccountForm(RegistrationForm):
         max_length=25, widget=forms.PasswordInput, required=True,
         label="Confirm Password")
     email = forms.EmailField()
+
 
 class FlashVideoBlock(models.Model):
     pageblocks = generic.GenericRelation(PageBlock)

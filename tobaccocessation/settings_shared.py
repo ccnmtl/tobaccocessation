@@ -232,5 +232,5 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_SAVE_EVERY_REQUEST = True
 SESSION_COOKIE_AGE = 3600
 
-AUTH_PROFILE_MODULE = 'main.UserProfile' #what is this for again?
+AUTH_PROFILE_MODULE = 'main.UserProfile'  # what is this for again?
 # new django doc - AUTH_USER_MODEL = 'myapp.MyUser'

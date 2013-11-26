@@ -50,7 +50,7 @@
 {% block navrightextra %}
     {% if user.is_staff %}
     <ul class="nav pull-right">
-        <li><a href="/edit{{section.get_absolute_url}}">Edit Page</a></li>        
+        <li><a href="/pages/edit{{section.get_absolute_url}}">Edit Page</a></li>        
     </ul>
     {% endif %}
 {% endblock %}
@@ -106,10 +106,10 @@
          <!-- added to allow javascript access to the menu links. hack for the js activities enabling/disabling of links -->
          <input type="hidden" id="next_section_slug" name="next_section_slug" value="{{next.slug}}"/>
          {% ifaccessible next %}
-            <a href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
+            <a href="/pages{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
             <div style="display: none;" id="next_disabled">{{next.label}} <img align="top" src="/site_media/img/lock.png" alt="locked"/></div>
          {% else %}
-            <a style="display: none" href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
+            <a style="display: none" href="/pages{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
             <div id="next_disabled">{{next.label}} <img align="top" src="/site_media/img/lock.png" alt="locked"/></div>
          {% endifaccessible %}
       {% endif %}

@@ -36,7 +36,9 @@ urlpatterns += patterns(
      'django.views.static.serve',
      {'document_root': os.path.abspath(os.path.dirname(__file__)),
       'path': 'crossdomain.xml'}),
-    (r'^$', 'tobaccocessation.main.views.index'),
+    url(r'^$',
+        'tobaccocessation.main.views.index',
+        name="index"),
     (r'^accounts/logout/$',
      'django.contrib.auth.views.logout',
      {'next_page': redirect_after_logout}),
@@ -48,12 +50,24 @@ urlpatterns += patterns(
     (r'^admin/', include(admin.site.urls)),
     (r'^smoketest/', include('smoketest.urls')),
     (r'^main/', include('tobaccocessation.main.urls')),
+<<<<<<< HEAD
     (r'^nonc_profile/', 'tobaccocessation.main.views.non_columbia_create_profile'),
     (r'^c_profile/', 'tobaccocessation.main.views.columbia_create_profile'),
     (r'^c_update_profile/', 'tobaccocessation.main.views.update_c_profile'),
     (r'^nonc_update_profile/', 'tobaccocessation.main.views.update_no_profile'),
     (r'^ajax_two/', 'tobaccocessation.main.views.ajax_two'),
     (r'^ajax_consent/', 'tobaccocessation.main.views.ajax_consent'),
+=======
+    url(r'^nonc_profile/',
+        'tobaccocessation.main.views.non_columbia_create_profile',
+        name="non_columbia_profile"),
+    url(r'^c_profile/',
+        'tobaccocessation.main.views.columbia_create_profile',
+        name="columbia_profile"),
+    #(r'^c_update_profile/', 'tobaccocessation.main.views.update_c_profile'),
+    #(r'^nonc_update_profile/',
+    # 'tobaccocessation.main.views.update_no_profile'),
+>>>>>>> 2538ec7f67467a17ac356f4a9a4915358ff526e6
     (r'^activity/treatment/', include(
         'tobaccocessation.activity_treatment_choice.urls')),
     (r'^activity/prescription/',
@@ -101,6 +115,8 @@ urlpatterns += patterns(
      'tobaccocessation.main.views.resources'),
 
     # very important that this stays last and in this order
-    (r'^edit/(?P<path>.*)$', 'tobaccocessation.main.views.edit_page'),
-    (r'^(?P<path>.*)$', 'tobaccocessation.main.views.page'),
+    (r'^pages/edit/(?P<hierarchy>\w+)/(?P<path>.*)$',
+     'tobaccocessation.main.views.edit_page'),
+    (r'^pages/(?P<hierarchy>\w+)/(?P<path>.*)$',
+     'tobaccocessation.main.views.page'),
 )

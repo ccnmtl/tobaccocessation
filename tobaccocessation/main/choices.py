@@ -6,10 +6,10 @@ FACULTY_CHOICES = (
 
 INSTITUTION_CHOICES = (
     ('-----', '-----'),
-    ('I1','Columbia University'),
-    ('I2','Jacobi Medical Center'),
-    ('I3','St. Barnabas Hospital'),
-    ('IF','None of the Above'),
+    ('I1', 'Columbia University'),
+    ('I2', 'Jacobi Medical Center'),
+    ('I3', 'St. Barnabas Hospital'),
+    ('IF', 'None of the Above'),
 )
 
 GENDER_CHOICES = (
@@ -53,7 +53,7 @@ AGE_CHOICES = (
 
 SPECIALTY_CHOICES = (
     ('-----', '-----'),
-    ('S1', 'General Practitice'),
+    ('S1', 'General Practice'),
     ('S2', 'Pre-Doctoral Student'),
     ('S3', 'Endodontics'),
     ('S4', 'Oral and Maxillofacial Surgery'),
@@ -62,4 +62,3 @@ SPECIALTY_CHOICES = (
     ('S7', 'Posthodontics'),
     ('S8', 'Other'),
 )
-

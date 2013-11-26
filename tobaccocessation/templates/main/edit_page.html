@@ -83,20 +83,20 @@
 {% endblock %}
 
 {% block primarynav %}
-    {% with '/edit' as menu_prefix %}
+    {% with '/pages/edit' as menu_prefix %}
          {{ block.super }}
     {% endwith %}
 {% endblock %}
 
 {% block subnav %}
-    {% with '/edit' as menu_prefix %}
+    {% with '/pages/edit' as menu_prefix %}
          {{ block.super }}
     {% endwith %}
 {% endblock %}
 
 {% block navrightextra %}
     <ul class="nav pull-right">
-        <li><a href="{{section.get_absolute_url}}">View Page</a></li>
+        <li><a href="/pages{{section.get_absolute_url}}">View Page</a></li>
     </ul>
 {% endblock %}
 
@@ -345,7 +345,7 @@ method="post">
 <td>
   {% if previous %}
      {% ifequal section.hierarchy.name "main" %}
-        <a href="edit/{{previous.get_absolute_url}}" id="previous">« {{previous.label}}</a>
+        <a href="/pages/edit{{previous.get_absolute_url}}" id="previous">« {{previous.label}}</a>
      {% endifequal %}
   {% endif %}</td><td width="100%" align="center>
   <div id="page_numbering">
@@ -364,7 +364,7 @@ method="post">
   {% if next %}
      <!-- added to allow javascript access to the menu links. hack for the js activities enabling/disabling of links -->
      <input type="hidden" id="next_section_slug" name="next_section_slug" value="/edit{{next.slug}}"/>
-     <a href="/edit{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
+     <a href="/pages/edit{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
      <div style="display: none;" id="next_disabled">{{next.label}} <img align="top" src="/site_media/img/lock.png"/></div>
   {% endif %}</td></tr></table>
 {% endblock %}

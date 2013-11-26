@@ -28,10 +28,13 @@
                 <h1 id="logo_project"><a href="/" title="Tobacco Cessation"><span>Tobacco Cessation</span></a></h1>	
         		{% block standardnav %}
         		<ul id="standardnav">
+                    {% if user.is_authenticated %}
+                        <li><a href="/accounts/logout/">Log Out</a></li>
+                    {% endif %}
         			<li><a href="/about/">About</a></li>
         			<li><a href="/help/">Help</a></li>
                     {% if user.is_authenticated %}
-        			    <li><a href="/contact/">Contact</a></li>
+        			    <li><a href="/contact/">Contact</a></li>                        
                     {% endif %}
         		</ul>
         		{% endblock %}
