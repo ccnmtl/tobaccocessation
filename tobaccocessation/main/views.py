@@ -1,4 +1,3 @@
-from django import forms
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, render
@@ -14,13 +13,10 @@ from tobaccocessation.activity_virtual_patient.models import \
     ActivityState as VirtualPatientActivityState
 from tobaccocessation.main.models import QuickFixProfileForm, UserProfile
 import django.core.exceptions
-from django.db import DatabaseError
-from django.core.exceptions import MultipleObjectsReturned
-
 
 INDEX_URL = "/welcome/"
 UNLOCKED = ['welcome', 'resources']  # special cases
-CREATE_COL_PROFILE = "c_profile/" # says form referenced before assignment
+CREATE_COL_PROFILE = "c_profile/"  # says form referenced before assignment
 CREATE_NOCOL_PROFILE = "nonc_profile/"
 
 
@@ -154,15 +150,17 @@ def _response(request, section, path):
 @login_required
 def non_columbia_create_profile(request):
     """Redirect Profileless User to create a profile."""
-    user =request.user
+    user = request.user
     if request.method == 'POST':
         try:
             user_profile = UserProfile.objects.get(user=user)
         except UserProfile.DoesNotExist:
             user_profile = UserProfile(user=user)
+
         user.first_name = form.data['first_name']
         user.last_name = form.data['last_name']
         user.save()
+
         user_profile.gender = form.data['gender']
         user_profile.year_of_graduation = form.data['year_of_graduation']
         user_profile.race = form.data['race']
@@ -170,7 +168,7 @@ def non_columbia_create_profile(request):
         user_profile.is_faculty = form.data['is_faculty']
         user_profile.specialty = form.data['specialty']
         user_profile.institute = form.data['institute']
-        user_profile.user = user # not sure how this goes
+        user_profile.user = user  # not sure how this goes
         user_profile.save()
         return HttpResponseRedirect('/')
     else:
@@ -180,11 +178,12 @@ def non_columbia_create_profile(request):
         'form': form,
     })
 
+
 def columbia_create_profile(request):
     """Redirect Columbia User with no profile to create a profile
     - we already have their username, first_name, last_name,
     and email."""
-    user =request.user
+    user = request.user
     if request.method == 'POST':
         form = QuickFixProfileForm()
         try:
@@ -210,13 +209,15 @@ def columbia_create_profile(request):
 
 
 def update_profile(request):
-    user =request.user
+    user = request.user
     if request.method == 'POST':
         try:
             user_profile = UserProfile.objects.get(user=user)
         except UserProfile.DoesNotExist:
-            # should probably have something else since they shouldn't be updating a profile they dont have...
+            # should probably have something else since they shouldn't
+            # be updating a profile they dont have...
             user_profile = UserProfile(user=user)
+
         user.first_name = form.data['first_name']
         user.last_name = form.data['last_name']
         user.username = form.data['username']
@@ -229,7 +230,7 @@ def update_profile(request):
         user_profile.is_faculty = form.data['is_faculty']
         user_profile.specialty = form.data['specialty']
         user_profile.institute = form.data['institute']
-        user_profile.user = user # not sure how this goes
+        user_profile.user = user  # not sure how this goes
         user_profile.save()
         return HttpResponseRedirect('/')
     else:
@@ -240,21 +241,19 @@ def update_profile(request):
     })
 
 
-
-
 @login_required
 def index(request):
     try:
         profile = UserProfile.objects.get(user=request.user)
-        url = INDEX_URL#url = profile.last_location - why did I do this again?
+        url = INDEX_URL
     except django.core.exceptions.MultipleObjectsReturned:
         profile = UserProfile.objects.filter(user=request.user)[0]
-        url = profile.last_location
+        url = INDEX_URL
     except UserProfile.DoesNotExist:
         url = CREATE_COL_PROFILE
     return HttpResponseRedirect(url)
-    # CREATE_NOCOL_PROFILE - we need to account for columbia vs non columbia users
-
+    # CREATE_NOCOL_PROFILE -
+    # we need to account for columbia vs non columbia users
 
 
 def accessible(section, user):
@@ -364,5 +363,7 @@ def ajax_consent(request):
         form = DonateForm()
         test = "FALSE"
 
-    return render_to_response('donate_form.html', {'form':form,'test':test}, context_instance=RequestContext(request))
-
+    return render_to_response('donate_form.html',
+                              {'form': form,
+                               'test': test},
+                              context_instance=RequestContext(request))

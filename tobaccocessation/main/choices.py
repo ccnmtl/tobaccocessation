@@ -6,10 +6,10 @@ FACULTY_CHOICES = (
 
 INSTITUTION_CHOICES = (
     ('-----', '-----'),
-    ('I1','Columbia University'),
-    ('I2','Jacobi Medical Center'),
-    ('I3','St. Barnabas Hospital'),
-    ('IF','None of the Above'),
+    ('I1', 'Columbia University'),
+    ('I2', 'Jacobi Medical Center'),
+    ('I3', 'St. Barnabas Hospital'),
+    ('IF', 'None of the Above'),
 )
 
 GENDER_CHOICES = (
@@ -62,4 +62,3 @@ SPECIALTY_CHOICES = (
     ('S7', 'Posthodontics'),
     ('S8', 'Other'),
 )
-

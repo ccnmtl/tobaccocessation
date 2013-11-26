@@ -1,26 +1,39 @@
 from django import forms
-from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.db import models
-from django.utils import simplejson
-from pagetree.models import PageBlock
+from django.forms import ModelForm
+from pagetree.models import PageBlock, Section
 from registration.forms import RegistrationForm
-from django.dispatch import Signal
-from tobaccocessation.main.choices import GENDER_CHOICES, \
-    FACULTY_CHOICES, INSTITUTION_CHOICES, SPECIALTY_CHOICES, \
-    RACE_CHOICES, AGE_CHOICES, HISPANIC_LATINO
+from tobaccocessation.main.choices import GENDER_CHOICES, FACULTY_CHOICES, \
+    INSTITUTION_CHOICES, SPECIALTY_CHOICES, RACE_CHOICES, AGE_CHOICES, \
+    HISPANIC_LATINO
+
+
+class UserVisit(models.Model):
+    user = models.ForeignKey(User)
+    section = models.ForeignKey(Section)
+    count = models.IntegerField(default=1)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ("user", "section")
+
 
 class UserProfile(models.Model):
     #  ALL_CU group affiliations
     user = models.ForeignKey(User, related_name="application_user")
-    last_location = models.CharField(max_length=255)
-    visited = models.TextField()
+    visits = models.ManyToManyField(UserVisit, null=True, blank=True)
     gender = models.CharField(max_length=1, null=True, choices=GENDER_CHOICES)
-    is_faculty = models.CharField(max_length=2, null=True, choices=FACULTY_CHOICES)
-    institute = models.CharField(max_length=2, null=True, choices=INSTITUTION_CHOICES)
-    specialty = models.CharField(max_length=2, null=True, choices=SPECIALTY_CHOICES)
-    hispanic_latino = models.CharField(max_length=1, null=True, choices=HISPANIC_LATINO)
+    is_faculty = models.CharField(max_length=2, null=True,
+                                  choices=FACULTY_CHOICES)
+    institute = models.CharField(max_length=2, null=True,
+                                 choices=INSTITUTION_CHOICES)
+    specialty = models.CharField(max_length=2, null=True,
+                                 choices=SPECIALTY_CHOICES)
+    hispanic_latino = models.CharField(max_length=1, null=True,
+                                       choices=HISPANIC_LATINO)
     year_of_graduation = models.PositiveIntegerField(null=True, blank=True)
 
     def __unicode__(self):
@@ -73,14 +86,20 @@ class QuickFixProfileForm(forms.Form):
 class ColumbiaUserProfileForm(ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['gender', 'is_faculty', 'specialty', 'year_of_graduation']
+        fields = ['gender',
+                  'is_faculty',
+                  'specialty',
+                  'year_of_graduation']
 
 
 class NonColumbiaUserProfileForm(ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['gender', 'is_faculty', 'institute', 'specialty', 'year_of_graduation']
-
+        fields = ['gender',
+                  'is_faculty',
+                  'institute',
+                  'specialty',
+                  'year_of_graduation']
 
 
 class CreateAccountForm(RegistrationForm):
@@ -99,6 +118,7 @@ class CreateAccountForm(RegistrationForm):
         max_length=25, widget=forms.PasswordInput, required=True,
         label="Confirm Password")
     email = forms.EmailField()
+
 
 class FlashVideoBlock(models.Model):
     pageblocks = generic.GenericRelation(PageBlock)
