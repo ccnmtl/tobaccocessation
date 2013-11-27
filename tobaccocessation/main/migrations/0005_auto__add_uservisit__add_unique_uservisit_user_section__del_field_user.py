@@ -105,17 +105,17 @@ class Migration(SchemaMigration):
             'image_url': ('django.db.models.fields.CharField', [], {'max_length': '512'}),
             'width': ('django.db.models.fields.IntegerField', [], {})
         },
-        u'main.role': {
-            'Meta': {'object_name': 'Role'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '2'})
-        },
         u'main.userprofile': {
             'Meta': {'object_name': 'UserProfile'},
+            'visits': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': u"orm['main.UserVisit']", 'null': 'True', 'blank': 'True'}),
+            'gender': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True'}),
+            'hispanic_latino': ('django.db.models.fields.CharField', [], {'max_length': '1', 'null': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'role': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['main.Role']", 'null': 'True', 'blank': 'True'}),
+            'institute': ('django.db.models.fields.CharField', [], {'max_length': '2', 'null': 'True'}),
+            'is_faculty': ('django.db.models.fields.CharField', [], {'max_length': '2', 'null': 'True'}),
+            'specialty': ('django.db.models.fields.CharField', [], {'max_length': '2', 'null': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'application_user'", 'to': u"orm['auth.User']"}),
-            'visits': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': u"orm['main.UserVisit']", 'null': 'True', 'blank': 'True'})
+            'year_of_graduation': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True'})
         },
         u'main.uservisit': {
             'Meta': {'unique_together': "(('user', 'section'),)", 'object_name': 'UserVisit'},
