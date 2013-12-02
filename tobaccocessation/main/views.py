@@ -161,13 +161,14 @@ def _response(request, section, path):
 
 
 def create_profile(request):
+    print "inside create profile method"
     profiles = UserProfile.objects.filter(user=request.user)
     not_columbia = True
     if len(request.user.groups.filter(name='ALL_CU')) > 0:
         not_columbia = False
     user_profile = UserProfile(user=request.user)
     if request.method == 'POST':
-        form = QuickFixProfileForm()
+        form = QuickFixProfileForm(request.POST)
         if not_columbia==True:
             user.username = form.data['username']
             user.email = form.data['email']
@@ -178,10 +179,6 @@ def create_profile(request):
         elif not_columbia==False:
             user_profile.institute = 'I1'
         user_profile.is_faculty = form.data['is_faculty']
-        print "user_profile.is_faculty"
-        print user_profile.is_faculty
-        print "form.data['is_faculty']"
-        print form.data['is_faculty']
         user_profile.year_of_graduation = form.data['year_of_graduation']
         user_profile.specialty = form.data['specialty']
         user_profile.gender = form.data['gender']
@@ -191,7 +188,7 @@ def create_profile(request):
         user_profile.save()
         return HttpResponseRedirect('/')
     else:
-        form = QuickFixProfileForm()  # An unbound form
+        form = QuickFixProfileForm()
 
     return render(request, 'main/create_profile.html', {
         'form': form, 'not_columbia': not_columbia
@@ -200,14 +197,13 @@ def create_profile(request):
 
 
 def update_profile(request):
-def create_profile(request):
     profiles = UserProfile.objects.filter(user=request.user)
     not_columbia = True
     if len(request.user.groups.filter(name='ALL_CU')) > 0:
         not_columbia = False
     user_profile = UserProfile(user=request.user)
     if request.method == 'POST':
-        form = QuickFixProfileForm()
+        form = QuickFixProfileForm(request.POST)
         if not_columbia==True:
             user.username = form.data['username']
             user.email = form.data['email']
@@ -215,8 +211,8 @@ def create_profile(request):
             user.last_name = form.data['last_name']
             user.save()
             user_profile.institute = form.data['institute']
-        #elif not_columbia==False:
-        #    user_profile.institute = 'I1' institution should have already been saved
+        elif not_columbia==False:
+            user_profile.institute = 'I1' # institution should have already been saved
         user_profile.is_faculty = form.data['is_faculty']
         user_profile.year_of_graduation = form.data['year_of_graduation']
         user_profile.specialty = form.data['specialty']

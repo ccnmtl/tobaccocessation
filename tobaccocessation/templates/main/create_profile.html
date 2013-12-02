@@ -98,11 +98,21 @@
 
     <div class="fieldWrapper">
         {{ form.hispanic_latino.errors }}
-        <label for="id_sender">Race: </label>
+        <label for="id_sender">Are you hispanic or latino?: </label>
         {{ form.hispanic_latino }}
     </div>
 
 <br/>
+
+    <div class="fieldWrapper">
+        {{ form.race.errors }}
+        <label for="id_sender">Race: </label>
+        {{ form.race }}
+    </div>
+
+<br/>
+
+
     <p><input type="submit" value="Submit" /></p>
 </form>
 
