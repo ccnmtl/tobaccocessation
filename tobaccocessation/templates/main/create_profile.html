@@ -11,11 +11,9 @@
 
 <form action="" method="post">{% csrf_token %}
     {{ form.non_field_errors }}
-
 <br/>
 
 {% if not_columbia %}
-
     <div name="will_disapper">
         <div class="fieldWrapper">
           {{ form.first_name.errors }}
@@ -58,7 +56,7 @@
 
         <div class="fieldWrapper">
             {{ form.is_faculty.errors }}
-            <label for="id_subject">Are you a faculty memeber or a student?</label>
+            <label for="id_subject">Are you a faculty member or a student?</label>
             {{ form.is_faculty }}
         </div>
         <br/>

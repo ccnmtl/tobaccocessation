@@ -38,12 +38,23 @@
         <form method="post" action=".">
             <table>
             <tr><td style="border: hidden;"><label for="id_username">Username:&nbsp;</label></td><td style="border: hidden">{{ form.username }}</td></tr>
-            <tr><td style="border: hidden; padding-top: 3px;"><label for="id_password">Password:&nbsp;</label></td><td style="border: hidden; padding-top: 5px;">{{ form.password }}</td></tr>
+            <tr>
+                <td style="border: hidden; padding-top: 3px;"><label for="id_password">Password:&nbsp;</label>
+                </td>
+                <td style="border: hidden; padding-top: 5px;">
+                    {{ form.password }}<br />
+                </td>
+            </tr>
+            <tr>
+                <td style="border: hidden;" />
+                <td style="border: hidden;"><a href="/accounts/password/reset/">Forgot Password</a>
+                </td>
+            </tr>            
             <tr><td colspan="2" style="border: hidden; text-align: right; padding-top: 7px;"><input type="submit" value="Log In"></input></td></tr>
             </table>
             <input type="hidden" name="next" value="{{ next }}"></input>
         </form>
-        <a href="{% url "registration_register" %}">Register for an account.</a>.
+        <a href="{% url "registration_register" %}">Register for an account.</a>. 
     </div>
 </div>
 

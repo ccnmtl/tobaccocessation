@@ -4,19 +4,10 @@ from tobaccocessation.main.models import UserProfile, UserVisit
 
 
 class UserProfileAdmin(admin.ModelAdmin):
+    readonly_fields = ["visits"]
     search_fields = ['user__username']
     list_display = ['user', 'is_faculty', 'role', 'institute']
 
 
-class UserVisitAdmin(admin.ModelAdmin):
-    def section_description(self, obj):
-        return "[%s] %s" % (obj.section.id, obj.section)
-
-    search_fields = ['user__username']
-    list_display = ['user', 'section_description',
-                    'count', 'created', 'modified']
-
-
 admin.site.register(UserProfile, UserProfileAdmin)
-admin.site.register(UserVisit, UserVisitAdmin)
 admin.site.register(Hierarchy)
