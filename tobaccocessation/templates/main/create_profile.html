@@ -9,12 +9,43 @@
 <p class="errornote">{{ error_message }}</p>
 {% endif %}
 
+<br/>
+<script type="text/javascript">
+$( document ).ready(function()
+{ //w
+    var checked = false;
+
+    $("#consent_button").click(function()
+    { //w
+        if(checked==true && $("#id_consent").prop('checked'))
+        {
+            $("#consent_given").show();
+        }
+    });
+
+    $("#id_consent").click(function()//prop('checked'))
+    {
+        checked=true;
+    });
+
+
+
+});
+</script>
+
+
+    <div class="fieldWrapper">
+        {{ form.consent.errors }}
+        <label for="id_sender">I have read and agree to the Consent Agreement </label>
+        {{ form.consent }}
+        <button type="button" id="consent_button">I Accept</button> 
+    </div>
+
 <form action="" method="post">{% csrf_token %}
     {{ form.non_field_errors }}
-<br/>
-
+<div id="consent_given" style="display: none">
 {% if not_columbia %}
-    <div name="will_disapper">
+
         <div class="fieldWrapper">
           {{ form.first_name.errors }}
           <label for="id_sender">First Name: </label>
@@ -26,8 +57,8 @@
           {{ form.last_name.errors }}Last Name: </label>
           {{ form.last_name }}
         </div>
-
         <br/>
+
         <div class="fieldWrapper">
             {{ form.username.errors }}
             <label for="id_sender">Desired Username: </label>
@@ -35,18 +66,14 @@
         </div>
         <br/>
 
-        <br/>
         <div class="fieldWrapper">
             {{ form.email.errors }}
             <label for="id_sender">Email: </label>
             {{ form.email }}
         </div>
-        <br/>
-    </div>
-    <br/>
 
 {% endif %}
-
+        <br/>
         <div class="fieldWrapper">
             {{ form.gender.errors }}
             <label for="id_sender">Gender: </label>
@@ -56,52 +83,55 @@
 
         <div class="fieldWrapper">
             {{ form.is_faculty.errors }}
-            <label for="id_subject">Are you a faculty member or a student?</label>
+            <label for="id_subject">Are you a faculty memeber or a student?</label>
             {{ form.is_faculty }}
         </div>
-        <br/>
+       
 
 {% if not_columbia %}
-
+    <br/>
     <div class="fieldWrapper">
         {{ form.institute.errors }}
         <label for="id_message">Institution Affiliation: </label>
         {{ form.institute }}
     </div>
+    <br>
 
 {% endif %}
 
-<br>
     <div class="fieldWrapper">
         {{ form.specialty.errors }}
         <label for="id_sender">How would you describe your specialty?</label>
         {{ form.specialty }}
-    </div>
-<br/>
+    </div><br/>
 
     <div class="fieldWrapper">
         {{ form.year_of_graduation.errors }}
         <label for="id_sender">What year did you graduate?</label>
         {{ form.year_of_graduation }}
-    </div>
-<br/>
+    </div><br/>
 
     <div class="fieldWrapper">
         {{ form.age.errors }}
         <label for="id_sender">Age: </label>
         {{ form.age }}
-    </div>
-
-<br/>
+    </div><br/>
 
     <div class="fieldWrapper">
         {{ form.hispanic_latino.errors }}
-        <label for="id_sender">Race: </label>
+        <label for="id_sender">Are you hispanic or latino?: </label>
         {{ form.hispanic_latino }}
-    </div>
+    </div><br/>
 
-<br/>
+    <div class="fieldWrapper">
+        {{ form.race.errors }}
+        <label for="id_sender">Race: </label>
+        {{ form.race }}
+    </div><br/>
+
+
     <p><input type="submit" value="Submit" /></p>
+</div>
 </form>
 
 
