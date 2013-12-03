@@ -1,5 +1,5 @@
 {% load i18n %}
-{% trans "Thank you for registering for the Teach Dentistry learning activity. To activate your account, please click the link below. This link will be available to you for seven days." %}
+{% trans "Thank you for registering for the Tobacco Cessation learning activity. To activate your account, please click the link below. This link will be available to you for seven days." %}
 
 
 http://{{ site.domain }}{% url "registration_activate" activation_key %}
