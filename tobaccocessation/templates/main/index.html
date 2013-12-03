@@ -18,6 +18,6 @@
 <div>Role: {{profile.role}}</div>
 <div>Percent Complete: {{profile.percent_complete}}%</div>
 {% with profile.last_location as section %}
-<div>Last Location: <a href="pages/{{section.hierarchy.name}}{{section.get_absolute_url}}">{{section.label}}</a></div>
+<div>Last Location: <a href="pages{{section.get_absolute_url}}">{{section.label}}</a></div>
 {% endwith %} 
 {% endblock %}
