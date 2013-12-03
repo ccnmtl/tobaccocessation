@@ -158,6 +158,7 @@ def _response(request, section, path):
                     request=request,
                     leftnav=leftnav)
 
+
 def create_profile(request):
     print "inside create profile method"
     profiles = UserProfile.objects.filter(user=request.user)
@@ -167,7 +168,7 @@ def create_profile(request):
     user_profile = UserProfile(user=request.user)
     if request.method == 'POST':
         form = QuickFixProfileForm(request.POST)
-        if not_columbia==True:
+        if not_columbia == True:
             user.username = form.data['username']
             user.email = form.data['email']
             user.first_name = form.data['first_name']

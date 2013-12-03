@@ -12,7 +12,7 @@ class UserProfileTest(TestCase):
                                              'test@ccnmtl.com',
                                              'testpassword')
         UserProfile.objects.get_or_create(user=self.user)[0]
-        self.hierarchy = Hierarchy(name="student", base_url="/")
+        self.hierarchy = Hierarchy(name="main", base_url="/")
         self.hierarchy.save()
 
         self.root = Section.add_root(label="Root", slug="",
@@ -68,12 +68,6 @@ class UserProfileTest(TestCase):
         display_name = UserProfile.display_name(profile)
         self.assertEqual(display_name, 'test_student')
 
-    def test_default_role(self):
-        user = User.objects.get(username='test_student')
-        profile = UserProfile.objects.get(user=user)
-
-        self.assertEquals("student", profile.role())
-
     def test_percent_complete(self):
         user = User.objects.get(username='test_student')
         profile = UserProfile.objects.get(user=user)
@@ -84,6 +78,77 @@ class UserProfileTest(TestCase):
         self.assertEquals(66, profile.percent_complete())
         profile.set_has_visited([self.section2])
         self.assertEquals(100, profile.percent_complete())
+
+    def test_is_student(self):
+        user = User.objects.get(username='test_student')
+        profile = UserProfile.objects.get(user=user)
+
+        profile.is_faculty = 'FA'
+        profile.save()
+        self.assertFalse(profile.is_student())
+
+        profile.is_faculty = 'OT'
+        profile.save()
+        self.assertFalse(profile.is_student())
+
+        profile.is_faculty = 'ST'
+        profile.save()
+        self.assertTrue(profile.is_student())
+
+    def test_default_role(self):
+        user = User.objects.get(username='test_student')
+        profile = UserProfile.objects.get(user=user)
+
+        self.assertEquals("main", profile.role())
+
+    def test_role(self):
+        user = User.objects.get(username='test_student')
+        profile = UserProfile.objects.get(user=user)
+
+        profile.is_faculty = 'ST'
+        profile.save()
+        self.assertEquals(profile.role(), "main")
+
+        profile.is_faculty = 'FA'
+        profile.specialty = 'S1'
+        profile.save()
+        self.assertEquals(profile.role(), "general")
+
+        profile.specialty = 'S2'  # Pre-Doctoral Student'
+        profile.save()
+        self.assertEquals(profile.role(), "main")
+
+        profile.specialty = 'S3'  # Endodontics
+        profile.save()
+        self.assertEquals(profile.role(), "endodontics")
+
+        profile.specialty = 'S4'  # Oral and Maxillofacial Surgery'
+        profile.save()
+        self.assertEquals(profile.role(), "surgery")
+
+        profile.specialty = 'S5'  # Pediatric Dentistry
+        profile.save()
+        self.assertEquals(profile.role(), "pediatrics")
+
+        profile.specialty = 'S6'  # Periodontics
+        profile.save()
+        self.assertEquals(profile.role(), "perio")
+
+        profile.specialty = 'S7'  # Prosthodontics
+        profile.save()
+        self.assertEquals(profile.role(), "general")
+
+        profile.specialty = 'S8'  # Orthodontics
+        profile.save()
+        self.assertEquals(profile.role(), "orthodontics")
+
+        profile.specialty = 'S9'  # Other
+        profile.save()
+        self.assertEquals(profile.role(), "main")
+
+        profile.specialty = 'S10'  # Dental Public Health
+        profile.save()
+        self.assertEquals(profile.role(), "main")
 
 
 class FlashVideoBlockTest(TestCase):

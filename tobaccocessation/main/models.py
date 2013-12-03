@@ -29,7 +29,7 @@ class UserProfile(models.Model):
                                   choices=FACULTY_CHOICES)
     institute = models.CharField(max_length=2, null=True,
                                  choices=INSTITUTION_CHOICES)
-    specialty = models.CharField(max_length=2, null=True,
+    specialty = models.CharField(max_length=3, null=True,
                                  choices=SPECIALTY_CHOICES)
     hispanic_latino = models.CharField(max_length=1, null=True,
                                        choices=HISPANIC_LATINO)
@@ -71,21 +71,31 @@ class UserProfile(models.Model):
         # return self.consent
         return True
 
+    def is_student(self):
+        return self.is_faculty == 'ST'
+
     def role(self):
-        if (self.is_faculty == 'ST' or
-            self.specialty == 'S2' or
+        if (self.is_student() or
+            self.specialty in ['S2', 'S9', 'S10'] or
                 self.specialty is None):
-            # Student, Pre-Doctoral Student or None
+            # Pre-Doctoral Student, Other, Dental Public Health
             return "main"
-        elif self.specialty in ['S1', 'S3', 'S5', 'S8']:
-            # General Practice, Endodontics, Pediatric Dentistry, Other
+        elif self.specialty in ['S1', 'S7']:
+            # General Practice, Prosthodontics
             return "general"
-        elif self.specialty in ['S4']:
+        elif self.specialty == 'S4':
             # Oral and Maxillofacial Surgery
             return "surgery"
-        elif self.specialty in ['S6', 'S7']:
-            # Periodontics, Posthodontics
+        elif self.specialty == 'S6':
+            # Periodontics
             return 'perio'
+        elif self.specialty == 'S5':
+            # Pediatrics
+            return "pediatrics"
+        elif self.specialty == 'S8':
+            return "orthodontics"
+        elif self.specialty == 'S3':
+            return "endodontics"
 
     def percent_complete(self):
         hierarchy = Hierarchy.get_hierarchy(self.role())

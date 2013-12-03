@@ -17,13 +17,14 @@ FACULTY_CHOICES = (
 
 SPECIALTY_CHOICES = (
     ('-----', '-----'),
-    ('S1', 'General Practice'),
-    ('S2', 'Pre-Doctoral Student'),
+    ('S10', 'Dental Public Health'),
     ('S3', 'Endodontics'),
+    ('S1', 'General Practice'),
     ('S4', 'Oral and Maxillofacial Surgery'),
     ('S5', 'Pediatric Dentistry'),
     ('S6', 'Periodontics'),
-    ('S7', 'Posthodontics'),
+    ('S7', 'Prosthodontics'),
+    ('S2', 'Pre-Doctoral Student'),
     ('S8', 'Orthodontics'),
     ('S9', 'Other'),
 )
