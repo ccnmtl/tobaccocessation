@@ -76,7 +76,7 @@ class UserProfile(models.Model):
             self.specialty == 'S2' or
                 self.specialty is None):
             # Student, Pre-Doctoral Student or None
-            return "student"
+            return "main"
         elif self.specialty in ['S1', 'S3', 'S5', 'S8']:
             # General Practice, Endodontics, Pediatric Dentistry, Other
             return "general"
