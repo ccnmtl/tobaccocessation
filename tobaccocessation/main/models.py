@@ -39,6 +39,7 @@ class UserProfile(models.Model):
     hispanic_latino = models.CharField(max_length=1, null=True,
                                        choices=HISPANIC_LATINO)
     year_of_graduation = models.PositiveIntegerField(null=True, blank=True)
+    consent = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.user.username
@@ -101,6 +102,7 @@ class UserProfile(models.Model):
 
 
 class QuickFixProfileForm(forms.Form):
+    consent = forms.BooleanField(required=True)
     first_name = forms.CharField(max_length=50)
     last_name = forms.CharField(max_length=50)
     is_faculty = forms.ChoiceField(choices=FACULTY_CHOICES)
