@@ -1,6 +1,6 @@
 from django.contrib import admin
 from pagetree.models import Hierarchy
-from tobaccocessation.main.models import UserProfile, UserVisit
+from tobaccocessation.main.models import UserProfile
 
 
 class UserProfileAdmin(admin.ModelAdmin):

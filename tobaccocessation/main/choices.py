@@ -67,5 +67,3 @@ AGE_CHOICES = (
     ('A6', '60-69 Years'),
     ('A7', '70 Years or Older'),
 )
-
-

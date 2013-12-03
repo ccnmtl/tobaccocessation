@@ -11,18 +11,13 @@ from tobaccocessation.main.choices import GENDER_CHOICES, FACULTY_CHOICES, \
 
 
 class UserVisit(models.Model):
-    user = models.ForeignKey(User)
     section = models.ForeignKey(Section)
     count = models.IntegerField(default=1)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return "%s %s" % (self.user.username, self.section)
-
-    class Meta:
-        unique_together = ("user", "section")
-        ordering = ["user", "section"]
+        return "%s %s" % (self.section, self.count, self.created)
 
 
 class UserProfile(models.Model):
@@ -48,22 +43,21 @@ class UserProfile(models.Model):
         ordering = ["user"]
 
     def get_has_visited(self, section):
-        return len(self.visits.filter(user=self.user, section=section)) > 0
+        return len(self.visits.filter(section=section)) > 0
 
     def set_has_visited(self, sections):
         for sect in sections:
-            visits = self.visits.filter(user=self.user,
-                                        section=sect)
+            visits = self.visits.filter(section=sect)
             if len(visits) > 0:
                 visits[0].count = visits[0].count + 1
                 visits[0].save()
             else:
-                visit = UserVisit(user=self.user, section=sect)
+                visit = UserVisit(section=sect)
                 visit.save()
                 self.visits.add(visit)
 
     def last_location(self):
-        visits = self.visits.filter(user=self.user).order_by('-modified')
+        visits = self.visits.order_by('-modified')
         if len(visits) > 0:
             return visits[0].section
         else:
@@ -95,10 +89,9 @@ class UserProfile(models.Model):
 
     def percent_complete(self):
         hierarchy = Hierarchy.get_hierarchy(self.role())
-        visited = UserVisit.objects.filter(user=self.user,
-                                           section__hierarchy=hierarchy)
+        profile = UserProfile.objects.get(user=self.user)
         sections = Section.objects.filter(hierarchy=hierarchy)
-        return int(len(visited) / float(len(sections)) * 100)
+        return int(len(profile.visits.all()) / float(len(sections)) * 100)
 
 
 class QuickFixProfileForm(forms.Form):

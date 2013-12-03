@@ -13,7 +13,7 @@ from tobaccocessation.activity_treatment_choice.models import \
 from tobaccocessation.activity_virtual_patient.models import \
     ActivityState as VirtualPatientActivityState
 from tobaccocessation.main.models import QuickFixProfileForm, UserProfile
-from django.contrib.auth.models import User, Group
+
 
 UNLOCKED = ['resources']  # special cases
 
@@ -158,8 +158,6 @@ def _response(request, section, path):
                     request=request,
                     leftnav=leftnav)
 
-
-
 def create_profile(request):
     print "inside create profile method"
     profiles = UserProfile.objects.filter(user=request.user)
@@ -195,7 +193,6 @@ def create_profile(request):
     })
 
 
-
 def update_profile(request):
     profiles = UserProfile.objects.filter(user=request.user)
     not_columbia = True
@@ -212,7 +209,8 @@ def update_profile(request):
             user.save()
             user_profile.institute = form.data['institute']
         elif not_columbia==False:
-            user_profile.institute = 'I1' # institution should have already been saved
+            # institution should have already been saved
+            user_profile.institute = 'I1'
         user_profile.is_faculty = form.data['is_faculty']
         user_profile.year_of_graduation = form.data['year_of_graduation']
         user_profile.specialty = form.data['specialty']
@@ -228,6 +226,7 @@ def update_profile(request):
     return render(request, 'main/create_profile.html', {
         'form': form, 'not_columbia': not_columbia
     })
+
 
 def accessible(section, user):
     try:
@@ -323,17 +322,21 @@ def _unlocked(section, user, previous, profile):
 
     return profile.get_has_visited(previous)
 
+
 def ajax_two(request):
     if request.is_ajax():
         print "request is ajax"
     if request.method == 'POST':
         print "request is POST"
         '''Consent has been granted - show them the page.'''
-        html = "<p>This should be appended to the form after it is returned - will eventually be used to give consent form.</p>"
-        #return HttpResponse(simplejson.dumps({'result': 'success', exercise: amount}))
+        html = """<p>This should be appended to the form after it is returned
+        - will eventually be used to give consent form.</p>"""
+        #return HttpResponse(simplejson.dumps
+        # ({'result': 'success', exercise: amount}))
     else:
         print "else..."
-#    return render_to_response('main/ajax_page.html')
+        #  return render_to_response('main/ajax_page.html')
+
 
 def ajax_consent(request):
     if request.is_ajax():
@@ -342,8 +345,10 @@ def ajax_consent(request):
     if request.method == 'POST':
         print "request is POST"
         '''Consent has been granted - show them the page.'''
-        html = "<p>This should be appended to the form after it is returned - will eventually be used to give consent form.</p>"
-        #return HttpResponse(simplejson.dumps({'result': 'success', exercise: amount}))
+        html = """<p>This should be appended to the form after it
+        is returned - will eventually be used to give consent form.</p>"""
+        #return HttpResponse(simplejson.dumps({'result': 'success',
+        # exercise: amount}))
         #return html
         # form = DonateForm(request.POST)
         # if form.is_valid():
@@ -352,4 +357,3 @@ def ajax_consent(request):
         print "else..."
         # form = DonateForm()
         # test = "FALSE"
-
