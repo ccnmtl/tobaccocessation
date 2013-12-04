@@ -160,23 +160,23 @@ def _response(request, section, path):
 
 
 def create_profile(request):
-    print "inside create profile method"
     profiles = UserProfile.objects.filter(user=request.user)
-    not_columbia = True
+    columbia_student = False
     if len(request.user.groups.filter(name='ALL_CU')) > 0:
-        not_columbia = False
+        columbia_student = True
     user_profile = UserProfile(user=request.user)
     if request.method == 'POST':
         form = QuickFixProfileForm(request.POST)
-        if not_columbia == True:
-            user.username = form.data['username']
-            user.email = form.data['email']
-            user.first_name = form.data['first_name']
-            user.last_name = form.data['last_name']
-            user.save()
+        if columbia_student == False:
+            userprofile.user.username = form.data['username']
+            userprofile.user.email = form.data['email']
+            userprofile.user.first_name = form.data['first_name']
+            userprofile.user.last_name = form.data['last_name']
+            userprofile.user.save()
             user_profile.institute = form.data['institute']
-        elif not_columbia==False:
+        elif columbia_student == True:
             user_profile.institute = 'I1'
+        user_profile.consent = form.data['is_faculty']
         user_profile.is_faculty = form.data['is_faculty']
         user_profile.year_of_graduation = form.data['year_of_graduation']
         user_profile.specialty = form.data['specialty']
@@ -190,26 +190,26 @@ def create_profile(request):
         form = QuickFixProfileForm()
 
     return render(request, 'main/create_profile.html', {
-        'form': form, 'not_columbia': not_columbia
+        'form': form, 'columbia_student': columbia_student
     })
 
 
 def update_profile(request):
     profiles = UserProfile.objects.filter(user=request.user)
-    not_columbia = True
+    columbia_student = False
     if len(request.user.groups.filter(name='ALL_CU')) > 0:
-        not_columbia = False
+        columbia_student = True
     user_profile = UserProfile(user=request.user)
     if request.method == 'POST':
         form = QuickFixProfileForm(request.POST)
-        if not_columbia==True:
-            user.username = form.data['username']
-            user.email = form.data['email']
-            user.first_name = form.data['first_name']
-            user.last_name = form.data['last_name']
-            user.save()
+        if columbia_student==False:
+            userprofile.user.username = form.data['username']
+            userprofile.user.email = form.data['email']
+            userprofile.user.first_name = form.data['first_name']
+            userprofile.user.last_name = form.data['last_name']
+            userprofile.user.save()
             user_profile.institute = form.data['institute']
-        elif not_columbia==False:
+        elif columbia_student==True:
             # institution should have already been saved
             user_profile.institute = 'I1'
         user_profile.is_faculty = form.data['is_faculty']
@@ -225,7 +225,7 @@ def update_profile(request):
         form = QuickFixProfileForm()  # An unbound form
 
     return render(request, 'main/create_profile.html', {
-        'form': form, 'not_columbia': not_columbia
+        'form': form, 'columbia_student': columbia_student
     })
 
 
@@ -324,37 +324,4 @@ def _unlocked(section, user, previous, profile):
     return profile.get_has_visited(previous)
 
 
-def ajax_two(request):
-    if request.is_ajax():
-        print "request is ajax"
-    if request.method == 'POST':
-        print "request is POST"
-        '''Consent has been granted - show them the page.'''
-        html = """<p>This should be appended to the form after it is returned
-        - will eventually be used to give consent form.</p>"""
-        #return HttpResponse(simplejson.dumps
-        # ({'result': 'success', exercise: amount}))
-    else:
-        print "else..."
-        #  return render_to_response('main/ajax_page.html')
 
-
-def ajax_consent(request):
-    if request.is_ajax():
-        print "request is ajax"
-
-    if request.method == 'POST':
-        print "request is POST"
-        '''Consent has been granted - show them the page.'''
-        html = """<p>This should be appended to the form after it
-        is returned - will eventually be used to give consent form.</p>"""
-        #return HttpResponse(simplejson.dumps({'result': 'success',
-        # exercise: amount}))
-        #return html
-        # form = DonateForm(request.POST)
-        # if form.is_valid():
-        #     form.save()
-    else:
-        print "else..."
-        # form = DonateForm()
-        # test = "FALSE"

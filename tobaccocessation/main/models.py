@@ -155,6 +155,7 @@ class CreateAccountForm(RegistrationForm):
         max_length=25, widget=forms.PasswordInput, required=True,
         label="Confirm Password")
     email = forms.EmailField()
+    consent = forms.BooleanField(required=True)
 
 
 class FlashVideoBlock(models.Model):

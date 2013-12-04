@@ -11,6 +11,7 @@
     {{ block.super }}
     <script type="text/javascript" src="/site_media/bootstrap-multiselect/js/bootstrap-multiselect.js"></script>
    
+
     <script type="text/javascript">
         jQuery(document).ready(function() {
             jQuery('#id_state').addClass("multiselect");
@@ -36,10 +37,48 @@
               }
             });
         });
-    </script>    
+    </script>
+
+
+
+
+
 {% endblock %}
 
 {% block registration_content %}
+
+
+<script type="text/javascript">
+$( document ).ready(function()
+{   
+    var checked = false;
+
+    $("#consent_button").click(function()
+    { //w
+        if(checked==true && $("#id_consent").prop('checked'))
+        {
+            $("#consent_given").show();
+        }
+    });
+
+    $("#id_consent").click(function()//prop('checked'))
+    {
+        checked=true;
+    });
+
+
+
+});
+</script>
+    <div class="fieldWrapper">
+        {{ form.consent.errors }}
+        <label for="id_sender">I have read and agree to the Consent Agreement </label>
+        {{ form.consent }}
+        <button type="button" id="consent_button">I Accept</button> 
+    </div>
+
+
+
     <h2 class="pagetitle signuptitle">Sign up for an account</h2>
     
     <div class="p">Use the following form to create a new account to access Tobacco Cessation.</div>
@@ -49,15 +88,18 @@
     If you already have a username or password, but have forgotten either,
         <a href="{% url "auth_password_reset" %}">reset them here</a>.
     </div>
-    
+    <div id="consent_given" style="display: none">
     <div class="p"><i><span style="color: #c00; font-size: 20px;">*</span> Indicates required field</i></div>
     
     <form method="post" action="." class="register">
+
       {{ form.as_p }}
       
       <input class="btn btn-primary" type="submit" value="{% trans 'Sign up!' %}" />
-    </form>
 
+
+    </form>
+</div>
 {% endblock %}
 
 
