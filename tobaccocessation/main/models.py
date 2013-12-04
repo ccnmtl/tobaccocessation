@@ -120,24 +120,6 @@ class QuickFixProfileForm(forms.Form):
     specialty = forms.ChoiceField(choices=SPECIALTY_CHOICES)
 
 
-class ColumbiaUserProfileForm(ModelForm):
-    class Meta:
-        model = UserProfile
-        fields = ['gender',
-                  'is_faculty',
-                  'specialty',
-                  'year_of_graduation']
-
-
-class NonColumbiaUserProfileForm(ModelForm):
-    class Meta:
-        model = UserProfile
-        fields = ['gender',
-                  'is_faculty',
-                  'institute',
-                  'specialty',
-                  'year_of_graduation']
-
 
 class CreateAccountForm(RegistrationForm):
     '''This is a form class that will be used
@@ -155,7 +137,7 @@ class CreateAccountForm(RegistrationForm):
         max_length=25, widget=forms.PasswordInput, required=True,
         label="Confirm Password")
     email = forms.EmailField()
-    consent = forms.BooleanField(required=True)
+    user_profile = forms.BooleanField(required=True)
 
 
 class FlashVideoBlock(models.Model):
