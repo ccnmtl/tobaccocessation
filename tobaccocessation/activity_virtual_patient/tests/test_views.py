@@ -21,7 +21,11 @@ class TestViews(TestCase):
         self.u = User.objects.create(username="testuser")
         self.u.set_password("test")
         self.u.save()
+<<<<<<< HEAD
         UserProfile.objects.create(user=self.u)
+=======
+        UserProfile.objects.create(user=self.u, last_location="/", visited="")
+>>>>>>> 347d869a6d5e317cf3738aede9d81632abe4d886
         self.c = Client()
         self.c.login(username="testuser", password="test")
 

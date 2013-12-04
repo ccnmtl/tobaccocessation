@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
@@ -6,6 +7,7 @@ from django.template import RequestContext
 from django.utils import simplejson
 from pagetree.helpers import get_section_from_path, get_module
 from pagetree.models import Section
+from registration.forms import RegistrationForm
 from tobaccocessation.activity_prescription_writing.models import \
     ActivityState as PrescriptionWritingActivityState
 from tobaccocessation.activity_treatment_choice.models import \
@@ -16,6 +18,8 @@ from tobaccocessation.main.models import QuickFixProfileForm, UserProfile
 
 
 UNLOCKED = ['resources']  # special cases
+
+
 
 
 class rendered_with(object):
