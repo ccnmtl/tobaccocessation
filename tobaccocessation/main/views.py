@@ -15,7 +15,8 @@ from tobaccocessation.activity_treatment_choice.models import \
 from tobaccocessation.activity_virtual_patient.models import \
     ActivityState as VirtualPatientActivityState
 from tobaccocessation.main.models import QuickFixProfileForm, UserProfile
-
+from registration.signals import user_registered
+import django.dispatch
 
 UNLOCKED = ['resources']  # special cases
 
@@ -163,6 +164,39 @@ def _response(request, section, path):
                     leftnav=leftnav)
 
 
+"""Start of Horribly Wrong UserProfile Signals Attempt"""
+"""Should sender be a signal object? do these arguments stay kwargs and sender?"""
+
+def registration_reciever(user_registered, institute, is_faculty, year_of_graduation, specialty, gender, hispanic_latino, race, age, user_id):
+    """something here"""
+    UserProfile = User.objects.get(pk=user_id)
+    user_profile.institute = institute
+    user_profile.consent = True
+    user_profile.is_faculty = is_faculty
+    user_profile.year_of_graduation = year_of_graduation
+    user_profile.specialty = specialty
+    user_profile.gender = gender
+    user_profile.hispanic_latino = hispanic_latino
+    user_profile.race = race
+    user_profile.age = age
+    user_profile.save()
+
+
+"""Not clear to me if this needs to be in a class and if so - where?
+UserProfile? UserRegistration? does it even need to be done if it
+is using a signal from the Registration Application?"""
+#def signal_sender():
+
+"""attempting to mannually connect reciever function to signal sender"""
+user_registered.connect(registration_reciever)
+
+
+"""Define args for new UserProfile - not sure if if lives here...."""
+user_registered = django.dispatch.Signal(providing_args=["institute","is_faculty","year_of_graduation","specialty","gender","hispanic_latino","race","age","user_id"])
+
+"""End of Feeble UserProfile Signal Attempt"""
+
+"""We actually dont need two views - can just return a registration form for non Columbia ppl and a QuickFixProfileForm for the Columbia ppl"""
 def create_profile(request):
     profiles = UserProfile.objects.filter(user=request.user)
     columbia_student = False
@@ -180,7 +214,10 @@ def create_profile(request):
             user_profile.institute = form.data['institute']
         elif columbia_student == True:
             user_profile.institute = 'I1'
-        user_profile.consent = form.data['is_faculty']
+        user_profile.consent = True
+        """I think we are assuming if they could fill out
+        the form that they indeed consented?"""
+        #form.data['consent']
         user_profile.is_faculty = form.data['is_faculty']
         user_profile.year_of_graduation = form.data['year_of_graduation']
         user_profile.specialty = form.data['specialty']
