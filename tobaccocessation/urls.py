@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 from django.conf import settings
->>>>>>> 347d869a6d5e317cf3738aede9d81632abe4d886
 from django.conf.urls import include, patterns, url
 from django.contrib import admin
 from django.conf import settings
