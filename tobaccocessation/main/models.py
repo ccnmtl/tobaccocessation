@@ -8,6 +8,8 @@ from registration.forms import RegistrationForm
 from tobaccocessation.main.choices import GENDER_CHOICES, FACULTY_CHOICES, \
     INSTITUTION_CHOICES, SPECIALTY_CHOICES, RACE_CHOICES, AGE_CHOICES, \
     HISPANIC_LATINO
+#import strings # is this really necessary?
+# http://dmitko.ru/django-registration-form-custom-field/
 
 
 class UserVisit(models.Model):
@@ -106,8 +108,6 @@ class UserProfile(models.Model):
 
 class QuickFixProfileForm(forms.Form):
     consent = forms.BooleanField(required=True)
-    first_name = forms.CharField(max_length=50)
-    last_name = forms.CharField(max_length=50)
     is_faculty = forms.ChoiceField(choices=FACULTY_CHOICES)
     institute = forms.ChoiceField(choices=INSTITUTION_CHOICES)
     gender = forms.ChoiceField(initial="-----", choices=GENDER_CHOICES)
@@ -137,7 +137,17 @@ class CreateAccountForm(RegistrationForm):
         max_length=25, widget=forms.PasswordInput, required=True,
         label="Confirm Password")
     email = forms.EmailField()
-    user_profile = forms.BooleanField(required=True)
+    consent = forms.BooleanField(required=True)
+    is_faculty = forms.ChoiceField(choices=FACULTY_CHOICES)
+    institute = forms.ChoiceField(choices=INSTITUTION_CHOICES)
+    gender = forms.ChoiceField(initial="-----", choices=GENDER_CHOICES)
+    year_of_graduation = forms.IntegerField(
+        min_value=1900, max_value=3000,
+        label="What year did you graduate?")
+    race = forms.ChoiceField(choices=RACE_CHOICES)
+    hispanic_latino = forms.ChoiceField(choices=HISPANIC_LATINO)
+    age = forms.ChoiceField(choices=AGE_CHOICES)
+    specialty = forms.ChoiceField(choices=SPECIALTY_CHOICES)
 
 
 class FlashVideoBlock(models.Model):

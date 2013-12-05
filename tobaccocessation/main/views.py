@@ -44,6 +44,11 @@ class rendered_with(object):
 @login_required
 @rendered_with('main/index.html')
 def index(request):
+    """Need to determine here whether to redirect
+    to profile creation or registraion and profile creation"""
+    #     columbia_student = False
+    # if len(request.user.groups.filter(name='ALL_CU')) > 0:
+    #     columbia_student = True
     profiles = UserProfile.objects.filter(user=request.user)
     if len(profiles) > 0 and profiles[0].has_consented():
         return {'user': request.user,
@@ -164,60 +169,40 @@ def _response(request, section, path):
                     leftnav=leftnav)
 
 
-"""Start of Horribly Wrong UserProfile Signals Attempt"""
-"""Should sender be a signal object? do these arguments stay kwargs and sender?"""
-
-def registration_reciever(user_registered, **kwargs):#institute, is_faculty, year_of_graduation, specialty, gender, hispanic_latino, race, age, user_id):
-    """something here"""
-    UserProfile = User.objects.get(pk=user_id)
-    user_profile.institute = institute
-    user_profile.consent = True
-    user_profile.is_faculty = is_faculty
-    user_profile.year_of_graduation = year_of_graduation
-    user_profile.specialty = specialty
-    user_profile.gender = gender
-    user_profile.hispanic_latino = hispanic_latino
-    user_profile.race = race
-    user_profile.age = age
-    user_profile.save()
 
 
-"""Not clear to me if this needs to be in a class and if so - where?
-UserProfile? UserRegistration? does it even need to be done if it
-is using a signal from the Registration Application?"""
-#def signal_sender():
+def user_created(sender, user, request, **kwargs):
+    form = CreateAccountForm(request.POST)
+    data = UserProfile(user=user) #line in tutorial is data = profile.Profile(user=user)
+    data.institute = form.data['institute']
+    data.consent = True
+    data.is_faculty = form.data['is_faculty']
+    data.year_of_graduation = form.data['year_of_graduation']
+    data.specialty = form.data['specialty']
+    data.gender = form.data['gender']
+    data.hispanic_latino = form.data['hispanic_latino']
+    data.race = form.data['race']
+    data.age = form.data['age']
+    data.save()
 
-"""attempting to mannually connect reciever function to signal sender"""
-user_registered.connect(registration_reciever)
+
+from registration.signals import user_registered
+user_registered.connect(user_created)
 
 
-"""Define args for new UserProfile - not sure if if lives here...."""
-user_registered = django.dispatch.Signal(providing_args=["institute","is_faculty","year_of_graduation","specialty","gender","hispanic_latino","race","age","user_id"])
 
-"""End of Feeble UserProfile Signal Attempt"""
-
-"""We actually dont need two views - can just return a registration form for non Columbia ppl and a QuickFixProfileForm for the Columbia ppl"""
+"""We actually dont need two views - can just return
+a registration form for non Columbia ppl and a
+QuickFixProfileForm for the Columbia ppl"""
 def create_profile(request):
     profiles = UserProfile.objects.filter(user=request.user)
-    columbia_student = False
-    if len(request.user.groups.filter(name='ALL_CU')) > 0:
-        columbia_student = True
     user_profile = UserProfile(user=request.user)
     if request.method == 'POST':
         form = QuickFixProfileForm(request.POST)
-        if columbia_student == False:
-            userprofile.user.username = form.data['username']
-            userprofile.user.email = form.data['email']
-            userprofile.user.first_name = form.data['first_name']
-            userprofile.user.last_name = form.data['last_name']
-            userprofile.user.save()
-            user_profile.institute = form.data['institute']
-        elif columbia_student == True:
-            user_profile.institute = 'I1'
+        user_profile.institute = 'I1'
         user_profile.consent = True
         """I think we are assuming if they could fill out
         the form that they indeed consented?"""
-        #form.data['consent']
         user_profile.is_faculty = form.data['is_faculty']
         user_profile.year_of_graduation = form.data['year_of_graduation']
         user_profile.specialty = form.data['specialty']
@@ -231,43 +216,10 @@ def create_profile(request):
         form = QuickFixProfileForm()
 
     return render(request, 'main/create_profile.html', {
-        'form': form, 'columbia_student': columbia_student
+        'form': form
     })
 
 
-def update_profile(request):
-    profiles = UserProfile.objects.filter(user=request.user)
-    columbia_student = False
-    if len(request.user.groups.filter(name='ALL_CU')) > 0:
-        columbia_student = True
-    user_profile = UserProfile(user=request.user)
-    if request.method == 'POST':
-        form = QuickFixProfileForm(request.POST)
-        if columbia_student==False:
-            userprofile.user.username = form.data['username']
-            userprofile.user.email = form.data['email']
-            userprofile.user.first_name = form.data['first_name']
-            userprofile.user.last_name = form.data['last_name']
-            userprofile.user.save()
-            user_profile.institute = form.data['institute']
-        elif columbia_student==True:
-            # institution should have already been saved
-            user_profile.institute = 'I1'
-        user_profile.is_faculty = form.data['is_faculty']
-        user_profile.year_of_graduation = form.data['year_of_graduation']
-        user_profile.specialty = form.data['specialty']
-        user_profile.gender = form.data['gender']
-        user_profile.hispanic_latino = form.data['hispanic_latino']
-        user_profile.race = form.data['race']
-        user_profile.age = form.data['age']
-        user_profile.save()
-        return HttpResponseRedirect('/')
-    else:
-        form = QuickFixProfileForm()  # An unbound form
-
-    return render(request, 'main/create_profile.html', {
-        'form': form, 'columbia_student': columbia_student
-    })
 
 
 def accessible(section, user):

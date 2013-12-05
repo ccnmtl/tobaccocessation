@@ -9,7 +9,6 @@ from registration.backends.default.views import RegistrationView
 from tobaccocessation.main.models import CreateAccountForm
 
 
-
 site_media_root = os.path.join(os.path.dirname(__file__), "../media")
 
 login_page = (r'^accounts/', include('django.contrib.auth.urls'))
@@ -53,12 +52,6 @@ urlpatterns += patterns(
     (r'^smoketest/', include('smoketest.urls')),
     (r'^main/', include('tobaccocessation.main.urls')),
 
-
-
-
-    url(r'^update_profile/',
-        'tobaccocessation.main.views.update_profile',
-        name="create_profile"),
     url(r'^create_profile/',
         'tobaccocessation.main.views.create_profile',
         name="create_profile"),
