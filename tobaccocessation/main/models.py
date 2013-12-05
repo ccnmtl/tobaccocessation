@@ -150,6 +150,33 @@ class CreateAccountForm(RegistrationForm):
     specialty = forms.ChoiceField(choices=SPECIALTY_CHOICES)
 
 
+def user_created(sender, user, request, **kwargs):
+    print "inside user created"
+    form = CreateAccountForm(request.POST)
+    #user = 
+    data = UserProfile(user=user)#UserProfile(user=user) #line in tutorial is data = profile.Profile(user=user)
+    data.institute = form.data['institute']
+    print data.institute
+    data.consent = True
+    data.is_faculty = form.data['is_faculty']
+    print data.is_faculty
+    data.year_of_graduation = form.data['year_of_graduation']
+    data.specialty = form.data['specialty']
+    print data.specialty
+    data.gender = form.data['gender']
+    data.hispanic_latino = form.data['hispanic_latino']
+    print data.hispanic_latino
+    data.race = form.data['race']
+    data.age = form.data['age']
+    data.save()
+
+
+from registration.signals import user_registered
+user_registered.connect(user_created)
+
+
+
+
 class FlashVideoBlock(models.Model):
     pageblocks = generic.GenericRelation(PageBlock)
     file_url = models.CharField(max_length=512)

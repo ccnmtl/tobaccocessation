@@ -14,7 +14,7 @@ from tobaccocessation.activity_treatment_choice.models import \
     ActivityState as TreatmentChoiceActivityState
 from tobaccocessation.activity_virtual_patient.models import \
     ActivityState as VirtualPatientActivityState
-from tobaccocessation.main.models import QuickFixProfileForm, UserProfile
+from tobaccocessation.main.models import QuickFixProfileForm, UserProfile, CreateAccountForm
 from registration.signals import user_registered
 import django.dispatch
 
@@ -171,23 +171,7 @@ def _response(request, section, path):
 
 
 
-def user_created(sender, user, request, **kwargs):
-    form = CreateAccountForm(request.POST)
-    data = UserProfile(user=user) #line in tutorial is data = profile.Profile(user=user)
-    data.institute = form.data['institute']
-    data.consent = True
-    data.is_faculty = form.data['is_faculty']
-    data.year_of_graduation = form.data['year_of_graduation']
-    data.specialty = form.data['specialty']
-    data.gender = form.data['gender']
-    data.hispanic_latino = form.data['hispanic_latino']
-    data.race = form.data['race']
-    data.age = form.data['age']
-    data.save()
 
-
-from registration.signals import user_registered
-user_registered.connect(user_created)
 
 
 
