@@ -171,10 +171,6 @@ def _response(request, section, path):
 
 
 
-
-
-
-
 """We actually dont need two views - can just return
 a registration form for non Columbia ppl and a
 QuickFixProfileForm for the Columbia ppl"""
@@ -185,8 +181,6 @@ def create_profile(request):
         form = QuickFixProfileForm(request.POST)
         user_profile.institute = 'I1'
         user_profile.consent = True
-        """I think we are assuming if they could fill out
-        the form that they indeed consented?"""
         user_profile.is_faculty = form.data['is_faculty']
         user_profile.year_of_graduation = form.data['year_of_graduation']
         user_profile.specialty = form.data['specialty']

@@ -48,35 +48,8 @@ $( document ).ready(function()
 <form action="" method="post">{% csrf_token %}
     {{ form.non_field_errors }}
 <div id="consent_given" style="display: none">
-{% if not_columbia %}
 
-        <div class="fieldWrapper">
-          {{ form.first_name.errors }}
-          <label for="id_sender">First Name: </label>
-          {{ form.first_name }}
-        </div>
-        <br/>
 
-        <div class="fieldWrapper">
-          {{ form.last_name.errors }}Last Name: </label>
-          {{ form.last_name }}
-        </div>
-        <br/>
-
-        <div class="fieldWrapper">
-            {{ form.username.errors }}
-            <label for="id_sender">Desired Username: </label>
-            {{ form.username }}
-        </div>
-        <br/>
-
-        <div class="fieldWrapper">
-            {{ form.email.errors }}
-            <label for="id_sender">Email: </label>
-            {{ form.email }}
-        </div>
-
-{% endif %}
         <br/>
         <div class="fieldWrapper">
             {{ form.gender.errors }}
@@ -91,18 +64,7 @@ $( document ).ready(function()
             {{ form.is_faculty }}
         </div>
        
-
-{% if not_columbia %}
     <br/>
-    <div class="fieldWrapper">
-        {{ form.institute.errors }}
-        <label for="id_message">Institution Affiliation: </label>
-        {{ form.institute }}
-    </div>
-    <br>
-
-{% endif %}
-
     <div class="fieldWrapper">
         {{ form.specialty.errors }}
         <label for="id_sender">How would you describe your specialty?</label>
