@@ -70,15 +70,20 @@ $( document ).ready(function()
 
 });
 </script>
+<div id="consent_form">
+<img src="/site_media/random/imposter.jpg" alt="shame on you! this is imposter content!">
+</div>
+
+
     <div class="fieldWrapper">
         {{ form.consent.errors }}
-        <label for="id_sender">I have read and agree to the Consent Agreement </label>
+        <label>I have read and agree to the Consent Agreement </label>
         {{ form.consent }}
         <button type="button" id="consent_button">I Accept</button> 
     </div>
 
 
-
+    <div id="consent_given" style="display: none">
     <h2 class="pagetitle signuptitle">Sign up for an account</h2>
     
     <div class="p">Use the following form to create a new account to access Tobacco Cessation.</div>
@@ -88,7 +93,6 @@ $( document ).ready(function()
     If you already have a username or password, but have forgotten either,
         <a href="{% url "auth_password_reset" %}">reset them here</a>.
     </div>
-    <div id="consent_given" style="display: none">
     <div class="p"><i><span style="color: #c00; font-size: 20px;">*</span> Indicates required field</i></div>
     
     <form method="post" action="." class="register">

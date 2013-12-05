@@ -167,7 +167,7 @@ def _response(request, section, path):
 """Start of Horribly Wrong UserProfile Signals Attempt"""
 """Should sender be a signal object? do these arguments stay kwargs and sender?"""
 
-def registration_reciever(user_registered, institute, is_faculty, year_of_graduation, specialty, gender, hispanic_latino, race, age, user_id):
+def registration_reciever(user_registered, **kwargs):#institute, is_faculty, year_of_graduation, specialty, gender, hispanic_latino, race, age, user_id):
     """something here"""
     UserProfile = User.objects.get(pk=user_id)
     user_profile.institute = institute
