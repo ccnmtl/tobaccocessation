@@ -12,6 +12,7 @@ class UserProfileTest(TestCase):
                                              'test@ccnmtl.com',
                                              'testpassword')
         UserProfile.objects.get_or_create(user=self.user)[0]
+
         self.hierarchy = Hierarchy(name="main", base_url="/")
         self.hierarchy.save()
 
@@ -78,6 +79,13 @@ class UserProfileTest(TestCase):
         self.assertEquals(66, profile.percent_complete())
         profile.set_has_visited([self.section2])
         self.assertEquals(100, profile.percent_complete())
+
+    def test_percent_complete_null_hierarchy(self):
+        user = User.objects.get(username='test_student')
+        profile = UserProfile.objects.get(user=user)
+        profile.speciality = "pediatrics"
+
+        self.assertEquals(0, profile.percent_complete())
 
     def test_is_student(self):
         user = User.objects.get(username='test_student')

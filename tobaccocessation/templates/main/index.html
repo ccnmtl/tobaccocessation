@@ -15,9 +15,18 @@
 {% block pagetitle %}Landing Page{% endblock %}
                     
 {% block content %}
-<div>Role: {{profile.role}}</div>
-<div>Percent Complete: {{profile.percent_complete}}%</div>
-{% with profile.last_location as section %}
-<div>Last Location: <a href="pages{{section.get_absolute_url}}">{{section.label}}</a></div>
-{% endwith %} 
+    <div>Hierarchy: {{profile.role}}</div>
+    
+    {% ifequal profile.role "pediatrics" %}
+        @todo Pediatric Static Content 
+    {% else %}{% ifequal profile.role "orthodontics" %}
+        @todo Orthodontics Static Content
+    {% else %}{% ifequal profile.role "endodontics" %}
+        @todo Endodontics Static Content
+    {% else %}
+        <div>Percent Complete: {{profile.percent_complete}}%</div>
+        {% with profile.last_location as section %}
+        <div>Last Location: <a href="pages{{section.get_absolute_url}}">{{section.label}}</a></div>
+        {% endwith %} 
+    {% endifequal %}{% endifequal %}{% endifequal %}    
 {% endblock %}

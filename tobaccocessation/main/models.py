@@ -102,7 +102,10 @@ class UserProfile(models.Model):
         hierarchy = Hierarchy.get_hierarchy(self.role())
         profile = UserProfile.objects.get(user=self.user)
         sections = Section.objects.filter(hierarchy=hierarchy)
-        return int(len(profile.visits.all()) / float(len(sections)) * 100)
+        if len(sections) > 0:
+            return int(len(profile.visits.all()) / float(len(sections)) * 100)
+        else:
+            return 0
 
 
 class QuickFixProfileForm(forms.Form):
