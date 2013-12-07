@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.conf.urls import include, patterns, url
 from django.contrib import admin
-from django.conf import settings
 from django.views.generic import TemplateView
 import os.path
 admin.autodiscover()
@@ -44,7 +43,7 @@ urlpatterns += patterns(
      'django.contrib.auth.views.logout',
      {'next_page': redirect_after_logout}),
     login_page,  # see above
-    
+
     url(r'^accounts/register/$', RegistrationView.as_view(
         form_class=CreateAccountForm),
         name='registration_register'),
@@ -77,22 +76,27 @@ urlpatterns += patterns(
     # completely override pagetree for virtual patient. it's
     # too much to fit it into the structure
     # default to next view
-    url(r'^assist/activity-virtual-patient/$',
-        'tobaccocessation.activity_virtual_patient.views.root', name='root'),
-    url(r'^assist/activity-virtual-patient/options/(?P<patient_id>\d+)/$',
+    url(r'^pages/(?P<hierarchy>\w+)/assist/activity-virtual-patient/$',
+        'tobaccocessation.activity_virtual_patient.views.root',
+        name='root'),
+    url(r'^pages/(?P<hierarchy>\w+)/assist/'
+        'activity-virtual-patient/options/(?P<patient_id>\d+)/$',
         'tobaccocessation.activity_virtual_patient.views.options',
         name='options'),
-    url(r'^assist/activity-virtual-patient/selection/(?P<patient_id>\d+)/$',
+    url(r'^pages/(?P<hierarchy>\w+)/assist/'
+        'activity-virtual-patient/selection/(?P<patient_id>\d+)/$',
         'tobaccocessation.activity_virtual_patient.views.selection',
         name='selection'),  # get 404
-    url(r'^assist/activity-virtual-patient/prescription/(?P<patient_id>\d+)/$',
+    url(r'^pages/(?P<hierarchy>\w+)/assist/'
+        'activity-virtual-patient/prescription/(?P<patient_id>\d+)/$',
         'tobaccocessation.activity_virtual_patient.views.prescription',
         name='prescription'),
-    url(r'^assist/activity-virtual-patient/prescription/'
-        '(?P<patient_id>\d+)/(?P<medication_idx>\d+)/$',
+    url(r'^pages/(?P<hierarchy>\w+)/assist/activity-virtual-patient/'
+        'prescription/(?P<patient_id>\d+)/(?P<medication_idx>\d+)/$',
         'tobaccocessation.activity_virtual_patient.views.prescription',
         name='next_prescription'),
-    url(r'^assist/activity-virtual-patient/results/(?P<patient_id>\d+)/$',
+    url(r'^pages/(?P<hierarchy>\w+)/assist/'
+        'activity-virtual-patient/results/(?P<patient_id>\d+)/$',
         'tobaccocessation.activity_virtual_patient.views.results',
         name='results'),
 

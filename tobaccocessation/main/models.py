@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.db import models
-from django.forms import ModelForm
 from pagetree.models import PageBlock, Section, Hierarchy
 from registration.forms import RegistrationForm
 from tobaccocessation.main.choices import GENDER_CHOICES, FACULTY_CHOICES, \
@@ -120,7 +119,6 @@ class QuickFixProfileForm(forms.Form):
     specialty = forms.ChoiceField(choices=SPECIALTY_CHOICES)
 
 
-
 class CreateAccountForm(RegistrationForm):
     '''This is a form class that will be used
     to allow guest users to create guest accounts.'''
@@ -153,8 +151,10 @@ class CreateAccountForm(RegistrationForm):
 def user_created(sender, user, request, **kwargs):
     print "inside user created"
     form = CreateAccountForm(request.POST)
-    #user = 
-    data = UserProfile(user=user)#UserProfile(user=user) #line in tutorial is data = profile.Profile(user=user)
+
+    # line in tutorial is data = profile.Profile(user=user)
+    data = UserProfile(user=user)
+
     data.institute = form.data['institute']
     print data.institute
     data.consent = True
@@ -173,8 +173,6 @@ def user_created(sender, user, request, **kwargs):
 
 from registration.signals import user_registered
 user_registered.connect(user_created)
-
-
 
 
 class FlashVideoBlock(models.Model):

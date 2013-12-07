@@ -2,10 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from pagetree.models import Hierarchy, Section
 from tobaccocessation.main.models import UserProfile, FlashVideoBlock
-<<<<<<< HEAD
 import time
-=======
->>>>>>> 347d869a6d5e317cf3738aede9d81632abe4d886
 
 
 class UserProfileTest(TestCase):
@@ -71,7 +68,6 @@ class UserProfileTest(TestCase):
         display_name = UserProfile.display_name(profile)
         self.assertEqual(display_name, 'test_student')
 
-<<<<<<< HEAD
     def test_percent_complete(self):
         user = User.objects.get(username='test_student')
         profile = UserProfile.objects.get(user=user)
@@ -156,8 +152,6 @@ class UserProfileTest(TestCase):
 
 
 class FlashVideoBlockTest(TestCase):
-=======
->>>>>>> 347d869a6d5e317cf3738aede9d81632abe4d886
     def test_edit_flash_form(self):
         self.flash = FlashVideoBlock(width=4, height=3)
         self.flash.save()

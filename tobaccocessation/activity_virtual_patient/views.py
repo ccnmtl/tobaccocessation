@@ -13,9 +13,10 @@ from tobaccocessation.activity_virtual_patient.models import DosageChoice, \
 
 
 @login_required
-def root(request):
+def root(request, hierarchy):
     first_patient = Patient.objects.get(display_order=1)
-    url = '/assist/activity-virtual-patient/options/%s/' % (first_patient.id)
+    url = ('/pages/%s/assist/activity-virtual-patient/options/%s/' %
+           (hierarchy, first_patient.id))
 
     return HttpResponseRedirect(url)
 
@@ -31,7 +32,8 @@ def save(request, patient_id):
 def navigate(request, page_id, patient_id):
     user_state = _save_user_state(request, patient_id)
 
-    next_url = _get_next_page(page_id, patient_id, user_state)
+    next_url = _get_next_page(request.user.get_profile().role(),
+                              page_id, patient_id, user_state)
 
     doc = {}
     doc['redirect'] = next_url
@@ -40,17 +42,20 @@ def navigate(request, page_id, patient_id):
 
 @login_required
 def reset(request, patient_id):
+    hierarchy = request.user.get_profile().role()
     user_state = _get_user_state(request)
     user_state['patients'][patient_id] = {}
     user_state['patients'][patient_id][
         'available_treatments'] = _get_available_treatments(True)
     _save(request, user_state)
 
-    return HttpResponseRedirect(reverse('options', args=[patient_id]))
+    return HttpResponseRedirect(
+        reverse('options', args=[hierarchy, patient_id]))
 
 
 @login_required
-def options(request, patient_id):
+def options(request, hierarchy, patient_id):
+    hierarchy = request.user.get_profile().role()
     user_state = _get_user_state(request)
     ctx = get_base_context(request, 'options', user_state, patient_id)
 
@@ -64,7 +69,10 @@ def options(request, patient_id):
             'available_treatments'] = _get_available_treatments(True)
         _save(request, user_state)
 
-    ctx['previous_url'] = _get_previous_page('options', patient_id, user_state)
+    ctx['previous_url'] = _get_previous_page(hierarchy,
+                                             'options',
+                                             patient_id,
+                                             user_state)
     ctx['patient_state'] = user_state['patients'][patient_id]
     ctx['navigate'] = True
     ctx['page_number'] = '1'
@@ -74,7 +82,8 @@ def options(request, patient_id):
 
 
 @login_required
-def selection(request, patient_id):
+def selection(request, hierarchy, patient_id):
+    hierarchy = request.user.get_profile().role()
     user_state = _get_user_state(request)
     ctx = get_base_context(request, 'selection', user_state, patient_id)
     request.user.get_profile().set_has_visited([ctx['section']])
@@ -90,7 +99,7 @@ def selection(request, patient_id):
         _save(request, user_state)
 
     ctx['previous_url'] = _get_previous_page(
-        'selection', patient_id, user_state)
+        hierarchy, 'selection', patient_id, user_state)
     ctx['medications'] = _get_available_treatments(False)
     ctx['patient_state'] = user_state['patients'][patient_id]
     ctx['navigate'] = True
@@ -106,7 +115,8 @@ def selection(request, patient_id):
 
 
 @login_required
-def prescription(request, patient_id, medication_idx='0'):
+def prescription(request, hierarchy, patient_id, medication_idx='0'):
+    hierarchy = request.user.get_profile().role()
     user_state = _get_user_state(request)
     ctx = get_base_context(request, 'prescription', user_state, patient_id)
 
@@ -115,7 +125,7 @@ def prescription(request, patient_id, medication_idx='0'):
     idx = int(medication_idx)
 
     previous_url = _get_previous_page(
-        'prescription', patient_id, user_state, idx)
+        hierarchy, 'prescription', patient_id, user_state, idx)
 
     if (_is_combination(user_state, patient_id)):
         tag = user_state['patients'][patient_id]['combination'][idx]
@@ -164,7 +174,8 @@ def prescription(request, patient_id, medication_idx='0'):
 
 
 @login_required
-def results(request, patient_id):
+def results(request, hierarchy, patient_id):
+    hierarchy = request.user.get_profile().role()
     user_state = _get_user_state(request)
     ctx = get_base_context(request, 'results', user_state, patient_id)
     request.user.get_profile().set_has_visited([ctx['section']])
@@ -235,8 +246,10 @@ def results(request, patient_id):
                                                 classification__rank=3)
     ctx['harmful_treatment_options'] = TreatmentOptionReasoning.objects.filter(
         patient__id=patient_id, classification__rank=4)
-    ctx['previous_url'] = _get_previous_page('results', patient_id, user_state)
-    ctx['next_url'] = _get_next_page('results', patient_id, user_state)
+    ctx['previous_url'] = _get_previous_page(hierarchy, 'results',
+                                             patient_id, user_state)
+    ctx['next_url'] = _get_next_page(hierarchy, 'results',
+                                     patient_id, user_state)
     ctx['prescription'] = "Prescription Summary Here"
     ctx['page_number'] = 4
 
@@ -300,44 +313,51 @@ def _is_combination(user_state, patient_id):
 ##########################################################################
 
 
-def _get_next_page(page_id, patient_id, user_state):
+def _get_next_page(hierarchy, page_id, patient_id, user_state):
     next_url = None
     if (page_id == "options"):
-        next_url = reverse('selection', args=[patient_id])
+        next_url = reverse('selection', args=[hierarchy, patient_id])
     elif (page_id == "selection"):
-        next_url = reverse('prescription', args=[patient_id])
+        next_url = reverse('prescription', args=[hierarchy, patient_id])
     elif (page_id == "prescription"):
         idx = int(user_state['patients'][patient_id]['medication_idx'])
         if (_is_combination(user_state, patient_id) and idx == 0):
-            next_url = reverse('next_prescription', args=[patient_id, '1'])
+            next_url = reverse('next_prescription',
+                               args=[hierarchy, patient_id, '1'])
         else:
-            next_url = reverse('results', args=[patient_id])
+            next_url = reverse('results', args=[hierarchy, patient_id])
     elif (page_id == 'results'):
         next_patient = _get_next_patient(patient_id)
         if (next_patient):
-            next_url = reverse('options', args=[next_patient.id])
+            next_url = reverse('options', args=[hierarchy, next_patient.id])
 
     return next_url
 
 
-def _get_previous_page(page_id, patient_id, user_state, idx=-1):
+def _get_previous_page(hierarchy, page_id, patient_id, user_state, idx=-1):
     previous_url = None
     if (page_id == 'options'):
         prev_patient = _get_previous_patient(patient_id)
         if (prev_patient):
-            previous_url = reverse('results', args=[prev_patient.id])
+            previous_url = reverse('results',
+                                   args=[hierarchy, prev_patient.id])
     elif (page_id == 'selection'):
-        previous_url = reverse('options', args=[patient_id])
+        previous_url = reverse('options',
+                               args=[hierarchy, patient_id])
     elif (page_id == 'prescription'):
         if (idx == 0):
-            previous_url = reverse('selection', args=[patient_id])
+            previous_url = reverse('selection',
+                                   args=[hierarchy, patient_id])
         else:
-            previous_url = reverse('next_prescription', args=[patient_id, '0'])
+            previous_url = reverse('next_prescription',
+                                   args=[hierarchy, patient_id, '0'])
     elif (page_id == 'results'):
         if (_is_combination(user_state, patient_id)):
-            previous_url = reverse('next_prescription', args=[patient_id, '1'])
+            previous_url = reverse('next_prescription',
+                                   args=[hierarchy, patient_id, '1'])
         else:
-            previous_url = reverse('next_prescription', args=[patient_id, '0'])
+            previous_url = reverse('next_prescription',
+                                   args=[hierarchy, patient_id, '0'])
 
     return previous_url
 

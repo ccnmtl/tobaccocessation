@@ -1,4 +1,3 @@
-from django import forms
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
@@ -7,20 +6,15 @@ from django.template import RequestContext
 from django.utils import simplejson
 from pagetree.helpers import get_section_from_path, get_module
 from pagetree.models import Section
-from registration.forms import RegistrationForm
 from tobaccocessation.activity_prescription_writing.models import \
     ActivityState as PrescriptionWritingActivityState
 from tobaccocessation.activity_treatment_choice.models import \
     ActivityState as TreatmentChoiceActivityState
 from tobaccocessation.activity_virtual_patient.models import \
     ActivityState as VirtualPatientActivityState
-from tobaccocessation.main.models import QuickFixProfileForm, UserProfile, CreateAccountForm
-from registration.signals import user_registered
-import django.dispatch
+from tobaccocessation.main.models import QuickFixProfileForm, UserProfile
 
 UNLOCKED = ['resources']  # special cases
-
-
 
 
 class rendered_with(object):
@@ -169,13 +163,10 @@ def _response(request, section, path):
                     leftnav=leftnav)
 
 
-
-
-"""We actually dont need two views - can just return
-a registration form for non Columbia ppl and a
-QuickFixProfileForm for the Columbia ppl"""
 def create_profile(request):
-    profiles = UserProfile.objects.filter(user=request.user)
+    """We actually dont need two views - can just return
+    a registration form for non Columbia ppl and a
+    QuickFixProfileForm for the Columbia ppl"""
     user_profile = UserProfile(user=request.user)
     if request.method == 'POST':
         form = QuickFixProfileForm(request.POST)
@@ -196,8 +187,6 @@ def create_profile(request):
     return render(request, 'main/create_profile.html', {
         'form': form
     })
-
-
 
 
 def accessible(section, user):
@@ -293,6 +282,3 @@ def _unlocked(section, user, previous, profile):
         return False
 
     return profile.get_has_visited(previous)
-
-
-

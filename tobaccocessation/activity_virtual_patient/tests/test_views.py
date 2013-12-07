@@ -21,11 +21,7 @@ class TestViews(TestCase):
         self.u = User.objects.create(username="testuser")
         self.u.set_password("test")
         self.u.save()
-<<<<<<< HEAD
         UserProfile.objects.create(user=self.u)
-=======
-        UserProfile.objects.create(user=self.u, last_location="/", visited="")
->>>>>>> 347d869a6d5e317cf3738aede9d81632abe4d886
         self.c = Client()
         self.c.login(username="testuser", password="test")
 
@@ -35,7 +31,7 @@ class TestViews(TestCase):
             description="bar",
             history="history",
             display_order=1)
-        r = self.c.get("/assist/activity-virtual-patient/")
+        r = self.c.get("/pages/main/assist/activity-virtual-patient/")
         self.assertEqual(r.status_code, 302)
 
     def test_save(self):
@@ -96,7 +92,7 @@ class TestViews(TestCase):
             }
         )
         r = self.c.get(
-            "/assist/activity-virtual-patient/options/%d/" % p.id)
+            "/pages/main/assist/activity-virtual-patient/options/%d/" % p.id)
         self.assertEqual(r.status_code, 200)
 
     def test_selection(self):
@@ -122,7 +118,7 @@ class TestViews(TestCase):
         d = dict(patients={str(p.id): dict(results=[3, 4, 5])})
         ActivityState.objects.create(user=self.u, json=json.dumps(d))
         r = self.c.get(
-            "/assist/activity-virtual-patient/selection/%d/" % p.id)
+            "/pages/main/assist/activity-virtual-patient/selection/%d/" % p.id)
         self.assertEqual(r.status_code, 200)
 
     def test_prescription(self):
@@ -149,7 +145,8 @@ class TestViews(TestCase):
                                            prescribe='foo')})
         ActivityState.objects.create(user=self.u, json=json.dumps(d))
         r = self.c.get(
-            "/assist/activity-virtual-patient/prescription/%d/" % p.id)
+            "/pages/main/assist/activity-virtual-patient/prescription/%d/" %
+            p.id)
         self.assertEqual(r.status_code, 200)
 
     def test_results(self):
@@ -198,5 +195,5 @@ class TestViews(TestCase):
             correct_dosage=True)
         ActivityState.objects.create(user=self.u, json=json.dumps(d))
         r = self.c.get(
-            "/assist/activity-virtual-patient/results/%d/" % p.id)
+            "/pages/main/assist/activity-virtual-patient/results/%d/" % p.id)
         self.assertEqual(r.status_code, 200)
