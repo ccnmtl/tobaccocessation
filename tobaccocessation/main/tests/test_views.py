@@ -1,9 +1,10 @@
-from django.test.client import Client
-from tobaccocessation.activity_treatment_choice.views import loadstate, \
-    savestate
 from django.contrib.auth.models import User
 from django.test import TestCase, RequestFactory
+from django.test.client import Client
 from pagetree.models import Hierarchy, Section
+from tobaccocessation.activity_treatment_choice.views import loadstate, \
+    savestate
+from tobaccocessation.main.models import UserProfile
 
 
 class TestSimpleViews(TestCase):
@@ -85,3 +86,38 @@ class TestSimpleViews(TestCase):
 
     def test_clear_state(self):
         pass
+
+    def test_consent_no_profile(self):
+        self.c = Client()
+        self.c.login(username='test_student', password='testpassword')
+        self.response = self.c.get('/', follow=True)
+        self.assertEqual(self.response.status_code, 200)
+        self.assertEquals(self.response.redirect_chain[0][1], 302)
+        self.assertEquals(self.response.templates[0].name,
+                          "main/create_profile.html")
+
+    def test_consent_incomplete_profile(self):
+        # User has a profile, but does not have "consent" or other
+        # special fields filled out. Redirect to create profile
+        UserProfile.objects.get_or_create(user=self.user)[0]
+
+        self.c = Client()
+        self.c.login(username='test_student', password='testpassword')
+        self.response = self.c.get('/', follow=True)
+        self.assertEqual(self.response.status_code, 200)
+        self.assertEquals(self.response.templates[0].name,
+                          "main/create_profile.html")
+        self.assertEquals(self.response.redirect_chain[0][1], 302)
+
+    def test_consent_complete_profile(self):
+        # User has a profile, but does not have "consent" or other
+        # special fields filled out. Redirect to create profile
+        UserProfile.objects.get_or_create(user=self.user)[0]
+
+        self.c = Client()
+        self.c.login(username='test_student', password='testpassword')
+        self.response = self.c.get('/', follow=True)
+        self.assertEqual(self.response.status_code, 200)
+        self.assertEquals(self.response.templates[0].name,
+                          "main/index.html")
+        self.assertEquals(len(self.response.redirect_chain), 0)

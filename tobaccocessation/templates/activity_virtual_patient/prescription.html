@@ -12,7 +12,7 @@
     
      <a class="reset_button" href="{% url 'reset' patient.id %}" onclick="clearState(); return false;">Reset&nbsp;Exercise</a>
     <h2>Virtual Patient {{ patient.display_order }}: Prescribe Treatment(s)</h2>
-   <h5>Step 3: Write a prescription for this patient.</h5> 
+   <h5>Step 3: Write a prescription for this patient by selecting the correct dosage and concentration for this medication.</h5> 
     <input type="hidden" id="medication_idx" value="{{ medication_idx }}"></input>
     <input type="hidden" id="medication_tag" value="{{ medication.0.tag }}"></input>
     <input type="hidden" id="patient_id" name="patient_id" value="{{patient.id}}"></input>
@@ -35,6 +35,7 @@
              <div id="fields_container">
                 <div id="med_name">{{ medication.0.name }}, &nbsp; </div>
                 <select id="concentration">
+                      <option value="-----">-----</option>
 			          {% for cc in medication.0.concentrationchoice_set.all|dictsort:"display_order"  %}
 			            {% ifequal cc.id concentration_idx %}
 			             <option selected="selected" value="{{cc.id}}">{{cc.concentration}}</option>
@@ -46,6 +47,7 @@
                <br />
       
 			      <select id="dosage">
+                      <option value="-----">-----</option>
 			          {% for dc in medication.0.dosagechoice_set.all|dictsort:"display_order"  %}
 			             {% ifequal dc.id dosage_idx %}
 			               <option selected="selected" value="{{dc.id}}">{{dc.dosage}}</option>

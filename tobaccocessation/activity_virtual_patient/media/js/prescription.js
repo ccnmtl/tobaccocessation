@@ -20,14 +20,31 @@ function get_state()
    return jsontxt;
 }
 
-function validate()
-{
-   getElement('next').style.display = "block"; 
-   return true;
+function validate() {
+    var valid = true;
+    var children = jQuery("div#content").find("select");
+    jQuery.each(children, function() {
+        if (valid && jQuery(this).is(":visible")) {
+            if (this.tagName === 'SELECT') {
+                var value = jQuery(this).val();
+                valid = value !== undefined && value.length > 0 &&
+                    jQuery(this).val().trim() !== '-----';
+            }
+        }
+    });
+    
+    if (!valid) {
+        getElement('next_disabled').style.display = "block";
+        getElement('next').style.display = "none";
+        return false;
+    } else {
+        getElement('next_disabled').style.display = "none";
+        getElement('next').style.display = "block";
+    }
+    return true;
 }
 
-function setupGender()
-{
+function setupGender() {
    debug('setupGender: ' + $('patient_id').value);
    if ($('patient_id').value == 4)
    {
@@ -39,6 +56,9 @@ function setupGender()
          setStyle($('gender2'), {'margin-left': '288px'});
       }
    }
+   
+   MochiKit.Signal.connect('concentration', "onchange", validate);
+   MochiKit.Signal.connect('dosage', "onchange", validate);
    
    validate();
 }

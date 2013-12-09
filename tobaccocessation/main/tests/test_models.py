@@ -2,10 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from pagetree.models import Hierarchy, Section
 from tobaccocessation.main.models import UserProfile, FlashVideoBlock
-<<<<<<< HEAD
 import time
-=======
->>>>>>> 347d869a6d5e317cf3738aede9d81632abe4d886
 
 
 class UserProfileTest(TestCase):
@@ -15,6 +12,7 @@ class UserProfileTest(TestCase):
                                              'test@ccnmtl.com',
                                              'testpassword')
         UserProfile.objects.get_or_create(user=self.user)[0]
+
         self.hierarchy = Hierarchy(name="main", base_url="/")
         self.hierarchy.save()
 
@@ -71,7 +69,6 @@ class UserProfileTest(TestCase):
         display_name = UserProfile.display_name(profile)
         self.assertEqual(display_name, 'test_student')
 
-<<<<<<< HEAD
     def test_percent_complete(self):
         user = User.objects.get(username='test_student')
         profile = UserProfile.objects.get(user=user)
@@ -82,6 +79,13 @@ class UserProfileTest(TestCase):
         self.assertEquals(66, profile.percent_complete())
         profile.set_has_visited([self.section2])
         self.assertEquals(100, profile.percent_complete())
+
+    def test_percent_complete_null_hierarchy(self):
+        user = User.objects.get(username='test_student')
+        profile = UserProfile.objects.get(user=user)
+        profile.speciality = "pediatrics"
+
+        self.assertEquals(0, profile.percent_complete())
 
     def test_is_student(self):
         user = User.objects.get(username='test_student')
@@ -156,8 +160,6 @@ class UserProfileTest(TestCase):
 
 
 class FlashVideoBlockTest(TestCase):
-=======
->>>>>>> 347d869a6d5e317cf3738aede9d81632abe4d886
     def test_edit_flash_form(self):
         self.flash = FlashVideoBlock(width=4, height=3)
         self.flash.save()

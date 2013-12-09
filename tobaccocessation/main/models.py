@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.db import models
-from django.forms import ModelForm
 from pagetree.models import PageBlock, Section, Hierarchy
 from registration.forms import RegistrationForm
 from tobaccocessation.main.choices import GENDER_CHOICES, FACULTY_CHOICES, \
@@ -103,7 +102,10 @@ class UserProfile(models.Model):
         hierarchy = Hierarchy.get_hierarchy(self.role())
         profile = UserProfile.objects.get(user=self.user)
         sections = Section.objects.filter(hierarchy=hierarchy)
-        return int(len(profile.visits.all()) / float(len(sections)) * 100)
+        if len(sections) > 0:
+            return int(len(profile.visits.all()) / float(len(sections)) * 100)
+        else:
+            return 0
 
 
 class QuickFixProfileForm(forms.Form):
@@ -118,7 +120,6 @@ class QuickFixProfileForm(forms.Form):
     hispanic_latino = forms.ChoiceField(choices=HISPANIC_LATINO)
     age = forms.ChoiceField(choices=AGE_CHOICES)
     specialty = forms.ChoiceField(choices=SPECIALTY_CHOICES)
-
 
 
 class CreateAccountForm(RegistrationForm):
@@ -153,8 +154,10 @@ class CreateAccountForm(RegistrationForm):
 def user_created(sender, user, request, **kwargs):
     print "inside user created"
     form = CreateAccountForm(request.POST)
-    #user = 
-    data = UserProfile(user=user)#UserProfile(user=user) #line in tutorial is data = profile.Profile(user=user)
+
+    # line in tutorial is data = profile.Profile(user=user)
+    data = UserProfile(user=user)
+
     data.institute = form.data['institute']
     print data.institute
     data.consent = True
@@ -173,8 +176,6 @@ def user_created(sender, user, request, **kwargs):
 
 from registration.signals import user_registered
 user_registered.connect(user_created)
-
-
 
 
 class FlashVideoBlock(models.Model):
