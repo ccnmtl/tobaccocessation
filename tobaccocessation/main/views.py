@@ -21,8 +21,6 @@ import django.dispatch
 UNLOCKED = ['resources']  # special cases
 
 
-
-
 class rendered_with(object):
     def __init__(self, template_name):
         self.template_name = template_name
