@@ -119,5 +119,9 @@ class TestSimpleViews(TestCase):
         self.response = self.c.get('/', follow=True)
         self.assertEqual(self.response.status_code, 200)
         self.assertEquals(self.response.templates[0].name,
-                          "main/index.html")
+                          "main/create_profile.html")
+        # previously was main/index.html - should be directed to create_profile if they have not consented
         self.assertEquals(len(self.response.redirect_chain), 0)
+        # current error:
+        # self.assertEquals(len(self.response.redirect_chain), 0)
+        # AssertionError: 1 != 0

@@ -69,8 +69,7 @@ class UserProfile(models.Model):
         return self.user.username
 
     def has_consented(self):
-        # return self.consent
-        return True
+        return self.consent
 
     def is_student(self):
         return self.is_faculty == 'ST'
@@ -159,16 +158,17 @@ def user_created(sender, user, request, **kwargs):
     data = UserProfile(user=user)
 
     data.institute = form.data['institute']
-    print data.institute
+    #print data.institute
     data.consent = True
+    #print data.consent
     data.is_faculty = form.data['is_faculty']
-    print data.is_faculty
+    #print data.is_faculty
     data.year_of_graduation = form.data['year_of_graduation']
     data.specialty = form.data['specialty']
-    print data.specialty
+    #print data.specialty
     data.gender = form.data['gender']
     data.hispanic_latino = form.data['hispanic_latino']
-    print data.hispanic_latino
+    #print data.hispanic_latino
     data.race = form.data['race']
     data.age = form.data['age']
     data.save()
