@@ -7,7 +7,7 @@ from tobaccocessation.activity_treatment_choice.views import loadstate, \
 from tobaccocessation.main.models import UserProfile
 
 
-class TestSimpleViews(TestCase):
+class TestViews(TestCase):
     def setUp(self):
         self.c = Client()
         self.factory = RequestFactory()
@@ -110,18 +110,19 @@ class TestSimpleViews(TestCase):
         self.assertEquals(self.response.redirect_chain[0][1], 302)
 
     def test_consent_complete_profile(self):
-        # User has a profile, but does not have "consent" or other
-        # special fields filled out. Redirect to create profile
-        UserProfile.objects.get_or_create(user=self.user)[0]
+        # User has a complete profile
+        profile = UserProfile.objects.get_or_create(user=self.user)[0]
+        profile.gender = 'F'
+        profile.is_faculty = 'ST'
+        profile.specialty = 'S10'
+        profile.year_of_graduation = 2014
+        profile.consent = True
+        profile.save()
 
         self.c = Client()
         self.c.login(username='test_student', password='testpassword')
         self.response = self.c.get('/', follow=True)
         self.assertEqual(self.response.status_code, 200)
         self.assertEquals(self.response.templates[0].name,
-                          "main/create_profile.html")
-        # previously was main/index.html - should be directed to create_profile if they have not consented
+                          "main/index.html")
         self.assertEquals(len(self.response.redirect_chain), 0)
-        # current error:
-        # self.assertEquals(len(self.response.redirect_chain), 0)
-        # AssertionError: 1 != 0
