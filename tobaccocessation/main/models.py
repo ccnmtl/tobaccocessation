@@ -25,16 +25,18 @@ class UserProfile(models.Model):
     #  ALL_CU group affiliations
     user = models.ForeignKey(User, related_name="application_user")
     visits = models.ManyToManyField(UserVisit, null=True, blank=True)
-    gender = models.CharField(max_length=1, null=True, choices=GENDER_CHOICES)
-    is_faculty = models.CharField(max_length=2, null=True,
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    is_faculty = models.CharField(max_length=2,
                                   choices=FACULTY_CHOICES)
-    institute = models.CharField(max_length=2, null=True,
+    institute = models.CharField(max_length=2,
                                  choices=INSTITUTION_CHOICES)
-    specialty = models.CharField(max_length=3, null=True,
+    specialty = models.CharField(max_length=3,
                                  choices=SPECIALTY_CHOICES)
-    hispanic_latino = models.CharField(max_length=1, null=True,
+    hispanic_latino = models.CharField(max_length=1,
                                        choices=HISPANIC_LATINO)
-    year_of_graduation = models.PositiveIntegerField(null=True, blank=True)
+    # I was not sure whether or not to make year_of_graduation required
+    # if someone self registers or is a student they may not have graduated
+    year_of_graduation = models.PositiveIntegerField(blank=True)
     consent = models.BooleanField(default=False)
 
     def __unicode__(self):
