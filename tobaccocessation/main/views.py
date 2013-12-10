@@ -40,9 +40,6 @@ class rendered_with(object):
 def index(request):
     """Need to determine here whether to redirect
     to profile creation or registraion and profile creation"""
-    #     columbia_student = False
-    # if len(request.user.groups.filter(name='ALL_CU')) > 0:
-    #     columbia_student = True
     profiles = UserProfile.objects.filter(user=request.user)
     if len(profiles) > 0 and profiles[0].has_consented():
         return {'user': request.user,
