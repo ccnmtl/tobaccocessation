@@ -1,19 +1,14 @@
-import json
+from django.contrib.auth.models import User
 from django.test import TestCase
 from django.test.client import Client
-from django.contrib.auth.models import User
-from tobaccocessation.activity_virtual_patient.models import Patient
-from tobaccocessation.activity_virtual_patient.models import Medication
-from tobaccocessation.activity_virtual_patient.models import TreatmentOption
-from tobaccocessation.activity_virtual_patient.models \
-    import TreatmentClassification
-from tobaccocessation.activity_virtual_patient.models import TreatmentFeedback
-from tobaccocessation.activity_virtual_patient.models import ActivityState
-from tobaccocessation.activity_virtual_patient.models \
-    import ConcentrationChoice
-from tobaccocessation.activity_virtual_patient.models import DosageChoice
-from tobaccocessation.main.models import UserProfile
 from pagetree.models import Hierarchy
+from tobaccocessation.activity_virtual_patient.models import \
+    ConcentrationChoice, TreatmentClassification, ActivityState, \
+    DosageChoice, Medication, Patient, TreatmentFeedback, TreatmentOption
+from tobaccocessation.activity_virtual_patient.views import \
+    _get_available_treatments
+from tobaccocessation.main.models import UserProfile
+import json
 
 
 class TestViews(TestCase):
@@ -197,3 +192,27 @@ class TestViews(TestCase):
         r = self.c.get(
             "/pages/main/assist/activity-virtual-patient/results/%d/" % p.id)
         self.assertEqual(r.status_code, 200)
+
+    def test_get_available_treatments(self):
+        treatments = _get_available_treatments("main", False)
+        self.assertEquals(treatments,
+                          ['nicotinepatch', 'nicotinegum', 'nicotineinhaler',
+                           'nicotinelozenge', 'nicotinenasalspray',
+                           'varenicline', 'bupropion'])
+
+        treatments = _get_available_treatments("main", True)
+        self.assertEquals(treatments,
+                          ['nicotinepatch', 'nicotinegum', 'nicotineinhaler',
+                           'nicotinelozenge', 'nicotinenasalspray',
+                           'varenicline', 'bupropion', 'combination'])
+
+        treatments = _get_available_treatments("pediatrics", False)
+        self.assertEquals(treatments,
+                          ['nicotinepatch', 'nicotinelozenge',
+                           'nicotinenasalspray', 'varenicline'])
+
+        treatments = _get_available_treatments("pediatrics", True)
+        self.assertEquals(treatments,
+                          ['nicotinepatch', 'nicotinelozenge',
+                           'nicotinenasalspray', 'varenicline',
+                           'combination'])

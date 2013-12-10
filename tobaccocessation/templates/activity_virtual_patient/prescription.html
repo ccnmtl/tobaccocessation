@@ -87,17 +87,19 @@
              <div id="fields_container1">
                 <div id="med_name">{{ medication.0.name }}, &nbsp; </div>
                 <select id="concentration">
-                   {% for cc in medication.0.concentrationchoice_set.all|dictsort:"display_order"  %}
-                     {% ifequal cc.id concentration_idx %}
-                      <option selected="selected" value="{{cc.id}}">{{cc.concentration}}</option>
-                     {% else %}
-                        <option value="{{cc.id}}">{{cc.concentration}}</option>
-                     {% endifequal %}
-                   {% endfor %}
+                    <option value="-----">-----</option>
+                    {% for cc in medication.0.concentrationchoice_set.all|dictsort:"display_order"  %}
+                        {% ifequal cc.id concentration_idx %}
+                            <option selected="selected" value="{{cc.id}}">{{cc.concentration}}</option>
+                        {% else %}
+                            <option value="{{cc.id}}">{{cc.concentration}}</option>
+                        {% endifequal %}
+                    {% endfor %}
                </select>
                <br style="clear: both;" />
       
                <select id="dosage">
+                   <option value="-----">-----</option>
                    {% for dc in medication.0.dosagechoice_set.all|dictsort:"display_order" %}
                       {% ifequal dc.id dosage_idx %}
                         <option selected="selected" value="{{dc.id}}">{{dc.dosage}}</option>
@@ -127,6 +129,7 @@
             <div id="gender2">X</div>
                <div id="med_name2">{{ medication.1.name }}, &nbsp; </div>
                <select id="concentration2">
+                    <option value="-----">-----</option>
 			          {% for cc in medication.1.concentrationchoice_set.all|dictsort:"display_order" %}
 			            {% ifequal cc.id concentration2_idx %}
 			               <option selected="selected" value="{{cc.id}}">{{cc.concentration}}</option>
@@ -138,6 +141,7 @@
 			      <br style="clear: both;" />
 			      
 			     <select id="dosage2">
+                      <option value="-----">-----</option>
 			          {% for dc in medication.1.dosagechoice_set.all|dictsort:"display_order" %}
 			             {% ifequal dc.id dosage2_idx %}
 			               <option selected="selected" value="{{dc.id}}">{{dc.dosage}}</option>

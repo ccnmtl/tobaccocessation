@@ -46,7 +46,8 @@ def reset(request, patient_id):
     user_state = _get_user_state(request)
     user_state['patients'][patient_id] = {}
     user_state['patients'][patient_id][
-        'available_treatments'] = _get_available_treatments(True)
+        'available_treatments'] = _get_available_treatments(
+        request.user.get_profile().role(), True)
     _save(request, user_state)
 
     return HttpResponseRedirect(
@@ -66,7 +67,8 @@ def options(request, hierarchy, patient_id):
     if (patient_id not in user_state['patients']):
         user_state['patients'][patient_id] = {}
         user_state['patients'][patient_id][
-            'available_treatments'] = _get_available_treatments(True)
+            'available_treatments'] = _get_available_treatments(
+            request.user.get_profile().role(), True)
         _save(request, user_state)
 
     ctx['previous_url'] = _get_previous_page(hierarchy,
@@ -100,7 +102,8 @@ def selection(request, hierarchy, patient_id):
 
     ctx['previous_url'] = _get_previous_page(
         hierarchy, 'selection', patient_id, user_state)
-    ctx['medications'] = _get_available_treatments(False)
+    ctx['medications'] = _get_available_treatments(
+        request.user.get_profile().role(), False)
     ctx['patient_state'] = user_state['patients'][patient_id]
     ctx['navigate'] = True
     ctx['page_number'] = '2'
@@ -382,9 +385,14 @@ def _get_previous_patient(patient_id):
         return None
 
 
-def _get_available_treatments(combination):
-    a = ['nicotinepatch', 'nicotinegum', 'nicotineinhaler',
-         'nicotinelozenge', 'nicotinenasalspray', 'varenicline', 'bupropion']
+def _get_available_treatments(role, combination):
+    if role in ['main']:
+        a = ['nicotinepatch', 'nicotinegum', 'nicotineinhaler',
+             'nicotinelozenge', 'nicotinenasalspray', 'varenicline',
+             'bupropion']
+    else:
+        a = ['nicotinepatch', 'nicotinelozenge',
+             'nicotinenasalspray', 'varenicline']
 
     if (combination):
         a.append('combination')
