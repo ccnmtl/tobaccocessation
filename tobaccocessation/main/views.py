@@ -167,17 +167,18 @@ def create_profile(request):
     user_profile = UserProfile(user=request.user)
     if request.method == 'POST':
         form = QuickFixProfileForm(request.POST)
-        user_profile.institute = 'I1'
-        user_profile.consent = True
-        user_profile.is_faculty = form.data['is_faculty']
-        user_profile.year_of_graduation = form.data['year_of_graduation']
-        user_profile.specialty = form.data['specialty']
-        user_profile.gender = form.data['gender']
-        user_profile.hispanic_latino = form.data['hispanic_latino']
-        user_profile.race = form.data['race']
-        user_profile.age = form.data['age']
-        user_profile.save()
-        return HttpResponseRedirect('/')
+        if form.is_valid():
+            user_profile.institute = 'I1'
+            user_profile.consent = True
+            user_profile.is_faculty = form.data['is_faculty']
+            user_profile.year_of_graduation = form.data['year_of_graduation']
+            user_profile.specialty = form.data['specialty']
+            user_profile.gender = form.data['gender']
+            user_profile.hispanic_latino = form.data['hispanic_latino']
+            user_profile.race = form.data['race']
+            user_profile.age = form.data['age']
+            user_profile.save()
+            return HttpResponseRedirect('/')
     else:
         form = QuickFixProfileForm()
 

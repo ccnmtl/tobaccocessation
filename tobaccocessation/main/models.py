@@ -111,16 +111,16 @@ class UserProfile(models.Model):
 
 class QuickFixProfileForm(forms.Form):
     consent = forms.BooleanField(required=True)
-    is_faculty = forms.ChoiceField(choices=FACULTY_CHOICES)
-    institute = forms.ChoiceField(choices=INSTITUTION_CHOICES)
-    gender = forms.ChoiceField(initial="-----", choices=GENDER_CHOICES)
+    is_faculty = forms.ChoiceField(choices=FACULTY_CHOICES, required=True)
+    institute = forms.ChoiceField(choices=INSTITUTION_CHOICES, required=True)
+    gender = forms.ChoiceField(initial="-----", choices=GENDER_CHOICES, required=True)
     year_of_graduation = forms.IntegerField(
         min_value=1900, max_value=3000,
-        label="What year did you graduate?")
-    race = forms.ChoiceField(choices=RACE_CHOICES)
-    hispanic_latino = forms.ChoiceField(choices=HISPANIC_LATINO)
-    age = forms.ChoiceField(choices=AGE_CHOICES)
-    specialty = forms.ChoiceField(choices=SPECIALTY_CHOICES)
+        label="What year did you graduate?", required=True)
+    race = forms.ChoiceField(choices=RACE_CHOICES, required=True)
+    hispanic_latino = forms.ChoiceField(choices=HISPANIC_LATINO, required=True)
+    age = forms.ChoiceField(choices=AGE_CHOICES, required=True)
+    specialty = forms.ChoiceField(choices=SPECIALTY_CHOICES, required=True)
 
 
 class CreateAccountForm(RegistrationForm):

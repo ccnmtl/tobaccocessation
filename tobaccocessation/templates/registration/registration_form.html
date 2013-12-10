@@ -50,28 +50,20 @@
 
 <script type="text/javascript">
 $( document ).ready(function()
-{   
-    var checked = false;
-    //localStorage.checked = false;
-
-    $("#consent_button").click(function()
-    { 
-        if(checked==true && $("#id_consent").prop('checked'))
-        {
-            $("#consent_given").show();
-        }
-        else
-        {
-          alert("Please check the box to indicate you have agreed to the conditions outlined in the consent form.");
-        }
-
-    });
-
-    $("#id_consent").click(function()
+{
+    $('#id_consent').change(function()
     {
-        checked=true;
+        //var thisCheck = $(this);
+    if ($('#id_consent').is (':checked'))
+    {
+        $("#consent_given").show();
+    }
     });
 
+  if($('#id_consent').attr('checked')) {
+
+        $("#consent_given").show();
+  }
 
 });
 </script>
@@ -79,10 +71,12 @@ $( document ).ready(function()
 <img src="/site_media/random/imposter.jpg" alt="shame on you! this is imposter content!">
 </div>
 
+<form id="reg_form" method="post" action="." class="register">
 
     <div class="fieldWrapper">
         <label>I have read and agree to the Consent Agreement </label>
-        <input type="checkbox" id="id_consent"> 
+        {{ form.consent.errors }}
+        {{ form.consent }}
         <button type="button" id="consent_button">I Accept</button> 
     </div>
 
@@ -99,9 +93,103 @@ $( document ).ready(function()
     </div>
     <div class="p"><i><span style="color: #c00; font-size: 20px;">*</span> Indicates required field</i></div>
     
-    <form method="post" action="." class="register">
 
-      {{ form.as_p }}
+        <br/>
+        <div class="fieldWrapper">
+            {{ form.first_name.errors }}
+            <label for="id_sender">First Name: </label>
+            {{ form.first_name }}
+        </div>
+        <br/>
+
+        <br/>
+        <div class="fieldWrapper">
+            {{ form.last_name.errors }}
+            <label for="id_sender">Last Name: </label>
+            {{ form.last_name }}
+        </div>
+        <br/>
+
+        <br/>
+        <div class="fieldWrapper">
+            {{ form.username.errors }}
+            <label for="id_sender">Username: </label>
+            {{ form.gender }}
+        </div>
+        <br/>
+
+        <div class="fieldWrapper">
+            {{ form.password1.errors }}
+            <label for="id_sender">Password: </label>
+            {{ form.password1 }}
+        </div>
+        <br/>
+
+        <div class="fieldWrapper">
+            {{ form.password2.errors }}
+            <label for="id_sender">Confirm Password: </label>
+            {{ form.password2 }}
+        </div>
+        <br/>
+
+        <div class="fieldWrapper">
+            {{ form.email.errors }}
+            <label for="id_sender">Email: </label>
+            {{ form.email }}
+        </div>
+        <br/>
+
+
+
+        <br/>
+
+
+        <br/>
+        <div class="fieldWrapper">
+            {{ form.gender.errors }}
+            <label for="id_sender">Gender: </label>
+            {{ form.gender }}
+        </div>
+        <br/>
+
+        <div class="fieldWrapper">
+            {{ form.is_faculty.errors }}
+            <label for="id_subject">Are you a faculty memeber or a student?</label>
+            {{ form.is_faculty }}
+        </div>
+       
+    <br/>
+    <div class="fieldWrapper">
+        {{ form.specialty.errors }}
+        <label for="id_sender">How would you describe your specialty?</label>
+        {{ form.specialty }}
+    </div><br/>
+
+    <div class="fieldWrapper">
+        {{ form.year_of_graduation.errors }}
+        <label for="id_sender">What year did you graduate?</label>
+        {{ form.year_of_graduation }}
+    </div><br/>
+
+    <div class="fieldWrapper">
+        {{ form.age.errors }}
+        <label for="id_sender">Age: </label>
+        {{ form.age }}
+    </div><br/>
+
+    <div class="fieldWrapper">
+        {{ form.hispanic_latino.errors }}
+        <label for="id_sender">Are you hispanic or latino?: </label>
+        {{ form.hispanic_latino }}
+    </div><br/>
+
+    <div class="fieldWrapper">
+        {{ form.race.errors }}
+        <label for="id_sender">Race: </label>
+        {{ form.race }}
+    </div><br/>
+
+
       
       <input class="btn btn-primary" type="submit" id="submit-id" value="{% trans 'Sign up!' %}" />
 

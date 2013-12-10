@@ -61,7 +61,7 @@ RACE_CHOICES = (
 AGE_CHOICES = (
     ('-----', '-----'),
     ('A1', 'Less than 20'),
-    ('A2', '18-29 Years'),
+    ('A2', '20-29 Years'),
     ('A3', '30-39 Years'),
     ('A4', '40-49 Years'),
     ('A5', '50-59 Years'),
