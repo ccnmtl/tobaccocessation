@@ -10,8 +10,7 @@ function get_state()
    doc[tag].concentration = $('concentration').options[$('concentration').selectedIndex].value;
    doc[tag].dosage = $('dosage').options[$('dosage').selectedIndex].value;
    
-   if ($('concentration2'))
-   {
+   if ($('concentration2')) {
       doc[tag].concentration2 = $('concentration2').options[$('concentration2').selectedIndex].value;
       doc[tag].dosage2 = $('dosage2').options[$('dosage2').selectedIndex].value;
    }
@@ -59,6 +58,12 @@ function setupGender() {
    
    MochiKit.Signal.connect('concentration', "onchange", validate);
    MochiKit.Signal.connect('dosage', "onchange", validate);
+   if (getElement('concentration2') !== null) {
+       MochiKit.Signal.connect('concentration2', "onchange", validate);
+   }
+   if (getElement('dosage2') !== null) {
+       MochiKit.Signal.connect('dosage2', "onchange", validate);
+   }
    
    validate();
 }
