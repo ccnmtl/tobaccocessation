@@ -53,7 +53,6 @@ $( document ).ready(function()
 {
     $('#id_consent').change(function()
     {
-        //var thisCheck = $(this);
     if ($('#id_consent').is (':checked'))
     {
         $("#consent_given").show();
@@ -77,7 +76,6 @@ $( document ).ready(function()
         <label>I have read and agree to the Consent Agreement </label>
         {{ form.consent.errors }}
         {{ form.consent }}
-        <button type="button" id="consent_button">I Accept</button> 
     </div>
 
 
