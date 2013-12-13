@@ -15,10 +15,13 @@ $( document ).ready(function()
 {
     $('#id_consent').change(function()
     {
-        //var thisCheck = $(this);
     if ($('#id_consent').is (':checked'))
     {
         $("#consent_given").show();
+    }
+    else
+    {
+        $("#consent_given").hide();
     }
     });
 
