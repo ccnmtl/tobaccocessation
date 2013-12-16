@@ -29,7 +29,8 @@ class UserProfile(models.Model):
     is_faculty = models.CharField(max_length=2,
                                   choices=FACULTY_CHOICES)
     institute = models.CharField(max_length=2,
-                                 choices=INSTITUTION_CHOICES)
+                                 choices=INSTITUTION_CHOICES,
+                                 )
     specialty = models.CharField(max_length=3,
                                  choices=SPECIALTY_CHOICES)
     hispanic_latino = models.CharField(max_length=1,
@@ -140,16 +141,16 @@ class CreateAccountForm(RegistrationForm):
         label="Confirm Password")
     email = forms.EmailField()
     consent = forms.BooleanField(required=True)
-    is_faculty = forms.ChoiceField(choices=FACULTY_CHOICES)
-    institute = forms.ChoiceField(choices=INSTITUTION_CHOICES)
-    gender = forms.ChoiceField(initial="-----", choices=GENDER_CHOICES)
-    year_of_graduation = forms.IntegerField(
+    is_faculty = forms.ChoiceField(required=True, choices=FACULTY_CHOICES)
+    institute = forms.ChoiceField(choices=INSTITUTION_CHOICES, required=True)
+    gender = forms.ChoiceField(required=True, initial="-----", choices=GENDER_CHOICES)
+    year_of_graduation = forms.IntegerField(required=True, 
         min_value=1900, max_value=3000,
         label="What year did you graduate?")
-    race = forms.ChoiceField(choices=RACE_CHOICES)
-    hispanic_latino = forms.ChoiceField(choices=HISPANIC_LATINO)
-    age = forms.ChoiceField(choices=AGE_CHOICES)
-    specialty = forms.ChoiceField(choices=SPECIALTY_CHOICES)
+    race = forms.ChoiceField(required=True, choices=RACE_CHOICES)
+    hispanic_latino = forms.ChoiceField(required=True, choices=HISPANIC_LATINO)
+    age = forms.ChoiceField(required=True, choices=AGE_CHOICES)
+    specialty = forms.ChoiceField(required=True, choices=SPECIALTY_CHOICES)
 
 
 def user_created(sender, user, request, **kwargs):

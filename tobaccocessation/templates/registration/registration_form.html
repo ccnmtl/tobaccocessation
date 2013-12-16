@@ -39,15 +39,9 @@
         });
     </script>
 
-
-
-
-
 {% endblock %}
 
 {% block registration_content %}
-
-
 <script type="text/javascript">
 $( document ).ready(function()
 {
@@ -116,7 +110,7 @@ $( document ).ready(function()
         <div class="fieldWrapper">
             {{ form.username.errors }}
             <label for="id_sender">Username: </label>
-            {{ form.gender }}
+            {{ form.username }}
         </div>
         <br/>
 
@@ -142,10 +136,6 @@ $( document ).ready(function()
         <br/>
 
 
-
-        <br/>
-
-
         <br/>
         <div class="fieldWrapper">
             {{ form.gender.errors }}
@@ -165,6 +155,13 @@ $( document ).ready(function()
         {{ form.specialty.errors }}
         <label for="id_sender">How would you describe your specialty?</label>
         {{ form.specialty }}
+    </div><br/>
+
+
+    <div class="fieldWrapper">
+        {{ form.institute.errors }}
+        <label for="id_sender">What institute are you associated with?</label>
+        {{ form.institute }}
     </div><br/>
 
     <div class="fieldWrapper">

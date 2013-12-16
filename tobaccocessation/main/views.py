@@ -165,10 +165,13 @@ def create_profile(request):
     a registration form for non Columbia ppl and a
     QuickFixProfileForm for the Columbia ppl"""
     user_profile = UserProfile(user=request.user)
+    form = QuickFixProfileForm()
     if request.method == 'POST':
         form = QuickFixProfileForm(request.POST)
+        #print "%s" % repr(form.errors)
+        #print form.is_valid()
         if form.is_valid():
-            user_profile.institute = 'I1'
+            user_profile.institute = form.data['institute']#'I1'
             user_profile.consent = True
             user_profile.is_faculty = form.data['is_faculty']
             user_profile.year_of_graduation = form.data['year_of_graduation']

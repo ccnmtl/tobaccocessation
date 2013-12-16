@@ -15,20 +15,21 @@ $( document ).ready(function()
 {
     $('#id_consent').change(function()
     {
-    if ($('#id_consent').is (':checked'))
-    {
-        $("#consent_given").show();
-    }
-    else
-    {
-        $("#consent_given").hide();
-    }
+        if ($('#id_consent').is (':checked'))
+        {
+                $("#consent_given").show();
+        }
+        else
+        {
+            $("#consent_given").hide();
+        }
     });
 
-  if($('#id_consent').attr('checked')) {
+    if($('#id_consent').attr('checked'))
+    {
 
         $("#consent_given").show();
-  }
+    }
 
 });
 </script>
@@ -38,7 +39,7 @@ $( document ).ready(function()
 <img src="/site_media/random/imposter.jpg" alt="shame on you! this is imposter content!">
 </div>
 
-<form id="reg_form" action="" method="post">{% csrf_token %}
+<form id="reg_form" method="post" action="">{% csrf_token %}
     {{ form.non_field_errors }}
 
     <div class="fieldWrapper">
@@ -48,57 +49,55 @@ $( document ).ready(function()
     </div>
 
 
-<div id="consent_given" style="display: none">
+    <div id="consent_given" style="display: none">
 
-
-        <br/>
         <div class="fieldWrapper">
             {{ form.gender.errors }}
             <label for="id_sender">Gender: </label>
             {{ form.gender }}
-        </div>
-        <br/>
+        </div> <br/>
+       
 
         <div class="fieldWrapper">
             {{ form.is_faculty.errors }}
             <label for="id_subject">Are you a faculty memeber or a student?</label>
             {{ form.is_faculty }}
-        </div>
+        </div> <br/>
        
-    <br/>
-    <div class="fieldWrapper">
-        {{ form.specialty.errors }}
-        <label for="id_sender">How would you describe your specialty?</label>
-        {{ form.specialty }}
-    </div><br/>
+   
+        <div class="fieldWrapper">
+            {{ form.specialty.errors }}
+            <label for="id_sender">How would you describe your specialty?</label>
+            {{ form.specialty }}
+        </div><br/>
 
-    <div class="fieldWrapper">
-        {{ form.year_of_graduation.errors }}
-        <label for="id_sender">What year did you graduate?</label>
-        {{ form.year_of_graduation }}
-    </div><br/>
+        <div class="fieldWrapper">
+            {{ form.year_of_graduation.errors }}
+            <label for="id_sender">What year did you graduate?</label>
+            {{ form.year_of_graduation }}
+        </div><br/>
 
-    <div class="fieldWrapper">
-        {{ form.age.errors }}
-        <label for="id_sender">Age: </label>
-        {{ form.age }}
-    </div><br/>
+        <div class="fieldWrapper">
+            {{ form.age.errors }}
+            <label for="id_sender">Age: </label>
+            {{ form.age }}
+        </div><br/>
+        <input type="hidden" name="institute" value="I1">
+        <div class="fieldWrapper">
+            {{ form.hispanic_latino.errors }}
+            <label for="id_sender">Are you hispanic or latino?: </label>
+            {{ form.hispanic_latino }}
+        </div><br/>
 
-    <div class="fieldWrapper">
-        {{ form.hispanic_latino.errors }}
-        <label for="id_sender">Are you hispanic or latino?: </label>
-        {{ form.hispanic_latino }}
-    </div><br/>
-
-    <div class="fieldWrapper">
-        {{ form.race.errors }}
-        <label for="id_sender">Race: </label>
-        {{ form.race }}
-    </div><br/>
+        <div class="fieldWrapper">
+            {{ form.race.errors }}
+            <label for="id_sender">Race: </label>
+            {{ form.race }}
+        </div><br/>
 
 
-    <p><input type="submit" value="Submit" /></p>
-</div>
+        <p><input type="submit" value="Submit" /></p>
+    </div>
 </form>
 
 
