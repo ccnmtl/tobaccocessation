@@ -193,6 +193,50 @@ class CreateAccountForm(RegistrationForm):
     age = forms.ChoiceField(required=True, choices=AGE_CHOICES)
     specialty = forms.ChoiceField(required=True, choices=SPECIALTY_CHOICES)
 
+    def clean_faculty(self):
+        data = self.cleaned_data['is_faculty']
+        if data == '-----':
+            raise forms.ValidationError("Please indicate whether you are faculty or a student.")
+
+    def clean_institute(self):
+        data = self.cleaned_data['institute']
+        if data == '-----':
+            raise forms.ValidationError("Please indicate what institution you are affiliated with.")
+
+    def clean_gender(self):
+        data = self.cleaned_data['gender']
+        if data == '-----':
+            raise forms.ValidationError("Please indicate your gender.")
+
+    def clean_year_of_graduation(self):
+        data = self.cleaned_data['year_of_graduation']
+        if data == '-----':
+            raise forms.ValidationError("Please enter your year of graduation.")
+
+    def clean_race(self):
+        data = self.cleaned_data['race']
+        if data == '-----':
+            raise forms.ValidationError("Please indicate your race.")
+
+    def clean_hispanic_latino(self):
+        data = self.cleaned_data['hispanic_latino']
+        if data == '-----':
+            raise forms.ValidationError("Please indicate if you are hispanic or latino.")
+
+    def clean_age(self):
+        data = self.cleaned_data['age']
+        if data == '-----':
+            raise forms.ValidationError("Please select an age.")
+
+    def clean_specialty(self):
+        data = self.cleaned_data['specialty']
+        if data == '-----':
+            raise forms.ValidationError("Please select a specialty.")
+
+
+
+
+
 
 def user_created(sender, user, request, **kwargs):
     print "inside user created"
