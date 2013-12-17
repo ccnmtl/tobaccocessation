@@ -51,6 +51,15 @@ $( document ).ready(function()
 
     <div id="consent_given" style="display: none">
 
+
+
+        <div class="fieldWrapper">
+            {{ form.is_faculty.errors }}
+            <label for="id_subject">Are you a faculty memeber or a student?</label>
+            {{ form.is_faculty }}
+        </div> <br/>
+
+
         <div class="fieldWrapper">
             {{ form.gender.errors }}
             <label for="id_sender">Gender: </label>
@@ -58,13 +67,6 @@ $( document ).ready(function()
         </div> <br/>
        
 
-        <div class="fieldWrapper">
-            {{ form.is_faculty.errors }}
-            <label for="id_subject">Are you a faculty memeber or a student?</label>
-            {{ form.is_faculty }}
-        </div> <br/>
-       
-   
         <div class="fieldWrapper">
             {{ form.specialty.errors }}
             <label for="id_sender">How would you describe your specialty?</label>

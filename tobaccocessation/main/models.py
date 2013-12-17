@@ -114,7 +114,7 @@ class QuickFixProfileForm(forms.Form):
     consent = forms.BooleanField(required=True)
     is_faculty = forms.ChoiceField(choices=FACULTY_CHOICES, required=True)
     institute = forms.ChoiceField(choices=INSTITUTION_CHOICES, required=True)
-    gender = forms.ChoiceField(initial="-----", choices=GENDER_CHOICES, required=True)
+    gender = forms.ChoiceField(choices=GENDER_CHOICES, required=True)
     year_of_graduation = forms.IntegerField(
         min_value=1900, max_value=3000,
         label="What year did you graduate?", required=True)
@@ -122,6 +122,47 @@ class QuickFixProfileForm(forms.Form):
     hispanic_latino = forms.ChoiceField(choices=HISPANIC_LATINO, required=True)
     age = forms.ChoiceField(choices=AGE_CHOICES, required=True)
     specialty = forms.ChoiceField(choices=SPECIALTY_CHOICES, required=True)
+
+    def clean_faculty(self):
+        data = self.cleaned_data['is_faculty']
+        if data == '-----':
+            raise forms.ValidationError("Please indicate whether you are faculty or a student.")
+
+    def clean_institute(self):
+        data = self.cleaned_data['institute']
+        if data == '-----':
+            raise forms.ValidationError("Please indicate what institution you are affiliated with.")
+
+    def clean_gender(self):
+        data = self.cleaned_data['gender']
+        if data == '-----':
+            raise forms.ValidationError("Please indicate your gender.")
+
+    def clean_year_of_graduation(self):
+        data = self.cleaned_data['year_of_graduation']
+        if data == '-----':
+            raise forms.ValidationError("Please enter your year of graduation.")
+
+    def clean_race(self):
+        data = self.cleaned_data['race']
+        if data == '-----':
+            raise forms.ValidationError("Please indicate your race.")
+
+    def clean_hispanic_latino(self):
+        data = self.cleaned_data['hispanic_latino']
+        if data == '-----':
+            raise forms.ValidationError("Please indicate if you are hispanic or latino.")
+
+    def clean_age(self):
+        data = self.cleaned_data['age']
+        if data == '-----':
+            raise forms.ValidationError("Please select an age.")
+
+    def clean_specialty(self):
+        data = self.cleaned_data['specialty']
+        if data == '-----':
+            raise forms.ValidationError("Please select a specialty.")
+
 
 
 class CreateAccountForm(RegistrationForm):
