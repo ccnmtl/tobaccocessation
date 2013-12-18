@@ -29,8 +29,7 @@ class UserProfile(models.Model):
     is_faculty = models.CharField(max_length=2,
                                   choices=FACULTY_CHOICES)
     institute = models.CharField(max_length=2,
-                                 choices=INSTITUTION_CHOICES,
-                                 )
+                                 choices=INSTITUTION_CHOICES)
     specialty = models.CharField(max_length=3,
                                  choices=SPECIALTY_CHOICES)
     hispanic_latino = models.CharField(max_length=1,
@@ -123,7 +122,7 @@ class QuickFixProfileForm(forms.Form):
     age = forms.ChoiceField(choices=AGE_CHOICES, required=True)
     specialty = forms.ChoiceField(choices=SPECIALTY_CHOICES, required=True)
 
-    def clean_faculty(self):
+    def clean_is_faculty(self):
         data = self.cleaned_data['is_faculty']
         if data == '-----':
             raise forms.ValidationError("Please indicate whether you are faculty or a student.")
@@ -193,7 +192,7 @@ class CreateAccountForm(RegistrationForm):
     age = forms.ChoiceField(required=True, choices=AGE_CHOICES)
     specialty = forms.ChoiceField(required=True, choices=SPECIALTY_CHOICES)
 
-    def clean_faculty(self):
+    def clean_is_faculty(self):
         data = self.cleaned_data['is_faculty']
         if data == '-----':
             raise forms.ValidationError("Please indicate whether you are faculty or a student.")
@@ -232,10 +231,6 @@ class CreateAccountForm(RegistrationForm):
         data = self.cleaned_data['specialty']
         if data == '-----':
             raise forms.ValidationError("Please select a specialty.")
-
-
-
-
 
 
 def user_created(sender, user, request, **kwargs):
