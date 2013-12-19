@@ -1,33 +1,87 @@
 {% load accessible %}
 {% load getroot %}
 
+
+  <script type="text/javascript">
+$(document).ready(function () { 
+  
+  $('.selected').hover(
+    function () {
+      //show its submenu
+     $('.selected', this ).append(
+
+{% if selected_parent.get_children_count %}
+<div>
+
+<ul class="submenu">
+      {% for s in selected_parent.get_children %}
+        {% ifequal section.id s.id %}
+              <li class="submenu"><span class="selected">{{s.label}}</span></li><br/>
+          {% else %}{% if section in s.get_descendants %}
+              <li class="submenu"><span class="selected">{{s.label}}</span></li><br/>
+          {% else %}
+          <li>
+                 {% ifaccessible s %}
+                    <a id="{{s.slug}}" href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a>
+                    <span id="span_{{s.slug}}" style="display: none" class="disabled_link">{{s.label}}</span>
+                 {% else %}
+                    <a id="{{s.slug}}" style="display: none" href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a>
+                    <span id="span_{{s.slug}}" class="disabled_link">{{s.label}}</span>
+                 {% endifaccessible %}
+              </li><br/>
+           {% endif %}{% endifequal %}
+      {% endfor %}
+</ul>
+
+</div>
+
+{% endif %}
+
+     ); //This works need to change it so it is displaying the appropriate sub nav tags
+      //$('ul', this).stop().slideDown(100);
+
+    }, 
+    function () {
+      //hide its submenu
+      $('ul', this).stop().slideUp(100);      
+    }
+  );
+  
+});
+</script>
+
+
+  
 {% block primarynavtabs %}
-    <ul>
-       {% for s in root.get_children %}
-          {% ifequal s.slug module.slug %}
-             <li class="selected"><span class="selected">{{s.label}}</span></li>
-          {% else %}{% ifequal s.slug section.slug %}
-             <li class="selected"><span class="selected">{{s.label}}</span></li>
-          {% else %}{% ifaccessible s %}
-             <li><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></li>
-          {% else %}
-             <li id="{{s.slug}}" style="display: none"><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></li>
-             <li id="span_{{s.slug}}" class="disabled"><span class="disabled">{{s.label}}</span></li>
-          {% endifaccessible %}{% endifequal %}{% endifequal %}
-       {% endfor %}
-       
-       {% getroot resources as resources_root %}
-       {% for s in resources_root.get_children %}
-          {% ifequal s.slug module.slug %}
-             <li class="selected"><span class="selected">{{s.label}}</span></li>
-          {% else %}{% ifequal s.slug section.slug %}
-             <li class="selected"><span class="selected">{{s.label}}</span></li>
-          {% else %}{% ifaccessible s %}
-             <li><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></li>
-          {% else %}
-             <li id="{{s.slug}}" style="display: none"><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></li>
-             <li id="span_{{s.slug}}" class="disabled"><span class="disabled">{{s.label}}</span></li>
-          {% endifaccessible %}{% endifequal %}{% endifequal %}
-       {% endfor %}
-    </ul>
+     <ul>
+        {% getroot main as root %}
+        {% for s in root.get_children %}
+           {% ifequal s.slug module.slug %}
+              <li class="selected"><span class="selected">{{s.label}}</span></li>
+           {% else %}
+           {% ifequal s.slug section.slug %}
+              <li class="selected"><span class="selected">{{s.label}}</span></li>
+           {% else %}
+           {% ifaccessible s %}
+              <li><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></li>
+           {% else %}
+              <li id="{{s.slug}}"><span class="selected"><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></span></li>
+              <li id="span_{{s.slug}}"><span class="selected">{{s.label}}</span></li>
+           {% endifaccessible %}{% endifequal %}{% endifequal %}
+        {% endfor %}
+        
+        {% getroot resources as root %}
+        {% for s in root.get_children %}
+           {% ifequal s.slug module.slug %}
+              <li class="selected"><span class="selected">{{s.label}}</span></li>
+           {% else %}{% ifequal s.slug section.slug %}
+              <li class="selected"><span class="selected">{{s.label}}</span></li>
+           {% else %}{% ifaccessible s %}
+              <li><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></li>
+           {% else %}
+              <li id="{{s.slug}}"><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></li>
+              <li id="span_{{s.slug}}" class="disabled"><span class="disabled">{{s.label}}</span></li>
+           {% endifaccessible %}{% endifequal %}{% endifequal %}
+        {% endfor %}
+     </ul>
 {% endblock %}

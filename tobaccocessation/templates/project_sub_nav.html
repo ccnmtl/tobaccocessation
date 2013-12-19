@@ -1,7 +1,9 @@
 {% load smartif %}
 {% load accessible %}
-
+{% comment %}
 {% if selected_parent.get_children_count %}
+
+
 <ul>
       {% for s in selected_parent.get_children %}
 	      {% ifequal section.id s.id %}
@@ -21,7 +23,10 @@
            {% endif %}{% endifequal %}
       {% endfor %}
 </ul>
- 
+
+
 {% endif %}
+{% endcomment %}
+
     
 
