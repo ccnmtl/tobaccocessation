@@ -41,7 +41,7 @@
         	<div id="primarynav">
         		<div class="encase" id="{% block navalignment %}leftside{% endblock %}">
         			{% block primarynavtabs %}
-                    {% with module as selected_parent %}
+                    {% with module as menu_parent %}
                     {% with '/pages' as menu_prefix %}
                         {% include "project_primary_nav.html" %}       
                     {% endwith %}

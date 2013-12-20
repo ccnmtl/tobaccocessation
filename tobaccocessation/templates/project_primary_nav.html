@@ -3,79 +3,174 @@
 
 
   <script type="text/javascript">
-$(document).ready(function () { 
-  
-  $('.selected').hover(
-    function () {
-      //show its submenu
-     $('.selected', this ).append(
+$(document).ready(function ()
+{ 
+    $('.menu').hover(function ()
+    {
+        //show its submenu
+        $('.menu', this ).append(
+//test
 
-{% if selected_parent.get_children_count %}
-<div>
+          {% if root.get_children.get_children_count %}
+          <div>
+          <ul class="submenu">
+          {% for next in root.get_children %}
+          <li>
+          <a id="{{next.slug}}" href="{{menu_prefix}}{{next.get_absolute_url}}">{{next.label}}</a>
+          <span id="span_{{next.slug}}">{{next.label}}</span>
+          </li><br/>
+          {% endfor %}
+          </ul>
+          </div>
+          {% endif %}
 
-<ul class="submenu">
-      {% for s in selected_parent.get_children %}
-        {% ifequal section.id s.id %}
-              <li class="submenu"><span class="selected">{{s.label}}</span></li><br/>
+
+
+
+
+
+
+          {% comment %}The original code is below this code, the appears to be the only code needed however 
+          {% if menu_parent.get_children_count %}
+          <div>
+          <ul class="submenu">
+          {% for s in menu_parent.get_children %}
+          <li>
+          <a id="{{s.slug}}" href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a>
+          <span id="span_{{s.slug}}">{{s.label}}</span>
+          </li><br/>
+          {% endfor %}
+          </ul>
+          </div>
+          {% endif %}
+          {% endcomment %}
+
+
+
+          {% comment %}
+          {% if menu_parent.get_children_count %}
+          <div>
+          <ul class="submenu">
+          {% for s in menu_parent.get_children %}
+          {% ifequal section.id s.id %}
+          <li class="submenu"><span class="selected">{{s.label}}</span></li><br/>
           {% else %}{% if section in s.get_descendants %}
-              <li class="submenu"><span class="selected">{{s.label}}</span></li><br/>
+          <li class="submenu"><span class="selected">{{s.label}}</span></li><br/>
           {% else %}
           <li>
-                 {% ifaccessible s %}
-                    <a id="{{s.slug}}" href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a>
-                    <span id="span_{{s.slug}}" style="display: none" class="disabled_link">{{s.label}}</span>
-                 {% else %}
-                    <a id="{{s.slug}}" style="display: none" href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a>
-                    <span id="span_{{s.slug}}" class="disabled_link">{{s.label}}</span>
-                 {% endifaccessible %}
-              </li><br/>
-           {% endif %}{% endifequal %}
-      {% endfor %}
-</ul>
+          {% ifaccessible s %}
+          <a id="{{s.slug}}" href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a>
+          <span id="span_{{s.slug}}" style="display: none" class="disabled_link">{{s.label}}</span>
+          {% else %}
+          <a id="{{s.slug}}" style="display: none" href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a>
+          <span id="span_{{s.slug}}" class="disabled_link">{{s.label}}</span>
+          {% endifaccessible %}
+          </li><br/>
+          {% endif %}{% endifequal %}
+          {% endfor %}
+          </ul>
+          </div>
+        {% endif %}
+        {% endcomment %}
 
-</div>
 
-{% endif %}
 
-     ); //This works need to change it so it is displaying the appropriate sub nav tags
-      //$('ul', this).stop().slideDown(100);
 
-    }, 
-    function () {
+
+
+
+
+
+      );//end of append 
+
+    }, //end of first function
+    function (){
       //hide its submenu
       $('ul', this).stop().slideUp(100);      
     }
-  );
+  );//end of hover
   
-});
+});//end of ready
 </script>
 
 
   
 {% block primarynavtabs %}
      <ul>
+     {% comment %}
         {% getroot main as root %}
-        {% for s in root.get_children %}
-           {% ifequal s.slug module.slug %}
-              <li class="selected"><span class="selected">{{s.label}}</span></li>
-           {% else %}
-           {% ifequal s.slug section.slug %}
-              <li class="selected"><span class="selected">{{s.label}}</span></li>
-           {% else %}
-           {% ifaccessible s %}
-              <li><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></li>
-           {% else %}
-              <li id="{{s.slug}}"><span class="selected"><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></span></li>
-              <li id="span_{{s.slug}}"><span class="selected">{{s.label}}</span></li>
-           {% endifaccessible %}{% endifequal %}{% endifequal %}
+            {% for s in root.get_children %}
+                 {% for next in s.get_children %}
+                      {% ifequal next.slug module.slug %}
+                          <li class="menu"><span class="menu">{{next.label}}</span></li>
+                      {% else %}
+                      {% ifequal next.slug section.slug %}
+                          <li class="menu"><span class="menu">{{next.label}}</span></li>
+                      {% else %}
+                      {% ifaccessible next %}
+                          <li><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{next.label}}</a></li>
+                      {% else %}
+                          <li id="{{next.slug}}"><span class="menu"><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{next.label}}</a></span></li>
+                          <li id="span_{{next.slug}}"><span class="menu">{{next.label}}</span></li>
+                      {% endifaccessible %}
+                      {% endifequal %}
+                      {% endifequal %}
+           
+           
+        {% endfor %}{% endfor %}
+    {% endcomment %}
+
+
+        {% getroot main as root %}
+            {% for s in root.get_children %}
+                      {% ifequal s.slug module.slug %}
+                          <li id="{{s}}" class="menu"><span class="menu">{{s.label}}</span></li>
+                      {% else %}
+                      {% ifequal s.slug section.slug %}
+                          <li id="{{s}}" class="menu"><span class="menu">{{s.label}}</span></li>
+                      {% else %}
+                      {% ifaccessible s %}
+                          <li id="{{s}}"><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></li>
+                      {% else %}
+                          <li id="{{s}}"><span class="menu"><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></span></li>
+                          <li id="{{s}}"><span class="menu">{{s.label}}</span></li>
+                      {% endifaccessible %}
+                      {% endifequal %}
+                      {% endifequal %}
+
+
         {% endfor %}
+
+
+
+
+{% comment %}
+        {% getroot main as root %}
+            {% for s in root.get_children %}
+                      {% if s.get_children_count %}
+                      
+                      {% for next in s.get_children %}
+                      <div id="{{s}}" name="{{s}}">
+                      <ul class="submenu" id="{{s}}">
+                      <li>
+                      <a id="{{next.slug}}" href="{{menu_prefix}}{{next.get_absolute_url}}">{{next.label}}</a>
+                      <span id="span_{{next.slug}}">{{next.label}}</span>
+                      </li><br/>
+                      {% endfor %}
+                      </ul>
+                      </div>
+                      {% endif %} {% endfor %}
+{% endcomment %}
+
+
+
         
         {% getroot resources as root %}
         {% for s in root.get_children %}
            {% ifequal s.slug module.slug %}
-              <li class="selected"><span class="selected">{{s.label}}</span></li>
+              <li class="menu"><span class="menu">{{s.label}}</span></li>
            {% else %}{% ifequal s.slug section.slug %}
-              <li class="selected"><span class="selected">{{s.label}}</span></li>
+              <li class="menu"><span class="menu">{{s.label}}</span></li>
            {% else %}{% ifaccessible s %}
               <li><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></li>
            {% else %}
@@ -83,5 +178,34 @@ $(document).ready(function () {
               <li id="span_{{s.slug}}" class="disabled"><span class="disabled">{{s.label}}</span></li>
            {% endifaccessible %}{% endifequal %}{% endifequal %}
         {% endfor %}
+        
      </ul>
+
+
+
+
+{% comment %}
+        {% getroot main as root %}
+            {% for s in root.get_children %}
+            {% if s.get_children_count %}
+                  {% for next in s.get_children %}
+                      <div id="{{s}}" name="{{s}}">
+                      <ul class="submenu" id="{{s}}">
+                      <li>
+                      <a id="{{next.slug}}" href="{{menu_prefix}}{{next.get_absolute_url}}">{{next.label}}</a>
+                      <span id="span_{{next.slug}}">{{next.label}}</span>
+                      </li><br/>
+                      {% endfor %}
+                      </ul>
+                      </div>
+                      {% endif %}{% endfor %}
+{% endcomment %}
+
+
+
+
+
+
+
+     
 {% endblock %}
