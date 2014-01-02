@@ -5,29 +5,44 @@
   <script type="text/javascript">
 jQuery(document).ready(function ()
 { 
-
-
-  jQuery('#Pre-Exam').hover(function ()
-  {
-
+    jQuery("#Welcome").hover(function ()
+    {
       jQuery('.menu', this ).append(
         <ul>
-
           {% getroot main as root %}
-            {% for s in root.get_children %}
-            {% ifequal s.label "Pre-Exam" %}
-            {% for next in s.get_children %}
-                    <li id="{{next.slug}}"><span class="menu"><a href="{{menu_prefix}}{{next.get_absolute_url}}">{{next.label}}</a></span></li>
-            {% endfor %}
-            {% endifequal %}
-
+          {% for s in root.get_children %}
+              {% ifequal s.label "Welcome" %}
+                  {% for next in s.get_children %}
+                          <li id="{{next.slug}}"><span class="menu"><a href="{{menu_prefix}}{{next.get_absolute_url}}">{{next.label}}</a></span></li>
+                  {% endfor %}
+              {% endifequal %}
           {% endfor %}
-
         </ul>
       );
-
     },
-    function (){
+    function ()
+    {
+        jQuery('ul', this).stop().slideUp(100);      
+    }
+  );
+  
+  jQuery('#Pre-Exam').hover(function ()
+  {
+      jQuery('.menu', this ).append(
+        <ul>
+          {% getroot main as root %}
+          {% for s in root.get_children %}
+              {% ifequal s.label "Pre-Exam" %}
+                  {% for next in s.get_children %}
+                          <li id="{{next.slug}}"><span class="menu"><a href="{{menu_prefix}}{{next.get_absolute_url}}">{{next.label}}</a></span></li>
+                  {% endfor %}
+              {% endifequal %}
+          {% endfor %}
+        </ul>
+      );
+    },
+    function ()
+    {
       jQuery('ul', this).stop().slideUp(100);      
     }
   );
@@ -35,73 +50,59 @@ jQuery(document).ready(function ()
 
   jQuery('#Post-Exam').hover(function ()
   {
-
       jQuery('.menu', this ).append(
         <ul>
-
-          {% getroot main as root %}
+        {% getroot main as root %}
             {% for s in root.get_children %}
-            {% ifequal s.label "Post-Exam" %}
-            {% for next in s.get_children %}
-                    <li id="{{next.slug}}"><span class="menu"><a href="{{menu_prefix}}{{next.get_absolute_url}}">{{next.label}}</a></span></li>
+                {% ifequal s.label "Post-Exam" %}
+                    {% for next in s.get_children %}
+                        <li id="{{next.slug}}"><span class="menu"><a href="{{menu_prefix}}{{next.get_absolute_url}}">{{next.label}}</a></span></li>
+                    {% endfor %}
+                {% endifequal %}
             {% endfor %}
-            {% endifequal %}
-
-          {% endfor %}
-
         </ul>
       );
-
     },
-    function (){
+    function ()
+    {
       jQuery('ul', this).stop().slideUp(100);      
     }
   );
 
 
-    jQuery("#Welcome").hover(function ()
-    {
-
+  jQuery('#Helping').hover(function ()
+  {
       jQuery('.menu', this ).append(
-
-          {% if menu_parent.get_children_count %}
-          <div>
-          <ul class="submenu">
-          {% for s in menu_parent.get_children %}
-          <li>
-          <a id="{{s.slug}}" href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a>
-          </li><br/>
-          {% endfor %}
-          </ul>
-          </div>
-          {% endif %}
-
-
-      );//end of append 
-
-    }, //end of first function
-      function ()
-      {
-        jQuery('ul', this).stop().slideUp(100);      
-      }
-  );//end of hover
-  
+        <ul>
+        {% getroot main as root %}
+            {% for s in root.get_children %}
+                {% ifequal s.label "Post-Exam" %}
+                    {% for next in s.get_children %}
+                        <li id="{{next.slug}}"><span class="menu"><a href="{{menu_prefix}}{{next.get_absolute_url}}">{{next.label}}</a></span></li>
+                    {% endfor %}
+                {% endifequal %}
+            {% endfor %}
+        </ul>
+      );
+    },
+    function ()
+    {
+      jQuery('ul', this).stop().slideUp(100);      
+    }
+  );
 
     jQuery("#Resources").hover(function ()
     {
 
-      jQuery('.menu', this ).append(
-
-        {% getroot resources as root %}
-        {% for s in root.get_children %}
-           {% ifequal s.label "Resources" %}
-            {% for next in s.get_children %}
-                    <li id="{{next.slug}}"><span class="menu"><a href="{{menu_prefix}}{{next.get_absolute_url}}">{{next.label}}</a></span></li>
-            {% endfor %}
-            {% endifequal %}
-        {% endfor %}
-
-
+      jQuery('#Resources').append(
+        <ul>
+            <li><span class="menu"><a href="{{ site.domain }}/main/media/pdf/TobaccoCessation_CourseGuide.pdf">Course Guide</a></span></li>
+            <li><span class="menu"><a href="{{ site.domain }}/main/media/pdf/PharmacotherapyTable.pdf">Pharmacotherapy Guide</a></span></li>
+            <li><span class="menu"><a href="{{ site.domain }}/main/media/pdf/CDM_Excuses_NotQuitting.pdf">Excuses For Not Quiting</a></span></li>
+            <li><span class="menu"><a href="{{ site.domain }}/main/media/pdf/CDM_Examples_Empathy.pdf">Examples of Empathy</a></span></li>
+            <li><span class="menu"><a href="{{ site.domain }}/main/media/pdf/CDM_Examples_Empathy.pdf">Videos</a></span></li>
+            <li><span class="menu"><a href="{{ site.domain }}/main/media/pdf/CDM_Examples_Empathy.pdf">External Resouces</a></span></li>
+        </ul>
       );//end of append 
 
     }, //end of first function
@@ -110,33 +111,6 @@ jQuery(document).ready(function ()
         jQuery('ul', this).stop().slideUp(100);      
       }
   );//end of hover
-
-
-  jQuery('#Helping Patients Quit').hover(function ()
-  {
-
-      jQuery('.menu', this ).append(
-        <ul>
-
-          {% getroot main as root %}
-            {% for s in root.get_children %}
-            {% ifequal s.label "Helping Patients Quit" %}
-            {% for next in s.get_children %}
-                    <li id="{{next.slug}}"><span class="menu"><a href="{{menu_prefix}}{{next.get_absolute_url}}">{{next.label}}</a></span></li>
-            {% endfor %}
-            {% endifequal %}
-
-          {% endfor %}
-
-        </ul>
-      );
-
-    },
-    function (){
-      jQuery('ul', this).stop().slideUp(100);      
-    }
-  );
-
 
 });//end of ready
 </script>
@@ -149,10 +123,10 @@ jQuery(document).ready(function ()
         {% getroot main as root %}
             {% for s in root.get_children %}
                 {% ifequal s.slug module.slug %}
-                    <li id="{{s}}" class="menu"><span class="menu">{{s.label}}</span></li>
+                    <li id="{{s}}"><span class="menu">{{s.label}}</span></li>
                 {% else %}
                 {% ifequal s.slug section.slug %}
-                      <li id="{{s}}" class="menu"><span class="menu">{{s.label}}</span></li>
+                      <li id="{{s}}"><span class="menu">{{s.label}}</span></li>
                 {% else %}
                 {% ifaccessible s %}
                     <li id="{{s}}"><span class="menu"><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></span></li>
@@ -167,9 +141,9 @@ jQuery(document).ready(function ()
         {% getroot resources as root %}
         {% for s in root.get_children %}
            {% ifequal s.slug module.slug %}
-              <li id="{{s}}" class="menu"><span class="menu">{{s.label}}</span></li>
+              <li id="{{s}}" class="menu">{{s.label}}</li>
            {% else %}{% ifequal s.slug section.slug %}
-              <li id="{{s}}" class="menu"><span class="menu">{{s.label}}</span></li>
+              <li id="{{s}}" class="menu">{{s.label}}</li>
            {% else %}{% ifaccessible s %}
               <li id="{{s}}"><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></li>
            {% else %}
