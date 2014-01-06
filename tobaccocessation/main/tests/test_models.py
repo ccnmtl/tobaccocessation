@@ -11,7 +11,14 @@ class UserProfileTest(TestCase):
         self.user = User.objects.create_user('test_student',
                                              'test@ccnmtl.com',
                                              'testpassword')
-        UserProfile.objects.get_or_create(user=self.user)[0]
+        UserProfile.objects.get_or_create(user=self.user,
+                           gender='M',
+                           is_faculty='ST',
+                           institute='I1',
+                           specialty='S1',
+                           hispanic_latino='Y',
+                           year_of_graduation=2015,
+                           consent=True)
 
         self.hierarchy = Hierarchy(name="main", base_url="/")
         self.hierarchy.save()

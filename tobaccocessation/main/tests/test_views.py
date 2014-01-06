@@ -99,7 +99,14 @@ class TestViews(TestCase):
     def test_consent_incomplete_profile(self):
         # User has a profile, but does not have "consent" or other
         # special fields filled out. Redirect to create profile
-        UserProfile.objects.get_or_create(user=self.user)[0]
+        UserProfile.objects.create(user=self.user,
+                                   gender='M',
+                                   is_faculty='ST',
+                                   institute='I1',
+                                   specialty='S1',
+                                   hispanic_latino='Y',
+                                   year_of_graduation=2015,
+                                   consent=False)
 
         self.c = Client()
         self.c.login(username='test_student', password='testpassword')
@@ -111,7 +118,14 @@ class TestViews(TestCase):
 
     def test_consent_complete_profile(self):
         # User has a complete profile
-        profile = UserProfile.objects.get_or_create(user=self.user)[0]
+        profile = UserProfile.objects.create(user=self.user,
+                                             gender='M',
+                                             is_faculty='ST',
+                                             institute='I1',
+                                             specialty='S1',
+                                             hispanic_latino='Y',
+                                             year_of_graduation=2015,
+                                             consent=True)
         profile.gender = 'F'
         profile.is_faculty = 'ST'
         profile.specialty = 'S10'
