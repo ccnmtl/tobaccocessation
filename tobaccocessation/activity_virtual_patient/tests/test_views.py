@@ -16,7 +16,14 @@ class TestViews(TestCase):
         self.u = User.objects.create(username="testuser")
         self.u.set_password("test")
         self.u.save()
-        UserProfile.objects.create(user=self.u)
+        UserProfile.objects.create(user=self.u,
+                                   gender='M',
+                                   is_faculty='ST',
+                                   institute='I1',
+                                   specialty='S1',
+                                   hispanic_latino='Y',
+                                   year_of_graduation=2015,
+                                   consent=True)
         self.c = Client()
         self.c.login(username="testuser", password="test")
 
