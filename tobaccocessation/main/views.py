@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
 from django.utils import simplejson
-from pagetree.helpers import get_section_from_path, get_module, get_hierarchy
+from pagetree.helpers import get_section_from_path, get_module
 from pagetree.models import Section
 from tobaccocessation.activity_prescription_writing.models import \
     ActivityState as PrescriptionWritingActivityState
@@ -13,9 +13,6 @@ from tobaccocessation.activity_treatment_choice.models import \
 from tobaccocessation.activity_virtual_patient.models import \
     ActivityState as VirtualPatientActivityState
 from tobaccocessation.main.models import QuickFixProfileForm, UserProfile
-from django.core import validators
-from django import forms
-from django.core.validators import ValidationError
 UNLOCKED = ['resources']  # special cases
 
 
@@ -171,7 +168,7 @@ def create_profile(request):
     if request.method == 'POST':
         form = QuickFixProfileForm(request.POST)
         if form.is_valid():
-            user_profile.institute = form.data['institute']#'I1'
+            user_profile.institute = form.data['institute']
             user_profile.consent = True
             user_profile.is_faculty = form.data['is_faculty']
             user_profile.year_of_graduation = form.data['year_of_graduation']
