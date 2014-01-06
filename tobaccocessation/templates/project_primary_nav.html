@@ -70,13 +70,13 @@ jQuery(document).ready(function ()
   );
 
 
-  jQuery('#Helping').hover(function ()
+  jQuery('[name="assist"]').hover(function ()
   {
       jQuery('.menu', this ).append(
         <ul>
         {% getroot main as root %}
             {% for s in root.get_children %}
-                {% ifequal s.label "Post-Exam" %}
+                {% ifequal s.label "Helping Patients Quit" %}
                     {% for next in s.get_children %}
                         <li id="{{next.slug}}"><span class="menu"><a href="{{menu_prefix}}{{next.get_absolute_url}}">{{next.label}}</a></span></li>
                     {% endfor %}
@@ -129,9 +129,9 @@ jQuery(document).ready(function ()
                       <li id="{{s}}"><span class="menu">{{s.label}}</span></li>
                 {% else %}
                 {% ifaccessible s %}
-                    <li id="{{s}}"><span class="menu"><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></span></li>
+                    <li id="{{s.label}}" name="{{s.slug}}"><span class="menu"><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></span></li>
                 {% else %}
-                    <li id="{{s}}"><span class="menu"><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></span></li>
+                    <li id="{{s.label}}" name="{{s.slug}}"><span class="menu"><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></span></li>
                 {% endifaccessible %}
                 {% endifequal %}
                 {% endifequal %}
