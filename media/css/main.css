@@ -395,6 +395,7 @@ display: block;
 	min-width: 60px;
 	text-align: center;
 	font-weight: bold;
+	z-index:1;
 }
 
 #primarynav li.disabled, #primarynav li.disabled:hover
@@ -437,6 +438,7 @@ display: block;
 #primarynav #usernav li a:hover
 {
 	color: #fff;
+	z-index:1;
 	
 }
 
@@ -878,68 +880,12 @@ body.fluid #pagebody
 	width: 100%;
 }
 
-/* ---- sidebar block elements ---------- */
-body.fluid #pagebody #sidebar_left {
-display:block;
-margin: 1em 1em 1em 10px;
-float: left;
-}
-
-
-body.fluid #pagebody #sidebar_left ul {
-	list-style: none;
-	font-size: 84%;
-	margin-left: 1em;
-	margin-bottom: 1.5em;
-	
-
-}
-
-body.fluid #pagebody #sidebar_left ul li{
-	padding: 5px;
-	border-bottom: 2px solid #fff;
-	background-color: #e1e1e1;
-	color: #333;
-	margin: 0;
-}
-
-body.fluid #pagebody #sidebar_left ul {
-	padding: 0px;
-	background-color: #fff;
-	color: #333;
-	margin: -5px 0 0 0;
-}
-
 li.reference{
     padding: 0px;
     background-color: #fff;
     color: #333;
     margin: -5px 0 10px 0;
 }
-
-
-body.fluid #pagebody #sidebar_left ul li.reference a{
- line-height: 20px;
-color: #84240A;
-}
-
-body.fluid #pagebody #sidebar_left ul li.reference a:hover{
-	text-decoration: underline;
-}
-
-body.fluid #pagebody #sidebar_left ul li a{
-	text-decoration: none;
-	color: #333;
-}
-
-body.fluid #pagebody #sidebar_left ul li.selected{
-
-	background-color: #333;
-	color: #fff;
-	font-weight: normal;
-}
-
-
 
 
 /* ---- Footer block elements ---------- */
@@ -992,100 +938,7 @@ float: left;
 	border: 0;
 }
 
-/* ---- Sub navigation block elements ---------- */
-#subnav
-{
-   width: 900px;
-   height: 30px;
-   min-width: 900px;
-   clear: both;
-   margin: 0;
-   padding: 0;
-   border: 0;
-   border-top: 4px solid #eaa141;
-   font-size: 84%;
-   background-color: #efc48d;
-   
-}
 
-#subnav div.encase
-{
-   width: 900px;
-   height: 30px;
-}
-
-#subnav ul
-{
-   float: left;
-   height: 33px;
-   margin: 0px;
-   padding: 0;
-   border: 0;
-   list-style: none;
-}
-
-#subnav #leftside ul
-{
-   float: left;
-}
-
-#subnav #rightside ul
-{
-   float: right;
-}
-
-#subnav li
-{
-	display: block;
-	float: left;
-	margin: 0 ;
-	padding: 3px .5em 2px .5em;
-	border: none;
-	border-right: 1px solid #eaa141;
-	line-height: 24px;
-	text-align: center;
-	border-collapse: collapse;
-
-}
-
-#subnav li.selected
-{
-    display: block;
-    height: 25px;
-   color: #333;
-	background-color: #fff;
-
-
-
-}
-
-
-#subnav li.selected .selected
-{
-	display: block;
-
-	height: 25px;
-		background-color: #fff;
-	margin:0;
-
-
-	
-}
-
-
-
-#subnav a
-{
-   text-decoration: none;
-}
-
-
-
-#subnav a:hover
-{
-   color: #c00;
-   text-decoration: none;
-}
 
 #content .content-nav-block
 {
@@ -1094,7 +947,6 @@ float: left;
    height: 1.5em;
 
 }
-
 
 #content .content-nav
 {
@@ -1203,12 +1055,6 @@ display: block;
 	margin-bottom:-10px;
 }
 
-   
-#sidebar_left .disabled_link
-{
-   color: #999;
-}
-
 
 a.reset_button {
 
@@ -1306,6 +1152,161 @@ font-size: 80%;
 #contact #contactform .submitcell {
     text-align: right;
 }
+
+
+#subnav
+{
+   width: 900px;
+   height: 30px;
+   min-width: 900px;
+   clear: both;
+   margin: 0;
+   padding: 0;
+   border: 0;
+   border-top: 4px solid #eaa141;
+   font-size: 84%;
+   background-color: #efc48d;
+   
+}
+
+#subnav div.encase
+{
+   width: 900px;
+   height: 30px;
+}
+
+#subnav ul
+{
+   float: left;
+   height: 33px;
+   margin: 0px;
+   padding: 0;
+   border: 0;
+   list-style: none;
+}
+
+#subnav #leftside ul
+{
+   float: left;
+}
+
+#subnav #rightside ul
+{
+   float: right;
+}
+
+#subnav li
+{
+	display: block;
+	float: left;
+	margin: 0 ;
+	padding: 3px .5em 2px .5em;
+	border: none;
+	border-right: 1px solid #eaa141;
+	line-height: 24px;
+	text-align: center;
+	border-collapse: collapse;
+
+}
+
+#subnav li.selected
+{
+    display: block;
+    height: 25px;
+   color: #333;
+	background-color: #fff;
+
+
+
+}
+
+
+#subnav li.selected .selected
+{
+	display: block;
+
+	height: 25px;
+		background-color: #fff;
+	margin:0;
+
+
+	
+}
+
+
+
+#subnav a
+{
+   text-decoration: none;
+}
+
+
+
+#subnav a:hover
+{
+   color: #c00;
+   text-decoration: none;
+}
+
+/* ---- sidebar block elements ---------- */
+body.fluid #pagebody #sidebar_left {
+display:block;
+margin: 1em 1em 1em 10px;
+float: left;
+}
+
+
+body.fluid #pagebody #sidebar_left ul {
+	list-style: none;
+	font-size: 84%;
+	margin-left: 1em;
+	margin-bottom: 1.5em;
+	
+
+}
+
+body.fluid #pagebody #sidebar_left ul li{
+	padding: 5px;
+	border-bottom: 2px solid #fff;
+	background-color: #e1e1e1;
+	color: #333;
+	margin: 0;
+}
+
+body.fluid #pagebody #sidebar_left ul {
+	padding: 0px;
+	background-color: #fff;
+	color: #333;
+	margin: -5px 0 0 0;
+}
+
+body.fluid #pagebody #sidebar_left ul li.reference a{
+ line-height: 20px;
+color: #84240A;
+}
+
+body.fluid #pagebody #sidebar_left ul li.reference a:hover{
+	text-decoration: underline;
+}
+
+body.fluid #pagebody #sidebar_left ul li a{
+	text-decoration: none;
+	color: #333;
+}
+
+body.fluid #pagebody #sidebar_left ul li.selected{
+
+	background-color: #333;
+	color: #fff;
+	font-weight: normal;
+}
+
+
+#sidebar_left .disabled_link
+{
+   color: #999;
+}
+
 
 
 
