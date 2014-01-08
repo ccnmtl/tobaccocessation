@@ -7,9 +7,7 @@
     
     <script src="/site_media/js/jquery-1.10.1.min.js" type="text/javascript" ></script>
     <script src="/site_media/js/jquery-ui-1.10.3.min.js" type="text/javascript" ></script>
-    <script type="text/javascript" src="/site_media/bootstrap/js/bootstrap.js"></script>
-
-
+    <script type="text/javascript" src="/site_media/bootstrap/js/bootstrap.min.js"></script>
 
     <link rel="shortcut icon" href="/site_media/img/favicon.ico" type="image/x-icon" />
         
@@ -44,10 +42,8 @@
         	<div id="primarynav">
         		<div class="encase" id="{% block navalignment %}leftside{% endblock %}">
         			{% block primarynavtabs %}
-                    {% with module as menu_parent %}
-                    {% with '/pages' as menu_prefix %}
-                        {% include "project_primary_nav.html" %}       
-                    {% endwith %}
+                        {% with module as menu_parent %}
+                            {% include "project_primary_nav.html" %}       
                         {% endwith %}
         			{% endblock %}
         			

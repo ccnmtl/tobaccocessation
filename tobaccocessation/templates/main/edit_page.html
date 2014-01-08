@@ -83,51 +83,58 @@
 {% endblock %}
 
 {% block primarynav %}
-    {% with '/pages/edit' as menu_prefix %}
+    {% with '/edit' as menu_prefix %}
          {{ block.super }}
     {% endwith %}
-{% endblock %}
-
-{% block subnav %}
-    {% with '/pages/edit' as menu_prefix %}
-         {{ block.super }}
-    {% endwith %}
-{% endblock %}
-
-{% block navrightextra %}
-    <ul class="nav pull-right">
-        <li><a href="/pages{{section.get_absolute_url}}">View Page</a></li>
-    </ul>
-{% endblock %}
-
-
-{% block sidebarleft %}
-   {% if leftnav.get_children %}
-      {% with leftnav as selected_parent %}
-         <h4>Sections</h4>
-         {% with '/edit' as menu_prefix %}
-            {% include "project_sub_nav.html" %}
-         {% endwith %}
-      {% endwith %}
-   {% endif %}
-   <br /> 
 {% endblock %}
 
 {% block content %}
+    <ul class="nav pull-right">
+        <li><a href="{{section.get_edit_url}}">View Page</a></li>
+    </ul>
+
 <h1>{{ section.label }}</h1>
 
 <ul class="nav nav-tabs">
-  <li class="active"><a href="#edit-blocks-tab" data-toggle="tab">Edit Blocks</a></li>
-  <li><a href="#children-tab" data-toggle="tab">Children</a></li>
-  <li><a href="#add-pageblock-tab" data-toggle="tab">Add Pageblock</a></li>
-  <li><a href="#edit-page-tab" data-toggle="tab">Edit Section</a></li>
-  <li><a href="#history-tab" data-toggle="tab">History</a></li>
+    <li {% if section.is_root %}class="active"{% endif%}>
+        <a href="#content-tree" data-toggle="tab">Hierarchy</a>
+    </li>
+    <li {% if not section.is_root %}class="active"{% endif%}>
+        <a href="#edit-blocks-tab" data-toggle="tab">Edit Blocks</a>
+    </li>
+    <li><a href="#children-tab" data-toggle="tab">Children</a></li>
+    <li><a href="#add-pageblock-tab" data-toggle="tab">Add Pageblock</a></li>
+    <li><a href="#edit-page-tab" data-toggle="tab">Edit Section</a></li>
+    <li><a href="#move-section-tab" data-toggle="tab">Move Section</a></li>
+    <li><a href="#history-tab" data-toggle="tab">History</a></li>
 </ul>
 
 <div class="tab-content">
+    <div id="content-tree" class="tab-pane {% if section.is_root %}active{% endif%}">
+        {% with section.hierarchy as hierarchy %}
+        <div style="margin-top: 5px; margin-left: 5px;">
+            <h3>{{hierarchy.name}}</h3>             
+            <a href="{{root.get_edit_url}}"><b>{{hierarchy.get_root.name}}</b></a>
+            <ul>
+                 {% for s in hierarchy.get_root.get_descendants %}                 
+                      <li class="menu" style="list-style: none; line-height: 150%">
+                         <a href="{{s.get_edit_url}}">{{s.label}}{% ifequal s section %} <i class="icon-hand-left"></i>{% endifequal %}</a>
+      
+                         {% if s.get_children %}
+                            <ul>
+                        {% else %}{% if s.is_last_child %}
+                            {% for lc in s.closing_children %}
+                                </ul>
+                            {% endfor %}
+                        {% endif %}{% endif %}     
+                     </li>
+                 {% endfor %}
+             </ul>
+         </div>
+         {% endwith %}
+    </div>        
 
-
-<div id="edit-blocks-tab" class="tab-pane active"/>
+<div id="edit-blocks-tab" class="tab-pane {% if not section.is_root %}active{% endif%}"/>
 {% if section.pageblock_set.count %}
 
 <p>Drag the <i class="icon-resize-vertical"></i> arrows to reorder pageblocks:</p>
@@ -224,7 +231,7 @@ class=""
     {% for child in section.get_children %}
         <li class="draggable" id="child-{{child.id}}">
             <span title="drag to reorder pageblocks" class="draghandle ui-icon ui-icon-arrowthick-2-n-s"></span>
-            <a href="/edit{{child.get_absolute_url}}">{{child.label}}</a>
+            <a href="{{child.get_edit_url}}">{{child.label}}</a>
         </li>
     {% endfor %}
 </ul>
@@ -310,6 +317,19 @@ method="post">
 
 </div>
 
+<div id="move-section-tab" class="tab-pane">
+    <form action="{% url 'move-section' section.id %}" method="post">{% csrf_token %}        
+        <fieldset>
+            <legend>Move "{{section.label}}" Section To...</legend>
+            <p>
+                {{ section.move_form.as_p }}
+                <input value="Move" class="default" name="_move" type="submit">
+            </p>
+        </fieldset>
+    </form>
+</div>
+
+
 <div id="history-tab" class="tab-pane">
 
 {% if section.version_set.count %}
@@ -345,7 +365,7 @@ method="post">
 <td>
   {% if previous %}
      {% ifequal section.hierarchy.name "main" %}
-        <a href="/pages/edit{{previous.get_absolute_url}}" id="previous">« {{previous.label}}</a>
+        <a href="{{previous.get_edit_url}}" id="previous">« {{previous.label}}</a>
      {% endifequal %}
   {% endif %}</td><td width="100%" align="center>
   <div id="page_numbering">
@@ -364,7 +384,7 @@ method="post">
   {% if next %}
      <!-- added to allow javascript access to the menu links. hack for the js activities enabling/disabling of links -->
      <input type="hidden" id="next_section_slug" name="next_section_slug" value="/edit{{next.slug}}"/>
-     <a href="/pages/edit{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
+     <a href="{{next.get_edit_url}}" id="next">{{next.label}} »</a>
      <div style="display: none;" id="next_disabled">{{next.label}} <img align="top" src="/site_media/img/lock.png"/></div>
   {% endif %}</td></tr></table>
 {% endblock %}

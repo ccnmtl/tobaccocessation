@@ -21,42 +21,13 @@
 
 {% block title %}{{section.label}}{% endblock %}
 
-{% block sidebarleft %}
-    {% if leftnav.get_children %}
-        {% with leftnav as selected_parent %}
-            <h4>Sections</h4>
-    	    {% include "project_sub_nav.html" %}
-            <br />            	   
-        {% endwith %}
-    {% endif %}
-    <h4>Quick References</h4>
-    <ul>
-        <li class="reference">
-            <a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/TobaccoCessation_CourseGuide.pdf" target="_blank"><img alt="icon" src="/site_media/img/icon_table.jpg" style="margin-right: 3px; vertical-align: middle;"/></a>&nbsp;<a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/TobaccoCessation_CourseGuide.pdf" target="_blank">Course Guide</a>
-        </li>
-        {% ifequal module.slug "assist" %}
-        <li class="reference">
-            <a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/PharmacotherapyTable.pdf" target="_blank"><img alt="icon" src="/site_media/img/icon_table.jpg" style="margin-right: 3px; vertical-align: middle;"/></a>&nbsp;<a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/PharmacotherapyTable.pdf" target="_blank">Pharmacotherapy Table</a>
-        </li>
-        {% endifequal %}
-        {% ifequal section.hierarchy.name "resources" %}
-        <li class="reference">
-            <a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/PharmacotherapyTable.pdf" target="_blank"><img alt="icon" src="/site_media/img/icon_table.jpg" style="margin-right: 3px; vertical-align: middle;"/></a>&nbsp;<a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/PharmacotherapyTable.pdf" target="_blank">Pharmacotherapy Table</a>
-        </li>
-        {% endifequal %}
-    </ul>    
-{% endblock %}
-
-{% block navrightextra %}
-    {% if user.is_staff %}
-    <ul class="nav pull-right">
-        <li><a href="/pages/edit{{section.get_absolute_url}}">Edit Page</a></li>        
-    </ul>
-    {% endif %}
-{% endblock %}
-
 
 {% block content %}
+    {% if user.is_staff %}
+    <ul class="nav pull-right">
+        <li><a href="{{section.get_edit_url}}">Edit Page</a></li>        
+    </ul>
+    {% endif %}
    {% if not accessible %}
       <br />
       This page is not currently accessible. Please complete your current section before moving onto a new section.
@@ -106,10 +77,10 @@
          <!-- added to allow javascript access to the menu links. hack for the js activities enabling/disabling of links -->
          <input type="hidden" id="next_section_slug" name="next_section_slug" value="{{next.slug}}"/>
          {% ifaccessible next %}
-            <a href="/pages{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
+            <a href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
             <div style="display: none;" id="next_disabled">{{next.label}} <img align="top" src="/site_media/img/lock.png" alt="locked"/></div>
          {% else %}
-            <a style="display: none" href="/pages{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
+            <a style="display: none" href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
             <div id="next_disabled">{{next.label}} <img align="top" src="/site_media/img/lock.png" alt="locked"/></div>
          {% endifaccessible %}
       {% endif %}
