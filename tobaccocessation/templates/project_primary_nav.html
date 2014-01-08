@@ -89,16 +89,16 @@ jQuery(function () {
                 {% else %}
                 {% ifaccessible s %}
                     <li id="{{s.label}}" name="{{s.slug}}"><span class="menu"><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></span></li>
-                    <ul id="welcome"  style="display:none;">
-                    {% getroot main as root %}
-                    {% for s in root.get_children %}
-                    {% ifequal s.label "Welcome" %}
-                    {% for next in s.get_children %}
+                      <ul id="welcome"  style="display:none;">
+                      {% getroot main as root %}
+                      {% for s in root.get_children %}
+                      {% ifequal s.label "Welcome" %}
+                      {% for next in s.get_children %}
                       <li id="{{next.slug}}"><span class="menu"><a href="{{menu_prefix}}{{next.get_absolute_url}}">{{next.label}}</a></span></li>
-                    {% endfor %}
-                    {% endifequal %}
-                    {% endfor %}
-                    </ul>
+                      {% endfor %}
+                      {% endifequal %}
+                      {% endfor %}
+                      </ul>
 
 
                       <ul id="patientmenu" style="display:none;">
@@ -106,164 +106,81 @@ jQuery(function () {
                       {% for s in root.get_children %}
                       {% ifequal s.label "Helping Patients Quit" %}
                       {% for next in s.get_children %}
+
+                        {% ifequal next.label "NRT - Nasal Spray" %}
+                        {% for e in next.get_children%}
+                        <ul style="display:block;">
+                        <li id="{{e.slug}}"><a href="{{menu_prefix}}{{e.get_absolute_url}}">{{e.label}}</a></li><br>
+                        </ul>
+                        {% endfor %}
+                        {% endifequal %}
+
+                        {% ifequal next.label "NRT - Inhaler" %}
+                        {% for e in next.get_children%}
+                        <ul style="display:block;">
+                        <li id="{{e.slug}}"><a href="{{menu_prefix}}{{e.get_absolute_url}}">{{e.label}}</a></li><br>
+                        </ul>
+                        {% endfor %}
+                        {% endifequal %}
+
+                        {% ifequal next.label "NRT - Lozenge" %}
+                        {% for e in next.get_children%}
+                        <ul style="display:block;">
+                        <li id="{{e.slug}}"><a href="{{menu_prefix}}{{e.get_absolute_url}}">{{e.label}}</a></li><br>
+                        </ul>
+                        {% endfor %}
+                        {% endifequal %}
+
+                        {% ifequal next.label "NRT - Gum" %}
+                        {% for e in next.get_children%}
+                        <ul style="display:block;">
+                        <li id="{{e.slug}}"><a href="{{menu_prefix}}{{e.get_absolute_url}}">{{e.label}}</a></li><br>
+                        </ul>
+                        {% endfor %}
+                        {% endifequal %}
+
+                        {% ifequal next.label "NRT - Patch" %}
+                        {% for e in next.get_children%}
+                        <ul style="display:block;">
+                        <li id="{{e.slug}}"><a href="{{menu_prefix}}{{e.get_absolute_url}}">{{e.label}}</a></li><br>
+                        </ul>
+                        {% endfor %}
+                        {% endifequal %}
+
+
+
+
                         <li id="{{next.slug}}"><a href="{{menu_prefix}}{{next.get_absolute_url}}">{{next.label}}</a></li>
                       {% endfor %}
                       {% endifequal %}
                       {% endfor %}
-                    </ul>
+                      </ul>
 
 
-
-{% comment %}
-                     <ul id="treatmentoptions">
+                      <ul id="postexammenu" style="display:none;">
                       {% getroot main as root %}
-                      {% for r in root.get_children %}
-                      {% ifequal r.label "Helping Patients Quit" %}
-                        {% for s in r.get_children %}
-                          {% ifequal s.label "NRTs" %}
-                            {% for t in s.get_children %}
-                            <li id="{{t.slug}}"><a href="{{menu_prefix}}{{t.get_absolute_url}}">{{t.label}}</a></li>
-                            {% endfor %}
-                            {% endifequal %}
+                      {% for s in root.get_children %}
+                      {% ifequal s.label "Post-Exam" %}
+                      {% for next in s.get_children %}
+                      <li id="{{next.slug}}"><a href="{{menu_prefix}}{{next.get_absolute_url}}">{{next.label}}</a></li>
                       {% endfor %}
                       {% endifequal %}
                       {% endfor %}
-                    </ul>
+                      </ul>
 
-                    <ul id="othertreatment">
+
+                      <ul id="preexammenu" style="display:none;">
                       {% getroot main as root %}
-                      {% for r in root.get_children %}
-                      {% ifequal r.label "Helping Patients Quit" %}
-                        {% for s in r.get_children %}
-                          {% ifequal s.label "NRTs" %}
-                          <ul>
-                            {% for t in s.get_children %}
-                            {% ifequal t.label "Patch" %}
-                            <ul><li id="{{t.slug}}"><a href="{{menu_prefix}}{{t.get_absolute_url}}">{{t.label}}</a></li>
-                                {% for n in t.get_children %}
-                                <li id="{{n.slug}}"><a href="{{menu_prefix}}{{n.get_absolute_url}}">{{n.label}}</a></li>
-                                {% endfor %}</ul>
-                            {% endifequal %}
-
-                            {% ifequal t.label "Gum" %}
-                            <ul><li id="{{t.slug}}"><a href="{{menu_prefix}}{{t.get_absolute_url}}">{{t.label}}</a></li>
-                                {% for n in t.get_children %}
-                                <li id="{{n.slug}}"><a href="{{menu_prefix}}{{n.get_absolute_url}}">{{n.label}}</a></li>
-                                {% endfor %}</ul>
-                            {% endifequal %}
-
-                            {% ifequal t.label "Lozenge" %}
-                            <li id="{{t.slug}}"><a href="{{menu_prefix}}{{t.get_absolute_url}}">{{t.label}}</a></li>
-                                <ul>{% for n in t.get_children %}
-                                <li id="{{n.slug}}"><a href="{{menu_prefix}}{{n.get_absolute_url}}">{{n.label}}</a></li>
-                                {% endfor %}</ul>
-                            {% endifequal %}
-
-                            {% ifequal t.label "Nasal Spray" %}
-                            <li id="{{t.slug}}"><a href="{{menu_prefix}}{{t.get_absolute_url}}">{{t.label}}</a></li>
-                            <ul>
-                                {% for n in t.get_children %}
-                                <li id="{{n.slug}}"><a href="{{menu_prefix}}{{n.get_absolute_url}}">{{n.label}}</a></li>
-                                {% endfor %}
-                                </ul>
-                            </ul>
-                            {% endifequal %}
-
-
-                            {% ifequal t.label "Inhaler" %}
-                            <li id="{{t.slug}}"><a href="{{menu_prefix}}{{t.get_absolute_url}}">{{t.label}}</a></li>
-                                <ul>
-                                {% for n in t.get_children %}
-                                <li id="{{n.slug}}"><a href="{{menu_prefix}}{{n.get_absolute_url}}">{{n.label}}</a></li>
-                                {% endfor %}
-                                </ul>
-                            {% endifequal %}
-                            {% endfor %}
-
-                          {% endifequal %}
+                      {% for s in root.get_children %}
+                      {% ifequal s.label "Pre-Exam" %}
+                      {% for next in s.get_children %}
+                      <li id="{{next.slug}}"><a href="{{menu_prefix}}{{next.get_absolute_url}}">{{next.label}}</a></li>
                       {% endfor %}
                       {% endifequal %}
                       {% endfor %}
-                    </ul>
-{% endcomment %}
-
-
-{% comment %}
-                    <ul id="PatchList">
-                      {% getroot main as root %}
-                      {% for r in root.get_children %}
-                      {% ifequal r.label "Helping Patients Quit" %}
-                        {% for s in r.get_children %}
-                          {% ifequal s.label "NRTs" %}
-                            {% for t in s.get_children %}
-                            {% ifequal t.label "Patch" %}
-                            <ul>
-                                {% for n in t.get_children %}
-                                <li id="{{n.slug}}"><a href="{{menu_prefix}}{{n.get_absolute_url}}">{{n.label}}</a></li>
-                                {% endfor %}
-                            </ul>
-                            {% endifequal %}
-                            {% endfor %}
-
-                          {% endifequal %}
-                      {% endfor %}
-                      {% endifequal %}
-                      {% endfor %}
-{% endcomment %}     
-                    <ul id="PatchList">
-                      {% getroot main as root %}
-                      {% for r in root.get_children %}
-                      {% ifequal r.label "Helping Patients Quit" %}
-                        {% for s in r.get_children %}
-                          {% ifequal s.label "NRTs" %}
-                            {% for t in s.get_children %}
-                            {% ifequal t.label "Patch" %}
-                            <ul>
-                                {% for n in t.get_children %}
-                                <li id="{{n.slug}}"><a href="{{menu_prefix}}{{n.get_absolute_url}}">{{n.label}}</a></li>
-                                {% endfor %}
-                            </ul>
-                            {% endifequal %}
-                            {% endfor %}
-
-                          {% endifequal %}
-                      {% endfor %}
-                      {% endifequal %}
-                      {% endfor %}
-
-
-
-
-
-
-
-
-
-
-                     <ul id="postexammenu" style="display:none;">
-                    {% getroot main as root %}
-                    {% for s in root.get_children %}
-                    {% ifequal s.label "Post-Exam" %}
-                    {% for next in s.get_children %}
-                        <li id="{{next.slug}}"><a href="{{menu_prefix}}{{next.get_absolute_url}}">{{next.label}}</a></li>
-                    {% endfor %}
-                    {% endifequal %}
-                    {% endfor %}
-                    </ul>
-
-
-        <ul id="preexammenu" style="display:none;">
-          {% getroot main as root %}
-          {% for s in root.get_children %}
-              {% ifequal s.label "Pre-Exam" %}
-                  {% for next in s.get_children %}
-                          <li id="{{next.slug}}"><a href="{{menu_prefix}}{{next.get_absolute_url}}">{{next.label}}</a></li>
-                  {% endfor %}
-              {% endifequal %}
-          {% endfor %}
-        </ul>
-                {% else %}
-                    <li id="{{s.label}}" name="{{s.slug}}"><span class="menu"><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></span></li>
+                      </ul>
+                      {% else %}
+                      <li id="{{s.label}}" name="{{s.slug}}"><span class="menu"><a href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}</a></span></li>
 
 
 
