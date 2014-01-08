@@ -100,7 +100,7 @@ jQuery(function () {
                     {% endfor %}
                     </ul>
 
-                    
+
                       <ul id="patientmenu" style="display:none;">
                       {% getroot main as root %}
                       {% for s in root.get_children %}
@@ -111,6 +111,133 @@ jQuery(function () {
                       {% endifequal %}
                       {% endfor %}
                     </ul>
+
+
+
+{% comment %}
+                     <ul id="treatmentoptions">
+                      {% getroot main as root %}
+                      {% for r in root.get_children %}
+                      {% ifequal r.label "Helping Patients Quit" %}
+                        {% for s in r.get_children %}
+                          {% ifequal s.label "NRTs" %}
+                            {% for t in s.get_children %}
+                            <li id="{{t.slug}}"><a href="{{menu_prefix}}{{t.get_absolute_url}}">{{t.label}}</a></li>
+                            {% endfor %}
+                            {% endifequal %}
+                      {% endfor %}
+                      {% endifequal %}
+                      {% endfor %}
+                    </ul>
+
+                    <ul id="othertreatment">
+                      {% getroot main as root %}
+                      {% for r in root.get_children %}
+                      {% ifequal r.label "Helping Patients Quit" %}
+                        {% for s in r.get_children %}
+                          {% ifequal s.label "NRTs" %}
+                          <ul>
+                            {% for t in s.get_children %}
+                            {% ifequal t.label "Patch" %}
+                            <ul><li id="{{t.slug}}"><a href="{{menu_prefix}}{{t.get_absolute_url}}">{{t.label}}</a></li>
+                                {% for n in t.get_children %}
+                                <li id="{{n.slug}}"><a href="{{menu_prefix}}{{n.get_absolute_url}}">{{n.label}}</a></li>
+                                {% endfor %}</ul>
+                            {% endifequal %}
+
+                            {% ifequal t.label "Gum" %}
+                            <ul><li id="{{t.slug}}"><a href="{{menu_prefix}}{{t.get_absolute_url}}">{{t.label}}</a></li>
+                                {% for n in t.get_children %}
+                                <li id="{{n.slug}}"><a href="{{menu_prefix}}{{n.get_absolute_url}}">{{n.label}}</a></li>
+                                {% endfor %}</ul>
+                            {% endifequal %}
+
+                            {% ifequal t.label "Lozenge" %}
+                            <li id="{{t.slug}}"><a href="{{menu_prefix}}{{t.get_absolute_url}}">{{t.label}}</a></li>
+                                <ul>{% for n in t.get_children %}
+                                <li id="{{n.slug}}"><a href="{{menu_prefix}}{{n.get_absolute_url}}">{{n.label}}</a></li>
+                                {% endfor %}</ul>
+                            {% endifequal %}
+
+                            {% ifequal t.label "Nasal Spray" %}
+                            <li id="{{t.slug}}"><a href="{{menu_prefix}}{{t.get_absolute_url}}">{{t.label}}</a></li>
+                            <ul>
+                                {% for n in t.get_children %}
+                                <li id="{{n.slug}}"><a href="{{menu_prefix}}{{n.get_absolute_url}}">{{n.label}}</a></li>
+                                {% endfor %}
+                                </ul>
+                            </ul>
+                            {% endifequal %}
+
+
+                            {% ifequal t.label "Inhaler" %}
+                            <li id="{{t.slug}}"><a href="{{menu_prefix}}{{t.get_absolute_url}}">{{t.label}}</a></li>
+                                <ul>
+                                {% for n in t.get_children %}
+                                <li id="{{n.slug}}"><a href="{{menu_prefix}}{{n.get_absolute_url}}">{{n.label}}</a></li>
+                                {% endfor %}
+                                </ul>
+                            {% endifequal %}
+                            {% endfor %}
+
+                          {% endifequal %}
+                      {% endfor %}
+                      {% endifequal %}
+                      {% endfor %}
+                    </ul>
+{% endcomment %}
+
+
+{% comment %}
+                    <ul id="PatchList">
+                      {% getroot main as root %}
+                      {% for r in root.get_children %}
+                      {% ifequal r.label "Helping Patients Quit" %}
+                        {% for s in r.get_children %}
+                          {% ifequal s.label "NRTs" %}
+                            {% for t in s.get_children %}
+                            {% ifequal t.label "Patch" %}
+                            <ul>
+                                {% for n in t.get_children %}
+                                <li id="{{n.slug}}"><a href="{{menu_prefix}}{{n.get_absolute_url}}">{{n.label}}</a></li>
+                                {% endfor %}
+                            </ul>
+                            {% endifequal %}
+                            {% endfor %}
+
+                          {% endifequal %}
+                      {% endfor %}
+                      {% endifequal %}
+                      {% endfor %}
+{% endcomment %}     
+                    <ul id="PatchList">
+                      {% getroot main as root %}
+                      {% for r in root.get_children %}
+                      {% ifequal r.label "Helping Patients Quit" %}
+                        {% for s in r.get_children %}
+                          {% ifequal s.label "NRTs" %}
+                            {% for t in s.get_children %}
+                            {% ifequal t.label "Patch" %}
+                            <ul>
+                                {% for n in t.get_children %}
+                                <li id="{{n.slug}}"><a href="{{menu_prefix}}{{n.get_absolute_url}}">{{n.label}}</a></li>
+                                {% endfor %}
+                            </ul>
+                            {% endifequal %}
+                            {% endfor %}
+
+                          {% endifequal %}
+                      {% endfor %}
+                      {% endifequal %}
+                      {% endfor %}
+
+
+
+
+
+
+
+
 
 
                      <ul id="postexammenu" style="display:none;">
@@ -173,9 +300,6 @@ jQuery(function () {
 
       </div>
      </ul>
-
-
-
 
 
 
