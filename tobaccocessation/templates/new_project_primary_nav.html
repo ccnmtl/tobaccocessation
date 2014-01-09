@@ -138,11 +138,21 @@ SORT OF WORKS
             {% for s in root.get_descendants %}
                 {% if s.depth == 2 %}
                     <li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" href="#">{{s.label}}{{s.depth}}<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                    {% for n in s.get_children %}
-                    <li class="dropdown-submenu"><a href="#">{{n.label}}{{n.depth}}</a>
-                    {% endfor %}
-                    </li></ul>
+                        <ul class="dropdown-menu">
+                        {% for n in s.get_children %}
+                            <li class="dropdown-submenu"><a href="#">{{n.label}}{{n.depth}}</a>
+                            {% if n.get_children %}
+                                <ul class="dropdown-menu">
+                                {% for x in n.get_children %}
+                                    <li><a href="#">{{x.label}}{{x.depth}}</a>
+                                    </li>
+                                {% endfor %}
+                                </ul>
+                            {% endif %}
+                    
+                            {% endfor %}
+                            </li>
+                        </ul>
                     {% endif %}
                     </li>
           {% endfor %} 
