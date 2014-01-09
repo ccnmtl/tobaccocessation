@@ -129,8 +129,7 @@ def _response(request, section, path):
         # Skip to the first leaf, make sure to mark these sections as visited
         if (section != first_leaf):
             profile.set_has_visited(ancestors)
-            url = "/%s%s" % ("pages", first_leaf.get_absolute_url())
-            return HttpResponseRedirect(url)
+            return HttpResponseRedirect(first_leaf.get_absolute_url())
 
         # the previous node is the last leaf, if one exists.
         prev = _get_previous_leaf(first_leaf)

@@ -5,9 +5,9 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title>Tobacco Cessation: {% block title %}{% endblock %}</title>
 	<link rel="shortcut icon" href="/site_media/img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/site_media/bootstrap/css/bootstrap.min.css" media="screen" />
     
-    <script src="/site_media/js/jquery-1.10.1.min.js" type="text/javascript" ></script>
-    <script src="/site_media/js/jquery-ui-1.10.3.min.js" type="text/javascript" ></script>
+    <script type="text/javascript" src="/site_media/js/jquery-1.10.1.min.js"></script>
     <script type="text/javascript" src="/site_media/bootstrap/js/bootstrap.min.js"></script>
     
     {% compress css %}
@@ -27,17 +27,8 @@
         		<!-- Project title/logo -->
                 <h1 id="logo_project"><a href="/" title="Tobacco Cessation"><span>Tobacco Cessation</span></a></h1>	
         		{% block standardnav %}
-        		<ul id="standardnav">
-                    {% if user.is_authenticated %}
-                        <li><a href="/accounts/logout/">Log Out</a></li>
-                    {% endif %}
-        			<li><a href="/about/">About</a></li>
-        			<li><a href="/help/">Help</a></li>
-                    {% if user.is_authenticated %}
-        			    <li><a href="/contact/">Contact</a></li>                        
-                    {% endif %}
-        		</ul>
-        		{% endblock %}
+                   {% include "project_standard_nav.html" %}
+                {% endblock %}
         		<!-- CCNMTL title/logo -->
                 <h4><a id="logo_ccnmtl"href="http://ccnmtl.columbia.edu" target="_blank" title="Columbia Center for New Media Teaching and Learning"><span>Produced by the Columbia Center for New Media Teaching and Learning</span></a><a id="logo_dental" href="http://dental.columbia.edu" target="_blank" title="Columbia University College of Dental Medicine"><span>Produced for the Columbia University College of Dental Medicine</span></a></h4>
         	</div><!-- id="header" -->
@@ -48,25 +39,19 @@
     
         {% block primarynav %}
         	<!-- ###### Primary navigation ###### -->
-        	<div id="primarynav">
-        		<div class="encase" id="{% block navalignment %}leftside{% endblock %}">
-                    {% comment %}
-                    ###### FOR ALIGNMENT OF TABS on the primary navigation--
-                       leftside : all tabs aligning to the left, login to the right
-                       rightside :  all tabs aligning to the right, login to the left
-                    {% endcomment %}
-        
-        			{% block primarynavtabs %}{% endblock %}
-        			
-        			{% block usernav %}{% endblock %}
-        
-        		</div><!-- id="leftside/rightside" -->
-        	</div><!-- id="primarynav" -->
+            <div class="navbar">
+              <div class="navbar-inner">
+                <div class="container">
+                    {% block extraprimarynav %}
+                    {% endblock %}
+                                    
+                    {% block primarynavtabs %}
+                       {% include "new_project_primary_nav.html" %}
+                    {% endblock %}
+                </div>
+              </div>
+            </div>        
         {% endblock %}
-    
-        <div id="subnav">
-           {% block subnav %}{% endblock %}
-        </div>
     
     	<!-- ###### Page: Sidebars and Content ###### -->
     	<div id="pagebody">

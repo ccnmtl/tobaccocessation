@@ -1,0 +1,89 @@
+{% load accessible %}
+{% load getroot %}
+
+{% comment %}
+Cassandra -- 
+
+* The task is to implement the full content menu in the Bootstrap style.
+* Do not worry about "accessibility" for the moment.
+* Review the references below before you start.
+* View this page in a browser. I've included an example dropdown so you can see what needs to be generated.
+* And, I've implemented resources.
+* Then, search for "CONTENT NAVIGATION" -- I've setup the basic loop to get you started.
+
+References:
+* edit_page.html -- Line 121 -- code to display a pagetree hierarchy
+* Bootstrap 2.3.2 documentation: http://getbootstrap.com/2.3.2/components.html#navbar
+* Section depth: {{s.depth}}
+
+{% endcomment %}
+  
+{% block primarynavtabs %}
+    <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </a>
+     
+    <!-- Everything you want hidden at 940px or less, place within here -->
+    <div class="nav-collapse collapse">
+        {% comment %} Example Dropdown Menu with a Submenu {% endcomment %}
+        <ul class="nav">
+            <li class="dropdown">
+                <a data-toggle="dropdown" class="dropdown-toggle" href="#">Dropdown <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-submenu">
+                        <a href="#">More options</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Second level link</a></li>
+                            <li><a href="#">Second level link</a></li>
+                            <li><a href="#">Second level link</a></li>
+                            <li><a href="#">Second level link</a></li>
+                            <li><a href="#">Second level link</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li class="nav-header">Nav header</li>
+                    <li><a href="#">Separated link</a></li>
+                    <li><a href="#">One more separated link</a></li>
+                </ul>
+            </li>
+        </ul>
+
+        {% comment %}
+            CONTENT NAVIGATION -- Navigate descendants
+        {% comment %}        
+        {% getroot main as root %}
+        <ul class="nav">
+            {% for s in root.get_descendants %}
+            {% endfor %}         
+        </ul>        
+        
+        {% comment %}
+            RESOURCES - The resources menu is a bit more hard-coded, as it offers
+            downloadable resources + navigation to child sections.
+        {% endcomment %}        
+        {% getroot resources as root %} 
+        {% with root.get_children.0 as s %}                   
+            <ul class="nav pull-right">
+                <li class="dropdown
+                    {% if s.slug == module.slug or s.slug == section.slug %}
+                    {% endif %}">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{s.label}} <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ site.domain }}/main/media/pdf/TobaccoCessation_CourseGuide.pdf">Course Guide</a></li>
+                        <li><a href="{{ site.domain }}/main/media/pdf/PharmacotherapyTable.pdf">Pharmacotherapy Guide</a></li>
+                        <li><a href="{{ site.domain }}/main/media/pdf/CDM_Excuses_NotQuitting.pdf">Excuses For Not Quiting</a></li>
+                        <li><a href="{{ site.domain }}/main/media/pdf/CDM_Examples_Empathy.pdf">Examples of Empathy</a></li>
+                        <li><a href="/resources/">Videos</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/resources/">External Resources</a></li>              
+                    </ul>
+              </li>
+            </ul>
+        {% endwith %}
+    </div>
+{% endblock %}

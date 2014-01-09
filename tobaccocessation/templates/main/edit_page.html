@@ -1,9 +1,8 @@
-{% extends "base_two_col_left.html" %}
+{% extends "base.html" %}
 {% load bootstrap render smartif %}
 {% block title %}{{section.label}} (edit){% endblock %}
 
 {% block css %}
-    <link href="/site_media/bootstrap/css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
         .draghandle {float: left; cursor: pointer;}
         #children-order-list {list-style-type: none; margin: 0; padding: 0;}
@@ -88,10 +87,13 @@
     {% endwith %}
 {% endblock %}
 
-{% block content %}
+{% block extraprimarynav %}
     <ul class="nav pull-right">
-        <li><a href="{{section.get_edit_url}}">View Page</a></li>
+        <li><a href="{{section.get_absolute_url}}">View Page</a></li>
     </ul>
+{% endblock %}
+
+{% block content %}
 
 <h1>{{ section.label }}</h1>
 
@@ -120,7 +122,7 @@
                       <li class="menu" style="list-style: none; line-height: 150%">
                          <a href="{{s.get_edit_url}}">{{s.label}}{% ifequal s section %} <i class="icon-hand-left"></i>{% endifequal %}</a>
       
-                         {% if s.get_children %}
+                        {% if s.get_children %}
                             <ul>
                         {% else %}{% if s.is_last_child %}
                             {% for lc in s.closing_children %}

@@ -1,4 +1,4 @@
-{% extends "base_two_col_left.html" %}
+{% extends "base.html" %}
 {% load smartif %}
 
 {% block extrahead %}
@@ -17,34 +17,6 @@
 {% block extrajs %}
    {{ block.super }}
    <script type="text/javascript" src="/activity/virtualpatient/media/js/virtualpatient.js"></script>
-{% endblock %}
-
-{% block sidebarleft %}
-  
-  <h4>Sections</h4>
-  <ul>
-     {% for p in patients %}
-         {% if p.selected %}
-            <li class="selected"><span class="selected">Virtual Patient {{p.display_order }}</span></li>
-         {% else %}
-            {% if p.completed %}
-                <li><a href="/pages/{{section.hierarchy.name}}/assist/activity-virtual-patient/options/{{p.id}}/">Virtual Patient {{p.display_order}}</a></li>
-            {% else %}
-                <li><span class="disabled_link">Virtual Patient {{p.display_order}}</span></li>
-            {% endif %}
-        {% endif %}
-     {% endfor %}
-   </ul>
-     <h4>Quick References</h4>
-   	<ul>
-        <li class="reference">
-            <a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/TobaccoCessation_CourseGuide.pdf" target="_blank"><img alt="icon" src="/site_media/img/icon_table.jpg" style="margin-right: 3px; vertical-align: middle;"/></a>&nbsp;<a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/TobaccoCessation_CourseGuide.pdf" target="_blank">Course Guide</a>
-        </li>
-    
-       	<li class="reference">
-	       <a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/PharmacotherapyTable.pdf"><img alt="icon" src="/site_media/img/icon_table.jpg" style="margin-right: 3px; vertical-align: middle;"/></a>&nbsp;<a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/PharmacotherapyTable.pdf">Pharmacotherapy Table</a>
-        </li>
-   </ul>
 {% endblock %}
 
 {% block contentnav %}

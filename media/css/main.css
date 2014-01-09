@@ -118,11 +118,11 @@ ol, ul
 }
 
 
-li
-{
-
+li {
 	margin: 0 0.25em .5em .25em;
-
+}
+.navbar .nav>li {
+    margin: 0;
 }
 
 
@@ -326,6 +326,13 @@ display: block;
 }
 
 /* ---- Primary navigation block elements ---------- */
+/**
+body.fluid #primarynav,
+body.fluid #primarynav div.encase
+{
+    width: 100%;
+}
+
 #primarynav
 {
 	width: 900px;
@@ -459,6 +466,7 @@ display: block;
 {
 	float: left;
 }
+**/
 
  /* ---- Pagebody block elements ---------- */
 #pagebody
@@ -717,10 +725,6 @@ div#edit-blocks-tab div.row-fluid.odd {
     background-color: #f9f9f9;
 }
 
-ul.nav.pull-right {
-    float: right !important;
-}
-
 .mt-image-left
 {
 	float: left;
@@ -865,13 +869,10 @@ body.fluid #subnav
 {
 	width: 100%;
 }
-
-
-/* ---- Delta block elements ---------- */
 body.fluid #primarynav,
 body.fluid #primarynav div.encase
 {
-	width: 100%;
+    width: 100%;
 }
 
 /* ---- Pagebody block elements ---------- */

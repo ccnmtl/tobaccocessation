@@ -1,4 +1,4 @@
-{% extends "base_two_col_left.html" %}
+{% extends "base.html" %}
 {% load render accessible %}
 
 {% block extrahead %}
@@ -21,13 +21,15 @@
 
 {% block title %}{{section.label}}{% endblock %}
 
-
-{% block content %}
+{% block extraprimarynav %}
     {% if user.is_staff %}
     <ul class="nav pull-right">
         <li><a href="{{section.get_edit_url}}">Edit Page</a></li>        
     </ul>
     {% endif %}
+{% endblock %}
+
+{% block content %}
    {% if not accessible %}
       <br />
       This page is not currently accessible. Please complete your current section before moving onto a new section.

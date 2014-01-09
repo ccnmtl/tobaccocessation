@@ -103,7 +103,7 @@ urlpatterns += patterns(
     (r'^pagetree/', include('pagetree.urls')),
 
     # resources path -- content that's open by default
-    (r'^edit/resources/(?P<path>.*)$',
+    (r'^resources/edit/(?P<path>.*)$',
      'tobaccocessation.main.views.edit_resources'),
     (r'^resources/(?P<path>.*)$',
      'tobaccocessation.main.views.resources'),
