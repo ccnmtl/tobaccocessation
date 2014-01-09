@@ -17,6 +17,16 @@ References:
 * Section depth: {{s.depth}}
 
 {% endcomment %}
+
+
+
+
+
+
+
+
+
+
   
 {% block primarynavtabs %}
     <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
@@ -55,13 +65,119 @@ References:
 
         {% comment %}
             CONTENT NAVIGATION -- Navigate descendants
-        {% comment %}        
+            {% if s.depth == 4 %}
+{% endif %}
+
+
+SORT OF WORKS
+
+        <ul class="nav">
+            {% for s in root.get_descendants %}
+            {% if s.depth == 2 %}
+            <li class="dropdown">
+                <a data-toggle="dropdown" class="dropdown-toggle" href="#">{{s.label}}{{s.depth}}<b class="caret"></b></a>
+            {% endif %}
+                <ul class="dropdown-menu">      
+                {% if s.depth == 3 %}
+                    <li class="dropdown-submenu">
+                        <a href="#">{{s.label}}{{s.depth}}</a>
+                         </li>
+                {% endif %}
+                   
+                </ul>
+            </li>
+
+
+          {% endfor %} 
+
+        </ul>        
+                {% if s.depth == 3 %}
+
+
+                        {% if s.depth == 2  %}
+                        <li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" href="#">{{s.label}}{{s.depth}}<b class="caret"></b></a></li>
+                        <ul class="dropdown-menu">
+                        {% for each in s.get_children %}
+                        <li class="dropdown-submenu"><a href="#">{{s.label}}{{s.depth}}</a></li>
+                        {% endfor %}
+                        </ul>
+                        {% endif %}
+
+
+
+
+
+
         {% getroot main as root %}
         <ul class="nav">
             {% for s in root.get_descendants %}
-            {% endfor %}         
+                {% if s.depth == 2 and s.get_children %}
+                    <li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" href="#">{{s.label}}{{s.depth}}<b class="caret"></b></a>
+                {% else %}
+                {% if s.depth == 2 %}
+                    <li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" href="#">{{s.label}}{{s.depth}}</a>
+                {% endif %}{% endif %}
+                    </li>
+          {% endfor %} 
+        </ul> 
+
+
+
+
+
+
+        {% endcomment %}        
+
+
+
+
+
+
+        {% getroot main as root %}
+        <ul class="nav">
+            {% for s in root.get_descendants %}
+                {% if s.depth == 2 %}
+                    <li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" href="#">{{s.label}}{{s.depth}}<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    {% for n in s.get_children %}
+                    <li class="dropdown-submenu"><a href="#">{{n.label}}{{n.depth}}</a>
+                    {% endfor %}
+                    </li></ul>
+                    {% endif %}
+                    </li>
+          {% endfor %} 
         </ul>        
-        
+
+
+
+
+{% comment %}
+<div class="tab-content">
+    <div id="content-tree" class="tab-pane {% if section.is_root %}active{% endif%}">
+        {% with section.hierarchy as hierarchy %}
+        <div style="margin-top: 5px; margin-left: 5px;">
+            <h3>{{hierarchy.name}}</h3>             
+            <a href="{{root.get_edit_url}}"><b>{{hierarchy.get_root.name}}</b></a>
+            <ul>
+                 {% for s in hierarchy.get_root.get_descendants %}                 
+                      <li class="menu" style="list-style: none; line-height: 150%">
+                         <a href="{{s.get_edit_url}}">{{s.label}}{% ifequal s section %} <i class="icon-hand-left"></i>{% endifequal %}</a>
+      
+                        {% if s.get_children %}
+                            <ul>
+                        {% else %}{% if s.is_last_child %}
+                            {% for lc in s.closing_children %}
+                                </ul>
+                            {% endfor %}
+                        {% endif %}{% endif %}     
+                     </li>
+                 {% endfor %}
+             </ul>
+         </div>
+         {% endwith %}
+    </div>        
+{% endcomment %}
+
         {% comment %}
             RESOURCES - The resources menu is a bit more hard-coded, as it offers
             downloadable resources + navigation to child sections.
