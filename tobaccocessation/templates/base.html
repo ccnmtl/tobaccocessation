@@ -46,7 +46,9 @@
                     {% endblock %}
                                     
                     {% block primarynavtabs %}
-                       {% include "new_project_primary_nav.html" %}
+                        {% if user.is_authenticated %}
+                            {% include "new_project_primary_nav.html" %}
+                        {% endif %}
                     {% endblock %}
                 </div>
               </div>

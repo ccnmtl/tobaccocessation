@@ -249,7 +249,7 @@ def _get_previous_leaf(section):
     # made it through without finding ourselves? weird.
     return None
 
-#UNLOCKED = ['welcome', 'resources']  # special cases
+UNLOCKED = ['resources']  # special cases
 
 
 def _unlocked(section, user, previous, profile):

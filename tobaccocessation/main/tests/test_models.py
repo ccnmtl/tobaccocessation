@@ -2,7 +2,6 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from pagetree.models import Hierarchy, Section
 from tobaccocessation.main.models import UserProfile, FlashVideoBlock
-import time
 
 
 class UserProfileTest(TestCase):
@@ -56,9 +55,9 @@ class UserProfileTest(TestCase):
         self.assertEquals(profile.last_location(), self.section1)
 
         profile.set_has_visited([self.section1])
-        time.sleep(5)
-        profile.set_has_visited([self.section2])
+        self.assertEquals(profile.last_location(), self.section1)
 
+        profile.set_has_visited([self.section2])
         self.assertEquals(profile.last_location(), self.section2)
 
         profile.set_has_visited([self.section1])

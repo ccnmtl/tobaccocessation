@@ -1,6 +1,5 @@
 {% load accessible %}
 {% load getroot %}
-
  
 {% block primarynavtabs %}
     <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
@@ -14,40 +13,39 @@
     <div class="nav-collapse collapse">
         {% getroot main as root %}
         <ul class="nav">
-            {% for s in root.get_descendants %}<li class="dropdown-submenu">
+            {% for s in root.get_descendants %}
                 {% if s.depth == 2 %}
-                    <li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" href="{{menu_prefix}}{{s.get_absolute_url}}">{{s.label}}<b class="caret"></b></a>
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="{{menu_prefix}}{{s.get_absolute_url}}">
+                            {{s.label}}<b class="caret"></b>
+                        </a>
                         <ul class="dropdown-menu">
-                        {% for n in s.get_children %}    
-                            {% if n.get_children %}
-                                <li class="dropdown-submenu"><a href="{{menu_prefix}}{{n.get_absolute_url}}">{{n.label}}</a>
-                                    <ul class="dropdown-menu">
-                                    {% for x in n.get_children %}
-                                        {% if x.get_children %}
-                                        <li class="divider"></li>
-                                        <li class="nav-header"><a href="{{menu_prefix}}{{x.get_absolute_url}}">{{x.label}}</a></li>
-                                            {% for y in x.get_children %}
-                                            <li><a href="{{menu_prefix}}{{y.get_absolute_url}}">{{y.label}}</a><li>
-                                            {% endfor %}
-
-                                        {% else %}
-                                            <li><a href="{{menu_prefix}}{{x.get_absolute_url}}">{{x.label}}</a>
-                                            </li>
-                                        {% endif %}
-                                    {% endfor %}
-                                    </ul>
-                            {% else %}
-                            <li><a href="{{menu_prefix}}{{n.get_absolute_url}}">{{n.label}}</a>
-                            {% endif %}
+                            {% for n in s.get_children %}    
+                                {% if n.get_children %}
+                                    <li class="dropdown-submenu"><a href="{{menu_prefix}}{{n.get_absolute_url}}">{{n.label}}</a>
+                                        <ul class="dropdown-menu">
+                                        {% for x in n.get_children %}
+                                            {% if x.get_children %}
+                                                <li class="divider"></li>
+                                                <li class="nav-header"><a href="{{menu_prefix}}{{x.get_absolute_url}}">{{x.label}}</a></li>
+                                                {% for y in x.get_children %}
+                                                    <li><a href="{{menu_prefix}}{{y.get_absolute_url}}">{{y.label}}</a><li>
+                                                {% endfor %}    
+                                            {% else %}
+                                                <li><a href="{{menu_prefix}}{{x.get_absolute_url}}">{{x.label}}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        </ul>
+                                {% else %}
+                                    <li><a href="{{menu_prefix}}{{n.get_absolute_url}}">{{n.label}}</a>
+                                {% endif %}
                             {% endfor %}
                             </li>
                         </ul>
-                    {% endif %}
                     </li>
-          {% endfor %} 
+                {% endif %}
+            {% endfor %} 
         </ul>        
-
-
 
         {% comment %}
             RESOURCES - The resources menu is a bit more hard-coded, as it offers

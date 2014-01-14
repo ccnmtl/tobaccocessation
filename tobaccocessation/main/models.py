@@ -2,29 +2,18 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.db import models
-from pagetree.models import PageBlock, Section, Hierarchy
+from pagetree.models import PageBlock, Section, Hierarchy, UserLocation, \
+    UserPageVisit
 from registration.forms import RegistrationForm
+from registration.signals import user_registered
 from tobaccocessation.main.choices import GENDER_CHOICES, FACULTY_CHOICES, \
     INSTITUTION_CHOICES, SPECIALTY_CHOICES, RACE_CHOICES, AGE_CHOICES, \
     HISPANIC_LATINO
-#import strings # is this really necessary?
-# http://dmitko.ru/django-registration-form-custom-field/
-
-
-class UserVisit(models.Model):
-    section = models.ForeignKey(Section)
-    count = models.IntegerField(default=1)
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-
-    def __unicode__(self):
-        return "%s %s" % (self.section, self.count, self.created)
 
 
 class UserProfile(models.Model):
     #  ALL_CU group affiliations
     user = models.ForeignKey(User, related_name="application_user")
-    visits = models.ManyToManyField(UserVisit, null=True, blank=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     is_faculty = models.CharField(max_length=2,
                                   choices=FACULTY_CHOICES)
@@ -44,28 +33,6 @@ class UserProfile(models.Model):
 
     class Meta:
         ordering = ["user"]
-
-    def get_has_visited(self, section):
-        return len(self.visits.filter(section=section)) > 0
-
-    def set_has_visited(self, sections):
-        for sect in sections:
-            visits = self.visits.filter(section=sect)
-            if len(visits) > 0:
-                visits[0].count = visits[0].count + 1
-                visits[0].save()
-            else:
-                visit = UserVisit(section=sect)
-                visit.save()
-                self.visits.add(visit)
-
-    def last_location(self):
-        visits = self.visits.order_by('-modified')
-        if len(visits) > 0:
-            return visits[0].section
-        else:
-            hierarchy = Hierarchy.get_hierarchy(self.role())
-            return hierarchy.get_first_leaf(hierarchy.get_root())
 
     def display_name(self):
         return self.user.username
@@ -99,12 +66,29 @@ class UserProfile(models.Model):
         elif self.specialty == 'S3':
             return "endodontics"
 
+    def get_has_visited(self, section):
+        return section.get_uservisit(self.user) is not None
+
+    def set_has_visited(self, sections):
+        for sect in sections:
+            sect.user_pagevisit(self.user, "complete")
+            sect.user_visit(self.user)
+
+    def last_location(self):
+        hierarchy = Hierarchy.get_hierarchy(self.role())
+        try:
+            UserLocation.objects.get(user=self.user,
+                                     hierarchy=hierarchy)
+            return hierarchy.get_user_section(self.user)
+        except UserLocation.DoesNotExist:
+            return hierarchy.get_first_leaf(hierarchy.get_root())
+
     def percent_complete(self):
         hierarchy = Hierarchy.get_hierarchy(self.role())
-        profile = UserProfile.objects.get(user=self.user)
+        visits = UserPageVisit.objects.filter(section__hierarchy=hierarchy)
         sections = Section.objects.filter(hierarchy=hierarchy)
         if len(sections) > 0:
-            return int(len(profile.visits.all()) / float(len(sections)) * 100)
+            return int(len(visits) / float(len(sections)) * 100)
         else:
             return 0
 
@@ -260,7 +244,6 @@ def user_created(sender, user, request, **kwargs):
     data.save()
 
 
-from registration.signals import user_registered
 user_registered.connect(user_created)
 
 
