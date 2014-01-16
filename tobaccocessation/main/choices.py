@@ -42,8 +42,8 @@ HISPANIC_LATINO = (
     ('-----', '-----'),
     ('Y', 'Yes, Hispanic or Latino'),
     ('N', 'No, not Hispanic or Latino'),
-    ('D', 'Unavailable/Unknown'),
-    ('U', 'Declined')
+    ('D', 'Declined'),
+    ('U', 'Unavailable/Unknown')
 )
 
 RACE_CHOICES = (

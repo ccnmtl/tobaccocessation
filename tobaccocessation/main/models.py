@@ -13,7 +13,8 @@ from tobaccocessation.main.choices import GENDER_CHOICES, FACULTY_CHOICES, \
 
 class UserProfile(models.Model):
     #  ALL_CU group affiliations
-    user = models.ForeignKey(User, related_name="application_user")
+    user = models.ForeignKey(User, related_name="application_user",
+                             unique=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     is_faculty = models.CharField(max_length=2,
                                   choices=FACULTY_CHOICES)
@@ -229,19 +230,21 @@ class CreateAccountForm(RegistrationForm):
 def user_created(sender, user, request, **kwargs):
     form = CreateAccountForm(request.POST)
 
-    # line in tutorial is data = profile.Profile(user=user)
-    data = UserProfile(user=user)
+    try:
+        profile = UserProfile.objects.get(user=user)
+    except UserProfile.DoesNotExist:
+        profile = UserProfile(user=user)
 
-    data.institute = form.data['institute']
-    data.consent = True
-    data.is_faculty = form.data['is_faculty']
-    data.year_of_graduation = form.data['year_of_graduation']
-    data.specialty = form.data['specialty']
-    data.gender = form.data['gender']
-    data.hispanic_latino = form.data['hispanic_latino']
-    data.race = form.data['race']
-    data.age = form.data['age']
-    data.save()
+    profile.institute = form.data['institute']
+    profile.consent = True
+    profile.is_faculty = form.data['is_faculty']
+    profile.year_of_graduation = form.data['year_of_graduation']
+    profile.specialty = form.data['specialty']
+    profile.gender = form.data['gender']
+    profile.hispanic_latino = form.data['hispanic_latino']
+    profile.race = form.data['race']
+    profile.age = form.data['age']
+    profile.save()
 
 
 user_registered.connect(user_created)

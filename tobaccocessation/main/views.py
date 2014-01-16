@@ -162,7 +162,12 @@ def create_profile(request):
     """We actually dont need two views - can just return
     a registration form for non Columbia ppl and a
     QuickFixProfileForm for the Columbia ppl"""
-    user_profile = UserProfile(user=request.user)
+
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+    except UserProfile.DoesNotExist:
+        user_profile = UserProfile(user=request.user)
+
     form = QuickFixProfileForm()
     if request.method == 'POST':
         form = QuickFixProfileForm(request.POST)

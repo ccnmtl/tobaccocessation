@@ -1308,6 +1308,22 @@ body.fluid #pagebody #sidebar_left ul li.selected{
    color: #999;
 }
 
+.nav-header>ul {
+    z-index: 1000;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    list-style: none;
+    background-color: #fff;
+}
 
-
+.nav-header>ul>li>a {
+    display: block;
+    padding: 3px 3px;
+    clear: both;
+    font-weight: normal;
+    line-height: 20px;
+    color: #333;
+    white-space: nowrap;
+}
 
