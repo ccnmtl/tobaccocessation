@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load render accessible %}
 
+{% block title %}{{section.label}}{% endblock %}
+
 {% block extrahead %}
     {{ block.super }}
     {% for block in section.pageblock_set.all %}
@@ -8,7 +10,8 @@
     {% endfor %}
 {% endblock %}
 
-{% block js %} 
+{% block js %}
+{{ block.super }} 
     <script type="text/javascript" src="/site_media/js/json2.js"></script>
 {% endblock %}
 
@@ -19,7 +22,12 @@
     {% endfor %}
 {% endblock %}
 
-{% block title %}{{section.label}}{% endblock %}
+{% block primarynavtabs %}
+    {% if user.is_authenticated %}
+        {% include "susans_new_project_primary_nav.html" %}
+    {% endif %}
+{% endblock %}
+
 
 {% block extraprimarynav %}
     {% if user.is_staff %}
@@ -37,17 +45,15 @@
 		<h2>{{ section.label }}</h2>
 		
         {% for block in section.pageblock_set.all %}
-            {% if block.label %}<h3>{{block.label}}</h3>{% endif %}
-            {% render block %}
+            <div class="pageblock{% if block.css_extra %} {{block.css_extra}}{% endif %}">
+                {% render block %}
+            </div>
         {% endfor %}
         
    {% endif %}		
 {% endblock %}
 
 {% block contentnav %}
-<table>
-  <tr>
-    <td>
       {% if previous %}
          {% ifequal section.hierarchy.name "main" %}
             {% ifaccessible previous %}
@@ -57,24 +63,7 @@
             {% endifaccessible %}
          {% endifequal %}
       {% endif %}
-    </td>
-    <td width="100%" align="center">
-      
-    {% ifequal depth 4 %}
-        <div id="page_numbering">
-        {% with section.get_siblings as siblings %}
-        {% with section.get_parent as parent %}
-    	     {% for sibling in siblings %}
-    	        {% ifequal sibling section %}
-    	           {{parent.label}} | Page {{forloop.counter}} of {{siblings|length}}
-    	        {% endifequal %}
-    	     {% endfor %}
-    	{% endwith %}{% endwith %}
-        </div> 
-    {% endifequal %}
-      	  
-    </td>
-    <td>
+
       {% if next %}
          <!-- added to allow javascript access to the menu links. hack for the js activities enabling/disabling of links -->
          <input type="hidden" id="next_section_slug" name="next_section_slug" value="{{next.slug}}"/>
@@ -86,7 +75,5 @@
             <div id="next_disabled">{{next.label}} <img align="top" src="/site_media/img/lock.png" alt="locked"/></div>
          {% endifaccessible %}
       {% endif %}
-    </td>
-  </tr>
-</table>
+
 {% endblock %}

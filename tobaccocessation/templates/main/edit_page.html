@@ -81,6 +81,9 @@
     </script>
 {% endblock %}
 
+{% block primarynavtabs %}
+{% endblock %}
+
 {% block extraprimarynav %}
     <ul class="nav pull-right">
         <li><a href="{{section.get_absolute_url}}">View Page</a></li>
@@ -89,13 +92,15 @@
 
 {% block content %}
 
+{% with section.is_root as is_root %}
+
 <h1>{{ section.label }}</h1>
 
 <ul class="nav nav-tabs">
-    <li {% if section.is_root %}class="active"{% endif%}>
+    <li {% if is_root %}class="active"{% endif%}>
         <a href="#content-tree" data-toggle="tab">Hierarchy</a>
     </li>
-    <li {% if not section.is_root %}class="active"{% endif%}>
+    <li {% if not is_root %}class="active"{% endif%}>
         <a href="#edit-blocks-tab" data-toggle="tab">Edit Blocks</a>
     </li>
     <li><a href="#children-tab" data-toggle="tab">Children</a></li>
@@ -106,16 +111,15 @@
 </ul>
 
 <div class="tab-content">
-    <div id="content-tree" class="tab-pane {% if section.is_root %}active{% endif%}">
-        {% with section.hierarchy as hierarchy %}
-        <div style="margin-top: 5px; margin-left: 5px;">
-            <h3>{{hierarchy.name}}</h3>             
-            <a href="{{root.get_edit_url}}"><b>{{hierarchy.get_root.name}}</b></a>
+    <div id="content-tree" class="tab-pane {% if is_root %}active{% endif%}">
+        <div style="margin-left: 5px;">
+            <h3 style="margin-top: 0;"><a href="{{root.get_edit_url}}">{{hierarchy.name}}</a></h3>             
             <ul>
-                 {% for s in hierarchy.get_root.get_descendants %}                 
-                      <li class="menu" style="list-style: none; line-height: 150%">
-                         <a href="{{s.get_edit_url}}">{{s.label}}{% ifequal s section %} <i class="icon-hand-left"></i>{% endifequal %}</a>
-      
+                {% for s in root.get_descendants %}                 
+                    <li class="menu" style="list-style: none; line-height: 150%">
+                        <a href="{{hierarchy.get_absolute_url}}edit/{{section.id}}/">
+                            {{s.label}}{% ifequal s section %} <i class="icon-hand-left"></i>{% endifequal %}
+                        </a>
                         {% if s.get_children %}
                             <ul>
                         {% else %}{% if s.is_last_child %}
@@ -124,53 +128,51 @@
                             {% endfor %}
                         {% endif %}{% endif %}     
                      </li>
-                 {% endfor %}
+                {% endfor %}
              </ul>
          </div>
-         {% endwith %}
     </div>        
 
-<div id="edit-blocks-tab" class="tab-pane {% if not section.is_root %}active{% endif%}"/>
-{% if section.pageblock_set.count %}
+    <div id="edit-blocks-tab" class="tab-pane {% if not is_root %}active{% endif%}"/>
+    {% if section.pageblock_set.count %}
+        <p>Drag the <i class="icon-resize-vertical"></i> arrows to reorder pageblocks:</p>
 
-<p>Drag the <i class="icon-resize-vertical"></i> arrows to reorder pageblocks:</p>
-
-{% for block in section.pageblock_set.all %}
-    <div class="row-fluid block-dragger {% cycle 'odd' 'even' %}" id="pageblock-{{block.id}}">    
-        <div class="span1 draghandle">
-            <i class="icon-resize-vertical"></i>
-        </div>
-    
-        <div class="span3">
-            <b><a data-toggle="modal" href="#edit-pageblock-{{block.id}}">{{block.block.display_name}}</a></b>
-        </div>
-    
-        <div class="span5">
-            <a data-toggle="modal" href="#edit-pageblock-{{block.id}}">{{block.label}}</a>
-            {% rendersummary block %}
-        </div>
-    
-        <div class="span3">
-            <div class="btn-group" style="float: right">
-                <a data-toggle="modal" class="btn btn-mini"
-                 href="#edit-pageblock-{{block.id}}">
-                <i class="icon-edit"></i>
-                edit</a>
-    
-            <a href="{% url 'delete-pageblock' block.id %}" class="btn
-            btn-danger btn-mini"><i class="icon-trash icon-white"></i> delete</a>
-    
-            {% if block.block.exportable %}
-            <a class="btn btn-mini"
-                 rel="tooltip" title="Download JSON dump of this block"
-                 id="export-{{block.id}}"
-                 href="{% url 'export-pageblock-json' block.id %}"><i class="icon-download"></i> export</a>
-    
-            {% endif %}
+        {% for block in section.pageblock_set.all %}
+            <div class="row-fluid block-dragger {% cycle 'odd' 'even' %}" id="pageblock-{{block.id}}">    
+                <div class="span1 draghandle">
+                    <i class="icon-resize-vertical"></i>
+                </div>
+            
+                <div class="span3">
+                    <b><a data-toggle="modal" href="#edit-pageblock-{{block.id}}">{{block.block.display_name}}</a></b>
+                </div>
+            
+                <div class="span5">
+                    <a data-toggle="modal" href="#edit-pageblock-{{block.id}}">{{block.label}}</a>
+                    {% rendersummary block %}
+                </div>
+            
+                <div class="span3">
+                    <div class="btn-group" style="float: right">
+                        <a data-toggle="modal" class="btn btn-mini"
+                         href="#edit-pageblock-{{block.id}}">
+                        <i class="icon-edit"></i>
+                        edit</a>
+            
+                    <a href="{% url 'delete-pageblock' block.id %}" class="btn
+                    btn-danger btn-mini"><i class="icon-trash icon-white"></i> delete</a>
+            
+                    {% if block.block.exportable %}
+                    <a class="btn btn-mini"
+                         rel="tooltip" title="Download JSON dump of this block"
+                         id="export-{{block.id}}"
+                         href="{% url 'export-pageblock-json' block.id %}"><i class="icon-download"></i> export</a>
+            
+                    {% endif %}
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-{% endfor %}
+        {% endfor %}
 
 
 {% for block in section.pageblock_set.all %}
@@ -353,34 +355,20 @@ method="post">
 {% endif %}
 </div>
 </div>
+
+{% endwith %}
 {% endblock %}
 
 {% block contentnav %}
-<table>
-<tr>
-<td>
-  {% if previous %}
-     {% ifequal section.hierarchy.name "main" %}
-        <a href="{{previous.get_edit_url}}" id="previous">« {{previous.label}}</a>
-     {% endifequal %}
-  {% endif %}</td><td width="100%" align="center>
-  <div id="page_numbering">
-  {% ifequal depth 4 %}
-     {% with section.get_siblings as siblings %}
-        {% with section.get_parent as parent %}
-             {% for sibling in siblings %}
-                {% ifequal sibling section %}
-                   {{parent.label}} | Page {{forloop.counter}} of {{siblings|length}}
-                {% endifequal %}
-             {% endfor %}
-          {% endwith %}
-      {% endwith %} 
-  {% endifequal %}
-      </div></td><td>
-  {% if next %}
-     <!-- added to allow javascript access to the menu links. hack for the js activities enabling/disabling of links -->
-     <input type="hidden" id="next_section_slug" name="next_section_slug" value="/edit{{next.slug}}"/>
-     <a href="{{next.get_edit_url}}" id="next">{{next.label}} »</a>
-     <div style="display: none;" id="next_disabled">{{next.label}} <img align="top" src="/site_media/img/lock.png"/></div>
-  {% endif %}</td></tr></table>
+    {% with section.get_next as next %}
+    {% with section.get_previous as previous %}
+
+    {% if previous %}
+      <a href="{{previous.get_absolute_url}}" id="previous">« {{previous.label}}</a>
+    {% endif %}
+    {% if next %}
+       <a href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
+    {% endif %}
+    
+    {% endwith %}{% endwith %}
 {% endblock %}

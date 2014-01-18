@@ -1327,3 +1327,26 @@ body.fluid #pagebody #sidebar_left ul li.selected{
     white-space: nowrap;
 }
 
+/** Treatment Choices **/
+.treatment-choices p {
+    width: 780px;
+}
+
+.smoker_quantity {
+    height: 134px;
+    border: 1px solid #000;
+    margin-bottom: 1em;
+    text-align: center;
+    padding-top:23px;
+    width: 150px;
+}
+
+.smoker_quantity .footer {
+    background-color: #333333;
+    color: white;
+    text-align: center;
+    vertical-align: bottom;
+    height: 34px;
+    font-size: 80%;
+}
+

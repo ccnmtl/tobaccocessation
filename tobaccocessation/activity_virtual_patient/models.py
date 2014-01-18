@@ -10,6 +10,9 @@ class Medication(models.Model):
     tag = models.CharField(max_length=25)
     rx_count = models.IntegerField(default=1)
 
+    class Meta:
+        ordering = ['display_order']
+
     def __unicode__(self):
         return "%s" % (self.name)
 

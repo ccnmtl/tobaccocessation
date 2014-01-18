@@ -47,22 +47,24 @@ def index(request):
         return HttpResponseRedirect(reverse('create_profile'))
 
 
-def _edit_response(request, section, path):
-    first_leaf = section.hierarchy.get_first_leaf(section)
-
+def _edit_response(request, section):
     return dict(section=section,
+                hierarchy=section.hierarchy,
                 module=get_module(section),
-                root=section.hierarchy.get_root(),
-                leftnav=_get_left_parent(first_leaf),
-                prev=_get_previous_leaf(first_leaf),
-                next=first_leaf.get_next())
+                root=section.hierarchy.get_root())
 
 
 @user_passes_test(lambda u: u.is_staff)
 @rendered_with('main/edit_page.html')
 def edit_page(request, hierarchy, path):
     section = get_section_from_path(path, hierarchy)
-    return _edit_response(request, section, path)
+    return _edit_response(request, section)
+
+
+@user_passes_test(lambda u: u.is_staff)
+def edit_page_by_id(request, hierarchy, section_id):
+    section = Section.objects.get(id=section_id)
+    return HttpResponseRedirect(section.get_edit_url())
 
 
 @login_required
