@@ -4,8 +4,9 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
 from django.utils import simplejson
-from pagetree.helpers import get_section_from_path, get_module
+from pagetree.helpers import get_section_from_path, get_module, submitted
 from pagetree.models import Section
+from quizblock.models import Quiz, Submission
 from tobaccocessation.activity_prescription_writing.models import \
     ActivityState as PrescriptionWritingActivityState
 from tobaccocessation.activity_treatment_choice.models import \
@@ -134,11 +135,11 @@ def _response(request, section, path):
             return HttpResponseRedirect(first_leaf.get_absolute_url())
 
         # the previous node is the last leaf, if one exists.
-        prev = _get_previous_leaf(first_leaf)
+        prev_page = _get_previous_leaf(first_leaf)
         next_page = first_leaf.get_next()
 
         # Is this section unlocked now?
-        can_access = _unlocked(first_leaf, request.user, prev, profile)
+        can_access = _unlocked(first_leaf, request.user, prev_page, profile)
         if can_access:
             profile.set_has_visited([section])
 
@@ -146,18 +147,21 @@ def _response(request, section, path):
         if not first_leaf.is_root() and len(ancestors) > 1:
             module = ancestors[1]
 
-        # specify the leftnav parent up here.
-        leftnav = _get_left_parent(first_leaf)
+        allow_redo = False
+        needs_submit = first_leaf.needs_submit()
+        if needs_submit:
+            allow_redo = first_leaf.allow_redo()
 
-        return dict(section=first_leaf,
+        return dict(request=request,
+                    section=first_leaf,
                     accessible=can_access,
                     module=module,
                     root=ancestors[0],
-                    previous=prev,
+                    previous=prev_page,
                     next=next_page,
-                    depth=first_leaf.depth,
-                    request=request,
-                    leftnav=leftnav)
+                    needs_submit=needs_submit,
+                    allow_redo=allow_redo,
+                    is_submitted=submitted(first_leaf, request.user))
 
 
 def create_profile(request):
@@ -273,7 +277,11 @@ def _unlocked(section, user, previous, profile):
 
     for p in previous.pageblock_set.all():
         if hasattr(p.block(), 'unlocked'):
-            if p.block().unlocked(user) is False:
+            if not p.block().unlocked(user):
+                return False
+
+            if (isinstance(p.block(), Quiz) and
+                    not _correct(p.block, user)):
                 return False
 
     if previous.slug in UNLOCKED:
@@ -286,3 +294,12 @@ def _unlocked(section, user, previous, profile):
         return False
 
     return profile.get_has_visited(previous)
+
+
+def _correct(quiz, user):
+    submission = Submission.objects.filter(quiz=quiz, user=user)
+    return submission.count() > 0
+#     if submission
+#
+#     def correct_answer_values(self):
+#         return [a.value for a in self.answer_set.filter(correct=True)]

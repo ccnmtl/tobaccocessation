@@ -1327,12 +1327,31 @@ body.fluid #pagebody #sidebar_left ul li.selected{
     white-space: nowrap;
 }
 
-/** Treatment Choices **/
-.treatment-choices p {
+/** Treatment Choice Quizzes **/
+.treatment-choice-quiz p {
     width: 780px;
 }
 
-.smoker_quantity {
+.treatment-choice-quiz ul {
+    list-style: none;
+}
+
+.treatment-choice-quiz div.cases {
+    float: left;
+    border: none;
+    margin-left: 50px;
+}
+
+.treatment-choice-quiz div.casetitle {
+    display: none;
+}
+
+.treatment-choice-quiz div.casequestion p {
+    font-weight: bold;
+}
+
+.treatment-choice-quiz .smoker_quantity {
+    float: left;
     height: 134px;
     border: 1px solid #000;
     margin-bottom: 1em;
@@ -1341,7 +1360,7 @@ body.fluid #pagebody #sidebar_left ul li.selected{
     width: 150px;
 }
 
-.smoker_quantity .footer {
+.treatment-choice-quiz .smoker_quantity .footer {
     background-color: #333333;
     color: white;
     text-align: center;

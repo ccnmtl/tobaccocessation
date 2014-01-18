@@ -23,9 +23,11 @@
 {% endblock %}
 
 {% block primarynavtabs %}
+{% comment %}
     {% if user.is_authenticated %}
-        {% include "susans_new_project_primary_nav.html" %}
+        {% include "new_project_primary_nav.html" %}
     {% endif %}
+{% endcomment %}
 {% endblock %}
 
 
@@ -42,6 +44,13 @@
       <br />
       This page is not currently accessible. Please complete your current section before moving onto a new section.
    {% else %}
+        {% if needs_submit %}
+            {% if is_submitted %}
+            {% else %}
+                <form action="." method="post">
+            {% endif %}
+        {% endif %}
+        
 		<h2>{{ section.label }}</h2>
 		
         {% for block in section.pageblock_set.all %}
@@ -50,8 +59,26 @@
             </div>
         {% endfor %}
         
+        {% if needs_submit %}
+            {% if request.user.is_anonymous %}
+            {% else %}
+                <div class="visualclear"</div>        
+                {% if is_submitted %}
+                    {% if allow_redo %}
+                    <form action="." method="post">
+                    <input type="hidden" name="action" value="reset" />
+                    <input type="submit" value="clear your answers and try again" class="btn" />
+                    </form>
+                    {% endif %}
+                {% else %}                    
+                    <input type="submit" value="Submit" class="btn btn-primary pull-right" />                
+                    </form>
+                {% endif %}
+            {% endif %}
+        {% endif %}
    {% endif %}		
 {% endblock %}
+
 
 {% block contentnav %}
       {% if previous %}
