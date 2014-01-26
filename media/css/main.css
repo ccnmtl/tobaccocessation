@@ -1328,8 +1328,30 @@ body.fluid #pagebody #sidebar_left ul li.selected{
 }
 
 /** Treatment Choice Quizzes **/
+
+.generic-quiz .generic-feedback {
+    display: block;
+}
+
+.generic-quiz .personalized-feedback {
+    display: none;
+}
+
+.generic-quiz .alert {
+    display: none;
+}
+
+div.quiz-results {
+    display: none;
+    float: right;
+}
+
 .treatment-choice-quiz p {
     width: 780px;
+}
+
+.treatment-choice-quiz div.quiz-results {
+    display: block;
 }
 
 .treatment-choice-quiz ul {
@@ -1367,5 +1389,70 @@ body.fluid #pagebody #sidebar_left ul li.selected{
     vertical-align: bottom;
     height: 34px;
     font-size: 80%;
+}
+
+.single-video-quiz .generic-feedback,
+.multiple-video-quiz .generic-feedback {
+    display: none;
+}
+
+.single-video-quiz .personalized-feedback,
+.multiple-video-quiz .personalized-feedback {
+    display: block;
+}
+
+.single-video-quiz .correct,
+.multiple-video-quiz .correct {
+    font-size: 120%;
+    color: #006600;
+    font-weight: bold;
+}
+
+.single-video-quiz .incorrect,
+.multiple-video-quiz .incorrect {
+    font-size: 120%;
+    color: #C00000;
+    font-weight: bold;
+}
+
+.single-video-quiz div.alert,
+.multiple-video-quiz div.alert {
+    width: 261px;
+    margin-bottom: 0;
+    border-radius: 0;
+    padding: 0px;
+    padding-left: 5px;  
+}
+
+.multiple-video-quiz ol li {
+    margin-bottom: 25px;
+}
+
+
+.multiple-video-quiz div.answer-label {
+    width: 250px;
+    padding-left: 8px;
+    padding-bottom: 8px;
+    padding-right: 8px;
+    background-color: #f7f7f9;
+    border: 1px solid #e1e1e8;
+}
+
+.multiple-video-quiz div.answer-video {
+    display: none;
+}
+
+.multiple-video-quiz div.quiz-video {
+    position: absolute;
+    left: 400px;
+    width: 480px;
+    height: 272px;
+}
+
+.single-video-quiz div.answer-video {
+    width: 100%;
+    background-color: #E1E1E1;
+    align: center;
+    border: 1px solid #ccc;
 }
 

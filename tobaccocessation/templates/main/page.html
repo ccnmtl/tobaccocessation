@@ -11,8 +11,9 @@
 {% endblock %}
 
 {% block js %}
-{{ block.super }} 
+{{ block.super }}
     <script type="text/javascript" src="/site_media/js/json2.js"></script>
+    <script type="text/javascript" src="/site_media/js/quizblockextra.js"></script>
 {% endblock %}
 
 {% block extrajs %}
@@ -34,7 +35,16 @@
 {% block extraprimarynav %}
     {% if user.is_staff %}
     <ul class="nav pull-right">
-        <li><a href="{{section.get_edit_url}}">Edit Page</a></li>        
+        <li><a href="{{section.get_edit_url}}">Edit Page</a></li>
+        
+        {% if needs_submit and is_submitted %}
+            <li>
+                <form action="." method="post">
+                    <input type="hidden" name="action" value="reset" />
+                    <input type="submit" value="Reset" class="btn pull-right" />
+                </form>
+            </li>
+        {% endif %}
     </ul>
     {% endif %}
 {% endblock %}
@@ -62,12 +72,12 @@
         {% if needs_submit %}
             {% if request.user.is_anonymous %}
             {% else %}
-                <div class="visualclear"</div>        
+                <div class="visualclear"></div>        
                 {% if is_submitted %}
                     {% if allow_redo %}
                     <form action="." method="post">
                     <input type="hidden" name="action" value="reset" />
-                    <input type="submit" value="clear your answers and try again" class="btn" />
+                    <input type="submit" value="try again" class="btn pull-right" />
                     </form>
                     {% endif %}
                 {% else %}                    

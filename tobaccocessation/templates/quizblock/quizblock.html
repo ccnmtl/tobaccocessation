@@ -1,0 +1,34 @@
+{% load markup %}
+{% load getresponse %}
+{% load quizcorrect %}
+
+{{ block.description|markdown }}
+
+{% if request.user.is_anonymous %}
+  <p class="warning">You must be logged in to view this content</p>
+{% else %}
+    
+    {% for question in block.question_set.all %}
+      {% include 'quizblock/question.html' %}
+    {% endfor %}
+    
+    {% if block.rhetorical %}
+      <script src="http://mt.ccnmtl.columbia.edu/pedialabs/js/quizshow.js" type="text/javascript" language="javascript"></script>
+    {% endif %}	
+    
+    <div class="visualclear"></div>
+    {% ifquizcomplete block %}        
+        <div class="quiz-results">        
+            {% ifquizcorrect block %}
+                <div class="alert alert-success">
+                    <b>Correct!</b> You've selected all of the correct choices.
+                </div>
+            {% else %}
+                <div class="alert alert-error">
+                    <b>Incorrect.</b> Please review the correct choices.
+                </div>    
+            {% endifquizcorrect %}    
+        </div>
+    {% endifquizcomplete %}
+
+{% endif %}

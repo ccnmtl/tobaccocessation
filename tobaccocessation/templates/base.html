@@ -54,7 +54,8 @@
     
     	<!-- ###### Page: Sidebars and Content ###### -->
     	<div id="pagebody">
-
+            <div id="shieldbox"></div>
+            
     		<!-- ###### Page Content ###### -->
     		<div id="content">
     			<div id="squish"><!-- Don't touch this div -->
@@ -104,6 +105,13 @@
     </script>
     
     {% compress js %}
+        <script  type="text/javascript" src="/site_media/js/shield.js"></script>
+        <script type="text/javascript">
+            jQuery(document).ready(function() {
+                /* Select from list: Chrome, Firefox, Safari, MSIE */
+                shieldbrowser({"Chrome": 1, "Firefox": 3.6, "Safari": 4, "MSIE": 8 });
+            });
+        </script>
         {% block js %}{% endblock %}
     {% endcompress %}
     

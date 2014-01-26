@@ -117,7 +117,7 @@
             <ul>
                 {% for s in root.get_descendants %}                 
                     <li class="menu" style="list-style: none; line-height: 150%">
-                        <a href="{{hierarchy.get_absolute_url}}edit/{{section.id}}/">
+                        <a href="{{hierarchy.get_absolute_url}}edit/{{s.id}}/">
                             {{s.label}}{% ifequal s section %} <i class="icon-hand-left"></i>{% endifequal %}
                         </a>
                         {% if s.get_children %}
@@ -364,10 +364,10 @@ method="post">
     {% with section.get_previous as previous %}
 
     {% if previous %}
-      <a href="{{previous.get_absolute_url}}" id="previous">« {{previous.label}}</a>
+      <a href="{{previous.get_edit_url}}" id="previous">« {{previous.label}}</a>
     {% endif %}
     {% if next %}
-       <a href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
+       <a href="{{next.get_edit_url}}" id="next">{{next.label}} »</a>
     {% endif %}
     
     {% endwith %}{% endwith %}

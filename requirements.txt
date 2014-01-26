@@ -73,4 +73,4 @@ django-pagetree==0.12.10
 django-pageblocks==0.5.11
 django-pagetree_export==0.4
 django-registration==1.0
-django-quizblock==0.6.13
+django-quizblock==0.6.14

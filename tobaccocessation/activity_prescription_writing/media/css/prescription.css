@@ -56,32 +56,26 @@
 }
 
 
-
 #dosage, #disp {
-
+    height: 13px;
 	margin-bottom: 3px;
 	border-right: 1px solid #ddd;
 	border-bottom: 1px solid #ddd;
 }
 
 #sig {
-
-	height: 62px;
+	height: 55px;
 	overflow: auto;
-	width: 212px;
-		border-right: 1px solid #ddd;
+	width: 207px;
+    border-right: 1px solid #ddd;
 	border-bottom: 1px solid #ddd;
-
 }
 
-
-
 #refills {
-   margin: 42px 0 0 45px; 
-  margin: 36px 0 0 44px\9;
-  *margin: 29px 0 0 35px;
-   width: 40px; 
-   text-align: right;
+    height: 10px;
+    margin: 23px 0 0 45px; 
+    width: 31px; 
+    text-align: right;
    	border-right: 1px solid #ddd;
 	border-bottom: 1px solid #ddd;
 }

@@ -4,9 +4,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
 from django.utils import simplejson
-from pagetree.helpers import get_section_from_path, get_module, submitted
+from pagetree.helpers import get_section_from_path, get_module
 from pagetree.models import Section
-from quizblock.models import Quiz, Submission
 from tobaccocessation.activity_prescription_writing.models import \
     ActivityState as PrescriptionWritingActivityState
 from tobaccocessation.activity_treatment_choice.models import \
@@ -105,16 +104,12 @@ def _response(request, section, path):
         # user has submitted a form. deal with it
         proceed = True
         for p in section.pageblock_set.all():
-            if hasattr(p.block(), 'needs_submit'):
-                if p.block().needs_submit():
-                    prefix = "pageblock-%d-" % p.id
-                    data = dict()
-                    for k in request.POST.keys():
-                        if k.startswith(prefix):
-                            data[k[len(prefix):]] = request.POST[k]
-                    p.block().submit(request.user, data)
-                    if hasattr(p.block(), 'redirect_to_self_on_submit'):
-                        proceed = not p.block().redirect_to_self_on_submit()
+            if request.POST.get('action', '') == 'reset':
+                section.reset(request.user)
+                return HttpResponseRedirect(section.get_absolute_url())
+
+            if hasattr(p.block(), 'needs_submit') and p.block().needs_submit():
+                proceed = section.submit(request.POST, request.user)
 
         if request.is_ajax():
             json = simplejson.dumps({'submitted': 'True'})
@@ -161,7 +156,7 @@ def _response(request, section, path):
                     next=next_page,
                     needs_submit=needs_submit,
                     allow_redo=allow_redo,
-                    is_submitted=submitted(first_leaf, request.user))
+                    is_submitted=first_leaf.submitted(request.user))
 
 
 def create_profile(request):
@@ -280,10 +275,6 @@ def _unlocked(section, user, previous, profile):
             if not p.block().unlocked(user):
                 return False
 
-            if (isinstance(p.block(), Quiz) and
-                    not _correct(p.block, user)):
-                return False
-
     if previous.slug in UNLOCKED:
         return True
 
@@ -294,12 +285,3 @@ def _unlocked(section, user, previous, profile):
         return False
 
     return profile.get_has_visited(previous)
-
-
-def _correct(quiz, user):
-    submission = Submission.objects.filter(quiz=quiz, user=user)
-    return submission.count() > 0
-#     if submission
-#
-#     def correct_answer_values(self):
-#         return [a.value for a in self.answer_set.filter(correct=True)]
