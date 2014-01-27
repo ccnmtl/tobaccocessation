@@ -1,38 +1,33 @@
 #callout_container {
-
 	float:left;
-	left: 25px;
+	left: 305px;
 	margin-top:-35px;
 	position:absolute;
-
 }
 
 .callout {
-	font-size: 80%;
-	line-height: 120%;
-   background-color: #efc48d;
+    font-size: 80%;
+    line-height: 120%;
+    background-color: #efc48d;
     margin: 3px;
-   padding: 5px;
-   width: 170px;
-   border: 1px solid #eaa141;
-
+    padding: 5px;
+    width: 170px;
+    border: 1px solid #eaa141;
 }
 
 #answer_container {
-     float: left;
-     margin-top:-23px;
-     *margin:-20px 0 0 8px;
+    float: left;
+    margin-top:-20px;
 }
 
 .correct_answer {
-   font-size: 80%;
-   line-height: 120%;
-   background-color: #ddd;
-   color: #4F8A10;
-   border: 1px solid #4F8A10;
-   padding: 2px 4px;
-     width: 145px;
-
+    font-size: 80%;
+    line-height: 120%;
+    background-color: #ddd;
+    color: #4F8A10;
+    border: 1px solid #4F8A10;
+    padding: 2px 4px;
+    width: 160px;
 }
 
 .connecting_line
@@ -50,8 +45,8 @@
    height: 221px;
    background-image: url(/activity/prescription/media/images/blankrx_sm.jpg);
    background-repeat: no-repeat;
-   background-position: top left;
-   padding: 244px 0 0 55px;
+   background-position: top center;
+   padding: 244px 0 0 349px;
    
 }
 
@@ -85,47 +80,33 @@
 	display:block;
 	height:209px;
 	margin: -151px 0 0 -55px;
-   *margin: -160px 0 0 -55px;
-
-	
-
 }
 
 #dosage_correct {
    position: relative;
-   margin: 0px 0 3px 215px;
-   *margin: 10px 0 3px 215px;
-
+   margin: 0px 0 3px 280px;
 }
 
 #disp_correct {
-   position: relative;  
-    margin: 3px 0 2px 215px;
-
+    position: relative;  
+    margin: 4px 0 2px 280px;
 }
 
 #sig_correct {
    position: relative;  
-   margin: 3px 0 2px 278px;
-
+   margin: 4px 0 2px 280px;
 }
 
 #refills_correct {
-	left:381px;
-	position:absolute;
-	top:665px;
-	width:64px;
-    *top:661px;
+    position: absolute;
+    width: 44px;
+    margin: 44px 0 2px 150px;
+    top: 639px;
 }
 
-
-
 #refills_callout {
-	
-	position:absolute;
-	top:134px;
-
-
+	position: absolute;
+	top: 140px;
 }
 
 

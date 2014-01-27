@@ -1,32 +1,23 @@
 #feedback {
-
 	display:block;
 	height:209px;
 	margin: -13px 0 0 -55px;
-	*margin: -173px 0 0 -55px;
-
-	
-
 }
 
 #callout_container {
-
-	float: left;
-	left: 25px;
-	margin-top:-40px;
+    left: 214px;
+    margin-top: 185px;
 	position:absolute;
-
 }
 
 .callout {
-	font-size: 80%;
-	line-height: 120%;
-   background-color: #efc48d;
+    font-size: 80%;
+    line-height: 120%;
+    background-color: #efc48d;
     margin: 3px;
-   padding: 5px;
-   width: 170px;
-   border: 1px solid #eaa141;
-
+    padding: 5px;
+    width: 140px;
+    border: 1px solid #eaa141;
 }
 
 #answer_container1 {
@@ -34,9 +25,6 @@
 	position:relative;
 	top:-174px;
 	width:200px;
-	*left: -733px;
-	*top: 176px;
-	
 }
 
 #answer_container2 {
@@ -72,27 +60,22 @@
 
 #blankrx {
    background-image: url(/activity/prescription/media/images/double_blankrx_sm.jpg);
-   height: 221px;
+   height: 456px;
   background-repeat: no-repeat;
-   background-position: top left;
-   padding: 244px 0 0 55px;
-   width: 730px;
-   float: left;
+   background-position: top center;
 }
 
 
 #rx_fields1 {
-     float: left;
-     width: 323px;
-
+    float: left;
+    width: 323px;
+    margin: 242px 0 0 158px;
 }
 
 #rx_fields2 {
      float: left;
      width: 323px;
-     margin-left: 57px;
-    *margin-left: 30px;
-
+     margin: 242px 0 0 57px;
 }
 
 #dosage, #disp, #dosage_2, #disp_2 {
@@ -108,7 +91,6 @@
 	width: 207px;
 	border-right: 1px solid #ddd;
 	border-bottom: 1px solid #ddd;
-	*width: 163px;
 }
 
 #refills, #refills_2 {
@@ -120,40 +102,29 @@
 
 #dosage_correct, #dosage_2_correct {
    position: relative;
-   margin: 0px 0 3px 215px;
-
+    margin: 4px 0 3px 438px;
 }
 
 #disp_correct, #disp_2_correct {
    position: relative;  
-    margin: 3px 0 2px 215px;
-
+   margin: 4px 0 3px 438px;
 }
 
 #sig_correct, #sig_2_correct {
    position: relative;  
-   margin: 3px 0 2px 242px;
-   *margin: 5px 0 2px 232px;
-
+   margin: 4px 0 2px 438px;
 }
 
 #refills_correct, #refills_2_correct {
-	left:155px;
-	position:absolute;
-	top:151px;
-	width:44px;
-	*top:144px;
-
+	left: 310px;
+	position: absolute;
+	top: 155px;
+	width: 44px;
 }
 
-
-
 #refills_callout {
-	
 	position:absolute;
-	top:170px;
-
-
+	top: 199px;
 }
 
 

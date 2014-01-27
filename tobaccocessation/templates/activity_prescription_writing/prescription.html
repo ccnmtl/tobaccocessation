@@ -2,7 +2,7 @@
 
 {% ifequal block.medication.0.rx_count 1 %}
     
-    <h5>Fill out the prescription form below and click submit.</h5>
+    <h5>Fill out the prescription form below, then click Prescription Results to continue.</h5>
     <div id="blankrx">
        <input class="required_field" id="dosage" name='dosage' type='text' onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
        <input class="required_field" id="disp" type="text" onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
@@ -104,5 +104,7 @@
            </div>
         </div>
         {% endif %}       
-   </div>    
+   </div>
+   <br />
+   <br />    
 {% endifequal %}
