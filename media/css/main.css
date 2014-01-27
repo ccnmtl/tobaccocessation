@@ -121,10 +121,18 @@ ol, ul
 li {
 	margin: 0 0.25em .5em .25em;
 }
+
 .navbar .nav>li {
     margin: 0;
 }
 
+.navbar .nav>li>div {
+float: none;
+padding: 10px 15px 10px;
+color: #777;
+text-decoration: none;
+text-shadow: 0 1px 0 #fff;
+}
 
 a {
 	color: #84240a;
@@ -198,99 +206,10 @@ img, img a
 	background-color: #fff;
 }
 
-#header #logo_project
-{
-	display: block;
-	float: left;
-	width: 271px;
-	height: 100px;
-	overflow: hidden;
-	margin: 0;
-	padding: 0;
-	border: 0;
-}
 
-#header #logo_project a
-{
-	display: block;
-	width: 271px;
-	height: 94px;
-	margin: 0;
-	padding: 0;
-	border: 0;
-	background: transparent url('../img/logo_project.jpg') left center no-repeat;
-	float: left;
-}
-
-#header h4 
-
-{
-
-position: absolute;
-height:67px;
-width: 99%;
-min-width: 987px;
-top: 28px;
-left: 10px;
-display: block;
-
-
-}
-
-#header #logo_ccnmtl
-{
-	display: block;
-	float: right;
-	width: 180px;
-	height: 67px;
-	overflow: hidden;
-	/* margin: 34px 10px 0 0;*/
-	margin: 0;
-	padding: 0;
-	border: none;
-	background: transparent url('../img/logo_ccnmtl.gif') right top no-repeat;
-	margin-right: 10px;
-}
-
-#header #logo_dental
-{
-	display: block;
-	float: right;
-	width: 280px;
-	height: 67px;
-	overflow: hidden;
-	/* margin: 34px 10px 0 0;*/
-	margin: 0;
-	padding: 0;
-		border: none;
-	background: transparent url('../img/logo_ccnmtl.gif') left top no-repeat;
-}
-
-#header #logo_ccnmtl a
-{
-	display: block;
-	width: 180px;
-	height: 67px;
-	margin: 0;
-	padding: 0;
-	border: 0;
-}
-
-#header #logo_dental a
-{
-	display: block;
-	width: 280px;
-	height: 67px;
-	margin: 0;
-	padding: 0;
-	border: 0;
-}
-
-#header #logo_project span,
-#header #logo_ccnmtl span,
-#header #logo_dental span
-{
-	display: none;
+#header h4 {
+    height:67px;
+    float: right;
 }
 
 /* ---- Standard navigation block elements ---------- */
@@ -298,10 +217,12 @@ display: block;
 {
 	display: block;
 	float: right;
-	margin: 0 10px 10px 0;
-	padding: 0;
-	border: 0;
-	list-style: none;
+}
+
+
+#standardnav ul {
+    margin: 10px 10px 0 0;
+    float: right;
 }
 
 #standardnav li
@@ -312,17 +233,13 @@ display: block;
 	padding:  0 0 0 0.5em;
 	border: 0;
 	font-size: 0.9em;
-	font-weight: bold;
 }
 
-#standardnav a
-{
+#standardnav a{
 	text-decoration: none;
 }
 
-#standardnav a:hover
-{
-
+#standardnav a:hover {
 }
 
 /* ---- Primary navigation block elements ---------- */
@@ -853,12 +770,6 @@ body.fluid
 
 }
 
-body.fluid #container
-{
-	margin: 0 10px;
-	width: auto;
-}
-
 /* ---- Header block elements ---------- */
 body.fluid #header
 {
@@ -961,10 +872,7 @@ float: left;
    font-weight: bold;
 }
 
-#content .content-nav a, #content .content-nav div
-{
-	background: #ca812e url('../img/bottom_button_bg.jpg') repeat-x;
-	padding: 3px 7px;
+#content .content-nav a, #content .content-nav div {
 	text-decoration: none;
 	color: #333;
 	font-size: 90%;
@@ -1337,17 +1245,16 @@ body.fluid #pagebody #sidebar_left ul li.selected{
     display: none;
 }
 
+.generic-quiz .caseuserfeedback.top {
+    display: none;
+}
+
 .generic-quiz .alert {
     display: none;
 }
 
 div.quiz-results {
     display: none;
-    float: right;
-}
-
-.treatment-choice-quiz p {
-    width: 780px;
 }
 
 .treatment-choice-quiz div.quiz-results {
@@ -1362,6 +1269,7 @@ div.quiz-results {
     float: left;
     border: none;
     margin-left: 50px;
+    padding: 0;
 }
 
 .treatment-choice-quiz div.casetitle {
@@ -1370,6 +1278,7 @@ div.quiz-results {
 
 .treatment-choice-quiz div.casequestion p {
     font-weight: bold;
+    margin-top: 0;
 }
 
 .treatment-choice-quiz .smoker_quantity {
@@ -1390,6 +1299,17 @@ div.quiz-results {
     height: 34px;
     font-size: 80%;
 }
+
+.multiple-video-quiz .cases,
+.single-video-quiz .cases {
+    border: 0;
+}
+
+.multiple-video-quiz .caseuserfeedback.bottom,
+.single-video-quiz .caseuserfeedback.bottom {
+    display: none;
+}
+
 
 .single-video-quiz .generic-feedback,
 .multiple-video-quiz .generic-feedback {
@@ -1444,7 +1364,7 @@ div.quiz-results {
 
 .multiple-video-quiz div.quiz-video {
     position: absolute;
-    left: 400px;
+    left: 620px;
     width: 480px;
     height: 272px;
 }

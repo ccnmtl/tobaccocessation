@@ -11,9 +11,46 @@
 {% endblock %}
 
 {% block js %}
-{{ block.super }}
+    {{ block.super }}
     <script type="text/javascript" src="/site_media/js/json2.js"></script>
     <script type="text/javascript" src="/site_media/js/quizblockextra.js"></script>
+    
+    <script type="text/javascript">    
+        jQuery(document).ready(function () {            
+            jQuery("form").submit(function() {
+                var valid = true;
+
+                var children = jQuery(this).find("input,textarea,select");
+                jQuery.each(children, function() {
+                    if (valid) {
+                        if (this.tagName === 'INPUT' && this.type === 'text' ||
+                            this.tagName === 'TEXTAREA') {
+                            valid = jQuery(this).val().trim().length > 0;
+                        }
+
+                        if (this.tagName === 'SELECT') {
+                            var value = jQuery(this).val()
+                            valid = value !== undefined && value.length > 0 &&
+                                jQuery(this).val().trim() !== '-----';
+                        }
+
+                        if (this.type === 'checkbox' || this.type === 'radio') {
+                            // one in the group needs to be checked
+                            var selector = 'input[name=' + jQuery(this).attr("name") + ']';
+                            valid = jQuery(selector).is(":checked");
+                        }
+                    }
+                });
+
+                if (!valid) {
+                    alert("Please complete all form fields before continuing.");
+                }
+
+                return valid;
+            });
+        });
+    </script>    
+    
 {% endblock %}
 
 {% block extrajs %}
@@ -24,11 +61,9 @@
 {% endblock %}
 
 {% block primarynavtabs %}
-{% comment %}
     {% if user.is_authenticated %}
         {% include "new_project_primary_nav.html" %}
     {% endif %}
-{% endcomment %}
 {% endblock %}
 
 
@@ -64,6 +99,9 @@
 		<h2>{{ section.label }}</h2>
 		
         {% for block in section.pageblock_set.all %}
+            {% if block.label %}
+                <h3>{{block.label}}</h3>
+            {% endif %}
             <div class="pageblock{% if block.css_extra %} {{block.css_extra}}{% endif %}">
                 {% render block %}
             </div>
@@ -81,7 +119,8 @@
                     </form>
                     {% endif %}
                 {% else %}                    
-                    <input type="submit" value="Submit" class="btn btn-primary pull-right" />                
+                    <input type="submit" value="Submit" class="btn btn-primary pull-right" />
+                    <div class="visualclear"></div>                
                     </form>
                 {% endif %}
             {% endif %}
@@ -91,26 +130,39 @@
 
 
 {% block contentnav %}
-      {% if previous %}
-         {% ifequal section.hierarchy.name "main" %}
-            {% ifaccessible previous %}
-                <a href="{{previous.get_absolute_url}}" id="previous">« {{previous.label}}</a>
-            {% else %}
-                <div id="prev_disabled"><img align="top" src="/site_media/img/lock.png"/> {{previous.label}}</div>
-            {% endifaccessible %}
-         {% endifequal %}
-      {% endif %}
-
-      {% if next %}
-         <!-- added to allow javascript access to the menu links. hack for the js activities enabling/disabling of links -->
-         <input type="hidden" id="next_section_slug" name="next_section_slug" value="{{next.slug}}"/>
-         {% ifaccessible next %}
-            <a href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
-            <div style="display: none;" id="next_disabled">{{next.label}} <img align="top" src="/site_media/img/lock.png" alt="locked"/></div>
-         {% else %}
-            <a style="display: none" href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
-            <div id="next_disabled">{{next.label}} <img align="top" src="/site_media/img/lock.png" alt="locked"/></div>
-         {% endifaccessible %}
-      {% endif %}
-
+    <div class="navbar">
+        <div class="navbar-inner">
+            {% if previous %}
+            <ul class="nav">
+                <li>
+                    {% ifaccessible previous %}
+                        <a href="{{previous.get_absolute_url}}" id="previous">« {{previous.label}}</a>
+                    {% else %}
+                        <div id="prev_disabled">« {{previous.label}} <img align="top" src="/site_media/img/lock.png"/></div>
+                    {% endifaccessible %}
+                </li>
+            </ul>
+            {% endif %}
+        
+            {% if next %}
+            <ul class="nav pull-right">
+                <li>
+                     <!-- added to allow javascript access to the menu links. hack for the js activities enabling/disabling of links -->
+                     <input type="hidden" id="next_section_slug" name="next_section_slug" value="{{next.slug}}"/>
+                     {% ifaccessible next %}
+                        <a href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
+                        <div style="display: none;" id="next_disabled">{{next.label}} <img align="top" src="/site_media/img/lock.png" alt="locked"/></div>
+                     {% else %}
+                        <a style="display: none" href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
+                        <div id="next_disabled" title="You must complete the activities on this page before continuing.">
+                            <img align="top" src="/site_media/img/lock.png" alt="locked"/> {{next.label}} »
+                        </div>
+                     {% endifaccessible %}            
+                </li>
+            </ul>
+            {% endif %}
+    
+        </div>
+    </div>
+    
 {% endblock %}

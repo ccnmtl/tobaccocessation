@@ -82,6 +82,9 @@
 {% endblock %}
 
 {% block primarynavtabs %}
+    {% if user.is_authenticated %}
+        {% include "new_project_primary_nav.html" %}
+    {% endif %}
 {% endblock %}
 
 {% block extraprimarynav %}
@@ -362,13 +365,25 @@ method="post">
 {% block contentnav %}
     {% with section.get_next as next %}
     {% with section.get_previous as previous %}
-
-    {% if previous %}
-      <a href="{{previous.get_edit_url}}" id="previous">« {{previous.label}}</a>
-    {% endif %}
-    {% if next %}
-       <a href="{{next.get_edit_url}}" id="next">{{next.label}} »</a>
-    {% endif %}
+    
+    <div class="navbar">
+        <div class="navbar-inner">
+            {% if previous %}
+                <ul class="nav">
+                    <li>
+                        <a href="{{previous.get_edit_url}}" id="previous">« {{previous.label}}</a>
+                    </li>
+                </ul>
+            {% endif %}
+            {% if next %}
+                <ul class="nav pull-right">
+                    <li>
+                        <a href="{{next.get_edit_url}}" id="next">{{next.label}} »</a>
+                    </li>
+                </ul>
+            {% endif %}
+        </div>
+    </div>
     
     {% endwith %}{% endwith %}
 {% endblock %}

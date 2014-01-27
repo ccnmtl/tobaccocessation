@@ -96,34 +96,27 @@
 }
 
 #dosage, #disp, #dosage_2, #disp_2 {
-
+    height: 10px;
 	margin-bottom: 3px;
-		border-right: 1px solid #ddd;
+    border-right: 1px solid #ddd;
 	border-bottom: 1px solid #ddd;
 }
 
 #sig, #sig_2 {
-
-	height: 61px;
+	height: 55px;
 	overflow: auto;
-	width: 212px;
+	width: 207px;
 	border-right: 1px solid #ddd;
 	border-bottom: 1px solid #ddd;
 	*width: 163px;
-
-
 }
-
-
 
 #refills, #refills_2 {
-   margin: 41px 0 0 45px; 
-    margin: 36px 0 0 44px\9;
-   *margin: 29px 0 0 44px;
-   width: 40px; 
-   text-align: right;
+    height: 10px;
+    margin: 30px 0 0 45px;     
+    width: 31px;
+    text-align: right;
 }
-
 
 #dosage_correct, #dosage_2_correct {
    position: relative;

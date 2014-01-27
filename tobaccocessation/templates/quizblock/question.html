@@ -8,13 +8,15 @@
 
     <div class="casecontent">
         <div class="casequestion">
-            {% if block.rhetorical %}
-                {% include 'quizblock/show_answer.html' %}
-            {% else %}
-                {% if response %}
+            <div class="caseuserfeedback top">
+                {% if block.rhetorical %}
                     {% include 'quizblock/show_answer.html' %}
+                {% else %}
+                    {% if response %}
+                        {% include 'quizblock/show_answer.html' %}
+                    {% endif %}
                 {% endif %}
-            {% endif %}
+            </div>
 
             {{question.text|markdown}}
             
@@ -47,6 +49,16 @@
                   {% include 'quizblock/long_text.html' %}
                 {% endif %}
             {% endif %}
+            
+            <div class="caseuserfeedback bottom">
+                {% if block.rhetorical %}
+                    {% include 'quizblock/show_answer.html' %}
+                {% else %}
+                    {% if response %}
+                        {% include 'quizblock/show_answer.html' %}
+                    {% endif %}
+                {% endif %}
+            </div>            
         </div>
     </div>
 </div>

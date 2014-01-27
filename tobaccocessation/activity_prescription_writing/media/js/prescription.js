@@ -116,12 +116,12 @@ function maybeEnableNext()
       if (gonext)
       {
          setStyle('next_disabled', {'display': 'none'}); 
-         setStyle('next', {'display': 'inline'}); 
+         setStyle('next', {'display': 'block'}); 
          return true; 
       }
       else
       {
-         setStyle('next_disabled', {'display': 'inline'}); 
+         setStyle('next_disabled', {'display': 'block'}); 
          setStyle('next', {'display': 'none'}); 
          return false;
       }
@@ -182,7 +182,7 @@ function loadState()
    if (!$('dosage_correct'))
    {
       setStyle('next', {'display': 'none'});
-      setStyle('next_disabled', {'display': 'inline'});
+      setStyle('next_disabled', {'display': 'block'});
    }
    url = 'http://' + location.hostname + ':' + location.port + "/activity/prescription/load/";
    deferred = loadJSONDoc(url);
@@ -230,15 +230,17 @@ function saveState()
       doc = {};
       doc[$('medication_name').value] = rx;
       
-      // save state via a synchronous request. 
-      var sync_req = new XMLHttpRequest();  
-      sync_req.onreadystatechange = function() {
-          if (sync_req.readyState !== 4) {
-              return false; 
+      jQuery.ajax({
+          type: 'POST',
+          url: url,
+          async: false,
+          data: queryString({'json': JSON.stringify(doc, null)}),
+          dataType: 'json',
+          error: function() {
+              alert("An error occurred saving your prescription");
           }
-      };     
-      sync_req.open("POST", url, false);
-      sync_req.send(queryString({'json':JSON.stringify(doc, null)}));
+      });
+      return false;  
    }
 }
 

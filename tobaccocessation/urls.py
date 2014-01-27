@@ -111,6 +111,9 @@ urlpatterns += patterns(
     # very important that this stays last and in this order
     (r'^pages/(?P<hierarchy>\w+)/edit/(?P<section_id>\d+)/$',
      'tobaccocessation.main.views.edit_page_by_id'),
+    (r'^pages/(?P<hierarchy>\w+)/(?P<section_id>\d+)/$',
+     'tobaccocessation.main.views.page_by_id'),
+
     (r'^pages/(?P<hierarchy>\w+)/edit/(?P<path>.*)$',
      'tobaccocessation.main.views.edit_page'),
     (r'^pages/(?P<hierarchy>\w+)/(?P<path>.*)$',

@@ -5,7 +5,7 @@ from django.shortcuts import render_to_response, render
 from django.template import RequestContext
 from django.utils import simplejson
 from pagetree.helpers import get_section_from_path, get_module
-from pagetree.models import Section
+from pagetree.models import Section, UserLocation, UserPageVisit
 from tobaccocessation.activity_prescription_writing.models import \
     ActivityState as PrescriptionWritingActivityState
 from tobaccocessation.activity_treatment_choice.models import \
@@ -67,18 +67,25 @@ def edit_page_by_id(request, hierarchy, section_id):
     return HttpResponseRedirect(section.get_edit_url())
 
 
-@login_required
-@rendered_with('main/page.html')
-def page(request, hierarchy, path):
-    section = get_section_from_path(path, hierarchy)
-    return _response(request, section, path)
-
-
 @user_passes_test(lambda u: u.is_staff)
 @rendered_with('main/edit_page.html')
 def edit_resources(request, path):
     section = get_section_from_path(path, "resources")
     return _edit_response(request, section, path)
+
+
+@login_required
+@rendered_with('main/page.html')
+def page(request, hierarchy, path):
+    section = get_section_from_path(path, hierarchy)
+    return _response(request, section)
+
+
+@login_required
+@rendered_with('main/page.html')
+def page_by_id(request, hierarchy, section_id):
+    section = Section.objects.get(id=section_id)
+    return HttpResponseRedirect(section.get_absolute_url())
 
 
 @login_required
@@ -98,7 +105,7 @@ def _get_left_parent(first_leaf):
 
 
 @rendered_with('main/page.html')
-def _response(request, section, path):
+def _response(request, section):
     h = section.hierarchy
     if request.method == "POST":
         # user has submitted a form. deal with it
@@ -148,6 +155,7 @@ def _response(request, section, path):
             allow_redo = first_leaf.allow_redo()
 
         return dict(request=request,
+                    hierarchy=h,
                     section=first_leaf,
                     accessible=can_access,
                     module=module,
@@ -219,6 +227,10 @@ def clear_state(request):
         request.user.get_profile().delete()
     except UserProfile.DoesNotExist:
         pass
+
+    # clear visits & saved locations
+    UserLocation.objects.filter(user=request.user).delete()
+    UserPageVisit.objects.filter(user=request.user).delete()
 
     # clear quiz
     import quizblock

@@ -25,12 +25,24 @@
         	<!-- ###### Site banner ###### -->
         	<div id="header">
         		<!-- Project title/logo -->
-                <h1 id="logo_project"><a href="/" title="Tobacco Cessation"><span>Tobacco Cessation</span></a></h1>	
-        		{% block standardnav %}
-                   {% include "project_standard_nav.html" %}
-                {% endblock %}
-        		<!-- CCNMTL title/logo -->
-                <h4><a id="logo_ccnmtl" href="http://ccnmtl.columbia.edu" target="_blank" title="Columbia Center for New Media Teaching and Learning"><span>Produced by the Columbia Center for New Media Teaching and Learning</span></a><a id="logo_dental" href="http://dental.columbia.edu" target="_blank" title="Columbia University College of Dental Medicine"><span>Produced for the Columbia University College of Dental Medicine</span></a></h4>
+                <a href="/" title="Tobacco Cessation">
+                    <img src="/site_media/img/logo_project.jpg" />
+                </a>
+                
+                <div id="standardnav">
+            		{% block standardnav %}
+                       {% include "project_standard_nav.html" %}
+                    {% endblock %}
+            		<!-- CCNMTL title/logo -->
+                    <div>
+                        <a id="logo_dental" href="http://dental.columbia.edu" target="_blank" title="Columbia University College of Dental Medicine">
+                            <img src="/site_media/img/logo_dental.png" alt="Dental Medicine Logo" />
+                        </a>
+                        <a id="logo_ccnmtl" href="http://ccnmtl.columbia.edu" target="_blank" title="Columbia Center for New Media Teaching and Learning">
+                            <img src="/site_media/img/logo_ccnmtl.png" alt="CCNMTL Logo" />
+                        </a>
+                    </div>
+               </div>
         	</div><!-- id="header" -->
         {% endblock %}
     
@@ -66,14 +78,12 @@
     					
     					
     
-    				<!-- ###### Don't touch this ###### -->
-    				<div class="visualclear"></div><!-- id="visualclear" -->
+        				<!-- ###### Don't touch this ###### -->
+        				<div class="visualclear"></div><!-- id="visualclear" -->
     				
     				
-                <div class="content-nav">
-                   {% block contentnav %}
-                   {% endblock %}
-                </div>
+                        {% block contentnav %}
+                        {% endblock %}
                    				
     
     				</div><!-- class="block" -->
@@ -105,6 +115,7 @@
     </script>
     
     {% compress js %}
+        <script  type="text/javascript" src="/site_media/js/browserdetect.js"></script>
         <script  type="text/javascript" src="/site_media/js/shield.js"></script>
         <script type="text/javascript">
             jQuery(document).ready(function() {
