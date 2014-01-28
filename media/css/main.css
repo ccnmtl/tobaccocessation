@@ -1349,18 +1349,29 @@ div.quiz-results {
     padding-left: 5px;  
 }
 
+.multiple-video-quiz .cases {
+    padding: 0;
+}
+
+.multiple-video-quiz .cases ol {
+    margin-left: 1.5em;
+}
+
 .multiple-video-quiz ol li {
     margin-bottom: 25px;
 }
 
-
 .multiple-video-quiz div.answer-label {
-    width: 250px;
+    width: 230px;
     padding-left: 8px;
     padding-bottom: 8px;
     padding-right: 8px;
     background-color: #f7f7f9;
     border: 1px solid #e1e1e8;
+}
+
+.multiple-video-quiz div.alert {
+    width: 241px;
 }
 
 .multiple-video-quiz div.answer-video {
@@ -1369,7 +1380,7 @@ div.quiz-results {
 
 .multiple-video-quiz div.quiz-video {
     position: absolute;
-    left: 620px;
+    left: 543px;
     width: 480px;
     height: 272px;
 }

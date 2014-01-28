@@ -8,13 +8,14 @@
         <li><div class="radio"><label>        
             {% if response %}
                 {% ifequal response.value answer.value %}
-                    <input name="pageblock-{{block.pageblock.id}}-question{{question.id}}"
-                           disabled="disabled" checked="checked"
-                           value="{{answer.value}}" type="radio" onclick="return showVideo(this);"/>
+                    <input name="yours pageblock-{{block.pageblock.id}}-question{{question.id}}"
+                           checked="checked"
+                           value="{{answer.value}}" type="radio"
+                           onclick="return showVideo(this);"/>
                 {% else %}
                     <input name="pageblock-{{block.pageblock.id}}-question{{question.id}}"
-                           disabled="disabled"
-                           value="{{answer.value}}" type="radio" onclick="return showVideo(this);"/>
+                           value="{{answer.value}}" type="radio"
+                           onclick="return showVideo(this);"/>
                 {% endifequal %}
                 {% if answer.correct %}
                     <div class="alert alert-success">
