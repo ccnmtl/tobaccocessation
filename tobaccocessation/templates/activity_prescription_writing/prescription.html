@@ -1,8 +1,11 @@
 <input id='medication_name' name='medication_name' type='hidden' value='{{ block.medication.0.name }}'/>
 
-{% ifequal block.medication.0.rx_count 1 %}
-    
+{% if not block.show_correct %}
     <h5>Fill out the prescription form below, then click Prescription Results to continue.</h5>
+{% endif %}
+    
+{% ifequal block.medication.0.rx_count 1 %}
+
     <div id="blankrx">
        <input class="required_field" id="dosage" name='dosage' type='text' onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
        <input class="required_field" id="disp" type="text" onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
@@ -35,9 +38,6 @@
        {% endif %}
    </div>    
 {% else %}
-   
-    <h5>Fill out the prescription form below and click submit.</h5>
-
     <div id="blankrx">
       <div id="rx_fields1">
       <input id="dosage" type='text' onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
