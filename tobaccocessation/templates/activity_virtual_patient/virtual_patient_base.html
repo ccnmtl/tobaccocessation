@@ -19,35 +19,9 @@
    <script type="text/javascript" src="/activity/virtualpatient/media/js/virtualpatient.js"></script>
 {% endblock %}
 
-{% block contentnav %}
-<table>
-<tr>
-<td>
-   {% if previous_url %}
-     <a href="{{previous_url}}" id="previous">« Previous</a>
-   {% else %}
-      {% with section.get_previous as prev %}
-        {% if prev %}
-          <a href="{{prev.get_absolute_url}}" id="previous">« {{prev.label}}</a>
-        {% endif %}
-      {% endwith %}
-   {% endif %}
-</td>
-<td width="100%" align="center>  
-   <div id="page_numbering">
-      Virtual Patient {{ patient.display_order }} | Page {{ page_number }} {{ page_addendum }} of 4
-   </div>
-</td>
-<td>
-    {% if next_url or navigate %}
-        {% if next_url %}
-            <a style="display: none" id='next' href="{{next_url}}">Next »</a>
-        {% else %}{% if navigate %}
-            <a style="display: none" id='next' href="#" onclick="return navigate();">Next »</a>  
-        {% endif %}{% endif %}
-        <div style="display: none" id="next_disabled">Next » <img align="top" src="/site_media/img/lock.png"/></div>
+{% block primarynavtabs %}
+    {% if user.is_authenticated %}
+        {% include "susans_new_project_primary_nav.html" %}
     {% endif %}
-</td>
-</tr>
-</table>   
 {% endblock %}
+

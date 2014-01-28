@@ -1,21 +1,21 @@
-#about_patient {
+#patient {
+    width: 100%;
+}
 
-	
+
+#about_patient {
+    float: left;
 	display:block;
 	padding:10px;
-	width:710px;
+	width: 50%;
 	border: 1px solid #ccc;
-	   height: 173px;
-	
-	
+    height: 600px;
 }
 
 #about_patient img {
-
-
 	margin: 0 10px 10px 0;
 	border: 1px solid #ccc;
-
+    float: left;
 }
 
 #about_patient h3 {
@@ -38,9 +38,6 @@
   width: 800px;
 }
 
-#patient {
-	
-}
 
 #patient_description {
 	float: left;
@@ -53,17 +50,13 @@
 }
 
 #patient_history {
-	float: left;
-	width: 490px;
-	border: 1px solid #ccc;
-   height: 125px;
-   padding: 10px;
-   border-spacing: 5px;	
-   overflow:auto;
-   background-color: #efefef;
-   font-size: 90%;
-  
-
+   height: 410px;
+   -webkit-column-count: 2;
+      -moz-column-count: 2;
+           column-count: 2;
+  -webkit-column-gap: 10px;
+     -moz-column-gap: 10px;
+          column-gap: 10px; 
 }
 
 #treatment_feedback {

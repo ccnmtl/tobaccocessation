@@ -8,7 +8,7 @@
         <li><div class="radio"><label>        
             {% if response %}
                 {% ifequal response.value answer.value %}
-                    <input name="yours pageblock-{{block.pageblock.id}}-question{{question.id}}"
+                    <input name="pageblock-{{block.pageblock.id}}-question{{question.id}}"
                            checked="checked"
                            value="{{answer.value}}" type="radio"
                            onclick="return showVideo(this);"/>

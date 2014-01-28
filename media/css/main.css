@@ -131,12 +131,48 @@ li {
 }
 
 .navbar .nav>li>div {
-float: none;
-padding: 10px 15px 10px;
-color: #777;
-text-decoration: none;
-text-shadow: 0 1px 0 #fff;
+    float: none;
+    padding: 10px 15px 10px;
+    color: #777;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #fff;
 }
+
+ul.dropdown-menu.dropdown-menu-3 {
+    height: 503px;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+    -webkit-column-gap: 10px;
+    -moz-column-gap: 10px;
+    column-gap: 10px;
+}
+
+.dropdown .dropdown-menu .nav-header {
+    padding: 0;
+    padding-left: 10px;
+}
+
+
+.nav-header>ul {
+    z-index: 1000;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    list-style: none;
+    background-color: #fff;
+}
+
+.nav-header>ul>li>a {
+    display: block;
+    padding: 3px 10px;
+    clear: both;
+    font-weight: normal;
+    line-height: 20px;
+    color: #333;
+    white-space: nowrap;
+}
+
 
 a {
 	color: #84240a;
@@ -1221,24 +1257,6 @@ body.fluid #pagebody #sidebar_left ul li.selected{
    color: #999;
 }
 
-.nav-header>ul {
-    z-index: 1000;
-    min-width: 160px;
-    padding: 5px 0;
-    margin: 2px 0 0;
-    list-style: none;
-    background-color: #fff;
-}
-
-.nav-header>ul>li>a {
-    display: block;
-    padding: 3px 3px;
-    clear: both;
-    font-weight: normal;
-    line-height: 20px;
-    color: #333;
-    white-space: nowrap;
-}
 
 /** Treatment Choice Quizzes **/
 

@@ -16,21 +16,25 @@
         Choose at least one to be your Best Treatment Choice.</h5> 
       
     <div id="patient">
-       <div id="about_patient">
-            <div id="patient_description">
+        <div id="about_patient">
+            <h6>Patient History</h6>
             <img src="/activity/virtualpatient/media/images/patient_{{patient.id}}.jpg" />
-            <h3>{{patient.name}}</h3>
-            <h4>{% autoescape off %}{{ patient.description }}{% endautoescape %} </h4> 
+            <div id="patient_description">                
+                <h3>{{patient.name}}</h3>
+                <h4>{% autoescape off %}{{ patient.description }}{% endautoescape %} </h4> 
             </div>
-              <h6>Patient History</h6>
-            <div id="patient_history">{% autoescape off %}{{patient.history}}{% endautoescape %}</div>
-      </div>
+            <div class="visualclear"></div>        
+            <div id="patient_history">
+                {% autoescape off %}{{patient.history}}{% endautoescape %}
+            </div>
+        </div>
+
+    </div>
  
       <input type="hidden" id="patient_id" name="patient_id" value="{{patient.id}}"></input>
       <input type="hidden" id="page_id" name="page_id" value="{{page_id}}"></input>
-      <input type="hidden" id="foo" value="bar"></input>
     </div>
-     <div id="available_treatments_box">
+    <div id="available_treatments_box">
 		<br /><h4>Treatments To Classify: <span id="treatments_to_classify">{{patient_state.available_treatments|length}}</span></h4>   
 		 
 	    <span id="available_treatments" class="treatment_droppable">
@@ -41,7 +45,7 @@
 	         </span>
 	      {% endfor %}
 	    </span>
-	 </div>
+    </div>
 	<br /> <h4>Your Treatment Classifications</h4> 
     <div id="treatment_types">
   
