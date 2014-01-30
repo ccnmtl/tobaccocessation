@@ -25,3 +25,48 @@
     {% endif %}
 {% endblock %}
 
+{% block contentnav %}
+    <div class="navbar footer">
+        <div class="navbar-inner">
+            {% if previous_url %}
+                <ul class="nav">
+                    <li>
+                        <a href="{{previous_url}}" id="previous">« Previous</a>
+                    </li>
+                    <li>
+                        Virtual Patient {{ patient.display_order }} | Page {{ page_number }} {{ page_addendum }} of 4
+                    </li>
+                </ul>
+            {% else %}
+                {% with section.get_previous as prev %}
+                <ul class="nav">
+                    <li>
+                        <a href="{{prev.get_absolute_url}}" id="previous">« {{prev.label}}</a>
+                    </li>
+                </ul>
+                {% endwith %}
+            {% endif %}
+            <div id="page-numbering">
+                Virtual Patient {{ patient.display_order }} | Page {{ page_number }} {{ page_addendum }} of 4
+            </div>
+            
+            {% if next_url or navigate %}
+                <ul class="nav pull-right">
+                    <li>
+                        {% if next_url %}
+                            <a style="display: none" id='next' href="{{next_url}}">Next »</a>
+                        {% else %}{% if navigate %}
+                            <div id="next_disabled" title="You must complete the activities on this page before continuing.">
+                                <img align="top" src="/site_media/img/lock.png"/> Next »
+                            </div>
+                            <a style="display: none" id='next' href="#" onclick="return navigate();">Next »</a>  
+                        {% endif %}{% endif %}
+                    </li>
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+  
+{% endblock %}
+
+

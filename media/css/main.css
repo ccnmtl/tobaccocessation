@@ -1005,20 +1005,6 @@ display: block;
 	margin-bottom:-10px;
 }
 
-
-a.reset_button {
-
-background-color:#DEDEDE;
-border:1px solid #CCCCCC;
-float:right;
-padding:3px;
-}
-
-#page_numbering {
-    width: auto;
-    background: none !important;
-}
-
 #module_indicator {
 	border: 1px solid #ccc;
 	padding: 25px 5px 15px 5px;

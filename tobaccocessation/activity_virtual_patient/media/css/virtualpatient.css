@@ -1,63 +1,94 @@
-#patient {
-    width: 100%;
+div.virtualpatient a:visited {
+    color: #777;
 }
 
+div.virtual-patient a.btn {
+    color: #777;
+}
 
-#about_patient {
-    float: left;
+.about-patient {
 	display:block;
 	padding:10px;
-	width: 50%;
 	border: 1px solid #ccc;
-    height: 600px;
 }
 
-#about_patient img {
-	margin: 0 10px 10px 0;
-	border: 1px solid #ccc;
+.about-patient img {
+    margin: 0 10px 10px 0;
+    border: 1px solid #ccc;
     float: left;
 }
 
-#about_patient h3 {
-    
-	font-size: 100%;
-	margin: 0 0 .5em 0;
-
+.about-patient h4 {
+    font-style: normal;
 }
 
-#about_patient h4 {
-    
-	font-size:90%;
-	font-weight:normal;
-	margin-top:-0.5em;
-
-
-}
-
-#patient_header {
-  width: 800px;
+.about-patient h3 {
+    margin: 0 0 .5em 0;
 }
 
 
-#patient_description {
-	float: left;
-	margin-right: 10px;
-	padding: 0 10px;
-	text-align: center;
-	width: 165px;
-
-
+.about-patient .patient-description {
+    float: left;
+    width: 165px;
 }
 
-#patient_history {
-   height: 410px;
+.about-patient .patient-history {
+   height: 424px;
    -webkit-column-count: 2;
       -moz-column-count: 2;
            column-count: 2;
-  -webkit-column-gap: 10px;
-     -moz-column-gap: 10px;
-          column-gap: 10px; 
+  -webkit-column-gap: 0px;
+     -moz-column-gap: 0px;
+          column-gap: 0px; 
 }
+
+.treatment-classification .available-treatments {
+    margin-top: 80px;
+}
+
+.treatment-classification .available-treatment {
+    margin-bottom: 10px;
+    height: 40px;
+}
+
+.treatment-classification .span1 {
+    padding: 3px 12px;
+}
+
+.treatment-classification .header {
+    font-size: .9em;
+    text-align: center;
+    height: 75px;
+}
+
+.treatment-classification .appropriate-treatment-choice {
+    color: #468847;
+    background-color: #dff0d8;
+}
+
+.treatment-classification .unlikely-to-be-effective {
+    color: #c09853;    
+    background-color: #fcf8e3;
+}
+
+.treatment-classification .potentially-harmful {
+    color: #b94a48;
+    background-color: #f2dede;
+}
+
+.treatment-classification .treatment-type {
+    text-align: center;
+    height: 40px;
+    margin-bottom: 10px;
+    margin-top: 8px;
+}
+
+#page-numbering {
+    margin-left: 20%;
+    margin-top: 10px;
+    float: left;
+}
+
 
 #treatment_feedback {
    float: left;
@@ -111,21 +142,6 @@ font-size: 95%;
 	margin-top:34px;
 	padding:0 10px 10px;
 	width:513px;
-}
-
-#available_treatments_box {
-   float: left;
-   margin-bottom: 1.5em;
-   width: 750px;
-}
-    
-#available_treatments {
-	float: left;
-	width: 670px;
-	height: 86px;
-   background-color: #dedede;
-   border: 1px solid #ccc;
-   padding: 5px 5px 5px 55px;
 }
 
 .padded_image {
@@ -233,11 +249,6 @@ margin-bottom: -.5em;
 	background-color: #ce5a5e;
 
 }
-
-a.reset_button {
-	margin: -.5em 2em 0 0;
-}
-
 
 
 

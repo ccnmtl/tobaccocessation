@@ -18,7 +18,11 @@
 {% endblock %}
                     
 {% block content %}
+    Welcome! 
+    
     <div>Hierarchy: {{profile.role}}</div>
+    
+    <a href="">Download course guide</a>
     
     {% ifequal profile.role "pediatrics" %}
         @todo Pediatric Static Content 
@@ -33,7 +37,10 @@
         {% endwith %} 
     {% endifequal %}{% endifequal %}{% endifequal %}
     
+    Instructor Stuff
     {% ifequal profile.is_faculty "FA" %}
         Faculty Teaching Guide: provide link
-    {% endifequal %}    
+    {% endifequal %}   
+    
+    TOC 
 {% endblock %}

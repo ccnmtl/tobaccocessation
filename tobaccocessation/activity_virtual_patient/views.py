@@ -56,9 +56,11 @@ def reset(request, patient_id):
 
 @login_required
 def options(request, hierarchy, patient_id):
-    hierarchy = request.user.get_profile().role()
+    role_name = request.user.get_profile().role()
+    hierarchy = Hierarchy.objects.get(name=role_name)
     user_state = _get_user_state(request)
-    ctx = get_base_context(request, 'options', user_state, patient_id)
+    ctx = get_base_context(request, 'options',
+                           hierarchy, user_state, patient_id)
 
     request.user.get_profile().set_has_visited([ctx['section']])
 
@@ -85,9 +87,12 @@ def options(request, hierarchy, patient_id):
 
 @login_required
 def selection(request, hierarchy, patient_id):
-    hierarchy = request.user.get_profile().role()
+    role_name = request.user.get_profile().role()
+    hierarchy = Hierarchy.objects.get(name=role_name)
+
     user_state = _get_user_state(request)
-    ctx = get_base_context(request, 'selection', user_state, patient_id)
+    ctx = get_base_context(request, 'selection',
+                           hierarchy, user_state, patient_id)
     request.user.get_profile().set_has_visited([ctx['section']])
 
     # do a quick check to verify everything is correct in the land of the
@@ -119,9 +124,12 @@ def selection(request, hierarchy, patient_id):
 
 @login_required
 def prescription(request, hierarchy, patient_id, medication_idx='0'):
-    hierarchy = request.user.get_profile().role()
+    role_name = request.user.get_profile().role()
+    hierarchy = Hierarchy.objects.get(name=role_name)
+
     user_state = _get_user_state(request)
-    ctx = get_base_context(request, 'prescription', user_state, patient_id)
+    ctx = get_base_context(request, 'prescription',
+                           hierarchy, user_state, patient_id)
 
     request.user.get_profile().set_has_visited([ctx['section']])
 
@@ -178,9 +186,12 @@ def prescription(request, hierarchy, patient_id, medication_idx='0'):
 
 @login_required
 def results(request, hierarchy, patient_id):
-    hierarchy = request.user.get_profile().role()
+    role_name = request.user.get_profile().role()
+    hierarchy = Hierarchy.objects.get(name=role_name)
+
     user_state = _get_user_state(request)
-    ctx = get_base_context(request, 'results', user_state, patient_id)
+    ctx = get_base_context(request, 'results',
+                           hierarchy, user_state, patient_id)
     request.user.get_profile().set_has_visited([ctx['section']])
 
     patient_state = user_state['patients'][patient_id]
@@ -413,20 +424,20 @@ def _get_patients(user_state, patient_id):
 ##########################################################################
 
 
-def get_base_context(request, page_id, user_state, patient_id):
-    h = get_hierarchy()
-    section = h.get_section_from_path('assist/activity-virtual-patient')
+def get_base_context(request, page_id,
+                     hierarchy, user_state, patient_id):
 
-    ctx = Context({
-                  'user': request.user,
-                  'patient': Patient.objects.get(id=patient_id),
-                  'page_id': page_id,
-                  'section': section,
-                  'module': get_module(section),
-                  'root': h.get_root(),
-                  'request': request,
-                  'patients': _get_patients(user_state, patient_id)
-                  })
+    section = hierarchy.get_section_from_path(
+        'assist/activity-virtual-patient')
+
+    ctx = Context({'user': request.user,
+                   'patient': Patient.objects.get(id=patient_id),
+                   'page_id': page_id,
+                   'section': section,
+                   'module': get_module(section),
+                   'root': hierarchy.get_root(),
+                   'request': request,
+                   'patients': _get_patients(user_state, patient_id)})
 
     return ctx
 
