@@ -8,8 +8,6 @@ from pagetree.helpers import get_section_from_path, get_module
 from pagetree.models import Section, UserLocation, UserPageVisit
 from tobaccocessation.activity_prescription_writing.models import \
     ActivityState as PrescriptionWritingActivityState
-from tobaccocessation.activity_treatment_choice.models import \
-    ActivityState as TreatmentChoiceActivityState
 from tobaccocessation.activity_virtual_patient.models import \
     ActivityState as VirtualPatientActivityState
 from tobaccocessation.main.models import QuickFixProfileForm, UserProfile
@@ -238,9 +236,6 @@ def clear_state(request):
 
     # clear prescription writing
     PrescriptionWritingActivityState.objects.filter(user=request.user).delete()
-
-    # clear treatment choices
-    TreatmentChoiceActivityState.objects.filter(user=request.user).delete()
 
     # clear virtual patient
     VirtualPatientActivityState.objects.filter(user=request.user).delete()

@@ -64,8 +64,8 @@ def options(request, hierarchy, patient_id):
 
     request.user.get_profile().set_has_visited([ctx['section']])
 
-    # setup new state object if the user is seeing this patient for the first
-    # time.
+    # setup new state object if the user is seeing this patient
+    # for the first time.
     if (patient_id not in user_state['patients']):
         user_state['patients'][patient_id] = {}
         user_state['patients'][patient_id][

@@ -56,9 +56,6 @@ urlpatterns += patterns(
         'tobaccocessation.main.views.create_profile',
         name="create_profile"),
 
-
-    (r'^activity/treatment/', include(
-        'tobaccocessation.activity_treatment_choice.urls')),
     (r'^activity/prescription/',
      include('tobaccocessation.activity_prescription_writing.urls')),
     (r'^activity/virtualpatient/',

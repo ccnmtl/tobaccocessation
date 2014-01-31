@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase, RequestFactory
 from django.test.client import Client
 from pagetree.models import Hierarchy, Section
-from tobaccocessation.activity_treatment_choice.views import loadstate, \
+from tobaccocessation.activity_prescription_writing.views import loadstate, \
     savestate
 from tobaccocessation.main.models import UserProfile
 
@@ -45,19 +45,6 @@ class TestViews(TestCase):
         # smoketests themselves don't have an error
         response = self.c.get("/smoketest/")
         self.assertEquals(response.status_code, 200)
-
-    def test_treatment_choice_load_state(self):
-        request = self.factory.get('/activity/treatment/load/')
-        request.user = self.user
-        response = loadstate(request)
-        self.assertEqual(response.status_code, 200)
-
-    def test_treatment_choice_save_state(self):
-        request = self.factory.post('/activity/treatment/save/',
-                                    {'json': 'need json'})
-        request.user = self.user
-        response = savestate(request)
-        self.assertEqual(response.status_code, 200)
 
     '''Test Views in Main'''
     def test_index2(self):
@@ -173,18 +160,15 @@ class TestOtherSimpleViews(TestCase):
     def tearDown(self):
         self.user.delete()
 
-    def test_perscription_writing_load_state(self):
-        request = self.factory.get('/activity/perscription/load/')
+    def test_prescription_writing_load_state(self):
+        request = self.factory.get('/activity/prescription/load/')
         request.user = self.user
         response = loadstate(request)
         self.assertEqual(response.status_code, 200)
 
-
-    # def test_perscription_writing_save_state(self):
-    #     json_data = json.dumps(['json', {'need json': ('garbage', None,
-    #                                                    1.0, 2)}]) #\'json\'
-    #     request = self.factory.post('/activity/perscription/save/', {
-    #         "\json":'need json'}, content_type="application/json")
-    #     request.user = self.user
-    #     response = savestate(request)
-    #     self.assertEqual(response.status_code, 200)
+    def test_prescription_writing_save_state(self):
+        request = self.factory.post('/activity/prescription/save/',
+                                    {"json": '{"key": "value"}'})
+        request.user = self.user
+        response = savestate(request)
+        self.assertEqual(response.status_code, 200)

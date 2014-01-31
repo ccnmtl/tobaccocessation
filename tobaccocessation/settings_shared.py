@@ -42,7 +42,6 @@ NOSE_ARGS = [
     '--with-coverage',
     ('--cover-package=tobaccocessation,'
      'tobaccocessation.activity_prescription_writing,'
-     'tobaccocessation.activity_treatment_choice,'
      'tobaccocessation.activity_virtual_patient')]
 
 JENKINS_TASKS = (
@@ -56,7 +55,6 @@ JENKINS_TASKS = (
 
 PROJECT_APPS = ['tobaccocessation.main',
                 'tobaccocessation.activity_prescription_writing',
-                'tobaccocessation.activity_treatment_choice',
                 'tobaccocessation.activity_virtual_patient']
 
 ALLOWED_HOSTS = [".ccnmtl.columbia.edu", "localhost"]
@@ -133,7 +131,6 @@ INSTALLED_APPS = [
     'pagetree',
     'pageblocks',
     'tobaccocessation.main',
-    'tobaccocessation.activity_treatment_choice',
     'tobaccocessation.activity_prescription_writing',
     'tobaccocessation.activity_virtual_patient',
     'quizblock',
@@ -206,7 +203,6 @@ PAGEBLOCKS = ['pageblocks.HTMLBlockWYSIWYG',
               'pageblocks.HTMLBlock',
               'pageblocks.ImageBlock',
               'quizblock.Quiz',
-              'activity_treatment_choice.Block',
               'activity_prescription_writing.Block',
               'main.FlashVideoBlock']
 
