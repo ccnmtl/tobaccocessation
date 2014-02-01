@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 from pagetree.models import Hierarchy, Section
-from tobaccocessation.main.models import UserProfile, FlashVideoBlock
+from tobaccocessation.main.models import UserProfile
 from tobaccocessation.activity_prescription_writing.models import Medication, \
     Block
 
@@ -165,26 +165,6 @@ class UserProfileTest(TestCase):
         profile.specialty = 'S10'  # Dental Public Health
         profile.save()
         self.assertEquals(profile.role(), "main")
-
-
-class FlashVideoBlockTest(TestCase):
-    def test_edit_flash_form(self):
-        self.flash = FlashVideoBlock(width=4, height=3)
-        self.flash.save()
-        self.form_test = self.flash.edit_form()
-        self.assertIsNotNone(self.form_test)
-
-    def test_block_add_form(self):
-        self.flash = FlashVideoBlock(width=4, height=3)
-        self.flash.save()
-        self.add_form_test = self.flash.add_form()
-        self.assertIsNotNone(self.add_form_test)
-
-    # def test_create_flash_pageblock(self):
-    #     self.c = Client()
-    #     self.response = self.c.post("/")
-    #     self.create_flash_block = FlashVideoBlock.create(self.response)
-    #     self.assertIsNotNone(self.create_flash_block)
 
 
 class TestModelsOther(TestCase):

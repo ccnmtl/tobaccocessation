@@ -13,40 +13,19 @@
 {% block js %}
     {{ block.super }}
     <script type="text/javascript" src="/site_media/js/json2.js"></script>
-    <script type="text/javascript" src="/site_media/js/quizblockextra.js"></script>
+    <script type="text/javascript" src="/site_media/js/util.js"></script>
     
     <script type="text/javascript">    
         jQuery(document).ready(function () {            
-            jQuery("form").submit(function() {
-                var valid = true;
+            jQuery("form").submit(function(evt) {
+                evt.stopImmediatePropagation();
 
-                var children = jQuery(this).find("input,textarea,select");
-                jQuery.each(children, function() {
-                    if (valid) {
-                        if (this.tagName === 'INPUT' && this.type === 'text' ||
-                            this.tagName === 'TEXTAREA') {
-                            valid = jQuery(this).val().trim().length > 0;
-                        }
-
-                        if (this.tagName === 'SELECT') {
-                            var value = jQuery(this).val()
-                            valid = value !== undefined && value.length > 0 &&
-                                jQuery(this).val().trim() !== '-----';
-                        }
-
-                        if (this.type === 'checkbox' || this.type === 'radio') {
-                            // one in the group needs to be checked
-                            var selector = 'input[name=' + jQuery(this).attr("name") + ']';
-                            valid = jQuery(selector).is(":checked");
-                        }
-                    }
-                });
-
-                if (!valid) {
+                if (!is_form_complete(this)) {
                     alert("Please complete all form fields before continuing.");
+                    return false;
+                } else {
+                    return true;
                 }
-
-                return valid;
             });
         });
     </script>    

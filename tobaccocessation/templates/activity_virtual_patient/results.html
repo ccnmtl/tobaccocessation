@@ -1,14 +1,10 @@
-{% extends "activity_virtual_patient/virtual_patient_base.html" %}
-
-{% block title %}Virtual Patient {{ patient.display_order }}: Treatment Results{% endblock %}
-
-{% block extrajs %}
-   {{ block.super }}
-   <script type="text/javascript" src="/activity/virtualpatient/media/js/results.js"></script>
-{% endblock %}
-
-{% block content %}
-    {{ block.super }}
+{% if needs_submit and is_submitted %}
+    <form action="." method="post">
+        <input type="hidden" name="action" value="reset" />
+        <input type="submit" value="Reset Patient" class="btn pull-right" />
+    </form>
+{% endif %}
+    
      
     <a class="reset_button" href="{% url 'reset' patient.id %}" onclick="clearState(); return false;">Reset&nbsp;Exercise</a>
    <h2>Virtual Patient {{ patient.display_order }}: Treatment Results</h2>
@@ -155,4 +151,3 @@
               {% endfor %}
            </div>
 </div>
-{% endblock %}

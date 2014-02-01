@@ -1,16 +1,4 @@
-{% extends "activity_virtual_patient/virtual_patient_base.html" %}
 
-{% block title %}Virtual Patient {{ patient.display_order }}: Prescribe Treatment(s){% endblock %}
-
-{% block extrajs %}
-   {{ block.super }}
-   <script type="text/javascript" src="/activity/virtualpatient/media/js/prescription.js"></script>
-{% endblock %}
-
-{% block content %}
-    {{ block.super }} 
-    
-     <a class="reset_button" href="{% url 'reset' patient.id %}" onclick="clearState(); return false;">Reset&nbsp;Exercise</a>
     <h2>Virtual Patient {{ patient.display_order }}: Prescribe Treatment(s)</h2>
    <h5>Step 3: Write a prescription for this patient by selecting the correct dosage and concentration for this medication.</h5> 
     <input type="hidden" id="medication_idx" value="{{ medication_idx }}"></input>
@@ -166,4 +154,3 @@
          </form>
        </div>
    {% endifequal %}
-{% endblock %}

@@ -204,7 +204,7 @@ PAGEBLOCKS = ['pageblocks.HTMLBlockWYSIWYG',
               'pageblocks.ImageBlock',
               'quizblock.Quiz',
               'activity_prescription_writing.Block',
-              'main.FlashVideoBlock']
+              'activity_virtual_patient.PatientAssessmentBlock']
 
 LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL = '/'
 

@@ -1,6 +1,4 @@
-import json
 from django.test import TestCase
-from django.contrib.auth.models import User
 from tobaccocessation.activity_virtual_patient.models import Medication
 from tobaccocessation.activity_virtual_patient.models import Patient
 from tobaccocessation.activity_virtual_patient.models \
@@ -9,7 +7,6 @@ from tobaccocessation.activity_virtual_patient.models import TreatmentOption
 from tobaccocessation.activity_virtual_patient.models \
     import TreatmentOptionReasoning
 from tobaccocessation.activity_virtual_patient.models import TreatmentFeedback
-from tobaccocessation.activity_virtual_patient.models import ActivityState
 
 
 class TestMedication(TestCase):
@@ -92,17 +89,3 @@ class TestTreatmentFeedback(TestCase):
         tf = TreatmentFeedback.objects.create(
             patient=p, classification=tc, feedback="ok")
         self.assertEqual(str(tf), "Feedback: 1. foo foo")
-
-
-class TestActivityState(TestCase):
-    def test_is_complete(self):
-        u = User.objects.create(username="foo")
-        self.assertFalse(ActivityState.is_complete(u))
-        p = Patient.objects.create(
-            name="foo",
-            description="bar",
-            history="history",
-            display_order=1)
-        d = dict(patients={str(p.id): dict(results=[3, 4, 5])})
-        ActivityState.objects.create(user=u, json=json.dumps(d))
-        self.assertTrue(ActivityState.is_complete(u))
