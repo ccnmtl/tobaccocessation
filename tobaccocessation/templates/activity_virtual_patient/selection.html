@@ -4,10 +4,7 @@
 {% gettreatments block as treatments %}
 {% with block.patient as patient %}
 
-<div class="virtualpatient treatment-selection">
-    <input type="hidden" id="patient_id" name="patient_id" value="{{patient.id}}"></input>
-    <input type="hidden" id="page_id" name="page_id" value="{{block.view}}"></input>
-    
+<div class="virtualpatient treatment-selection">    
     <h5>Step 2: Based upon your previous rationale, choose treatment(s) to actually prescribe for this patient.</h5>
       
     <div class="row">
@@ -41,13 +38,15 @@
             <div class="combination-therapy" style="display: none">
                 <b>Now select two therapies to combine:</b>
                 {% for med in treatments %}
-                    <div class="treatment-type">
-                        <input name="pageblock-{{block.pageblock.id}}-combination" value="{{med.tag}}" type="checkbox"
-                        {% if med.combination %}
-                            checked="checked" disabled="disabled"
-                        {% endif %} /> 
-                        <img src="/activity/virtualpatient/media/images/{{med.tag}}.jpg">   
-                    </div>
+                    {% ifnotequal med.tag "combination" %} 
+                        <div class="treatment-type">
+                            <input name="pageblock-{{block.pageblock.id}}-combination" value="{{med.tag}}" type="checkbox"
+                            {% if med.combination %}
+                                checked="checked" disabled="disabled"
+                            {% endif %} /> 
+                            <img src="/activity/virtualpatient/media/images/{{med.tag}}.jpg">   
+                        </div>
+                    {% endifnotequal %}
                 {% endfor %}
             </div>
         </div>

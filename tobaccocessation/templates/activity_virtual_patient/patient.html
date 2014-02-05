@@ -1,12 +1,9 @@
-{% load user_state %} 
-
-
-{% ifequal block.view block.CHOOSE_TREATMENT_OPTION %}
+{% ifequal block.view block.CLASSIFY_TREATMENTS %}
     {% include "activity_virtual_patient/options.html" %}
 {% else %}{% ifequal block.view block.BEST_TREATMENT_OPTION %}
     {% include "activity_virtual_patient/selection.html" %}
 {% else %}{% ifequal block.view block.WRITE_PRESCRIPTION %}
-    {% include "activity_virtual_patient/prescription.html" %}
+    {% include "activity_virtual_patient/prescribe.html" %}
 {% else %}{% ifequal block.view block.VIEW_RESULTS %}
     {% include "activity_virtual_patient/results.html" %}
 {% endifequal %}{% endifequal %}{% endifequal %}{% endifequal %}

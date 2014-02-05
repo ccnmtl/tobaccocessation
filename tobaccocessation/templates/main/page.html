@@ -40,9 +40,11 @@
 {% endblock %}
 
 {% block primarynavtabs %}
+{% comment %}
     {% if user.is_authenticated %}
         {% include "susans_new_project_primary_nav.html" %}
     {% endif %}
+{% endcomment %}
 {% endblock %}
 
 

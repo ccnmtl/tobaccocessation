@@ -1,0 +1,44 @@
+{% load user_state %}
+
+{% getuserstate as state %}
+{% getmedications block as medications %}
+{% with block.patient as patient %}
+
+<div class="virtualpatient prescribe">
+    {% ifequal medications|length 2 %}
+        <h5>Step 3: Write prescriptions for <b>{{medications.0.name}}</b> and <b>{{medications.1.name}}</b>. Select the correct dosage and concentration for these medications.</h5> 
+    
+        <div id="double-prescription" class="carousel slide">
+            <ol class="carousel-indicators">
+                <li data-target="#double-prescription" data-slide-to="0" class="active">
+                </li>
+                <li data-target="#double-prescription" data-slide-to="1">
+                </li>
+            </ol>
+            <!-- Carousel items -->
+            <div class="carousel-inner">
+                <div class="active item">
+                    {% with medications.0 as medicine %}
+                        {% include "activity_virtual_patient/prescription.html" %}
+                    {% endwith %}
+                </div>
+                <div class="item">
+                    {% with medications.1 as medicine %}
+                        {% include "activity_virtual_patient/prescription.html" %}
+                    {% endwith %}
+                </div>
+            </div>
+            <div class="visualclear"></div>
+            <!-- Carousel nav -->
+            <div class="carousel-nav">
+                <a class="prescription-one btn" href="#double-prescription" data-slide="prev">&lsaquo; Prescription #1: {{medications.0.name}}</a>
+                <a class="prescription-two btn" href="#double-prescription" data-slide="next">Prescription #2: {{medications.1.name}} &rsaquo;</a>
+            </div>
+        </div>    
+    {% else %}
+        {% with medications.0 as medicine %}
+            {% include "activity_virtual_patient/prescription.html" %}
+        {% endwith %}
+    {% endifequal %}
+</div>
+{% endwith %}

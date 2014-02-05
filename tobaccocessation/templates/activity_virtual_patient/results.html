@@ -1,3 +1,9 @@
+{% load user_state %}
+
+{% with block.patient as patient %}
+
+<div class="virtualpatient treatment-options">
+
 {% if needs_submit and is_submitted %}
     <form action="." method="post">
         <input type="hidden" name="action" value="reset" />
@@ -5,8 +11,6 @@
     </form>
 {% endif %}
     
-     
-    <a class="reset_button" href="{% url 'reset' patient.id %}" onclick="clearState(); return false;">Reset&nbsp;Exercise</a>
    <h2>Virtual Patient {{ patient.display_order }}: Treatment Results</h2>
     
      <div id="patient">
@@ -151,3 +155,5 @@
               {% endfor %}
            </div>
 </div>
+
+{% endwith %}

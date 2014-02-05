@@ -1,0 +1,2482 @@
+[
+{
+  "pk": 1, 
+  "model": "activity_virtual_patient.medication", 
+  "fields": {
+    "display_order": 1, 
+    "tag": "nicotinepatch", 
+    "name": "Nicotine Patch", 
+    "rx_count": 1, 
+    "instructions": "<ul>\r\n<li>Apply one patch daily to dry hairless skin.</li>\r\n<li>Apply to different area of upper body each day.</li>\r\n</ul>"
+  }
+},
+{
+  "pk": 2, 
+  "model": "activity_virtual_patient.medication", 
+  "fields": {
+    "display_order": 2, 
+    "tag": "nicotinegum", 
+    "name": "Nicotine Gum", 
+    "rx_count": 1, 
+    "instructions": "<ul>\r\n<li>Use one piece of gum every 1 to 2 hours for a total of about 10 pieces per day.</li>\r\n<li>Use park and chew method.</li>\r\n<li>Do not eat or drink 15 minutes before or while using gum.</li>\r\n<li>Never use more than 24 pieces of gum per day.</li>\r\n<li>Recommended use time: 20 &ndash; 30 minutes per piece.</li>\r\n</ul>"
+  }
+},
+{
+  "pk": 3, 
+  "model": "activity_virtual_patient.medication", 
+  "fields": {
+    "display_order": 3, 
+    "tag": "nicotinelozenge", 
+    "name": "Nicotine Lozenge", 
+    "rx_count": 1, 
+    "instructions": "<ul>\r\n<li>Use one lozenge every 1 to 2 hours for a total of about 10 lozenges per day.</li>\r\n<li>Allow to dissolve in mouth slowly; each lozenge takes 20-30 minutes to dissolve.</li>\r\n<li>Do not eat or drink 15 minutes before or while using lozenge.</li>\r\n<li>Never use more than 24 lozenges per day.</li>\r\n</ul>"
+  }
+},
+{
+  "pk": 4, 
+  "model": "activity_virtual_patient.medication", 
+  "fields": {
+    "display_order": 4, 
+    "tag": "nicotineinhaler", 
+    "name": "Nicotine Inhaler", 
+    "rx_count": 1, 
+    "instructions": "<ul>\r\n<li>Use 10 cartridges per day for 12 weeks.</li>\r\n<li>Place cartridge in inhaler and take a puff.</li>\r\n<li>Hold each puff in your mouth for a moment and then resume normal breathing.</li>\r\n<li>Take 80 puffs over 20 minutes.</li>\r\n<li>Do not use more than 16 cartridges per day.</li>\r\n<li>Avoid food and acidic drinks such as coffee, tea, citrus juices, and sodas before and during use.</li>\r\n</ul>"
+  }
+},
+{
+  "pk": 5, 
+  "model": "activity_virtual_patient.medication", 
+  "fields": {
+    "display_order": 6, 
+    "tag": "bupropion", 
+    "name": "Bupropion", 
+    "rx_count": 1, 
+    "instructions": "<ul>\r\n<li>Start 1-2 weeks before quit date.</li>\r\n<li>Take once per day on days 1 to 3 then twice per day for the duration of the prescription.</li>\r\n<li>Take after eating and with a full glass of water.</li>\r\n<li>Separate doses by 8 hours or more.</li>\r\n</ul>"
+  }
+},
+{
+  "pk": 6, 
+  "model": "activity_virtual_patient.medication", 
+  "fields": {
+    "display_order": 5, 
+    "tag": "nicotinenasalspray", 
+    "name": "Nicotine Nasal Spray", 
+    "rx_count": 1, 
+    "instructions": "<ul>\r\n<li>Tilt head back and use one spray in each nostril.</li>\r\n<li>Use 1 to 2 doses per hour.</li>\r\n<li>Do not use more than 40 doses per day.</li>\r\n</ul>"
+  }
+},
+{
+  "pk": 7, 
+  "model": "activity_virtual_patient.medication", 
+  "fields": {
+    "display_order": 7, 
+    "tag": "varenicline", 
+    "name": "Varenicline", 
+    "rx_count": 2, 
+    "instructions": "<ul>\r\n<li>Start 1 week before quit date.</li>\r\n<li>Take once per day on days 1 to 3 then twice per day on days 4 to 7.</li>\r\n<li>Take after eating and with a full glass of water.</li>\r\n<li>Separate doses by 8 hours or more.</li>\r\n</ul>"
+  }
+},
+{
+  "pk": 8, 
+  "model": "activity_virtual_patient.medication", 
+  "fields": {
+    "display_order": 8, 
+    "tag": "varenicline", 
+    "name": "Varenicline", 
+    "rx_count": 2, 
+    "instructions": "<ul>\r\n<li>Take twice per day after eating and with a full glass of water.</li>\r\n<li>Separate doses by 8 hours or more.</li>\r\n</ul>\r\n"
+  }
+},
+{
+  "pk": 9, 
+  "model": "activity_virtual_patient.medication", 
+  "fields": {
+    "display_order": 9, 
+    "tag": "combination", 
+    "name": "Combination", 
+    "rx_count": 1, 
+    "instructions": "Combine two medications to treat your patient"
+  }
+},
+{
+  "pk": 1, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 1, 
+    "concentration": "2 mg", 
+    "medication": 2, 
+    "correct": false
+  }
+},
+{
+  "pk": 2, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 2, 
+    "concentration": "4 mg", 
+    "medication": 2, 
+    "correct": true
+  }
+},
+{
+  "pk": 5, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 4, 
+    "concentration": "21 mg", 
+    "medication": 1, 
+    "correct": true
+  }
+},
+{
+  "pk": 6, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 3, 
+    "concentration": "14 mg", 
+    "medication": 1, 
+    "correct": false
+  }
+},
+{
+  "pk": 7, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 1, 
+    "concentration": "2 mg", 
+    "medication": 3, 
+    "correct": false
+  }
+},
+{
+  "pk": 8, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 2, 
+    "concentration": "4 mg", 
+    "medication": 3, 
+    "correct": true
+  }
+},
+{
+  "pk": 9, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 1, 
+    "concentration": "1 mg", 
+    "medication": 4, 
+    "correct": false
+  }
+},
+{
+  "pk": 10, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 2, 
+    "concentration": "5 mg", 
+    "medication": 4, 
+    "correct": false
+  }
+},
+{
+  "pk": 11, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 3, 
+    "concentration": "10 mg", 
+    "medication": 4, 
+    "correct": true
+  }
+},
+{
+  "pk": 12, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 4, 
+    "concentration": "15 mg", 
+    "medication": 4, 
+    "correct": false
+  }
+},
+{
+  "pk": 13, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 1, 
+    "concentration": "10 mg", 
+    "medication": 5, 
+    "correct": false
+  }
+},
+{
+  "pk": 14, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 2, 
+    "concentration": "50 mg", 
+    "medication": 5, 
+    "correct": false
+  }
+},
+{
+  "pk": 15, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 3, 
+    "concentration": "150 mg", 
+    "medication": 5, 
+    "correct": true
+  }
+},
+{
+  "pk": 16, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 4, 
+    "concentration": "200 mg", 
+    "medication": 5, 
+    "correct": false
+  }
+},
+{
+  "pk": 17, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 4, 
+    "concentration": "20mg/ mL", 
+    "medication": 6, 
+    "correct": false
+  }
+},
+{
+  "pk": 18, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 3, 
+    "concentration": "10mg/ mL", 
+    "medication": 6, 
+    "correct": true
+  }
+},
+{
+  "pk": 19, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 2, 
+    "concentration": "5mg/ mL", 
+    "medication": 6, 
+    "correct": false
+  }
+},
+{
+  "pk": 20, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 1, 
+    "concentration": "1mg/ mL", 
+    "medication": 6, 
+    "correct": false
+  }
+},
+{
+  "pk": 21, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 1, 
+    "concentration": "0.5 mg", 
+    "medication": 7, 
+    "correct": true
+  }
+},
+{
+  "pk": 22, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 2, 
+    "concentration": "1.0 mg", 
+    "medication": 7, 
+    "correct": false
+  }
+},
+{
+  "pk": 23, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 3, 
+    "concentration": "5.0 mg", 
+    "medication": 7, 
+    "correct": false
+  }
+},
+{
+  "pk": 24, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 4, 
+    "concentration": "10.0 mg ", 
+    "medication": 7, 
+    "correct": false
+  }
+},
+{
+  "pk": 25, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 2, 
+    "concentration": "10mg", 
+    "medication": 1, 
+    "correct": false
+  }
+},
+{
+  "pk": 26, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 1, 
+    "concentration": "7mg", 
+    "medication": 1, 
+    "correct": false
+  }
+},
+{
+  "pk": 30, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 3, 
+    "concentration": "5.0 mg", 
+    "medication": 8, 
+    "correct": false
+  }
+},
+{
+  "pk": 31, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 4, 
+    "concentration": "10.0 mg", 
+    "medication": 8, 
+    "correct": false
+  }
+},
+{
+  "pk": 32, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 1, 
+    "concentration": "0.5 mg", 
+    "medication": 8, 
+    "correct": false
+  }
+},
+{
+  "pk": 33, 
+  "model": "activity_virtual_patient.concentrationchoice", 
+  "fields": {
+    "display_order": 2, 
+    "concentration": "1.0 mg", 
+    "medication": 8, 
+    "correct": true
+  }
+},
+{
+  "pk": 1, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 1, 
+    "medication": 2, 
+    "dosage": "1 box, 200 pieces", 
+    "correct": false
+  }
+},
+{
+  "pk": 2, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 2, 
+    "medication": 2, 
+    "dosage": "2 boxes, 400 pieces", 
+    "correct": true
+  }
+},
+{
+  "pk": 3, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 3, 
+    "medication": 2, 
+    "dosage": "3 boxes, 600 pieces", 
+    "correct": false
+  }
+},
+{
+  "pk": 4, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 4, 
+    "medication": 2, 
+    "dosage": "4 boxes, 800 pieces", 
+    "correct": false
+  }
+},
+{
+  "pk": 5, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 1, 
+    "medication": 1, 
+    "dosage": "1 boxes, 14 patches", 
+    "correct": false
+  }
+},
+{
+  "pk": 6, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 2, 
+    "medication": 1, 
+    "dosage": "2 boxes, 28 patches", 
+    "correct": true
+  }
+},
+{
+  "pk": 7, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 3, 
+    "medication": 1, 
+    "dosage": "3 box, 42 patches", 
+    "correct": false
+  }
+},
+{
+  "pk": 8, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 4, 
+    "medication": 1, 
+    "dosage": "4 boxes, 56 patches", 
+    "correct": false
+  }
+},
+{
+  "pk": 9, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 1, 
+    "medication": 3, 
+    "dosage": "1 box, 72 pieces", 
+    "correct": false
+  }
+},
+{
+  "pk": 10, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 2, 
+    "medication": 3, 
+    "dosage": "2 boxes, 144 pieces", 
+    "correct": false
+  }
+},
+{
+  "pk": 11, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 3, 
+    "medication": 3, 
+    "dosage": "3 boxes, 216 pieces", 
+    "correct": false
+  }
+},
+{
+  "pk": 12, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 4, 
+    "medication": 3, 
+    "dosage": "4 boxes, 288 pieces", 
+    "correct": true
+  }
+},
+{
+  "pk": 13, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 1, 
+    "medication": 4, 
+    "dosage": "1 box, 168 cartridges", 
+    "correct": false
+  }
+},
+{
+  "pk": 14, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 2, 
+    "medication": 4, 
+    "dosage": "2 boxes, 336 cartridges", 
+    "correct": true
+  }
+},
+{
+  "pk": 15, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 3, 
+    "medication": 4, 
+    "dosage": "3 boxes, 504 cartridges", 
+    "correct": false
+  }
+},
+{
+  "pk": 16, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 4, 
+    "medication": 4, 
+    "dosage": "4 boxes, 672 cartridges", 
+    "correct": false
+  }
+},
+{
+  "pk": 17, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 1, 
+    "medication": 5, 
+    "dosage": "28 tablets", 
+    "correct": false
+  }
+},
+{
+  "pk": 18, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 2, 
+    "medication": 5, 
+    "dosage": "40 tablets", 
+    "correct": false
+  }
+},
+{
+  "pk": 19, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 3, 
+    "medication": 5, 
+    "dosage": "56 tablets", 
+    "correct": true
+  }
+},
+{
+  "pk": 20, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 4, 
+    "medication": 5, 
+    "dosage": "72 tablets", 
+    "correct": false
+  }
+},
+{
+  "pk": 21, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 1, 
+    "medication": 6, 
+    "dosage": "1 box, 4 bottles", 
+    "correct": false
+  }
+},
+{
+  "pk": 22, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 2, 
+    "medication": 6, 
+    "dosage": "2 boxes, 8 bottles", 
+    "correct": false
+  }
+},
+{
+  "pk": 23, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 3, 
+    "medication": 6, 
+    "dosage": "3 boxes, 12 bottles", 
+    "correct": false
+  }
+},
+{
+  "pk": 24, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 4, 
+    "medication": 6, 
+    "dosage": "4 boxes, 16 bottles", 
+    "correct": true
+  }
+},
+{
+  "pk": 25, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 1, 
+    "medication": 7, 
+    "dosage": "10 tablets", 
+    "correct": false
+  }
+},
+{
+  "pk": 26, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 2, 
+    "medication": 7, 
+    "dosage": "11 tablets", 
+    "correct": true
+  }
+},
+{
+  "pk": 27, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 3, 
+    "medication": 7, 
+    "dosage": "14 tablets", 
+    "correct": false
+  }
+},
+{
+  "pk": 28, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 4, 
+    "medication": 7, 
+    "dosage": "18 tablets", 
+    "correct": false
+  }
+},
+{
+  "pk": 29, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 1, 
+    "medication": 8, 
+    "dosage": "28 tablets", 
+    "correct": false
+  }
+},
+{
+  "pk": 30, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 2, 
+    "medication": 8, 
+    "dosage": "40 tablets", 
+    "correct": false
+  }
+},
+{
+  "pk": 31, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 3, 
+    "medication": 8, 
+    "dosage": "56 tablets", 
+    "correct": true
+  }
+},
+{
+  "pk": 32, 
+  "model": "activity_virtual_patient.dosagechoice", 
+  "fields": {
+    "display_order": 4, 
+    "medication": 8, 
+    "dosage": "72 tablets", 
+    "correct": false
+  }
+},
+{
+  "pk": 3, 
+  "model": "activity_virtual_patient.refillchoice", 
+  "fields": {
+    "display_order": 1, 
+    "refill": "2 refills", 
+    "medication": 2, 
+    "correct": true
+  }
+},
+{
+  "pk": 6, 
+  "model": "activity_virtual_patient.refillchoice", 
+  "fields": {
+    "display_order": 1, 
+    "refill": "2 refills", 
+    "medication": 3, 
+    "correct": true
+  }
+},
+{
+  "pk": 7, 
+  "model": "activity_virtual_patient.refillchoice", 
+  "fields": {
+    "display_order": 1, 
+    "refill": "2 refills", 
+    "medication": 4, 
+    "correct": true
+  }
+},
+{
+  "pk": 8, 
+  "model": "activity_virtual_patient.refillchoice", 
+  "fields": {
+    "display_order": 1, 
+    "refill": "2 refills", 
+    "medication": 5, 
+    "correct": true
+  }
+},
+{
+  "pk": 9, 
+  "model": "activity_virtual_patient.refillchoice", 
+  "fields": {
+    "display_order": 1, 
+    "refill": "2 refills", 
+    "medication": 6, 
+    "correct": true
+  }
+},
+{
+  "pk": 10, 
+  "model": "activity_virtual_patient.refillchoice", 
+  "fields": {
+    "display_order": 1, 
+    "refill": "0 refills", 
+    "medication": 7, 
+    "correct": true
+  }
+},
+{
+  "pk": 11, 
+  "model": "activity_virtual_patient.refillchoice", 
+  "fields": {
+    "display_order": 1, 
+    "refill": "2 refills", 
+    "medication": 1, 
+    "correct": true
+  }
+},
+{
+  "pk": 13, 
+  "model": "activity_virtual_patient.refillchoice", 
+  "fields": {
+    "display_order": 1, 
+    "refill": "2 refills", 
+    "medication": 8, 
+    "correct": true
+  }
+},
+{
+  "pk": 1, 
+  "model": "activity_virtual_patient.patient", 
+  "fields": {
+    "gender": "F", 
+    "display_order": 1, 
+    "history": "<h6>Medical</h6>\r\n<ul>\r\n<li>Hypertension</li>\r\n<li>Gastric Reflux</li>\r\n</ul>\r\n\r\n<h6>Medications</h6> \r\n<ul>\r\n<li>Atenolol</li>\r\n<li>Nexium</li>\r\n</ul>\r\n\r\n<h6>Hospitalizations</h6>\r\n<ul>\r\n<li>No significant hospitalizations</li>\r\n</ul>\r\n\r\n<h6>Psychological</h6>\r\n<ul>\r\n<li>No history of depression</li>\r\n</ul>\r\n\r\n<h6>Dental</h6>\r\n<ul>\r\n<li>One implant replacing #8</li>\r\n<li>Four porcelain laminates</li>\r\n</ul>\r\n\r\n<h6>Tobacco Use</h6>\r\n<ul>\r\n<li>Smoker for 25 years</li>\r\n<li>1.5 packs per day</li>\r\n<li>Two prior unsuccessful quit attempts</li>\r\n<li>The first was 4 years ago with nicotine gum: the patient appropriately followed instructions for gum use</li>\r\n<li>The second quit attempt was 2 years ago with nicotine patch: the patient used the 21 mg patch according to product insert instructions. She continued to have tobacco cravings during both quit attempts</li>\r\n<li>She has her first cigarette within 30 minutes of waking</li>\r\n</ul>", 
+    "name": "Beverly Johnson", 
+    "description": "Age: 40, Lawyer"
+  }
+},
+{
+  "pk": 2, 
+  "model": "activity_virtual_patient.patient", 
+  "fields": {
+    "gender": "F", 
+    "display_order": 2, 
+    "history": "<h6>Medical</h6>\r\n<ul>\r\n<li>Asthma</li>\r\n</ul>\r\n\r\n<h6>Medications</h6> \r\n<ul>\r\n<li>Albuterol inhaler</li>\r\n</ul>\r\n\r\n<h6>Hospitalizations</h6>\r\n<ul>\r\n<li>Normal childbirth</li>\r\n</ul>\r\n\r\n<h6>Psychological</h6>\r\n<ul>\r\n<li>No history of depression</li>\r\n</ul>\r\n\r\n<h6>Dental</h6>\r\n<ul>\r\n<li>No significant dental history</li>\r\n</ul>\r\n\r\n<h6>Tobacco Use</h6>\r\n<ul>\r\n<li>Casual smoker, 10 cigarettes a day</li>\r\n<li>Quit smoking (\u201ccold turkey\u201d) one year ago for two months </li>\r\n<li>Smokes \u201csocially\u201d typically during coffee breaks at work</li>\r\n<li>Smokes first cigarette with lunch</li>\r\n</ul>", 
+    "name": "Jennifer Warrens", 
+    "description": "Age: 25, Receptionist"
+  }
+},
+{
+  "pk": 3, 
+  "model": "activity_virtual_patient.patient", 
+  "fields": {
+    "gender": "F", 
+    "display_order": 3, 
+    "history": "<h6>Medical</h6>\r\n<ul>\r\n<li>Diabetes Mellitus</li>\r\n<li>Elevated cholesterol</li>\r\n<li>Epilepsy</li>\r\n</ul>\r\n\r\n<h6>Medications</h6> \r\n<ul>\r\n<li>Diabinese</li>\r\n<li>Lipitor</li>\r\n<li>Topamax</li>\r\n</ul>\r\n\r\n<h6>Hospitalizations</h6>\r\n<ul>\r\n<li>Five hospitalizations for epileptic seizure management</li>\r\n</ul>\r\n\r\n<h6>Psychological</h6>\r\n<ul>\r\n<li>No history of depression</li>\r\n</ul>\r\n\r\n<h6>Dental</h6>\r\n<ul>\r\n<li>Lower removable partial denture</li>\r\n</ul>\r\n\r\n<h6>Tobacco Use</h6>\r\n<ul>\r\n<li>Smoker for 30 years</li>\r\n<li>1 pack per day</li>\r\n<li>Two prior quit attempts: \r\n<ol>\r\n<li>One \u201ccold turkey\u201d 10 years ago: successfully quit for 3 months</li>\r\n<li>Second quit attempt using nicotine patch two years ago: quit for almost one year</li>\r\n</ol>\r\n<li>Has first cigarette within 30 minutes of waking</li>\r\n</ul>", 
+    "name": "Carolyn Greenfeld", 
+    "description": "Age: 45, Court Stenographer"
+  }
+},
+{
+  "pk": 4, 
+  "model": "activity_virtual_patient.patient", 
+  "fields": {
+    "gender": "F", 
+    "display_order": 4, 
+    "history": "<h6>Medical</h6>\r\n<ul>\r\n<li>Hypothyroidism</li>\r\n</ul>\r\n\r\n<h6>Medications</h6> \r\n<ul>\r\n<li>Prozac</li>\r\n<li>Synthroid</li>\r\n</ul>\r\n\r\n<h6>Hospitalizations</h6>\r\n<ul>\r\n<li>No significant hospitalizations</li>\r\n</ul>\r\n\r\n<h6>Psychological</h6>\r\n<ul>\r\n<li>Anxiety</li>\r\n<li>Major depressive disorder</li>\r\n</ul>\r\n\r\n<h6>Dental</h6>\r\n<ul>\r\n<li>Maxillary 8 unit bridge (Teeth #\u2019s 3 -9)</li>\r\n</ul>\r\n\r\n<h6>Tobacco Use</h6>\r\n<ul>\r\n<li>Smoker for 20 years</li>\r\n<li>1 pack per day</li>\r\n<li>No prior quit attempts</li>\r\n<li>Has first cigarette 1 hour after waking</li>\r\n</ul>", 
+    "name": "Jonathan Huang", 
+    "description": "Age: 38, Musician"
+  }
+},
+{
+  "pk": 1, 
+  "model": "activity_virtual_patient.treatmentclassification", 
+  "fields": {
+    "description": "Appropriate Treatment Choice", 
+    "rank": 1
+  }
+},
+{
+  "pk": 3, 
+  "model": "activity_virtual_patient.treatmentclassification", 
+  "fields": {
+    "description": "Unlikely To Be Effective", 
+    "rank": 2
+  }
+},
+{
+  "pk": 4, 
+  "model": "activity_virtual_patient.treatmentclassification", 
+  "fields": {
+    "description": "Potentially Harmful", 
+    "rank": 3
+  }
+},
+{
+  "pk": 1, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 1, 
+    "medication_one": 7, 
+    "classification": 1
+  }
+},
+{
+  "pk": 2, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 1, 
+    "patient": 1, 
+    "medication_one": 5, 
+    "classification": 1
+  }
+},
+{
+  "pk": 3, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 2, 
+    "patient": 1, 
+    "medication_one": 5, 
+    "classification": 1
+  }
+},
+{
+  "pk": 5, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 4, 
+    "patient": 1, 
+    "medication_one": 5, 
+    "classification": 1
+  }
+},
+{
+  "pk": 6, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 6, 
+    "patient": 1, 
+    "medication_one": 5, 
+    "classification": 1
+  }
+},
+{
+  "pk": 7, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 2, 
+    "patient": 1, 
+    "medication_one": 1, 
+    "classification": 1
+  }
+},
+{
+  "pk": 9, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 4, 
+    "patient": 1, 
+    "medication_one": 1, 
+    "classification": 1
+  }
+},
+{
+  "pk": 10, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 6, 
+    "patient": 1, 
+    "medication_one": 1, 
+    "classification": 1
+  }
+},
+{
+  "pk": 11, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 1, 
+    "medication_one": 5, 
+    "classification": 1
+  }
+},
+{
+  "pk": 12, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 1, 
+    "medication_one": 2, 
+    "classification": 3
+  }
+},
+{
+  "pk": 14, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 1, 
+    "medication_one": 4, 
+    "classification": 3
+  }
+},
+{
+  "pk": 15, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 1, 
+    "medication_one": 6, 
+    "classification": 3
+  }
+},
+{
+  "pk": 16, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 1, 
+    "medication_one": 1, 
+    "classification": 3
+  }
+},
+{
+  "pk": 18, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 2, 
+    "patient": 1, 
+    "medication_one": 7, 
+    "classification": 3
+  }
+},
+{
+  "pk": 19, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 1, 
+    "patient": 1, 
+    "medication_one": 7, 
+    "classification": 3
+  }
+},
+{
+  "pk": 20, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 6, 
+    "patient": 1, 
+    "medication_one": 7, 
+    "classification": 3
+  }
+},
+{
+  "pk": 21, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 4, 
+    "patient": 1, 
+    "medication_one": 7, 
+    "classification": 3
+  }
+},
+{
+  "pk": 26, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 6, 
+    "patient": 1, 
+    "medication_one": 2, 
+    "classification": 3
+  }
+},
+{
+  "pk": 27, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 4, 
+    "patient": 1, 
+    "medication_one": 2, 
+    "classification": 3
+  }
+},
+{
+  "pk": 30, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 6, 
+    "patient": 1, 
+    "medication_one": 4, 
+    "classification": 3
+  }
+},
+{
+  "pk": 31, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 5, 
+    "patient": 1, 
+    "medication_one": 7, 
+    "classification": 3
+  }
+},
+{
+  "pk": 32, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 2, 
+    "medication_one": 3, 
+    "classification": 1
+  }
+},
+{
+  "pk": 33, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 2, 
+    "medication_one": 2, 
+    "classification": 1
+  }
+},
+{
+  "pk": 34, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 2, 
+    "medication_one": 1, 
+    "classification": 1
+  }
+},
+{
+  "pk": 35, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 2, 
+    "medication_one": 4, 
+    "classification": 1
+  }
+},
+{
+  "pk": 36, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 2, 
+    "medication_one": 7, 
+    "classification": 1
+  }
+},
+{
+  "pk": 37, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 2, 
+    "medication_one": 5, 
+    "classification": 1
+  }
+},
+{
+  "pk": 38, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 2, 
+    "medication_one": 6, 
+    "classification": 3
+  }
+},
+{
+  "pk": 39, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 3, 
+    "patient": 2, 
+    "medication_one": 5, 
+    "classification": 3
+  }
+},
+{
+  "pk": 40, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 2, 
+    "patient": 2, 
+    "medication_one": 5, 
+    "classification": 3
+  }
+},
+{
+  "pk": 41, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 1, 
+    "patient": 2, 
+    "medication_one": 5, 
+    "classification": 3
+  }
+},
+{
+  "pk": 42, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 6, 
+    "patient": 2, 
+    "medication_one": 5, 
+    "classification": 3
+  }
+},
+{
+  "pk": 43, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 4, 
+    "patient": 2, 
+    "medication_one": 5, 
+    "classification": 3
+  }
+},
+{
+  "pk": 60, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 3, 
+    "medication_one": 7, 
+    "classification": 1
+  }
+},
+{
+  "pk": 61, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 3, 
+    "patient": 3, 
+    "medication_one": 1, 
+    "classification": 1
+  }
+},
+{
+  "pk": 62, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 6, 
+    "patient": 3, 
+    "medication_one": 1, 
+    "classification": 1
+  }
+},
+{
+  "pk": 63, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 4, 
+    "patient": 3, 
+    "medication_one": 1, 
+    "classification": 1
+  }
+},
+{
+  "pk": 64, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 3, 
+    "medication_one": 1, 
+    "classification": 1
+  }
+},
+{
+  "pk": 65, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 2, 
+    "patient": 3, 
+    "medication_one": 1, 
+    "classification": 1
+  }
+},
+{
+  "pk": 66, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 3, 
+    "medication_one": 3, 
+    "classification": 3
+  }
+},
+{
+  "pk": 67, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 3, 
+    "medication_one": 4, 
+    "classification": 3
+  }
+},
+{
+  "pk": 68, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 3, 
+    "medication_one": 6, 
+    "classification": 1
+  }
+},
+{
+  "pk": 69, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 3, 
+    "medication_one": 2, 
+    "classification": 3
+  }
+},
+{
+  "pk": 70, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 2, 
+    "patient": 3, 
+    "medication_one": 7, 
+    "classification": 3
+  }
+},
+{
+  "pk": 71, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 3, 
+    "patient": 3, 
+    "medication_one": 7, 
+    "classification": 3
+  }
+},
+{
+  "pk": 72, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 1, 
+    "patient": 3, 
+    "medication_one": 7, 
+    "classification": 3
+  }
+},
+{
+  "pk": 73, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 6, 
+    "patient": 3, 
+    "medication_one": 7, 
+    "classification": 3
+  }
+},
+{
+  "pk": 74, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 4, 
+    "patient": 3, 
+    "medication_one": 7, 
+    "classification": 3
+  }
+},
+{
+  "pk": 75, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 2, 
+    "patient": 3, 
+    "medication_one": 3, 
+    "classification": 3
+  }
+},
+{
+  "pk": 76, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 6, 
+    "patient": 3, 
+    "medication_one": 3, 
+    "classification": 3
+  }
+},
+{
+  "pk": 77, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 4, 
+    "patient": 3, 
+    "medication_one": 3, 
+    "classification": 3
+  }
+},
+{
+  "pk": 78, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 6, 
+    "patient": 3, 
+    "medication_one": 2, 
+    "classification": 3
+  }
+},
+{
+  "pk": 79, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 4, 
+    "patient": 3, 
+    "medication_one": 2, 
+    "classification": 3
+  }
+},
+{
+  "pk": 80, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 4, 
+    "patient": 3, 
+    "medication_one": 6, 
+    "classification": 3
+  }
+},
+{
+  "pk": 81, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 3, 
+    "medication_one": 5, 
+    "classification": 4
+  }
+},
+{
+  "pk": 82, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 3, 
+    "patient": 3, 
+    "medication_one": 5, 
+    "classification": 4
+  }
+},
+{
+  "pk": 83, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 2, 
+    "patient": 3, 
+    "medication_one": 5, 
+    "classification": 4
+  }
+},
+{
+  "pk": 84, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 1, 
+    "patient": 3, 
+    "medication_one": 5, 
+    "classification": 4
+  }
+},
+{
+  "pk": 85, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 6, 
+    "patient": 3, 
+    "medication_one": 5, 
+    "classification": 4
+  }
+},
+{
+  "pk": 86, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 4, 
+    "patient": 3, 
+    "medication_one": 5, 
+    "classification": 4
+  }
+},
+{
+  "pk": 87, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 4, 
+    "medication_one": 1, 
+    "classification": 1
+  }
+},
+{
+  "pk": 88, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 2, 
+    "patient": 4, 
+    "medication_one": 1, 
+    "classification": 1
+  }
+},
+{
+  "pk": 89, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 6, 
+    "patient": 4, 
+    "medication_one": 1, 
+    "classification": 1
+  }
+},
+{
+  "pk": 90, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 3, 
+    "patient": 4, 
+    "medication_one": 1, 
+    "classification": 1
+  }
+},
+{
+  "pk": 91, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 4, 
+    "patient": 4, 
+    "medication_one": 1, 
+    "classification": 1
+  }
+},
+{
+  "pk": 92, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 4, 
+    "medication_one": 2, 
+    "classification": 1
+  }
+},
+{
+  "pk": 93, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 4, 
+    "medication_one": 3, 
+    "classification": 1
+  }
+},
+{
+  "pk": 94, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 4, 
+    "medication_one": 4, 
+    "classification": 1
+  }
+},
+{
+  "pk": 95, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 4, 
+    "medication_one": 6, 
+    "classification": 1
+  }
+},
+{
+  "pk": 96, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 4, 
+    "medication_one": 5, 
+    "classification": 4
+  }
+},
+{
+  "pk": 97, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 3, 
+    "patient": 4, 
+    "medication_one": 5, 
+    "classification": 4
+  }
+},
+{
+  "pk": 98, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 2, 
+    "patient": 4, 
+    "medication_one": 5, 
+    "classification": 4
+  }
+},
+{
+  "pk": 99, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 1, 
+    "patient": 4, 
+    "medication_one": 5, 
+    "classification": 4
+  }
+},
+{
+  "pk": 100, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 6, 
+    "patient": 4, 
+    "medication_one": 5, 
+    "classification": 4
+  }
+},
+{
+  "pk": 101, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 4, 
+    "patient": 4, 
+    "medication_one": 5, 
+    "classification": 4
+  }
+},
+{
+  "pk": 102, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 7, 
+    "patient": 4, 
+    "medication_one": 5, 
+    "classification": 4
+  }
+},
+{
+  "pk": 103, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 3, 
+    "patient": 4, 
+    "medication_one": 7, 
+    "classification": 4
+  }
+},
+{
+  "pk": 104, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 2, 
+    "patient": 4, 
+    "medication_one": 7, 
+    "classification": 4
+  }
+},
+{
+  "pk": 105, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 1, 
+    "patient": 4, 
+    "medication_one": 7, 
+    "classification": 4
+  }
+},
+{
+  "pk": 106, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 6, 
+    "patient": 4, 
+    "medication_one": 7, 
+    "classification": 4
+  }
+},
+{
+  "pk": 107, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 4, 
+    "patient": 4, 
+    "medication_one": 7, 
+    "classification": 4
+  }
+},
+{
+  "pk": 120, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 2, 
+    "patient": 4, 
+    "medication_one": 3, 
+    "classification": 1
+  }
+},
+{
+  "pk": 121, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 6, 
+    "patient": 4, 
+    "medication_one": 3, 
+    "classification": 1
+  }
+},
+{
+  "pk": 122, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 4, 
+    "patient": 4, 
+    "medication_one": 3, 
+    "classification": 1
+  }
+},
+{
+  "pk": 123, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 6, 
+    "patient": 4, 
+    "medication_one": 2, 
+    "classification": 1
+  }
+},
+{
+  "pk": 124, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 4, 
+    "patient": 4, 
+    "medication_one": 2, 
+    "classification": 1
+  }
+},
+{
+  "pk": 125, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 4, 
+    "patient": 4, 
+    "medication_one": 6, 
+    "classification": 1
+  }
+},
+{
+  "pk": 126, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 7, 
+    "patient": 3, 
+    "medication_one": 5, 
+    "classification": 4
+  }
+},
+{
+  "pk": 127, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": null, 
+    "patient": 4, 
+    "medication_one": 7, 
+    "classification": 4
+  }
+},
+{
+  "pk": 128, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 3, 
+    "patient": 2, 
+    "medication_one": 7, 
+    "classification": 3
+  }
+},
+{
+  "pk": 129, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 2, 
+    "patient": 2, 
+    "medication_one": 7, 
+    "classification": 3
+  }
+},
+{
+  "pk": 130, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 1, 
+    "patient": 2, 
+    "medication_one": 7, 
+    "classification": 3
+  }
+},
+{
+  "pk": 131, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 6, 
+    "patient": 2, 
+    "medication_one": 7, 
+    "classification": 3
+  }
+},
+{
+  "pk": 132, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 4, 
+    "patient": 2, 
+    "medication_one": 7, 
+    "classification": 3
+  }
+},
+{
+  "pk": 133, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 5, 
+    "patient": 2, 
+    "medication_one": 7, 
+    "classification": 3
+  }
+},
+{
+  "pk": 134, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 2, 
+    "patient": 2, 
+    "medication_one": 3, 
+    "classification": 3
+  }
+},
+{
+  "pk": 135, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 1, 
+    "patient": 2, 
+    "medication_one": 3, 
+    "classification": 3
+  }
+},
+{
+  "pk": 136, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 6, 
+    "patient": 2, 
+    "medication_one": 3, 
+    "classification": 3
+  }
+},
+{
+  "pk": 137, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 4, 
+    "patient": 2, 
+    "medication_one": 3, 
+    "classification": 3
+  }
+},
+{
+  "pk": 138, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 1, 
+    "patient": 2, 
+    "medication_one": 2, 
+    "classification": 3
+  }
+},
+{
+  "pk": 139, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 6, 
+    "patient": 2, 
+    "medication_one": 2, 
+    "classification": 3
+  }
+},
+{
+  "pk": 140, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 4, 
+    "patient": 2, 
+    "medication_one": 2, 
+    "classification": 3
+  }
+},
+{
+  "pk": 141, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 6, 
+    "patient": 2, 
+    "medication_one": 1, 
+    "classification": 3
+  }
+},
+{
+  "pk": 142, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 4, 
+    "patient": 2, 
+    "medication_one": 1, 
+    "classification": 3
+  }
+},
+{
+  "pk": 143, 
+  "model": "activity_virtual_patient.treatmentoption", 
+  "fields": {
+    "medication_two": 4, 
+    "patient": 2, 
+    "medication_one": 6, 
+    "classification": 3
+  }
+},
+{
+  "pk": 1, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": null, 
+    "patient": 1, 
+    "combination": true, 
+    "classification": 1, 
+    "reasoning": "<p>Combination therapy is indicated for a patient who has a history of smoking for 25 years and has made prior unsuccessful quit attempts. Combination therapy can be effective in patients who have made prior unsuccessful quit attempts.</p><ul><li><b>Bupropion and NRT:</b><p>Bupropion in combination with any NRT is an ideal therapy for this patient. Bupropion is not an NRT and it has been found to be effective in combination with an NRT regimen.</p>\r\n<p>The NRT should be used as an adjunctive agent when the patient has nicotine cravings. If the patch is chosen as an adjunctive NRT, it should be used according to product directions.</li><li><b>Nicotine Patch and short-acting NRT:</b><p>The use of a long-acting and a short-acting NRT provides this 1.5 pack a day smoker with adequate replacement of the nicotine that would have been absorbed from smoking. The patch in combination with any other short-acting NRT is an ideal therapy for this patient.</p><p>The nicotine patch will replace 21 mg of nicotine; additional nicotine can be replaced with a short-acting NRT when the patient has nicotine cravings.</p></li></ul>"
+  }
+},
+{
+  "pk": 2, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 7, 
+    "patient": 1, 
+    "combination": false, 
+    "classification": 1, 
+    "reasoning": "<p>Varenicline can be effective for patients who smoke one or more packs of cigarettes per day.</p>"
+  }
+},
+{
+  "pk": 3, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 5, 
+    "patient": 1, 
+    "combination": false, 
+    "classification": 1, 
+    "reasoning": "<p>Bupropion reduces the severity of nicotine cravings and withdrawal symptoms and may be effective for this 1.5 pack per day smoker.</p>"
+  }
+},
+{
+  "pk": 5, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 2, 
+    "patient": 1, 
+    "combination": false, 
+    "classification": 3, 
+    "reasoning": "<p>Since this patient smokes 1.5 packs of cigarettes a day, this NRT by itself will not adequately replace the nicotine this patient receives from smoking. Also, she has a prior history of tobacco cravings while using nicotine gum according to product directions.</p>"
+  }
+},
+{
+  "pk": 6, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 1, 
+    "patient": 1, 
+    "combination": false, 
+    "classification": 3, 
+    "reasoning": "<p>Since this patient smokes 1.5 packs of cigarettes a day, this NRT by itself will not adequately replace the nicotine this patient receives from smoking. Also, she has a prior history of tobacco cravings while using the 21 mg nicotine patch according to product directions.</p>"
+  }
+},
+{
+  "pk": 7, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 6, 
+    "patient": 1, 
+    "combination": false, 
+    "classification": 3, 
+    "reasoning": "<p>Since this patient smokes 1.5 packs of cigarettes a day, this NRT by itself will not adequately replace the nicotine this patient receives from smoking.</p>"
+  }
+},
+{
+  "pk": 8, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 4, 
+    "patient": 1, 
+    "combination": false, 
+    "classification": 3, 
+    "reasoning": "<p>Since this patient smokes 1.5 packs of cigarettes a day, this NRT by itself will not adequately replace the nicotine this patient receives from smoking.</p>"
+  }
+},
+{
+  "pk": 9, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 2, 
+    "patient": 2, 
+    "combination": false, 
+    "classification": 1, 
+    "reasoning": "<p>Nicotine gum 4 mg will provide adequate replacement of the 10 mg of nicotine absorbed by this patient through smoking. Although product labeling would support use of 2 mg gum for this patient, the patient would have to use 10 pieces (1 mg absorbed from each) to replace the 10 mg of nicotine from their cigarettes. Therefore, 10 pieces of gum would need to be chewed for approximately five hours. It takes an average of 30 minutes to release all the nicotine in a piece of gum. This is unrealistic for many patients.</p>"
+  }
+},
+{
+  "pk": 10, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 1, 
+    "patient": 2, 
+    "combination": false, 
+    "classification": 1, 
+    "reasoning": "<p>The 14 mg or 21 mg nicotine patch will provide adequate replacement of the 10 mg of nicotine absorbed by this patient through smoking (21 mg is preferred). However, the 7 mg patch will not provide this patient with adequate replacement of the nicotine obtained from 10 cigarettes.</p>"
+  }
+},
+{
+  "pk": 11, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 3, 
+    "patient": 2, 
+    "combination": false, 
+    "classification": 1, 
+    "reasoning": "<p>The 4 mg nicotine lozenge will provide adequate replacement of the 10 mg of nicotine absorbed by this patient through smoking. Although product labeling would support use of the 2 mg lozenge for this patient, the patient would have to use 10 lozenges (1 mg absorbed from each) to replace the 10 mg of nicotine from their cigarettes. 10 lozenges would need to be in the mouth for approximately five hours, since it takes on average 30 minutes to release all nicotine in a lozenge. This is unrealistic for many patients.</p>"
+  }
+},
+{
+  "pk": 12, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 4, 
+    "patient": 2, 
+    "combination": false, 
+    "classification": 1, 
+    "reasoning": "<p>The nicotine inhaler will provide adequate replacement of the 10 mg of nicotine absorbed by this patient through smoking. If the patient correctly follows inhalation instructions for each cartridge, use of more than 5 cartridges will provide the patient with more than 10 mg of nicotine.</p>"
+  }
+},
+{
+  "pk": 13, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 7, 
+    "patient": 2, 
+    "combination": false, 
+    "classification": 1, 
+    "reasoning": "<p>Prescription medication is not indicated for this casual smoker.</p>"
+  }
+},
+{
+  "pk": 14, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 5, 
+    "patient": 2, 
+    "combination": false, 
+    "classification": 1, 
+    "reasoning": "<p>Prescription medication is not indicated for this casual smoker.</p>"
+  }
+},
+{
+  "pk": 15, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": null, 
+    "patient": 2, 
+    "combination": true, 
+    "classification": 3, 
+    "reasoning": "<p>The number of cigarettes smoked and the low level of addiction do not warrant an aggressive approach with pharmacotherapeutics.</p>"
+  }
+},
+{
+  "pk": 16, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 6, 
+    "patient": 2, 
+    "combination": false, 
+    "classification": 3, 
+    "reasoning": "<p>Nicotine spray results in a high uptake of nicotine. The patient cannot control the amount of nicotine absorbed from each dose. This option is therefore not optimal for the low addiction level exhibited by this patient.</p>"
+  }
+},
+{
+  "pk": 17, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": null, 
+    "patient": 3, 
+    "combination": true, 
+    "classification": 1, 
+    "reasoning": "<p><ul><li> Patch and Lozenge</li><li>Patch and Nasal spray</li><li>Patch and Inhaler</li></ul>Combination therapy, specifically the nicotine patch in combination with the lozenge, nasal spray, or inhaler is a good choice for this patient. The patient has a history of smoking for 30 years and has made prior unsuccessful quit attempts. The 21 mg patch is the appropriate choice for this patient in combination with a short-acting NRT to help reduce nicotine cravings. However, the nicotine patch is not recommended in combination with nicotine gum for this patient because of presence of a lower removable partial denture.</p>"
+  }
+},
+{
+  "pk": 18, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 7, 
+    "patient": 3, 
+    "combination": false, 
+    "classification": 1, 
+    "reasoning": "<p>Varenicline is a good choice for this patient. Varenicline 0.5 mg should only be prescribed for first week of her quit attempt. Varenicline 1 mg is indicated subsequent to first week.</p>"
+  }
+},
+{
+  "pk": 19, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 1, 
+    "patient": 3, 
+    "combination": false, 
+    "classification": 1, 
+    "reasoning": "<p>The Nicotine patch will provide the patient with a steady level of nicotine. The 21 mg patch replaces the nicotine in one pack of cigarettes. This patient smokes 1 pack per day and has her first cigarette within 30 minutes of waking. The patient successfully quit with the nicotine patch 2 years ago. You should review use of patch and provide literature to support the patient's quit attempt. Refer the patient to a tobacco-quit line for additional support and counseling.</p>"
+  }
+},
+{
+  "pk": 20, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 6, 
+    "patient": 3, 
+    "combination": false, 
+    "classification": 1, 
+    "reasoning": "<p>Nasal spray results in a high uptake of nicotine. This patient smokes within 30 minutes of waking and is therefore strongly addicted and would benefit from the rapid increase in blood level of nicotine. However, 20 doses of nasal spray would be necessary to replace the 20 mg of nicotine from one pack of cigarettes. The patient's job may prohibit her from using nicotine spray frequently. Also, 20 doses of nasal spray may be irritating to the patient.</p>"
+  }
+},
+{
+  "pk": 21, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 3, 
+    "patient": 3, 
+    "combination": false, 
+    "classification": 3, 
+    "reasoning": "<p>Since this patient smokes one pack of cigarettes a day. This short-acting NRT will not adequately replace the nicotine this patient receives from smoking (20 mg).</p>"
+  }
+},
+{
+  "pk": 22, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 4, 
+    "patient": 3, 
+    "combination": false, 
+    "classification": 3, 
+    "reasoning": "<p>Since this patient smokes one pack of cigarettes a day. This short-acting NRT will not adequately replace the nicotine this patient receives from smoking (20 mg).</p>"
+  }
+},
+{
+  "pk": 23, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 2, 
+    "patient": 3, 
+    "combination": false, 
+    "classification": 3, 
+    "reasoning": "<p>This short-acting NRT will not adequately replace the nicotine this patient receives from smoking (20 mg). Also, the presence of a removable partial denture would make it difficult for the patient to use nicotine gum. If a short-acting NRT is chosen, then the nicotine lozenge or inhaler would be better choices.</p>"
+  }
+},
+{
+  "pk": 24, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 5, 
+    "patient": 3, 
+    "combination": false, 
+    "classification": 4, 
+    "reasoning": "<p>This patient has a history of seizures. Bupropion should not be prescribed alone or in combination therapy for patients with a history of seizures. Bupropion lowers seizure threshold and has the potential to cause seizures.</p>"
+  }
+},
+{
+  "pk": 25, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 1, 
+    "patient": 4, 
+    "combination": false, 
+    "classification": 1, 
+    "reasoning": "<p>The nicotine patch will replace the nicotine from one pack of cigarettes.</p>"
+  }
+},
+{
+  "pk": 26, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": null, 
+    "patient": 4, 
+    "combination": true, 
+    "classification": 1, 
+    "reasoning": "<p>Combination therapy with the addition of a short-acting NRT to the nicotine patch will provide the patient with additional nicotine to assist with a successful quit attempt.</p>"
+  }
+},
+{
+  "pk": 27, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 2, 
+    "patient": 4, 
+    "combination": false, 
+    "classification": 1, 
+    "reasoning": "<p>The 4 mg nicotine gum can replace the nicotine in one pack of cigarettes. 10 pieces of gum would be necessary to accomplish this. The average time for the lozenge or gum in the mouth is 30 minutes. The patient would need to have gum present in the mouth for five hours to adequately replace the nicotine in one pack of cigarettes (20 mg).</p>"
+  }
+},
+{
+  "pk": 28, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 3, 
+    "patient": 4, 
+    "combination": false, 
+    "classification": 1, 
+    "reasoning": "<p>The 4 mg nicotine lozenge can replace the nicotine in one pack of cigarettes. 10 lozenges would be necessary to accomplish this. The average time for the lozenge in the mouth is 30 minutes. The patient would need to have lozenges present in the mouth for five hours to adequately replace the nicotine in one pack of cigarettes (20 mg).</p>"
+  }
+},
+{
+  "pk": 29, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 4, 
+    "patient": 4, 
+    "combination": false, 
+    "classification": 1, 
+    "reasoning": "<p>Ten cartridges of nicotine inhaler would be necessary to replace the nicotine in one pack of cigarettes. It takes 80 or more puffs over at least 30 minutes to extract the nicotine. The patient would therefore need to use the inhaler over 5 hours a day to replace the nicotine in one pack of cigarettes.</p>"
+  }
+},
+{
+  "pk": 30, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 6, 
+    "patient": 4, 
+    "combination": false, 
+    "classification": 1, 
+    "reasoning": "<p>Forty doses (one spray in each nostril) are necessary to replace the nicotine in one pack of cigarettes. This would be impractical and irritating for most people.</p>"
+  }
+},
+{
+  "pk": 31, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 5, 
+    "patient": 4, 
+    "combination": false, 
+    "classification": 4, 
+    "reasoning": "<p>The patient has a history of major depression. Bupropion can exacerbate depression and suicidal ideation.</p>"
+  }
+},
+{
+  "pk": 32, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": 7, 
+    "patient": 4, 
+    "combination": false, 
+    "classification": 4, 
+    "reasoning": "<p>The patient has a history of major depression. Varenicline can exacerbate depression and suicidal ideation.</p>"
+  }
+},
+{
+  "pk": 33, 
+  "model": "activity_virtual_patient.treatmentoptionreasoning", 
+  "fields": {
+    "medication": null, 
+    "patient": 3, 
+    "combination": true, 
+    "classification": 1, 
+    "reasoning": "<p><b>Nicotine patch + gum.</b> The Nicotine patch will provide the patient with a steady level of nicotine. The 21 mg patch replaces the nicotine in one pack of cigarettes. This patient smokes 1 pack per day and has her first cigarette within 30 minutes of waking. The patient successfully quit with nicotine patch 2 years ago.  However, the patient has a removable partial denture. This will make it difficult for the patient to use nicotine gum. If a short-acting NRT is chosen then the nicotine lozenge, nasal spray, or inhaler would be better choices.</p>"
+  }
+},
+{
+  "pk": 1, 
+  "model": "activity_virtual_patient.treatmentfeedback", 
+  "fields": {
+    "combination_therapy": false, 
+    "correct_dosage": true, 
+    "patient": 1, 
+    "feedback": "<h6>Great Choice!</h6>\r\n<p>The patient has a history of smoking for 25 years and has made prior unsuccessful quit attempts. Combination therapy is an ideal treatment for this patient.</p>", 
+    "classification": 1
+  }
+},
+{
+  "pk": 2, 
+  "model": "activity_virtual_patient.treatmentfeedback", 
+  "fields": {
+    "combination_therapy": false, 
+    "correct_dosage": false, 
+    "patient": 1, 
+    "feedback": "<h6>Almost, but not quite...</h6>\r\n<p>You have prescribed an appropriate therapy; combination therapy is a great choice for this patient. However, you have written an incorrect prescription for one or both of the medications.</p>", 
+    "classification": 1
+  }
+},
+{
+  "pk": 3, 
+  "model": "activity_virtual_patient.treatmentfeedback", 
+  "fields": {
+    "combination_therapy": false, 
+    "correct_dosage": false, 
+    "patient": 1, 
+    "feedback": "<h6>Good, but could be better...</h6>\r\n<p>Bupropion can be effective for patients who smoke one or more packs of cigarettes per day, but would be more ideal in combination therapy for this patient.</p>", 
+    "classification": 1
+  }
+},
+{
+  "pk": 4, 
+  "model": "activity_virtual_patient.treatmentfeedback", 
+  "fields": {
+    "combination_therapy": false, 
+    "correct_dosage": false, 
+    "patient": 1, 
+    "feedback": "<h6>Nice try...</h6>\r\n<p>Since this patient smokes 1.5 packs of cigarettes a day, short-acting NRTs will not adequately replace the 30 mg of nicotine this patient receives from smoking. However, using a short-acting NRT in combination with a long-acting NRT or Bupropion would be an ideal treatment for this patient.</p>", 
+    "classification": 3
+  }
+},
+{
+  "pk": 5, 
+  "model": "activity_virtual_patient.treatmentfeedback", 
+  "fields": {
+    "combination_therapy": true, 
+    "correct_dosage": false, 
+    "patient": 1, 
+    "feedback": "<h6>Nice try...</h6>\r\n<p>Combination therapy selected is incorrect. Varenicline is not currently recommended in combination therapy. Also, short-acting NRTs used in combination are not likely to be effective for this patient.</p>", 
+    "classification": 3
+  }
+},
+{
+  "pk": 6, 
+  "model": "activity_virtual_patient.treatmentfeedback", 
+  "fields": {
+    "combination_therapy": false, 
+    "correct_dosage": true, 
+    "patient": 2, 
+    "feedback": "<h6>Great Choice!</h6>\r\n<p>NRTs used at the correct dosage can adequately replace the nicotine absorbed from the use of ten cigarettes. The highest dose of Nicotine patch, gum, lozenge, and inhaler are all ideal choices for this patient.</p>", 
+    "classification": 1
+  }
+},
+{
+  "pk": 7, 
+  "model": "activity_virtual_patient.treatmentfeedback", 
+  "fields": {
+    "combination_therapy": false, 
+    "correct_dosage": false, 
+    "patient": 2, 
+    "feedback": "<h6>Almost, but not quite...</h6>\r\n<p>You chose the correct medication for this patient; however you have chosen the incorrect dosage for this patient. The patient needs to be prescribed a dosage that will provide adequate nicotine in the most effective manner.</p>", 
+    "classification": 1
+  }
+},
+{
+  "pk": 8, 
+  "model": "activity_virtual_patient.treatmentfeedback", 
+  "fields": {
+    "combination_therapy": false, 
+    "correct_dosage": false, 
+    "patient": 2, 
+    "feedback": "<h6>Good, but could be better...</h6>\r\n<p>Varenicline and bupropion are both appropriate for this patient; however since the level of addiction is low, an attempt with a short-acting NRT is preferable.</p>", 
+    "classification": 1
+  }
+},
+{
+  "pk": 9, 
+  "model": "activity_virtual_patient.treatmentfeedback", 
+  "fields": {
+    "combination_therapy": false, 
+    "correct_dosage": false, 
+    "patient": 2, 
+    "feedback": "<h6>Nice try...</h6>\r\n<p>The number of cigarettes smoked and the low level of addiction do not warrant an aggressive approach with pharmacotherapeutics.</p>", 
+    "classification": 3
+  }
+},
+{
+  "pk": 10, 
+  "model": "activity_virtual_patient.treatmentfeedback", 
+  "fields": {
+    "combination_therapy": true, 
+    "correct_dosage": false, 
+    "patient": 2, 
+    "feedback": "<h6>Nice try...</h6>\r\n<p>The amount of cigarettes smoked and the low level of addiction do not warrant an aggressive approach with pharmacotherapeutics. Also, please note that Varenicline is not currently recommended in combination therapy, and short-acting NRTs used in combination are not likely to be effective for this patient.</p>", 
+    "classification": 3
+  }
+},
+{
+  "pk": 11, 
+  "model": "activity_virtual_patient.treatmentfeedback", 
+  "fields": {
+    "combination_therapy": false, 
+    "correct_dosage": true, 
+    "patient": 3, 
+    "feedback": "<h6>Great Choice!</h6>\r\n<p>Either Varenicline or Nicotine Patch with the lozenge, nasal spray, or inhaler in combination is appropriate for this patient.</p>", 
+    "classification": 1
+  }
+},
+{
+  "pk": 12, 
+  "model": "activity_virtual_patient.treatmentfeedback", 
+  "fields": {
+    "combination_therapy": false, 
+    "correct_dosage": false, 
+    "patient": 3, 
+    "feedback": "<h6>Almost, but not quite...</h6>\r\n<p>You are on the right path with your medication choice, however you prescribed it incorrectly. Please review the best choices below to see how each medication should be prescribed.</p>", 
+    "classification": 1
+  }
+},
+{
+  "pk": 13, 
+  "model": "activity_virtual_patient.treatmentfeedback", 
+  "fields": {
+    "combination_therapy": false, 
+    "correct_dosage": false, 
+    "patient": 3, 
+    "feedback": "<h6>Good, but could have been better...</h6>\r\n<p>This was a reasonable choice, but may not be the best medication with which to begin.</p>", 
+    "classification": 1
+  }
+},
+{
+  "pk": 14, 
+  "model": "activity_virtual_patient.treatmentfeedback", 
+  "fields": {
+    "combination_therapy": false, 
+    "correct_dosage": false, 
+    "patient": 3, 
+    "feedback": "<h6>Nice Try...</h6>\r\n<p>This patient smokes one pack of cigarettes a day. Short-acting NRTs will not adequately replace the nicotine this patient receives from smoking (20 mg).</p>", 
+    "classification": 3
+  }
+},
+{
+  "pk": 15, 
+  "model": "activity_virtual_patient.treatmentfeedback", 
+  "fields": {
+    "combination_therapy": false, 
+    "correct_dosage": false, 
+    "patient": 3, 
+    "feedback": "<h6>Uh Oh!</h6>\r\n<p>This patient has a history of seizures. Bupropion or bupropion in combination with nicotine replacement therapy should not be prescribed for patients with a history of seizures.</p>", 
+    "classification": 4
+  }
+},
+{
+  "pk": 16, 
+  "model": "activity_virtual_patient.treatmentfeedback", 
+  "fields": {
+    "combination_therapy": false, 
+    "correct_dosage": true, 
+    "patient": 4, 
+    "feedback": "<h6>Great Choice!</h6>\r\n<p>The nicotine patch is an ideal treatment for this patient. The patch will provide the patient with 21mg of nicotine, replacing the nicotine from one pack of cigarettes. Combination therapy including the nicotine patch and a short-acting NRT would also be an ideal treatment option for this patient.</p>", 
+    "classification": 1
+  }
+},
+{
+  "pk": 17, 
+  "model": "activity_virtual_patient.treatmentfeedback", 
+  "fields": {
+    "combination_therapy": false, 
+    "correct_dosage": false, 
+    "patient": 4, 
+    "feedback": "<h6>Almost, but not quite...</h6>\r\n<p>You have prescribed an appropriate therapy. The patch on its own or in combination therapy with a short-acting NRT, are appropriate choices. However, you have written an incorrect prescription for one or both of the medications.</p>", 
+    "classification": 1
+  }
+},
+{
+  "pk": 18, 
+  "model": "activity_virtual_patient.treatmentfeedback", 
+  "fields": {
+    "combination_therapy": false, 
+    "correct_dosage": false, 
+    "patient": 4, 
+    "feedback": "<h6>Good, but could have been better...</h6>\r\n<p>Using a short-acting NRT in combination or as a stand-alone will require heavy use of the product in order to replace the nicotine required. This is likely to become tedious. Keep in mind the amount of nicotine that must be replaced in one day (20 mg).</p>", 
+    "classification": 1
+  }
+},
+{
+  "pk": 19, 
+  "model": "activity_virtual_patient.treatmentfeedback", 
+  "fields": {
+    "combination_therapy": false, 
+    "correct_dosage": false, 
+    "patient": 4, 
+    "feedback": "<h6>Uh oh!</h6>\r\n<p>This patient has a history of depression. Both Bupropion and Varenicline can exacerbate depression and suicidal ideation.</p>", 
+    "classification": 4
+  }
+},
+{
+  "pk": 20, 
+  "model": "activity_virtual_patient.treatmentfeedback", 
+  "fields": {
+    "combination_therapy": true, 
+    "correct_dosage": false, 
+    "patient": 4, 
+    "feedback": "<h6>Nice try...</h6>\r\n<p>Combination therapy selected is incorrect. Varenicline is not currently recommended in combination therapy. In addition, the use of Varenicline in patients with a history of depression can exacerbate depression and suicidal ideation.</p>", 
+    "classification": 3
+  }
+},
+{
+  "pk": 21, 
+  "model": "activity_virtual_patient.treatmentfeedback", 
+  "fields": {
+    "combination_therapy": true, 
+    "correct_dosage": false, 
+    "patient": 3, 
+    "feedback": "<h6>Nice Try...</h6>\r\n<p>Combination therapy selected is incorrect. Varenicline is not currently recommended in combination therapy. Also, short-acting NRTs used in combination are not likely to be effective for this patient.</p>", 
+    "classification": 3
+  }
+}
+]

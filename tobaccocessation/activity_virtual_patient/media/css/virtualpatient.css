@@ -26,7 +26,6 @@ div.virtual-patient a.btn {
     margin: 0 0 .5em 0;
 }
 
-
 .about-patient .patient-description {
     float: left;
     width: 165px;
@@ -86,6 +85,299 @@ div.virtual-patient a.btn {
 .treatment-selection .treatment-type {
     margin-bottom: 10px;
     margin-top: 8px;
+}
+
+.prescribe {
+    font-size: .9em;
+    height: 560px;
+    margin-left: -10px;
+    margin-right: -10px;    
+}
+
+.prescribe h5 {
+    margin-left: 5px;
+}
+
+.prescribe .carousel-indicators li {
+  background-color: #999;
+  background-color: rgba(70,70,70,.25);
+}
+
+.prescribe .carousel-indicators .active {
+  background-color: #444;
+}
+
+.prescribe .carousel-nav a.btn.prescription-one,
+.prescribe .carousel-nav a.btn.prescription-two {
+    margin-left: 303px;
+    width: 356px;
+}
+
+.prescribe .prompt {
+    position: absolute;
+    background-color: #EFC48D;
+    border: 1px solid #EAA141;
+    display: block;
+    height: 15px;
+    padding: 3px;
+    text-align: right;
+    width: 125px;
+    font-size: 1.05em;
+}
+
+
+.prescribe .blankrx_single .gender.F,
+.prescribe .blankrx_single .gender.M,
+.prescribe .patient-name {
+    font-weight: bold;
+}
+
+.prescribe .med_name {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.prescribe .field.concentration {
+    height: 22px;
+    width: 90px; 
+}
+
+.prescribe .field.dosage {
+    height: 22px;
+    width: 188px;
+}
+
+.prescribe .field.med_inst {
+    border: 1px solid #CCCCCC;
+    background-color: #eee;
+    height: 59px;
+    overflow: auto;
+    padding: 0 5px 5px 0;
+    width: 260px;
+}
+
+
+.prescribe .field.med_inst ul li {
+    line-height: 14px;
+}
+
+.prescribe .blankrx_double,
+.prescribe .blankrx_single {
+    background-image: url(/activity/prescription/media/images/blankrx_sm.jpg);
+    background-repeat: no-repeat;
+    background-position: top center;
+    padding: 0;
+    width: 100%;
+    height: 470px;
+    position: relative;
+    font-size: .9em;
+}
+
+.prescribe .blankrx_single .patient-name { 
+    position: absolute;
+    left: 374px;
+    top: 175px;
+}
+
+.prescribe .blankrx_single .date {
+    position: absolute;
+    left: 590px;
+    top: 175px;    
+}
+
+.prescribe .blankrx_single .gender.F {
+    position: absolute;
+    left: 653px;
+    top: 223px;
+}
+
+.prescribe .blankrx_single .gender.M {
+    position: absolute;
+    left: 638px;
+    top: 223px;
+}
+
+.prescribe .blankrx_single .prompt.dosage {
+    left: 177px;
+    top: 236px;
+}
+
+.prescribe .blankrx_single .prompt.quantity {
+    left: 177px;
+    top: 269px;
+}
+
+.prescribe .blankrx_single .prompt.instructions {
+    left: 177px;    
+    top: 297px;
+}
+
+.prescribe .blankrx_single .prompt.refills {
+    left: 177px;
+    top: 393px;
+}
+
+.prescribe .blankrx_single .med_name {
+    position: absolute;
+    left: 337px;
+    top: 241px;
+}
+
+.prescribe .blankrx_single .field.concentration {
+    position: absolute;
+    left: 449px;
+    top: 239px;
+}
+
+.prescribe .blankrx_single .field.dosage {
+    position: absolute;
+    left: 337px;
+    top: 267px;
+}
+
+.prescribe .blankrx_single .field.med_inst {
+    position: absolute;
+    left: 337px;
+    top: 295px;
+}
+
+.prescribe .blankrx_single .field.refills {
+    position: absolute;
+    left: 414px;
+    top: 401px;
+}
+
+.prescribe .blankrx_double {
+    background-image: url(/activity/prescription/media/images/double_blankrx_sm.jpg);
+}
+
+.prescribe .blankrx_double .patient-name { 
+    position: absolute;
+    left: 184px;
+    top: 172px;
+}
+
+.prescribe .blankrx_double .date {
+    position: absolute;
+    left: 400px;
+    top: 174px;    
+}
+
+.prescribe .blankrx_double .gender.F {
+    position: absolute;
+    left: 463px;
+    top: 223px;
+}
+
+.prescribe .blankrx_double .gender.M {
+    position: absolute;
+    left: 448px;
+    top: 223px;
+}
+
+.prescribe .blankrx_double .prompt.dosage {
+    left: -12px;
+    top: 236px;
+}
+
+.prescribe .blankrx_double .prompt.quantity {
+    left: -12px;
+    top: 269px;
+}
+
+.prescribe .blankrx_double .prompt.instructions {
+    left: -12px;    
+    top: 297px;
+}
+
+.prescribe .blankrx_double .prompt.refills {
+    left: -12px;
+    top: 393px;
+}
+
+.prescribe .blankrx_double .med_name {
+    position: absolute;
+    left: 147px;
+    top: 241px;
+}
+
+.prescribe .blankrx_double .field.concentration {
+    position: absolute;
+    left: 259px;
+    top: 239px;
+}
+
+.prescribe .blankrx_double .field.dosage {
+    position: absolute;
+    left: 147px;
+    top: 267px;
+}
+
+.prescribe .blankrx_double .field.med_inst {
+    position: absolute;
+    left: 147px;
+    top: 295px;
+}
+
+.prescribe .blankrx_double .field.refills {
+    position: absolute;
+    left: 224px;
+    top: 401px;
+}
+
+
+.prescribe .blankrx_double .patient-name.two { 
+    position: absolute;
+    left: 564px;
+    top: 172px;
+}
+
+.prescribe .blankrx_double .date.two {
+    position: absolute;
+    left: 780px;
+    top: 174px;    
+}
+
+.prescribe .blankrx_double .gender.two.F {
+    position: absolute;
+    left: 843px;
+    top: 223px;
+}
+
+.prescribe .blankrx_double .gender.two.M {
+    position: absolute;
+    left: 828px;
+    top: 223px;
+}
+
+.prescribe .blankrx_double .med_name.two {
+    position: absolute;
+    left: 527px;
+    top: 241px;
+}
+
+.prescribe .blankrx_double .field.concentration.two {
+    position: absolute;
+    left: 639px;
+    top: 239px;
+}
+
+.prescribe .blankrx_double .field.dosage.two {
+    position: absolute;
+    left: 527px;
+    top: 267px;
+}
+
+.prescribe .blankrx_double .field.med_inst.two {
+    position: absolute;
+    left: 527px;
+    top: 295px;
+}
+
+.prescribe .blankrx_double .field.refills.two {
+    position: absolute;
+    left: 604px;
+    top: 401px;
 }
 
 
@@ -209,23 +501,6 @@ margin-bottom: -.5em;
    	
 }
 
-#patient_name {
-	font-weight: bold;
-	margin-left: 25px;
-	display: inline;
-}
-
-#date {
-	margin-left: 120px;
-	display: inline;
-
-}
-
-#gender {
-	font-weight:bold;
-	margin:31px 0 0px 300px;
-
-}
 .best {
 	
 	background-color: #60ab5e;

@@ -6,6 +6,7 @@ from django.db.models.query_utils import Q
 from django.db.models.signals import pre_save, post_init
 from django.dispatch.dispatcher import receiver
 from django.utils import simplejson
+from operator import itemgetter
 from pagetree.models import PageBlock
 
 
@@ -45,10 +46,18 @@ class RefillChoice(models.Model):
 
 
 class Patient(models.Model):
+    GENDER_CHOICES = (
+        ('F', 'Female'),
+        ('M', 'Male')
+    )
+
     name = models.CharField(max_length=25)
     description = models.TextField()
     history = models.TextField()
     display_order = models.IntegerField()
+    gender = models.CharField(max_length=1,
+                              default='F',
+                              choices=GENDER_CHOICES)
 
     def __unicode__(self):
         return "%s. %s" % (self.display_order, self.name)
@@ -142,13 +151,13 @@ def pre_save_activity_state(sender, instance, *args, **kwargs):
 
 
 class PatientAssessmentBlock(models.Model):
-    CHOOSE_TREATMENT_OPTION = 0
+    CLASSIFY_TREATMENTS = 0
     BEST_TREATMENT_OPTION = 1
     WRITE_PRESCRIPTION = 2
     VIEW_RESULTS = 3
 
     VIEW_CHOICES = (
-        (CHOOSE_TREATMENT_OPTION, 'Treatment Options'),
+        (CLASSIFY_TREATMENTS, 'Treatment Options'),
         (BEST_TREATMENT_OPTION, 'Best Treatment Option'),
         (WRITE_PRESCRIPTION, 'Prescription'),
         (VIEW_RESULTS, 'Results')
@@ -180,7 +189,7 @@ class PatientAssessmentBlock(models.Model):
     def submit(self, user, data):
         state = ActivityState.get_for_user(user)
 
-        if self.view == self.CHOOSE_TREATMENT_OPTION:
+        if self.view == self.CLASSIFY_TREATMENTS:
             state.data['patients'][self.patient.id] = {}
             for k in data.keys():
                 state.data['patients'][self.patient.id][k] = {}
@@ -196,7 +205,15 @@ class PatientAssessmentBlock(models.Model):
                     for m in data[k]:
                         patient_state[m][k] = 'true'
         elif self.view == self.WRITE_PRESCRIPTION:
-            1 == 0
+            patient_state = state.data["patients"][str(self.patient.id)]
+            for key, value in data.items():
+                field, med_id = key.split('-')  # fieldname-medicine_id
+                medicine = Medication.objects.get(id=med_id)
+                if 'rx' not in patient_state[medicine.tag]:
+                    patient_state[medicine.tag]['rx'] = {}
+                if med_id not in patient_state[medicine.tag]['rx']:
+                    patient_state[medicine.tag]['rx'][med_id] = {}
+                patient_state[medicine.tag]['rx'][med_id][field] = value
 
         state.save()
 
@@ -222,11 +239,17 @@ class PatientAssessmentBlock(models.Model):
         if form.is_valid():
             form.save()
 
+    def _patient_state(self, state):
+        patient_id = str(self.patient.id)
+        if patient_id not in state.data["patients"]:
+            state.data["patients"][patient_id] = {}
+        return state.data["patients"][patient_id]
+
     def unlocked(self, user):
         state = ActivityState.get_for_user(user)
-        patient_state = state.data["patients"][str(self.patient.id)]
+        patient_state = self._patient_state(state)
 
-        if self.view == self.CHOOSE_TREATMENT_OPTION:
+        if self.view == self.CLASSIFY_TREATMENTS:
             return (len(self.patient.treatments()) ==
                     len(patient_state.keys()))
         elif self.view == self.BEST_TREATMENT_OPTION:
@@ -242,13 +265,21 @@ class PatientAssessmentBlock(models.Model):
                     (prescribe != 'combination' or
                      combination == 2))
         elif self.view == self.WRITE_PRESCRIPTION:
-            return False
+            medications = self.medications(user)
+            for med in medications:
+                if len(med['choices']) != med['rx_count']:
+                    return False
+                for choice in med['choices']:
+                    if (not hasattr(choice, 'selected_dosage') or
+                            not hasattr(choice, 'selected_concentration')):
+                        return False
+            return True
         else:
             return True
 
     def available_treatments(self, user):
         state = ActivityState.get_for_user(user)
-        patient_state = state.data["patients"][str(self.patient.id)]
+        patient_state = self._patient_state(state)
         qs = self.patient.treatments()
 
         lst = list(qs)
@@ -261,6 +292,32 @@ class PatientAssessmentBlock(models.Model):
                 if "combination" in patient_state[med.tag]:
                     setattr(med, "combination", "true")
         return lst
+
+    def medications(self, user):
+        state = ActivityState.get_for_user(user)
+        patient_state = self._patient_state(state)
+
+        medications = []
+        for key, value in patient_state.items():
+            if (key != 'combination' and
+                    ('combination' in value or 'prescribe' in value)):
+                qs = Medication.objects.filter(
+                    tag=key).order_by("display_order")
+                context = {'rx_count': len(qs),
+                           'name': qs[0].name,
+                           'tag': qs[0].tag,
+                           'display_order': qs[0].display_order,
+                           'choices': []}
+                for med in qs:
+                    if 'rx' in value:
+                        setattr(med, "selected_concentration",
+                                int(value['rx'][str(med.id)]['concentration']))
+                        setattr(med, "selected_dosage",
+                                int(value['rx'][str(med.id)]['dosage']))
+                    context['choices'].append(med)
+                medications.append(context)
+
+        return sorted(medications, key=itemgetter('display_order'))
 
 
 class PatientAssessmentForm(forms.ModelForm):
