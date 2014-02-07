@@ -98,6 +98,7 @@ class TreatmentOptionReasoning(models.Model):
     medication = models.ForeignKey(Medication, blank=True, null=True)
     combination = models.BooleanField(blank=True)
     reasoning = models.TextField()
+    display_order = models.IntegerField(default=0)
 
     def __unicode__(self):
         return "OptionReasoning: %s [%s, %s]" % \
@@ -318,6 +319,44 @@ class PatientAssessmentBlock(models.Model):
                 medications.append(context)
 
         return sorted(medications, key=itemgetter('display_order'))
+
+    def feedback(self, user):
+        medications = self.medications(user)
+        combination = len(medications) == 2
+
+        # "Correct" the concentration & dosage choices
+        correct_rx = True
+        medication_ids = []
+        for medicine in medications:
+            for choice in medicine['choices']:
+                cc = choice.concentrationchoice_set.get(correct=True)
+                dosage = choice.dosagechoice_set.get(correct=True)
+
+                if (choice.selected_concentration != cc.id or
+                        choice.selected_dosage != dosage.id):
+                    correct_rx = False
+
+                medication_ids.append(choice.id)
+
+        # Find the treatment option associated with the prescribed medications
+        to = TreatmentOption.objects.filter(patient__id=self.patient.id)
+        if combination:
+            to = to.get(medication_one__id__in=medication_ids,
+                        medication_two__id__in=medication_ids)
+        else:
+            to = to.get(medication_one__id__in=medication_ids,
+                        medication_two__isnull=True)
+
+        tf = TreatmentFeedback.objects.filter(patient__id=self.patient.id,
+                                              classification=to.classification)
+
+        if to.classification.rank == 1:
+            # For the best, factor in correct dosage
+            tf = tf.get(correct_dosage=correct_rx)
+        else:  # for ineffective + harmful factor in combination
+            tf = tf.get(combination_therapy=combination)
+
+        return tf
 
 
 class PatientAssessmentForm(forms.ModelForm):

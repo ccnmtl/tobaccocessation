@@ -53,6 +53,7 @@ class TreatmentFeedbackInline(admin.TabularInline):
 
 
 class PatientAdmin(admin.ModelAdmin):
+    save_as = True
     inlines = [
         TreatmentOptionInline,
         TreatmentFeedbackInline,

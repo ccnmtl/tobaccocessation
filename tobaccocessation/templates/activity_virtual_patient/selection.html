@@ -1,6 +1,5 @@
 {% load user_state %}
 
-{% getuserstate as state %}
 {% gettreatments block as treatments %}
 {% with block.patient as patient %}
 
@@ -8,7 +7,7 @@
     <h5>Step 2: Based upon your previous rationale, choose treatment(s) to actually prescribe for this patient.</h5>
       
     <div class="row">
-        <div class="span6 about-patient">
+        <div class="span6 well about-patient">
             <h3>Patient History</h3>
             <img class="pull-left" src="/activity/virtualpatient/media/images/patient_{{patient.id}}.jpg" />
             <div class="patient-description">                
@@ -21,7 +20,7 @@
             </div>
         </div>
     
-        <div class="span6">
+        <div class="span6 treatment-prescription">
             <b>From your appropriate treatment choices, click one to prescribe</b>
             {% for med in treatments %}
                 {% ifequal med.classification "appropriate" %}

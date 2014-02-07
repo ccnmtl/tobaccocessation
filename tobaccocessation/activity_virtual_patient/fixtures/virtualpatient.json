@@ -2271,17 +2271,6 @@
   }
 },
 {
-  "pk": 3, 
-  "model": "activity_virtual_patient.treatmentfeedback", 
-  "fields": {
-    "combination_therapy": false, 
-    "correct_dosage": false, 
-    "patient": 1, 
-    "feedback": "<h6>Good, but could be better...</h6>\r\n<p>Bupropion can be effective for patients who smoke one or more packs of cigarettes per day, but would be more ideal in combination therapy for this patient.</p>", 
-    "classification": 1
-  }
-},
-{
   "pk": 4, 
   "model": "activity_virtual_patient.treatmentfeedback", 
   "fields": {
@@ -2322,17 +2311,6 @@
     "correct_dosage": false, 
     "patient": 2, 
     "feedback": "<h6>Almost, but not quite...</h6>\r\n<p>You chose the correct medication for this patient; however you have chosen the incorrect dosage for this patient. The patient needs to be prescribed a dosage that will provide adequate nicotine in the most effective manner.</p>", 
-    "classification": 1
-  }
-},
-{
-  "pk": 8, 
-  "model": "activity_virtual_patient.treatmentfeedback", 
-  "fields": {
-    "combination_therapy": false, 
-    "correct_dosage": false, 
-    "patient": 2, 
-    "feedback": "<h6>Good, but could be better...</h6>\r\n<p>Varenicline and bupropion are both appropriate for this patient; however since the level of addiction is low, an attempt with a short-acting NRT is preferable.</p>", 
     "classification": 1
   }
 },
@@ -2381,17 +2359,6 @@
   }
 },
 {
-  "pk": 13, 
-  "model": "activity_virtual_patient.treatmentfeedback", 
-  "fields": {
-    "combination_therapy": false, 
-    "correct_dosage": false, 
-    "patient": 3, 
-    "feedback": "<h6>Good, but could have been better...</h6>\r\n<p>This was a reasonable choice, but may not be the best medication with which to begin.</p>", 
-    "classification": 1
-  }
-},
-{
   "pk": 14, 
   "model": "activity_virtual_patient.treatmentfeedback", 
   "fields": {
@@ -2432,17 +2399,6 @@
     "correct_dosage": false, 
     "patient": 4, 
     "feedback": "<h6>Almost, but not quite...</h6>\r\n<p>You have prescribed an appropriate therapy. The patch on its own or in combination therapy with a short-acting NRT, are appropriate choices. However, you have written an incorrect prescription for one or both of the medications.</p>", 
-    "classification": 1
-  }
-},
-{
-  "pk": 18, 
-  "model": "activity_virtual_patient.treatmentfeedback", 
-  "fields": {
-    "combination_therapy": false, 
-    "correct_dosage": false, 
-    "patient": 4, 
-    "feedback": "<h6>Good, but could have been better...</h6>\r\n<p>Using a short-acting NRT in combination or as a stand-alone will require heavy use of the product in order to replace the nicotine required. This is likely to become tedious. Keep in mind the amount of nicotine that must be replaced in one day (20 mg).</p>", 
     "classification": 1
   }
 },

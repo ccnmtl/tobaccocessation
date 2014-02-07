@@ -6,10 +6,25 @@ div.virtual-patient a.btn {
     color: #777;
 }
 
+.appropriate-treatment-choice {
+    color: #468847;
+    background-color: #dff0d8;
+}
+
+.unlikely-to-be-effective {
+    color: #c09853;    
+    background-color: #fcf8e3;
+}
+
+.potentially-harmful {
+    color: #b94a48;
+    background-color: #f2dede;
+}
+
 .about-patient {
-	display:block;
-	padding:10px;
+	display: block;
 	border: 1px solid #ccc;
+	padding: 15px !important;
 }
 
 .about-patient img {
@@ -41,6 +56,10 @@ div.virtual-patient a.btn {
           column-gap: 0px; 
 }
 
+.span6.treatment-classification {
+    width: 452px;
+}
+
 .treatment-classification .available-treatments {
     margin-top: 80px;
 }
@@ -60,21 +79,6 @@ div.virtual-patient a.btn {
     height: 75px;
 }
 
-.treatment-classification .appropriate-treatment-choice {
-    color: #468847;
-    background-color: #dff0d8;
-}
-
-.treatment-classification .unlikely-to-be-effective {
-    color: #c09853;    
-    background-color: #fcf8e3;
-}
-
-.treatment-classification .potentially-harmful {
-    color: #b94a48;
-    background-color: #f2dede;
-}
-
 .treatment-classification .treatment-type {
     text-align: center;
     height: 40px;
@@ -85,6 +89,10 @@ div.virtual-patient a.btn {
 .treatment-selection .treatment-type {
     margin-bottom: 10px;
     margin-top: 8px;
+}
+
+.treatment-selection .span6.treatment-prescription {
+    width: 452px;
 }
 
 .prescribe {
@@ -380,6 +388,24 @@ div.virtual-patient a.btn {
     top: 401px;
 }
 
+.results .span4 {
+    width: 290px;
+    padding-left: 10px;
+}
+
+.results .treatment-option-reasoning {
+    border: 1px solid #aaa;
+    min-height: 225px;
+    padding: 5px 5px 0px 5px;
+}
+
+.results .treatment-option-reasoning div {
+    text-align: center;
+}
+
+.results .treatment-option-reasoning div img {
+    margin-bottom: 8px;
+}
 
 /**
 #treatment_feedback {

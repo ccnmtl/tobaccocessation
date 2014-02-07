@@ -1,6 +1,5 @@
 {% load user_state %}
 
-{% getuserstate as state %}
 {% gettreatments block as treatments %}
 {% with block.patient as patient %}
 
@@ -9,7 +8,7 @@
     or potentially harmful. Choose at least one to be an Appropriate Treatment Choice.</h5>
       
     <div class="row">
-        <div class="span6 about-patient">
+        <div class="span6 well about-patient">
             <h3>Patient History</h3>
             <img class="pull-left" src="/activity/virtualpatient/media/images/patient_{{patient.id}}.jpg" />
             <div class="patient-description">                
