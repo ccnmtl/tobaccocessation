@@ -4,6 +4,9 @@ jQuery(document).ready(function () {
     if (elts.length > 0) {
         jQuery("input[type='radio']").prop("disabled", true);
     }
+    
+    // No reset buttons
+    jQuery("#reset-form").hide();
         
     // Treatment Options
     jQuery("div.virtualpatient.treatment-options").parents("form").submit(function(evt) {

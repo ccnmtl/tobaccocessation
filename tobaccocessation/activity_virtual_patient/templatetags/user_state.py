@@ -58,7 +58,7 @@ def get_medications(parser, token):
     return GetMedications(block, var_name)
 
 
-class GetFeedback(template.Node):
+class GetResults(template.Node):
     def __init__(self, block, var_name):
         self.block = block
         self.var_name = var_name
@@ -71,8 +71,8 @@ class GetFeedback(template.Node):
         return ''
 
 
-@register.tag('getfeedback')
-def get_feedback(parser, token):
+@register.tag('getresults')
+def get_results(parser, token):
     block = token.split_contents()[1:][0]
     var_name = token.split_contents()[1:][2]
-    return GetFeedback(block, var_name)
+    return GetResults(block, var_name)

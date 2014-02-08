@@ -28,7 +28,7 @@
                         <input name="pageblock-{{block.pageblock.id}}-prescribe" value="{{med.tag}}" type="radio"
                         {% if med.prescribe %}
                             checked="checked" disabled="disabled"
-                        {% endif %} />
+                        {% endif %} />&nbsp;
                         <img src="/activity/virtualpatient/media/images/{{med.tag}}.jpg">  
                     </div>
                 {% endifequal %}
@@ -42,7 +42,7 @@
                             <input name="pageblock-{{block.pageblock.id}}-combination" value="{{med.tag}}" type="checkbox"
                             {% if med.combination %}
                                 checked="checked" disabled="disabled"
-                            {% endif %} /> 
+                            {% endif %} /> &nbsp;
                             <img src="/activity/virtualpatient/media/images/{{med.tag}}.jpg">   
                         </div>
                     {% endifnotequal %}

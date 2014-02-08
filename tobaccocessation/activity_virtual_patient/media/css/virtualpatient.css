@@ -56,6 +56,11 @@ div.virtual-patient a.btn {
           column-gap: 0px; 
 }
 
+.about-patient .patient-prescription {
+    clear: both;
+    margin-top: 10px;
+}
+
 .span6.treatment-classification {
     width: 452px;
 }

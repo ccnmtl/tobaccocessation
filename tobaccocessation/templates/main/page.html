@@ -53,7 +53,7 @@
         
         {% if needs_submit and is_submitted %}
             <li>
-                <form action="." method="post">
+                <form id="reset-form" action="." method="post">
                     <input type="hidden" name="action" value="reset" />
                     <input type="submit" value="Reset" class="btn pull-right" />
                 </form>

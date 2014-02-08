@@ -140,6 +140,12 @@ class ActivityState (models.Model):
 
         return stored_state
 
+    @classmethod
+    def clear_for_user(cls, user, patient_id):
+        state = ActivityState.objects.get(user=user)
+        state.data['patients'][patient_id] = {}
+        state.save()
+
 
 @receiver(post_init, sender=ActivityState)
 def post_init_activity_state(sender, instance, *args, **kwargs):
@@ -181,11 +187,6 @@ class PatientAssessmentBlock(models.Model):
 
     def needs_submit(self):
         return self.view != 'RS'
-
-    def clear_user_submissions(self, user):
-        state = ActivityState.get_for_user(user)
-        state.data['patients'][self.patient.id] = {}
-        state.save()
 
     def submit(self, user, data):
         state = ActivityState.get_for_user(user)
@@ -315,6 +316,18 @@ class PatientAssessmentBlock(models.Model):
                                 int(value['rx'][str(med.id)]['concentration']))
                         setattr(med, "selected_dosage",
                                 int(value['rx'][str(med.id)]['dosage']))
+
+                        cc = ConcentrationChoice.objects.get(
+                            id=int(value['rx'][str(med.id)]['concentration']))
+                        dc = DosageChoice.objects.get(
+                            id=int(value['rx'][str(med.id)]['dosage']))
+
+                        setattr(med,
+                                "selected_concentration_label",
+                                cc.concentration)
+                        setattr(med,
+                                "selected_dosage_label",
+                                dc.dosage)
                     context['choices'].append(med)
                 medications.append(context)
 
@@ -330,10 +343,10 @@ class PatientAssessmentBlock(models.Model):
         for medicine in medications:
             for choice in medicine['choices']:
                 cc = choice.concentrationchoice_set.get(correct=True)
-                dosage = choice.dosagechoice_set.get(correct=True)
+                dc = choice.dosagechoice_set.get(correct=True)
 
                 if (choice.selected_concentration != cc.id or
-                        choice.selected_dosage != dosage.id):
+                        choice.selected_dosage != dc.id):
                     correct_rx = False
 
                 medication_ids.append(choice.id)

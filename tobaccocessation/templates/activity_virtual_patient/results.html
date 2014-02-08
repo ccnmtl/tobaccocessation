@@ -1,23 +1,37 @@
 {% load user_state %}
 
 {% with block.patient as patient %}
-{% getfeedback block as feedback %}
+{% getmedications block as medications %}
+{% getresults block as results %}
 
 <div class="virtualpatient results">
     <div class="row">
         <div class="span12 well about-patient">
             <div class="row">
                 <div class="span6">
+                    <h3>Treatment Feedback</h3>                
                     <img class="pull-left" src="/activity/virtualpatient/media/images/patient_{{patient.id}}.jpg" />
                     <div class="patient-description">                
-                        <h3>{{patient.name}}</h3>
+                        <h4>{{patient.name}}</h4>
                         <h5>{% autoescape off %}{{ patient.description }}{% endautoescape %} </h5> 
                     </div>
+                    <div class="patient-prescription">
+                        <h4>Prescription</h4>
+                        {% if medications|length > 1 %}
+                            <h6>Combination Therapy</h6>
+                        {% endif %}
+                        <ol>
+                            {% for m in medications %}
+                                {% for choice in m.choices %}
+                                    <li>{{ m.name }} {{choice.selected_concentration_label}}, {{choice.selected_dosage_label}}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ol>    
+                    </div>                    
                 </div>
                 <div class="span6">
                     <div class="treatment-feedback">
-                    asd;lfkjasdfk
-                        {{results.treatment_feedback|safe}}
+                        {{results.feedback|safe}}
                     </div>
                 </div>
             </div>
@@ -86,10 +100,12 @@
                 {% endfor %}
             </div>
            
-            <h3 class="ineffective">Unlikely To Be Effective</h3>
             <div class="treatment-reasoning">
                 {% for to in patient.treatmentoptionreasoning_set.all %}
                     {% ifequal to.classification.rank 2 %} 
+                        {% if forloop.first %}
+                            <h3 class="ineffective">Unlikely To Be Effective</h3>            
+                        {% endif %}
                         {% if to.combination %}
                             <h4>Combination Therapy</h4><p>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}</p>
                         {% else %}
@@ -98,11 +114,13 @@
                     {% endifequal %}
                 {% endfor %}
             </div>
-           
-            <h3 class="harmful">Potentially Harmful</h3>
+            
             <div class="treatment_reasoning">
                 {% for to in patient.treatmentoptionreasoning_set.all %}
-                    {% ifequal to.classification.rank 3 %} 
+                    {% ifequal to.classification.rank 3 %}
+                        {% if forloop.first %}
+                            <h3 class="harmful">Potentially Harmful</h3>
+                        {% endif %}                         
                         {% if to.combination %}
                             <h4>Combination Therapy</h4><p>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}</p>
                         {% else %}
@@ -114,7 +132,8 @@
        </div>
     </div>
 
-    <form action="." method="post" class="pull-left">
+    <br />
+    <form action="/activity/virtualpatient/reset/{{section.id}}/{{patient.id}}/" method="post" class="pull-left">
         <input type="hidden" name="action" value="reset" />
         <input type="submit" value="Reset Patient Assessment" class="btn" />
     </form>    
