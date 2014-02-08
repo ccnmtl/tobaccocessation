@@ -10,8 +10,6 @@
  
 <!-- Everything you want hidden at 940px or less, place within here -->
 <div class="nav-collapse collapse">
-    {% getroot main as root %}
-    
     <ul class="nav">
         {% with section.slug as section_slug %}
         {% for s in root.get_descendants %}

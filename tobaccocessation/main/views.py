@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
 from django.utils import simplejson
-from pagetree.helpers import get_section_from_path, get_module
+from pagetree.helpers import get_section_from_path, get_module, get_hierarchy
 from pagetree.models import Section, UserLocation, UserPageVisit
 from tobaccocessation.activity_prescription_writing.models import \
     ActivityState as PrescriptionWritingActivityState
@@ -37,10 +37,18 @@ class rendered_with(object):
 def index(request):
     """Need to determine here whether to redirect
     to profile creation or registraion and profile creation"""
-    profiles = UserProfile.objects.filter(user=request.user)
-    if len(profiles) > 0 and profiles[0].has_consented():
+    try:
+        profile = UserProfile.objects.get(user=request.user)
+    except UserProfile.DoesNotExist:
+        profile = None
+
+    if profile is not None and profile.has_consented():
+        profile = UserProfile.objects.get(user=request.user)
+        h = get_hierarchy(name=profile.role())
         return {'user': request.user,
-                'profile': profiles[0]}
+                'profile': profile,
+                'hierarchy': h,
+                'root': h.get_root()}
     else:
         return HttpResponseRedirect(reverse('create_profile'))
 

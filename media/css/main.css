@@ -1243,6 +1243,75 @@ body.fluid #pagebody #sidebar_left ul li.selected{
    color: #999;
 }
 
+/** Landing Page **/
+div.landing-page a.btn-primary,
+div.landing-page a.btn-primary:visited {
+    color: white;
+}
+
+div.landing-page a,
+div.landing-page a:visited {
+    color: black;
+}
+
+div.landing-page div.course-materials ul {
+    margin-bottom: 50px;
+}
+
+div.landing-page div.course-materials li {
+    margin: 0 .75em 1.5em .75em;
+}
+
+div.landing-page div.course-materials li a {
+    margin-top: -5px;
+}
+
+div.landing-page h2 {
+    /** overriding the main.css overrides of bootstrap **/
+    font-size: 31.5px;
+    margin: 10px 0;
+    text-transform: none;
+}
+
+div.landing-page h3 {
+    /** overriding the main.css overrides of bootstrap **/    
+    font-size: 17.5px;
+    margin-bottom: .75em;
+}
+
+div.landing-page h3 a {
+    margin-top: -5px;
+}
+
+div.landing-page h4 {
+    font-size: 17.5px;
+    margin-top: 50px;
+    font-style: normal;
+}
+
+div.landing-page h5 {
+    font-weight: normal;
+    font-style: normal;
+    color: #999;
+    margin: 1em 0;
+    text-transform: none;
+    font-size: 17.5px;
+}
+
+div.landing-page .course-progress {
+    width: 400px;
+    margin: 0;
+    padding: 0px 19px 50px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;    
+}
+
+div.landing-page .course-progress h3 {
+    margin: 1.25em 0;
+}
 
 /** Treatment Choice Quizzes **/
 

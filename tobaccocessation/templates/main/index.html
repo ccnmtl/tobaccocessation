@@ -12,35 +12,77 @@
 
 {% block title %}Home{% endblock %}
 
-{% block pagetitle %}Landing Page{% endblock %}
-
 {% block primarynavtabs %}
 {% endblock %}
                     
 {% block content %}
-    Welcome! 
-    
-    <div>Hierarchy: {{profile.role}}</div>
-    
-    <a href="">Download course guide</a>
-    
-    {% ifequal profile.role "pediatrics" %}
-        @todo Pediatric Static Content 
-    {% else %}{% ifequal profile.role "orthodontics" %}
-        @todo Orthodontics Static Content
-    {% else %}{% ifequal profile.role "endodontics" %}
-        @todo Endodontics Static Content
-    {% else %}
-        <div>Percent Complete: {{profile.percent_complete}}%</div>
-        {% with profile.last_location as section %}
-        <div>Last Location: <a href="{{section.get_absolute_url}}">{{section.label}}</a></div>
-        {% endwith %} 
-    {% endifequal %}{% endifequal %}{% endifequal %}
-    
-    Instructor Stuff
-    {% ifequal profile.is_faculty "FA" %}
-        Faculty Teaching Guide: provide link
-    {% endifequal %}   
-    
-    TOC 
+    <div class="landing-page">
+        <h2>Welcome!</h2>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget sem mattis, rhoncus dolor ac, mollis augue. Cras ligula libero, viverra ut dui vel, commodo volutpat enim. Nullam eu lorem tellus. Fusce elementum eget purus sed venenatis. Suspendisse sit amet justo dolor. Fusce posuere vestibulum adipiscing. Nulla facilisi. Integer porttitor, diam quis vehicula elementum, ipsum lectus molestie velit, ut rhoncus purus neque at magna. Fusce turpis nisi, fringilla vitae feugiat ac, mattis in leo. Donec felis est, pellentesque quis urna eu, auctor pretium diam. Duis sagittis venenatis turpis at auctor.
+        
+        <br />
+        <div class="course-materials">
+            <h3>Course Materials</h3>
+            <ul>
+                <li>Download Course Guide&nbsp;&nbsp;
+                    <a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/TobaccoCessation_CourseGuide.pdf" target="_blank" class="btn">
+                    <i class="icon-download"></i>
+                    </a>
+                </li>
+                {% ifequal profile.is_faculty "FA" %}
+                <li>Download Faculty Guide&nbsp;&nbsp;
+                    <a href="#" target="_blank" class="btn">
+                        <i class="icon-download"></i>
+                    </a>
+                </li>
+            {% endifequal %}   
+            </ul>
+        </div>        
+        
+        {% ifequal profile.role "pediatrics" %}
+            @todo Pediatric Static Content 
+        {% else %}{% ifequal profile.role "orthodontics" %}
+            @todo Orthodontics Static Content
+        {% else %}{% ifequal profile.role "endodontics" %}
+            @todo Endodontics Static Content
+        {% else %}
+            {% with profile.last_location as section %}
+                {% ifequal profile.percent_complete 0 %}
+                    <a href="{{section.get_absolute_url}}" class="btn btn-primary">Begin the Course <i class="icon-arrow-right icon-white"></i></a>
+                {% else %}
+                    <div class="course-progress">
+                    <h3>Course Progress</h3>
+                    <h5>{{profile.percent_complete}}% Complete</h5>
+                    <div class="progress progress-striped">
+                        <div class="bar" style="width: {{profile.percent_complete}}%;"></div>
+                    </div>
+                    <a href="{{section.get_absolute_url}}" class="btn pull-right">
+                        Continue <i class="icon-arrow-right"></i>
+                    </a>
+                    </div>
+
+                {% endifequal %}
+            {% endwith %} 
+        {% endifequal %}{% endifequal %}{% endifequal %}
+        
+        <p>
+        <h4>Table of Contents</h4>        
+        <ul>
+        {% for s in root.get_descendants %}                 
+            <li class="menu" style="list-style: none; line-height: 150%">
+                <a href="{{s.get_absolute_url}}">
+                    {{s.label}}{% ifequal s section %} <i class="icon-hand-left"></i>{% endifequal %}
+                </a>
+                {% if s.get_children %}
+                    <ul>
+                {% else %}{% if s.is_last_child %}
+                    {% for lc in s.closing_children %}
+                        </ul>
+                    {% endfor %}
+                {% endif %}{% endif %}     
+             </li>
+        {% endfor %}
+        </ul>
+        </p>
+    </div> 
 {% endblock %}
