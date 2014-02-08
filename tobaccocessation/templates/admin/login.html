@@ -1,59 +1,13 @@
 {% extends "admin/base_site.html" %}
-{% load i18n %}
+{% load i18n admin_static %}
 
-{% block stylesheet %}site_media/css/login.css{% endblock %}
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/login.css" %}" />{% endblock %}
 
 {% block bodyclass %}login{% endblock %}
 
 {% block content_title %}{% endblock %}
 
 {% block breadcrumbs %}{% endblock %}
-{% block extrahead %}
-  <link rel="stylesheet" href="/site_media/css/admin.css" type="text/css" media="all" />
-  <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.3/themes/base/jquery-ui.css" type="text/css" media="all" />
-  
-  <script src="/site_media/js/jquery-1.10.1.min.js" type="text/javascript" ></script>
-  <script src="/site_media/js/jquery-ui-1.10.3.min.js" type="text/javascript"></script>
-  <script type="text/javascript" src="/site_media/js/tiny_mce/tiny_mce.js"></script>
-  
-    <script type="text/javascript">   
-    jQuery(document).ready(function() {
-        tinyMCE.init({
-           // General options
-           mode : "textareas",
-           width: "100%",
-           theme : "advanced",
-           content_css : '/site_media/css/tiny_mce.css',
-           plugins : "safari,searchreplace,paste",
-             
-           // Theme options
-           theme_advanced_buttons1 : "bold,italic,underline,|,cut,copy,paste,pastetext,pasteword,|,link,unlink,|,styleselect,|,bullist,numlist,code",
-           theme_advanced_buttons2: "",
-           theme_advanced_toolbar_location : "top",
-           theme_advanced_toolbar_align : "left",
-           editor_selector :"mceEditor",
-           paste_auto_cleanup_on_paste : true,
-           paste_create_paragraphs : true,
-           paste_create_linebreaks : true,
-           paste_use_dialog : false,
-           paste_convert_middot_lists : true,
-           paste_retain_style_properties:"font-size,font-family,font-style,color", 
-           paste_postprocess : function(pl, o) {
-              // Mac + Word paste results in a residual Word @font style section
-              // Use the built-in hooks to strip out this meta information
-              // See this thread for more info on the bug: http://tinymce.moxiecode.com/forum/viewtopic.php?id=12385&p=2
-              // Content DOM node containing the DOM structure of the clipboard
-              var content = o.node.innerHTML.replace(/@font-face[\w\W]*}/g, ''); // remove weird font-face thingies. The "." syntax doesn't work for some reason
-              o.node.innerHTML = content;
-           },
-        });
-     });
-    </script>
-{% endblock %}
-
-{% block branding %}
-    <h1 id="site-name">{% trans "Django Admin" %}</h1>
-{% endblock %}
 
 {% block content %}
 {% if error_message %}
@@ -63,11 +17,11 @@
 <form method="get" action="https://wind.columbia.edu/login">
 <input type="hidden" name="service" value="cnmtl_full_np" />
 <input type="hidden" name="destination" value="http://{{ request.get_host }}/accounts/windlogin/?next=/admin/&this_is_the_login_form=1" />
-<p>If you have a Columbia UNI, you already have an account and can
-login through WIND with it</p>
-<input type="submit" value="Here"></input>
+<p>If you have a Columbia UNI:</p>
+<input type="submit" value="Click Here" />
 </form>
-<p>otherwise: </p>
+<br /><br /><p>Otherwise, use this form: </p>
+
 
 <form action="{{ app_path }}" method="post" id="login-form">
   <div class="form-row">
@@ -75,11 +29,11 @@ login through WIND with it</p>
   </div>
   <div class="form-row">
     <label for="id_password">{% trans 'Password:' %}</label> <input type="password" name="password" id="id_password" />
-    <input type="hidden" name="this_is_the_login_form" value="1"></input>
-    <input type="hidden" name="post_data" value="{{ post_data }}"></input> {#<span class="help">{% trans 'Have you <a href="/password_reset/">forgotten your password</a>?' %}</span>#}
+    <input type="hidden" name="this_is_the_login_form" value="1" />
+    <input type="hidden" name="post_data" value="{{ post_data }}" /> {#<span class="help">{% trans 'Have you <a href="/password_reset/">forgotten your password</a>?' %}</span>#}
   </div>
   <div class="submit-row">
-    <label>&nbsp;</label><input type="submit" value="{% trans 'Log in' %}"></input>
+    <label>&nbsp;</label><input type="submit" value="{% trans 'Log in' %}" />
   </div>
 </form>
 

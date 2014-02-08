@@ -29,6 +29,8 @@ class Block(models.Model):
     medication_name = models.CharField(max_length=25)
     show_correct = models.BooleanField(default=False)
     template_file = "activity_prescription_writing/prescription.html"
+    js_template_file = "activity_prescription_writing/prescription_js.html"
+    css_template_file = "activity_prescription_writing/prescription_css.html"
     display_name = "Activity: Prescription Writing"
 
     def pageblock(self):

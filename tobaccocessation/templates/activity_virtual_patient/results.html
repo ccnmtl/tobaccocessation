@@ -1,159 +1,141 @@
-{% extends "activity_virtual_patient/virtual_patient_base.html" %}
+{% load user_state %}
 
-{% block title %}Virtual Patient {{ patient.display_order }}: Treatment Results{% endblock %}
+{% with block.patient as patient %}
+{% getmedications block as medications %}
+{% getresults block as results %}
 
-{% block js %}
-   {{ block.super }}
-   <script type="text/javascript" src="/activity/virtualpatient/media/js/results.js"></script>
-   <script type="text/javascript" src="/activity/virtualpatient/media/js/virtualpatient.js"></script>
-{% endblock %}
-
-{% block content %}
-    {{ block.super }}
-     
-    <a class="reset_button" href="{% url 'reset' patient.id %}" onclick="clearState(); return false;">Reset&nbsp;Exercise</a>
-   <h2>Virtual Patient {{ patient.display_order }}: Treatment Results</h2>
-    
-     <div id="patient">
-      
-         
-            <div id="about_patient">
-            <div id="patient_description">
-            <img src="/activity/virtualpatient/media/images/patient_{{patient.id}}.jpg" />
-            <h3>{{patient.name}}</h3>
-            <h4>{% autoescape off %}{{ patient.description }}{% endautoescape %} </h4> 
+<div class="virtualpatient results">
+    <div class="row">
+        <div class="span12 well about-patient">
+            <div class="row">
+                <div class="span6">
+                    <h3>Treatment Feedback</h3>                
+                    <img class="pull-left" src="/activity/virtualpatient/media/images/patient_{{patient.id}}.jpg" />
+                    <div class="patient-description">                
+                        <h4>{{patient.name}}</h4>
+                        <h5>{% autoescape off %}{{ patient.description }}{% endautoescape %} </h5> 
+                    </div>
+                    <div class="patient-prescription">
+                        <h4>Prescription</h4>
+                        {% if medications|length > 1 %}
+                            <h6>Combination Therapy</h6>
+                        {% endif %}
+                        <ol>
+                            {% for m in medications %}
+                                {% for choice in m.choices %}
+                                    <li>{{ m.name }} {{choice.selected_concentration_label}}, {{choice.selected_dosage_label}}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ol>    
+                    </div>                    
+                </div>
+                <div class="span6">
+                    <div class="treatment-feedback">
+                        {{results.feedback|safe}}
+                    </div>
+                </div>
             </div>
-          <h6>Treatment Results</h6>
-          <div id="treatment_feedback">
-             {% autoescape off %}{{feedback}}{% endautoescape %}
-          </div>
-      </div>
-      <input type="hidden" id="patient_id" name="patient_id" value="{{patient.id}}"/>
-      <input type="hidden" id="page_id" name="page_id" value="1"/>
+        </div>  
     </div>
-   <br /> <h4>Our Recommended Treatment Classifications</h4> 
-    <div id="treatment_types">
-  
-	    <div class="treatment_type_box">
-	      <center>
-		       <h5>Best Treatment Choice(s)</h5>
-		       <div id="best_treatment" class="treatment_type best">
-		       {% for to in best_treatment_options %}
-		          {% if to.combination %}
-		             <span id='combination'>
-                     <img src='/activity/virtualpatient/media/images/combination.jpg'>
-                   </span>
-		          {% else %}
-				       <span id='{{to.medication.tag}}'>
-		               <img src='/activity/virtualpatient/media/images/{{ to.medication.tag }}.jpg'>
-		             </span>
-	             {% endif %}
-		       {% endfor %}
-		        </div>
-		     </center>
-		</div>
-		 
-       <div class="treatment_type_box">
-          <center>
-             <h5>Reasonable, Not Optimal</h5>
-             <div id="reasonable_treatment" class="treatment_type reasonable">
-             {% for to in reasonable_treatment_options %}
-                {% if to.combination %}
-                   <span id='combination'>
-                     <img src='/activity/virtualpatient/media/images/combination.jpg'>
-                   </span>
-                {% else %}
-                   <span id='{{to.medication.tag}}'>
-                     <img src='/activity/virtualpatient/media/images/{{ to.medication.tag }}.jpg'>
-                   </span>
-                {% endif %}
-             {% endfor %}
-              </div>
-           </center>    
-       </div>
-       
-       <div class="treatment_type_box">
-          <center>
-             <h5>Unlikely To Be Effective</h5>
-             <div id="ineffective_treatment" class="treatment_type ineffective">
-             {% for to in ineffective_treatment_options %}
-                {% if to.combination %}
-                   <span id='combination'>
-                     <img src='/activity/virtualpatient/media/images/combination.jpg'>
-                   </span>
-                {% else %}
-                   <span id='{{to.medication.tag}}'>
-                     <img src='/activity/virtualpatient/media/images/{{ to.medication.tag }}.jpg'>
-                   </span>
-                {% endif %}
-             {% endfor %}
-              </div>
-           </center>
+    
+    <h3>Our Recommended Treatment Classifications</h3>
+    
+    <div class="row">
+        <div class="span4 well treatment-option-reasoning appropriate-treatment-choice">
+            <h4>Appropriate Treatment Choices</h4>
+            <div>
+            {% for to in patient.treatmentoptionreasoning_set.all %}
+                {% ifequal to.classification.rank 1 %}
+                    {% if to.combination %}
+                        <img src='/activity/virtualpatient/media/images/combination.jpg'>
+                    {% else %}
+                        <img src='/activity/virtualpatient/media/images/{{to.medication.tag}}.jpg'>
+                    {% endif %}
+                {% endifequal %}
+            {% endfor %}
+            </div>
         </div>
-       
-       <div class="treatment_type_box">
-          <center>
-             <h5>Potentially Harmful</h5>
-             <div id="harmful_treatment" class="treatment_type harmful">
-             {% for to in harmful_treatment_options %}
-                {% if to.combination %}
-                   <span id='combination'>
-                     <img src='/activity/virtualpatient/media/images/combination.jpg'>
-                   </span>
-                {% else %}
-                   <span id='{{to.medication.tag}}'>
-                     <img src='/activity/virtualpatient/media/images/{{ to.medication.tag }}.jpg'>
-                   </span>
-                {% endif %}
-             {% endfor %}
-              </div>
-           </center>
+        <div class="span4 well treatment-option-reasoning unlikely-to-be-effective">
+            <h4>Unlikely To Be Effective</h4>
+            <div>
+            {% for to in patient.treatmentoptionreasoning_set.all %}
+                {% ifequal to.classification.rank 2 %}
+                    {% if to.combination %}
+                        <img src='/activity/virtualpatient/media/images/combination.jpg'>
+                    {% else %}
+                        <img src='/activity/virtualpatient/media/images/{{to.medication.tag}}.jpg'>
+                    {% endif %}
+                {% endifequal %}
+            {% endfor %}
+            </div>
+        </div>
+        <div class="span4 well treatment-option-reasoning potentially-harmful">
+            <h4>Potentially Harmful</h4>
+            <div>
+            {% for to in patient.treatmentoptionreasoning_set.all %}
+                {% ifequal to.classification.rank 3 %}
+                    {% if to.combination %}
+                        <img src='/activity/virtualpatient/media/images/combination.jpg'>
+                    {% else %}
+                        <img src='/activity/virtualpatient/media/images/{{to.medication.tag}}.jpg'>
+                    {% endif %}
+                {% endifequal %}
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+  
+    <div class="row">
+        <div class="span12">
+            <h3 class="best">Appropriate Treatment Choice(s)</h3>
+	        <div class="treatment_reasoning">
+                {% for to in patient.treatmentoptionreasoning_set.all %}
+                    {% ifequal to.classification.rank 1 %} 
+                        {% if to.combination %}
+                            <h4>Combination Therapy</h4><p>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}</p>
+                        {% else %}
+                            <h4>{{to.medication.name}}</h4><p>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}</p>
+                        {% endif %}
+                    {% endifequal %}
+                {% endfor %}
+            </div>
+           
+            <div class="treatment-reasoning">
+                {% for to in patient.treatmentoptionreasoning_set.all %}
+                    {% ifequal to.classification.rank 2 %} 
+                        {% if forloop.first %}
+                            <h3 class="ineffective">Unlikely To Be Effective</h3>            
+                        {% endif %}
+                        {% if to.combination %}
+                            <h4>Combination Therapy</h4><p>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}</p>
+                        {% else %}
+                            <h4>{{to.medication.name}}</h4><p>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}</p>
+                        {% endif %}
+                    {% endifequal %}
+                {% endfor %}
+            </div>
+            
+            <div class="treatment_reasoning">
+                {% for to in patient.treatmentoptionreasoning_set.all %}
+                    {% ifequal to.classification.rank 3 %}
+                        {% if forloop.first %}
+                            <h3 class="harmful">Potentially Harmful</h3>
+                        {% endif %}                         
+                        {% if to.combination %}
+                            <h4>Combination Therapy</h4><p>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}</p>
+                        {% else %}
+                            <h4>{{to.medication.name}}</h4><p>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}</p>
+                        {% endif %}
+                    {% endifequal %}
+                {% endfor %}
+           </div>
        </div>
-       
-       
-	 </div>
-	<br style="clear: both;" />
-	<div id="treatment_reasoning_container">
-	<h5 class="best">Best Treatment Choice(s)</h5>
-	           <div class="treatment_reasoning">
-                {% for to in best_treatment_options %}
-             {% if to.combination %}
-                <h4>Combination Therapy</h4><p>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}</p>
-                {% else %}
-                <h4>{{to.medication.name}}</h4><p>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}</p>
-                 {% endif %}
-                {% endfor %}
-           </div>
-           <h5 class="reasonable">Reasonable, Not Optimal</h5>
-           <div class="treatment_reasoning">
-                {% for to in reasonable_treatment_options %}
-                {% if to.combination %}
-                <h4>Combination Therapy</h4><p>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}</p>
-                {% else %}
-                <h4>{{to.medication.name}}</h4><p>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}</p>
-                 {% endif %}
-                {% endfor %}
-           </div>
-            <h5 class="ineffective">Unlikely To Be Effective</h5>
-              <div class="treatment_reasoning">
-              {% for to in ineffective_treatment_options %}
-             {% if to.combination %}
-                <h4>Combination Therapy</h4><p>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}</p>
-                {% else %}
-                <h4>{{to.medication.name}}</h4><p>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}</p>
-                 {% endif %}
-              {% endfor %}
-           </div>
-             <h5 class="harmful">Potentially Harmful</h5>
-           <div class="treatment_reasoning">
-              {% for to in harmful_treatment_options %}
-              {% if to.combination %}
-                <h4>Combination Therapy</h4><p>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}</p>
-                {% else %}
-                <h4>{{to.medication.name}}</h4><p>{% autoescape off %}{{ to.reasoning }}{% endautoescape %}</p>
-                
-                 {% endif %}
-              {% endfor %}
-           </div>
+    </div>
+
+    <br />
+    <form action="/activity/virtualpatient/reset/{{section.id}}/{{patient.id}}/" method="post" class="pull-left">
+        <input type="hidden" name="action" value="reset" />
+        <input type="submit" value="Reset Patient Assessment" class="btn" />
+    </form>    
 </div>
-{% endblock %}
+{% endwith %}

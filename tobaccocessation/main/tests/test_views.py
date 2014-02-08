@@ -1,12 +1,13 @@
-from django.test.client import Client
-from tobaccocessation.activity_treatment_choice.views import loadstate, \
-    savestate
 from django.contrib.auth.models import User
 from django.test import TestCase, RequestFactory
+from django.test.client import Client
 from pagetree.models import Hierarchy, Section
+from tobaccocessation.activity_prescription_writing.views import loadstate, \
+    savestate
+from tobaccocessation.main.models import UserProfile
 
 
-class TestSimpleViews(TestCase):
+class TestViews(TestCase):
     def setUp(self):
         self.c = Client()
         self.factory = RequestFactory()
@@ -45,19 +46,6 @@ class TestSimpleViews(TestCase):
         response = self.c.get("/smoketest/")
         self.assertEquals(response.status_code, 200)
 
-    def test_treatment_choice_load_state(self):
-        request = self.factory.get('/activity/treatment/load/')
-        request.user = self.user
-        response = loadstate(request)
-        self.assertEqual(response.status_code, 200)
-
-    def test_treatment_choice_save_state(self):
-        request = self.factory.post('/activity/treatment/save/',
-                                    {'json': 'need json'})
-        request.user = self.user
-        response = savestate(request)
-        self.assertEqual(response.status_code, 200)
-
     '''Test Views in Main'''
     def test_index2(self):
         self.c = Client()
@@ -85,3 +73,102 @@ class TestSimpleViews(TestCase):
 
     def test_clear_state(self):
         pass
+
+    def test_consent_no_profile(self):
+        self.c = Client()
+        self.c.login(username='test_student', password='testpassword')
+        self.response = self.c.get('/', follow=True)
+        self.assertEqual(self.response.status_code, 200)
+        self.assertEquals(self.response.redirect_chain[0][1], 302)
+        self.assertEquals(self.response.templates[0].name,
+                          "main/create_profile.html")
+
+    def test_consent_incomplete_profile(self):
+        # User has a profile, but does not have "consent" or other
+        # special fields filled out. Redirect to create profile
+        UserProfile.objects.create(user=self.user,
+                                   gender='M',
+                                   is_faculty='ST',
+                                   institute='I1',
+                                   specialty='S1',
+                                   hispanic_latino='Y',
+                                   year_of_graduation=2015,
+                                   consent=False)
+
+        self.c = Client()
+        self.c.login(username='test_student', password='testpassword')
+        self.response = self.c.get('/', follow=True)
+        self.assertEqual(self.response.status_code, 200)
+        self.assertEquals(self.response.templates[0].name,
+                          "main/create_profile.html")
+        self.assertEquals(self.response.redirect_chain[0][1], 302)
+
+    def test_consent_complete_profile(self):
+        # User has a complete profile
+        profile = UserProfile.objects.create(user=self.user,
+                                             gender='M',
+                                             is_faculty='ST',
+                                             institute='I1',
+                                             specialty='S1',
+                                             hispanic_latino='Y',
+                                             year_of_graduation=2015,
+                                             consent=True)
+        profile.gender = 'F'
+        profile.is_faculty = 'ST'
+        profile.specialty = 'S10'
+        profile.year_of_graduation = 2014
+        profile.consent = True
+        profile.save()
+
+        self.c = Client()
+        self.c.login(username='test_student', password='testpassword')
+        self.response = self.c.get('/', follow=True)
+        self.assertEqual(self.response.status_code, 200)
+        self.assertEquals(self.response.templates[0].name,
+                          "main/index.html")
+        self.assertEquals(len(self.response.redirect_chain), 0)
+
+
+class TestOtherSimpleViews(TestCase):
+    '''Made this extra class to avoid name space collisions with
+    treatment choice loadstate and savestate.'''
+    def setUp(self):
+        self.c = Client()
+        self.factory = RequestFactory()
+        self.user = User.objects.create_user('test_student',
+                                             'test@ccnmtl.com',
+                                             'testpassword')
+        self.user.save()
+
+        self.hierarchy = Hierarchy(name="main", base_url="/")
+        self.hierarchy.save()
+
+        root = Section.add_root(label="Root", slug="",
+                                hierarchy=self.hierarchy)
+
+        root.append_child("Section 1", "section-1")
+        root.append_child("Section 2", "section-2")
+
+        self.section1 = Section.objects.get(slug="section-1")
+        self.section2 = Section.objects.get(slug="section-2")
+
+        self.staff = User.objects.create_user('test_staff',
+                                              'test@ccnmtl.com',
+                                              'staffpassword')
+        self.staff.save()
+
+    def tearDown(self):
+        self.user.delete()
+
+    def test_prescription_writing_load_state(self):
+        request = self.factory.get('/activity/prescription/load/')
+        request.user = self.user
+        response = loadstate(request)
+        self.assertEqual(response.status_code, 200)
+
+    def test_prescription_writing_save_state(self):
+        request = self.factory.post('/activity/prescription/save/',
+                                    {"json": '{"key": "value"}'})
+        request.user = self.user
+        response = savestate(request)
+        self.assertEqual(response.status_code, 200)

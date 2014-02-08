@@ -1,71 +1,418 @@
-#about_patient {
+div.virtualpatient a:visited {
+    color: #777;
+}
 
-	
-	display:block;
-	padding:10px;
-	width:710px;
+div.virtual-patient a.btn {
+    color: #777;
+}
+
+.appropriate-treatment-choice {
+    color: #468847;
+    background-color: #dff0d8;
+}
+
+.unlikely-to-be-effective {
+    color: #c09853;    
+    background-color: #fcf8e3;
+}
+
+.potentially-harmful {
+    color: #b94a48;
+    background-color: #f2dede;
+}
+
+.about-patient {
+	display: block;
 	border: 1px solid #ccc;
-	   height: 173px;
-	
-	
+	padding: 15px !important;
 }
 
-#about_patient img {
-
-
-	margin: 0 10px 10px 0;
-	border: 1px solid #ccc;
-
+.about-patient img {
+    margin: 0 10px 10px 0;
+    border: 1px solid #ccc;
+    float: left;
 }
 
-#about_patient h3 {
-    
-	font-size: 100%;
-	margin: 0 0 .5em 0;
-
+.about-patient h4 {
+    font-style: normal;
 }
 
-#about_patient h4 {
-    
-	font-size:90%;
-	font-weight:normal;
-	margin-top:-0.5em;
-
-
+.about-patient h3 {
+    margin: 0 0 .5em 0;
 }
 
-#patient_header {
-  width: 800px;
+.about-patient .patient-description {
+    float: left;
+    width: 165px;
 }
 
-#patient {
-	
+.about-patient .patient-history {
+   height: 424px;
+   -webkit-column-count: 2;
+      -moz-column-count: 2;
+           column-count: 2;
+  -webkit-column-gap: 0px;
+     -moz-column-gap: 0px;
+          column-gap: 0px; 
 }
 
-#patient_description {
-	float: left;
-	margin-right: 10px;
-	padding: 0 10px;
-	text-align: center;
-	width: 165px;
-
-
+.about-patient .patient-prescription {
+    clear: both;
+    margin-top: 10px;
 }
 
-#patient_history {
-	float: left;
-	width: 490px;
-	border: 1px solid #ccc;
-   height: 125px;
-   padding: 10px;
-   border-spacing: 5px;	
-   overflow:auto;
-   background-color: #efefef;
-   font-size: 90%;
-  
-
+.span6.treatment-classification {
+    width: 452px;
 }
 
+.treatment-classification .available-treatments {
+    margin-top: 80px;
+}
+
+.treatment-classification .available-treatment {
+    margin-bottom: 10px;
+    height: 40px;
+}
+
+.treatment-classification .span1 {
+    padding: 3px 12px;
+}
+
+.treatment-classification .header {
+    font-size: .9em;
+    text-align: center;
+    height: 75px;
+}
+
+.treatment-classification .treatment-type {
+    text-align: center;
+    height: 40px;
+    margin-bottom: 10px;
+    margin-top: 8px;
+}
+
+.treatment-selection .treatment-type {
+    margin-bottom: 10px;
+    margin-top: 8px;
+}
+
+.treatment-selection .span6.treatment-prescription {
+    width: 452px;
+}
+
+.prescribe {
+    font-size: .9em;
+    height: 560px;
+    margin-left: -10px;
+    margin-right: -10px;    
+}
+
+.prescribe h5 {
+    margin-left: 5px;
+}
+
+.prescribe .carousel-indicators li {
+  background-color: #999;
+  background-color: rgba(70,70,70,.25);
+}
+
+.prescribe .carousel-indicators .active {
+  background-color: #444;
+}
+
+.prescribe .carousel-nav a.btn.prescription-one,
+.prescribe .carousel-nav a.btn.prescription-two {
+    margin-left: 303px;
+    width: 356px;
+}
+
+.prescribe .prompt {
+    position: absolute;
+    background-color: #EFC48D;
+    border: 1px solid #EAA141;
+    display: block;
+    height: 15px;
+    padding: 3px;
+    text-align: right;
+    width: 125px;
+    font-size: 1.05em;
+}
+
+
+.prescribe .blankrx_single .gender.F,
+.prescribe .blankrx_single .gender.M,
+.prescribe .patient-name {
+    font-weight: bold;
+}
+
+.prescribe .med_name {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.prescribe .field.concentration {
+    height: 22px;
+    width: 90px; 
+}
+
+.prescribe .field.dosage {
+    height: 22px;
+    width: 188px;
+}
+
+.prescribe .field.med_inst {
+    border: 1px solid #CCCCCC;
+    background-color: #eee;
+    height: 59px;
+    overflow: auto;
+    padding: 0 5px 5px 0;
+    width: 260px;
+}
+
+
+.prescribe .field.med_inst ul li {
+    line-height: 14px;
+}
+
+.prescribe .blankrx_double,
+.prescribe .blankrx_single {
+    background-image: url(/activity/prescription/media/images/blankrx_sm.jpg);
+    background-repeat: no-repeat;
+    background-position: top center;
+    padding: 0;
+    width: 100%;
+    height: 470px;
+    position: relative;
+    font-size: .9em;
+}
+
+.prescribe .blankrx_single .patient-name { 
+    position: absolute;
+    left: 374px;
+    top: 175px;
+}
+
+.prescribe .blankrx_single .date {
+    position: absolute;
+    left: 590px;
+    top: 175px;    
+}
+
+.prescribe .blankrx_single .gender.F {
+    position: absolute;
+    left: 653px;
+    top: 223px;
+}
+
+.prescribe .blankrx_single .gender.M {
+    position: absolute;
+    left: 638px;
+    top: 223px;
+}
+
+.prescribe .blankrx_single .prompt.dosage {
+    left: 177px;
+    top: 236px;
+}
+
+.prescribe .blankrx_single .prompt.quantity {
+    left: 177px;
+    top: 269px;
+}
+
+.prescribe .blankrx_single .prompt.instructions {
+    left: 177px;    
+    top: 297px;
+}
+
+.prescribe .blankrx_single .prompt.refills {
+    left: 177px;
+    top: 393px;
+}
+
+.prescribe .blankrx_single .med_name {
+    position: absolute;
+    left: 337px;
+    top: 241px;
+}
+
+.prescribe .blankrx_single .field.concentration {
+    position: absolute;
+    left: 449px;
+    top: 239px;
+}
+
+.prescribe .blankrx_single .field.dosage {
+    position: absolute;
+    left: 337px;
+    top: 267px;
+}
+
+.prescribe .blankrx_single .field.med_inst {
+    position: absolute;
+    left: 337px;
+    top: 295px;
+}
+
+.prescribe .blankrx_single .field.refills {
+    position: absolute;
+    left: 414px;
+    top: 401px;
+}
+
+.prescribe .blankrx_double {
+    background-image: url(/activity/prescription/media/images/double_blankrx_sm.jpg);
+}
+
+.prescribe .blankrx_double .patient-name { 
+    position: absolute;
+    left: 184px;
+    top: 172px;
+}
+
+.prescribe .blankrx_double .date {
+    position: absolute;
+    left: 400px;
+    top: 174px;    
+}
+
+.prescribe .blankrx_double .gender.F {
+    position: absolute;
+    left: 463px;
+    top: 223px;
+}
+
+.prescribe .blankrx_double .gender.M {
+    position: absolute;
+    left: 448px;
+    top: 223px;
+}
+
+.prescribe .blankrx_double .prompt.dosage {
+    left: -12px;
+    top: 236px;
+}
+
+.prescribe .blankrx_double .prompt.quantity {
+    left: -12px;
+    top: 269px;
+}
+
+.prescribe .blankrx_double .prompt.instructions {
+    left: -12px;    
+    top: 297px;
+}
+
+.prescribe .blankrx_double .prompt.refills {
+    left: -12px;
+    top: 393px;
+}
+
+.prescribe .blankrx_double .med_name {
+    position: absolute;
+    left: 147px;
+    top: 241px;
+}
+
+.prescribe .blankrx_double .field.concentration {
+    position: absolute;
+    left: 259px;
+    top: 239px;
+}
+
+.prescribe .blankrx_double .field.dosage {
+    position: absolute;
+    left: 147px;
+    top: 267px;
+}
+
+.prescribe .blankrx_double .field.med_inst {
+    position: absolute;
+    left: 147px;
+    top: 295px;
+}
+
+.prescribe .blankrx_double .field.refills {
+    position: absolute;
+    left: 224px;
+    top: 401px;
+}
+
+
+.prescribe .blankrx_double .patient-name.two { 
+    position: absolute;
+    left: 564px;
+    top: 172px;
+}
+
+.prescribe .blankrx_double .date.two {
+    position: absolute;
+    left: 780px;
+    top: 174px;    
+}
+
+.prescribe .blankrx_double .gender.two.F {
+    position: absolute;
+    left: 843px;
+    top: 223px;
+}
+
+.prescribe .blankrx_double .gender.two.M {
+    position: absolute;
+    left: 828px;
+    top: 223px;
+}
+
+.prescribe .blankrx_double .med_name.two {
+    position: absolute;
+    left: 527px;
+    top: 241px;
+}
+
+.prescribe .blankrx_double .field.concentration.two {
+    position: absolute;
+    left: 639px;
+    top: 239px;
+}
+
+.prescribe .blankrx_double .field.dosage.two {
+    position: absolute;
+    left: 527px;
+    top: 267px;
+}
+
+.prescribe .blankrx_double .field.med_inst.two {
+    position: absolute;
+    left: 527px;
+    top: 295px;
+}
+
+.prescribe .blankrx_double .field.refills.two {
+    position: absolute;
+    left: 604px;
+    top: 401px;
+}
+
+.results .span4 {
+    width: 290px;
+    padding-left: 10px;
+}
+
+.results .treatment-option-reasoning {
+    border: 1px solid #aaa;
+    min-height: 225px;
+    padding: 5px 5px 0px 5px;
+}
+
+.results .treatment-option-reasoning div {
+    text-align: center;
+}
+
+.results .treatment-option-reasoning div img {
+    margin-bottom: 8px;
+}
+
+/**
 #treatment_feedback {
    float: left;
    width: 490px;
@@ -118,21 +465,6 @@ font-size: 95%;
 	margin-top:34px;
 	padding:0 10px 10px;
 	width:513px;
-}
-
-#available_treatments_box {
-   float: left;
-   margin-bottom: 1.5em;
-   width: 750px;
-}
-    
-#available_treatments {
-	float: left;
-	width: 670px;
-	height: 86px;
-   background-color: #dedede;
-   border: 1px solid #ccc;
-   padding: 5px 5px 5px 55px;
 }
 
 .padded_image {
@@ -200,23 +532,6 @@ margin-bottom: -.5em;
    	
 }
 
-#patient_name {
-	font-weight: bold;
-	margin-left: 25px;
-	display: inline;
-}
-
-#date {
-	margin-left: 120px;
-	display: inline;
-
-}
-
-#gender {
-	font-weight:bold;
-	margin:31px 0 0px 300px;
-
-}
 .best {
 	
 	background-color: #60ab5e;
@@ -241,10 +556,5 @@ margin-bottom: -.5em;
 
 }
 
-a.reset_button {
-	margin: -.5em 2em 0 0;
-}
-
-
-
+**/
 

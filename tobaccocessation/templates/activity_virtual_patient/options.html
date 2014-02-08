@@ -1,101 +1,71 @@
-{% extends "activity_virtual_patient/virtual_patient_base.html" %}
+{% load user_state %}
 
-{% block title %}Virtual Patient {{ patient.display_order }}: Classify Treatment Options{% endblock %}
+{% gettreatments block as treatments %}
+{% with block.patient as patient %}
 
-{% block js %}
-   {{ block.super }}
-   <script type="text/javascript" src="/activity/virtualpatient/media/js/options.js"></script>
-   <script type="text/javascript" src="/activity/virtualpatient/media/js/virtualpatient.js"></script>
-{% endblock %}
-
-{% block content %}
-    {{ block.super }} 
-    
-    <a class="reset_button" href="{% url 'reset' patient.id %}" onclick="clearState(); return false;">Reset&nbsp;Exercise</a>
-    <h2>Virtual Patient {{ patient.display_order }}: Classify Treatment Options</h2>
-    <h5>Step 1: Based on the patient history below, classify all eight available treatments by dragging them to selected boxes.<br />
-        Choose at least one to be your Best Treatment Choice.</h5> 
+<div class="virtualpatient treatment-options">
+    <h5>Step 1: Based on the patient history below, classify each treatment option as appropriate, unlikely to be effective <br/>
+    or potentially harmful. Choose at least one to be an Appropriate Treatment Choice.</h5>
       
-    <div id="patient">
-       <div id="about_patient">
-            <div id="patient_description">
-            <img src="/activity/virtualpatient/media/images/patient_{{patient.id}}.jpg" />
-            <h3>{{patient.name}}</h3>
-            <h4>{% autoescape off %}{{ patient.description }}{% endautoescape %} </h4> 
+    <div class="row">
+        <div class="span6 well about-patient">
+            <h3>Patient History</h3>
+            <img class="pull-left" src="/activity/virtualpatient/media/images/patient_{{patient.id}}.jpg" />
+            <div class="patient-description">                
+                <h4>{{patient.name}}</h4>
+                <h5>{% autoescape off %}{{ patient.description }}{% endautoescape %} </h5> 
             </div>
-              <h6>Patient History</h6>
-            <div id="patient_history">{% autoescape off %}{{patient.history}}{% endautoescape %}</div>
-      </div>
- 
-      <input type="hidden" id="patient_id" name="patient_id" value="{{patient.id}}"></input>
-      <input type="hidden" id="page_id" name="page_id" value="{{page_id}}"></input>
-      <input type="hidden" id="foo" value="bar"></input>
+            <div class="visualclear"></div>        
+            <div class="patient-history">
+                {% autoescape off %}{{patient.history}}{% endautoescape %}
+            </div>
+        </div>
+    
+        <div class="span6 treatment-classification">
+            <div class="row">
+                <div class="span2 available-treatments">
+                  {% for med in treatments %}
+                     <div class="{{med.tag}} available-treatment">
+                        <img src="/activity/virtualpatient/media/images/{{med.tag}}.jpg">
+                     </div>
+                  {% endfor %}       
+                </div>
+                <div class="span1 appropriate-treatment-choice">
+                    <div class="header">Appropriate Treatment Choice</div>
+                    {% for med in treatments %}
+                        <div class="{{med.tag}} treatment-type">
+                            <input name="pageblock-{{block.pageblock.id}}-{{med.tag}}" value="appropriate" type="radio"
+                            {% ifequal med.classification "appropriate" %}
+                                checked="checked"
+                            {% endifequal %} />  
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="span1 unlikely-to-be-effective">
+                    <div class="header">Unlikely To Be Effective</div>
+                    {% for med in treatments %}
+                        <div class="{{med.tag}} treatment-type">
+                            <input name="pageblock-{{block.pageblock.id}}-{{med.tag}}" value="ineffective" type="radio"
+                                {% ifequal med.classification "ineffective" %}
+                                    checked="checked"
+                                {% endifequal %} />                        
+                        </div>
+                    {% endfor %}                        
+                </div>
+                <div class="span1 potentially-harmful">
+                    <div class="header">Potentially Harmful</div>
+                    {% for med in treatments %}
+                        <div class="{{med.tag}} treatment-type">
+                            <input name="pageblock-{{block.pageblock.id}}-{{med.tag}}" value="harmful" type="radio"
+                                {% ifequal med.classification "ineffective" %}
+                                    checked="checked"
+                                {% endifequal %} />
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
-     <div id="available_treatments_box">
-		<br /><h4>Treatments To Classify: <span id="treatments_to_classify">{{patient_state.available_treatments|length}}</span></h4>   
-		 
-	    <span id="available_treatments" class="treatment_droppable">
-	    
-	      {% for tag in patient_state.available_treatments %}
-	         <span id='{{tag}}' class='{{tag}} treatment_draggable'>
-	            <img src='/activity/virtualpatient/media/images/{{tag}}.jpg'>
-	         </span>
-	      {% endfor %}
-	    </span>
-	 </div>
-	<br /> <h4>Your Treatment Classifications</h4> 
-    <div id="treatment_types">
-  
-	    <div class="treatment_type_box">
-	       <center>
-	       <h5>Best Treatment Choice(s)</h5>
-	       <div id="best_treatment" class="treatment_type treatment_droppable best">
-		       {% for tag in patient_state.best_treatment %}
-				    <span  id="{{tag}}" class="{{tag}} treatment_draggable">
-			           <img src="/activity/virtualpatient/media/images/{{tag}}.jpg">
-			       </span>
-		       {% endfor %}
-		    </div>
-		    </center>
-	    </div>
-	    <div class="treatment_type_box">
-	       <center>
-	           <h5>Reasonable, Not Optimal</h5>
-	          <div id="reasonable_treatment" class="treatment_type treatment_droppable reasonable">
-	          {% for tag in patient_state.reasonable_treatment %}
-                <span  id="{{tag}}" class="{{tag}} treatment_draggable">
-                    <img src="/activity/virtualpatient/media/images/{{tag}}.jpg">
-                </span>
-             {% endfor %}
-	          </div>
-	       </center>
-	    </div>
-	    <div class="treatment_type_box ">
-	       <center>
-	           <h5>Unlikely To Be Effective</h5>
-		       <div id="ineffective_treatment" class="treatment_type treatment_droppable ineffective">
-		       {% for tag in patient_state.ineffective_treatment %}
-                <span  id="{{tag}}" class="{{tag}} treatment_draggable">
-                    <img src="/activity/virtualpatient/media/images/{{tag}}.jpg">
-                </span>
-             {% endfor %}
-		       </div>
-	       </center>
-	    </div>
-	    <div class="treatment_type_box ">
-	       <center>
-	           <h5>Potentially Harmful</h5>
-	          <div id="harmful_treatment" class="treatment_type treatment_droppable harmful">
-	          {% for tag in patient_state.harmful_treatment %}
-                <span  id="{{tag}}" class="{{tag}} treatment_draggable">
-                    <img src="/activity/virtualpatient/media/images/{{tag}}.jpg">
-                </span>
-             {% endfor %}
-	          </div>
-	       </center>
-	    </div>
-	 </div>
-{% endblock %}
+</div>
 
-
-
+{% endwith %}

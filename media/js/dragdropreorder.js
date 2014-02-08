@@ -6,14 +6,15 @@ var dragging;
 document.captureEvents(Event.MOUSEMOVE);
 
 function doDown(e) {
-  if (e.target.tagName == "TEXTAREA"
-      || e.target.tagName == "INPUT") {
+  if (e.target.tagName == "TEXTAREA" || e.target.tagName == "INPUT") {
     return;
   }
     document.body.style.cursor='move';
     document.onmousemove = doDrag;
     var target = findDraggableParent(e.target);
-    if (target == null) return;
+    if (target === null) {
+        return;
+    }
     dragging = target;
     dragging.className += " dragging";
     dragging.style.fontWeight='bold';
@@ -22,15 +23,22 @@ function doDown(e) {
 }
 
 function findDraggableParent(el) {
-    if (el == null) return null;
-    else if (el.className && el.className.indexOf("draggable") != -1) return el;
+    if (el === null) {
+        return null;
+    } else if (el.className && el.className.indexOf("draggable") != -1) {
+        return el;
+    }
     else return findDraggableParent(el.parentNode);
 }
 
 function doDrag(e) {
-    if (!dragging) return;
+    if (!dragging) {
+        return;
+    }
     var target = findDraggableParent(e.target);
-    if (target == null) return;
+    if (target === null) {
+        return;
+    }
     if (target.id != dragging.id) {
         swapElements(target, dragging);
     }
@@ -46,18 +54,19 @@ function swapElements(child1, child2) {
     // i tried were buggy.
     var parent = child1.parentNode;
     var children = parent.childNodes;
-    var items = new Array();
-    for (var i = 0; i < children.length; i++) {
+    var items = [];
+    var i;
+    for (i = 0; i < children.length; i++) {
         items[i] = children.item(i);
         if (children.item(i).id) {
             if (children.item(i).id == child1.id) items[i] = child2;
             if (children.item(i).id == child2.id) items[i] = child1;
         }
     }
-    for (var i = 0; i < children.length; i++) {
+    for (i = 0; i < children.length; i++) {
         parent.removeChild(children.item(i));
     }
-    for (var i = 0; i < items.length; i++) {
+    for (i = 0; i < items.length; i++) {
         parent.appendChild(items[i]);
 
     }
@@ -71,7 +80,7 @@ function doUp(e) {
        document.onmousemove = null;
        saveOrder();
        if (e.stopPropagation) e.stopPropagation();
-       document.body.style.cursor='auto'
+       document.body.style.cursor = 'auto';
     }
     return false;
 }
@@ -84,38 +93,39 @@ function addLoadEvent(func) {
                 window.onload = function() {
                         oldonload();
                         func();
-                }
+                };
         }
 }
 
 function initDrags() {
-	 trs = document.getElementsByTagName('tr');
-	 for (var i = 0; i < trs.length; i++) {
-	     tr = trs[i];
-	     if (tr.className.indexOf("draggable") != -1) {
-		tr.onmousedown = doDown;
-		tr.onmouseup = doUp;
-	     }
-	 }
-	 lis = document.getElementsByTagName('li');
-	 for (var i = 0; i < lis.length; i++) {
-	     li = lis[i];
-	     if (li.className.indexOf("draggable") != -1) {
-		li.onmousedown = doDown;
-		li.onmouseup = doUp;
-	     }
-	 }
+    var i;
+    var trs = document.getElementsByTagName('tr');
+    for (i = 0; i < trs.length; i++) {
+        tr = trs[i];
+        if (tr.className.indexOf("draggable") != -1) {
+            tr.onmousedown = doDown;
+            tr.onmouseup = doUp;
+        }
+    }
+    var lis = document.getElementsByTagName('li');
+    for (i = 0; i < lis.length; i++) {
+        li = lis[i];
+        if (li.className.indexOf("draggable") != -1) {
+            li.onmousedown = doDown;
+            li.onmouseup = doUp;
+        }
+    }
 
-	 var divs = document.getElementsByTagName('div');
-	 for (var i = 0; i < divs.length; i++) {
-	     var div = divs[i];
-	     if (div.className.indexOf("draggable") != -1) {
-		div.onmousedown = doDown;
-		div.onmouseup = doUp;
-	     }
-	 }
-	 
-	 document.body.onmouseup = doUp;
+    var divs = document.getElementsByTagName('div');
+    for (i = 0; i < divs.length; i++) {
+        var div = divs[i];
+        if (div.className.indexOf("draggable") != -1) {
+            div.onmousedown = doDown;
+            div.onmouseup = doUp;
+    }
+ }
+ 
+ document.body.onmouseup = doUp;
 
 }
 

@@ -1,164 +1,126 @@
-{% extends "activity_virtual_patient/virtual_patient_base.html" %}
-
-{% block title %}Virtual Patient {{ patient.display_order }}: Prescribe Treatment(s){% endblock %}
-
-{% block js %}
-   {{ block.super }}
-   <script type="text/javascript" src="/activity/virtualpatient/media/js/prescription.js"></script>
-   <script type="text/javascript" src="/activity/virtualpatient/media/js/virtualpatient.js"></script>
-{% endblock %}
-
-{% block content %}
-    {{ block.super }} 
-    
-     <a class="reset_button" href="{% url 'reset' patient.id %}" onclick="clearState(); return false;">Reset&nbsp;Exercise</a>
-    <h2>Virtual Patient {{ patient.display_order }}: Prescribe Treatment(s)</h2>
-   <h5>Step 3: Write a prescription for this patient.</h5> 
-    <input type="hidden" id="medication_idx" value="{{ medication_idx }}"></input>
-    <input type="hidden" id="medication_tag" value="{{ medication.0.tag }}"></input>
-    <input type="hidden" id="patient_id" name="patient_id" value="{{patient.id}}"></input>
-    <input type="hidden" id="page_id" name="page_id" value="{{page_id}}"></input>
-    
-    {% ifequal medication.0.rx_count 1 %}
-       <link href="/activity/virtualpatient/media/css/prescription.css" rel="stylesheet" type="text/css" />
-       <div id="blankrx_vp">
-       <div id="patient_name">{{patient.name}}</div>
-    <div id="date">{% now "n/j/Y" %}</div>
-    <div id="gender">X</div>
-          <form>
-		       <div id="fieldname_container">
-		          <div class="fieldname">Dosage:</div> 
-		          <div class="fieldname">  Quantity to Dispense: </div>
-		          <div class="fieldname patient">  Patient Instructions:</div>
-		          <div class="fieldname refills"> Refills: </div>
-		       </div>
-     
-             <div id="fields_container">
-                <div id="med_name">{{ medication.0.name }}, &nbsp; </div>
-                <select id="concentration">
-			          {% for cc in medication.0.concentrationchoice_set.all|dictsort:"display_order"  %}
-			            {% ifequal cc.id concentration_idx %}
-			             <option selected="selected" value="{{cc.id}}">{{cc.concentration}}</option>
-			            {% else %}
-			               <option value="{{cc.id}}">{{cc.concentration}}</option>
-			            {% endifequal %}
-			          {% endfor %}
-			      </select>
-               <br />
+{% ifequal medicine.rx_count 1 %}
+    <div class="blankrx_single">        
+        <div class="prompt dosage">Dosage</div> 
+        <div class="prompt quantity">Quantity to Dispense</div>
+        <div class="prompt instructions">Patient Instructions</div>
+        <div class="prompt refills">Refills</div>
+        
+        <div class="patient-name">{{patient.name}}</div>
+        <div class="date">{% now "n/j/Y" %}</div>
+        <div class="gender {{patient.gender}}">X</div>
+          
+        <div class="med_name">{{ medicine.name }}, &nbsp; </div>
       
-			      <select id="dosage">
-			          {% for dc in medication.0.dosagechoice_set.all|dictsort:"display_order"  %}
-			             {% ifequal dc.id dosage_idx %}
-			               <option selected="selected" value="{{dc.id}}">{{dc.dosage}}</option>
-			             {% else %}
-			               <option value="{{dc.id}}">{{dc.dosage}}</option>
-			             {% endifequal %}
-			          {% endfor %}
-			      </select>
+        <select name="pageblock-{{block.pageblock.id}}-concentration-{{medicine.choices.0.id}}" class="field concentration">
+              <option value="-----">-----</option>
+	          {% for cc in medicine.choices.0.concentrationchoice_set.all|dictsort:"display_order"  %}
+	            {% ifequal cc.id medicine.choices.0.selected_concentration %}
+	               <option selected="selected" value="{{cc.id}}">{{cc.concentration}}</option>
+	            {% else %}
+	               <option value="{{cc.id}}">{{cc.concentration}}</option>
+	            {% endifequal %}
+	          {% endfor %}
+	    </select>
 
-               <br />
-  
-			      <div id="med_inst"> <ul>{% autoescape off %}
-			      {{ medication.0.instructions }}
-			      {% endautoescape %}</ul>
-			      </div>
-			  
-      
-               <div id="refill">{{medication.0.refillchoice_set.all.0.refill}}</div>
-            </div>
-         </form>
-       </div>
-    <!--  Second Prescription if needed -->
-    {% else %}
-       <link href="/activity/virtualpatient/media/css/double_prescription.css" rel="stylesheet" type="text/css" />
-       <div id="blankrx_vp">
-       <div id="patient_name">{{patient.name}}</div>
-    <div id="date">{% now "n/j/Y" %}</div>
-    <div id="gender">X</div>
-          <form>
-             <div id="fieldname_container">
-                <div class="fieldname">Dosage:</div> 
-                <div class="fieldname">  Quantity to Dispense: </div>
-                <div class="fieldname patient">  Patient Instructions:</div>
-                <div class="fieldname refills"> Refills: </div>
-             </div>
-     
-             <div id="fields_container1">
-                <div id="med_name">{{ medication.0.name }}, &nbsp; </div>
-                <select id="concentration">
-                   {% for cc in medication.0.concentrationchoice_set.all|dictsort:"display_order"  %}
-                     {% ifequal cc.id concentration_idx %}
-                      <option selected="selected" value="{{cc.id}}">{{cc.concentration}}</option>
-                     {% else %}
-                        <option value="{{cc.id}}">{{cc.concentration}}</option>
-                     {% endifequal %}
-                   {% endfor %}
-               </select>
-               <br style="clear: both;" />
-      
-               <select id="dosage">
-                   {% for dc in medication.0.dosagechoice_set.all|dictsort:"display_order" %}
-                      {% ifequal dc.id dosage_idx %}
-                        <option selected="selected" value="{{dc.id}}">{{dc.dosage}}</option>
-                      {% else %}
-                        <option value="{{dc.id}}">{{dc.dosage}}</option>
-                      {% endifequal %}
-                   {% endfor %}
-               </select>
+        <select name="pageblock-{{block.pageblock.id}}-dosage-{{medicine.choices.0.id}}" class="field dosage">
+          <option value="-----">-----</option>
+          {% for dc in medicine.choices.0.dosagechoice_set.all|dictsort:"display_order"  %}
+             {% ifequal dc.id medicine.choices.0.selected_dosage %}
+               <option selected="selected" value="{{dc.id}}">{{dc.dosage}}</option>
+             {% else %}
+               <option value="{{dc.id}}">{{dc.dosage}}</option>
+             {% endifequal %}
+          {% endfor %}
+        </select>
 
-               <br />
-  
-               <div id="med_inst"> 
-                  <ul>
-                     {% autoescape off %}
-                        {{ medication.0.instructions }}
-                     {% endautoescape %}
-                  </ul>
-               </div>
-              
+        <div class="field med_inst">
+            {% autoescape off %}
+            {{ medicine.choices.0.instructions }}
+            {% endautoescape %}
+        </div>
+
+        <div class="field refills">{{medicine.choices.0.refillchoice_set.all.0.refill}}</div>
+    </div>
+{% else %}
+    <!--  Double Prescription -->
+    <div class="blankrx_double">
+        <!--  RX 1 -->
+        <div class="prompt dosage">Dosage</div> 
+        <div class="prompt quantity">Quantity to Dispense</div>
+        <div class="prompt instructions">Patient Instructions</div>
+        <div class="prompt refills">Refills</div>
+        
+        <div class="patient-name">{{patient.name}}</div>
+        <div class="date">{% now "n/j/Y" %}</div>
+        <div class="gender {{patient.gender}}">X</div>
+          
+        <div class="med_name">{{ medicine.name }}, &nbsp; </div>
       
-               <div id="refill">{{medication.0.refillchoice_set.all.0.refill}}</div>
-            </div>
-               
-            <div id="fields_container2">
-            <div id="patient_name2">{{patient.name}}</div>
-            <div id="date2">{{ next_week|date:"n/j/Y" }}</div>
-            <div id="gender2">X</div>
-               <div id="med_name2">{{ medication.1.name }}, &nbsp; </div>
-               <select id="concentration2">
-			          {% for cc in medication.1.concentrationchoice_set.all|dictsort:"display_order" %}
-			            {% ifequal cc.id concentration2_idx %}
-			               <option selected="selected" value="{{cc.id}}">{{cc.concentration}}</option>
-			            {% else %}
-			               <option value="{{cc.id}}">{{cc.concentration}}</option>
-			            {% endifequal %}
-			          {% endfor %}
-			      </select>
-			      <br style="clear: both;" />
-			      
-			     <select id="dosage2">
-			          {% for dc in medication.1.dosagechoice_set.all|dictsort:"display_order" %}
-			             {% ifequal dc.id dosage2_idx %}
-			               <option selected="selected" value="{{dc.id}}">{{dc.dosage}}</option>
-			             {% else %}
-			               <option value="{{dc.id}}">{{dc.dosage}}</option>
-			             {% endifequal %}
-			          {% endfor %}
-			      </select>
-			      <br />
-		      
-			      
-			      <div id="med_inst2">
-				    <ul>  
-				       {% autoescape off %}
-				       {{ medication.1.instructions }}
-				       {% endautoescape %}
-				    </ul>
-				   </div>
-				  
-				   <div id="refill2">{{medication.1.refillchoice_set.all.0.refill}}</div>
-            </div>
-         </form>
-       </div>
-   {% endifequal %}
-{% endblock %}
+        <select name="pageblock-{{block.pageblock.id}}-concentration-{{medicine.choices.0.id}}" class="field concentration">
+              <option value="-----">-----</option>
+              {% for cc in medicine.choices.0.concentrationchoice_set.all|dictsort:"display_order"  %}
+                {% ifequal cc.id medicine.choices.0.selected_concentration %}
+                   <option selected="selected" value="{{cc.id}}">{{cc.concentration}}</option>
+                {% else %}
+                   <option value="{{cc.id}}">{{cc.concentration}}</option>
+                {% endifequal %}
+              {% endfor %}
+        </select>
+
+        <select name="pageblock-{{block.pageblock.id}}-dosage-{{medicine.choices.0.id}}" class="field dosage">
+          <option value="-----">-----</option>
+          {% for dc in medicine.choices.0.dosagechoice_set.all|dictsort:"display_order"  %}
+             {% ifequal dc.id medicine.choices.0.selected_dosage %}
+               <option selected="selected" value="{{dc.id}}">{{dc.dosage}}</option>
+             {% else %}
+               <option value="{{dc.id}}">{{dc.dosage}}</option>
+             {% endifequal %}
+          {% endfor %}
+        </select>
+
+        <div class="field med_inst">
+            {% autoescape off %}
+            {{ medicine.choices.0.instructions }}
+            {% endautoescape %}
+        </div>
+
+        <div class="field refills">{{medicine.choices.0.refillchoice_set.all.0.refill}}</div>
+        
+        <!--  RX 2 -->
+        <div class="patient-name two">{{patient.name}}</div>
+        <div class="date two">{% now "n/j/Y" %}</div>
+        <div class="gender two {{patient.gender}}">X</div>
+          
+        <div class="med_name two">{{ medicine.name }}, &nbsp; </div>
+      
+        <select name="pageblock-{{block.pageblock.id}}-concentration-{{medicine.choices.1.id}}" class="field concentration two">
+              <option value="-----">-----</option>
+              {% for cc in medicine.choices.1.concentrationchoice_set.all|dictsort:"display_order"  %}
+                {% ifequal cc.id medicine.choices.1.selected_concentration %}
+                   <option selected="selected" value="{{cc.id}}">{{cc.concentration}}</option>
+                {% else %}
+                   <option value="{{cc.id}}">{{cc.concentration}}</option>
+                {% endifequal %}
+              {% endfor %}
+        </select>
+
+        <select name="pageblock-{{block.pageblock.id}}-dosage-{{medicine.choices.1.id}}" class="field dosage two">
+          <option value="-----">-----</option>
+          {% for dc in medicine.choices.1.dosagechoice_set.all|dictsort:"display_order"  %}
+             {% ifequal dc.id medicine.choices.1.selected_dosage %}
+               <option selected="selected" value="{{dc.id}}">{{dc.dosage}}</option>
+             {% else %}
+               <option value="{{dc.id}}">{{dc.dosage}}</option>
+             {% endifequal %}
+          {% endfor %}
+        </select>
+
+        <div class="field med_inst two">
+            {% autoescape off %}
+            {{ medicine.choices.1.instructions }}
+            {% endautoescape %}
+        </div>
+
+        <div class="field refills two">{{medicine.choices.1.refillchoice_set.all.0.refill}}</div>        
+    </div>
+{% endifequal %}

@@ -24,6 +24,8 @@ class MedicationConcentrationChoiceInline(admin.TabularInline):
 
 
 class MedicationAdmin(admin.ModelAdmin):
+    list_display = ('tag', 'name', 'display_order')
+
     inlines = [
         MedicationConcentrationChoiceInline,
         MedicationDosageChoiceInline,
@@ -51,6 +53,7 @@ class TreatmentFeedbackInline(admin.TabularInline):
 
 
 class PatientAdmin(admin.ModelAdmin):
+    save_as = True
     inlines = [
         TreatmentOptionInline,
         TreatmentFeedbackInline,

@@ -42,7 +42,6 @@ NOSE_ARGS = [
     '--with-coverage',
     ('--cover-package=tobaccocessation,'
      'tobaccocessation.activity_prescription_writing,'
-     'tobaccocessation.activity_treatment_choice,'
      'tobaccocessation.activity_virtual_patient')]
 
 JENKINS_TASKS = (
@@ -56,7 +55,6 @@ JENKINS_TASKS = (
 
 PROJECT_APPS = ['tobaccocessation.main',
                 'tobaccocessation.activity_prescription_writing',
-                'tobaccocessation.activity_treatment_choice',
                 'tobaccocessation.activity_virtual_patient']
 
 ALLOWED_HOSTS = [".ccnmtl.columbia.edu", "localhost"]
@@ -104,15 +102,16 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = [
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.flatpages',
     'django.contrib.markup',
+    'django.contrib.staticfiles',  # maybe?
     'staticmedia',
     'sorl.thumbnail',
-    'django.contrib.admin',
     'tagging',
     'typogrify',
     'munin',
@@ -132,7 +131,6 @@ INSTALLED_APPS = [
     'pagetree',
     'pageblocks',
     'tobaccocessation.main',
-    'tobaccocessation.activity_treatment_choice',
     'tobaccocessation.activity_prescription_writing',
     'tobaccocessation.activity_virtual_patient',
     'quizblock',
@@ -191,6 +189,13 @@ SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_COOKIE_HTTPONLY = True
 LOGIN_REDIRECT_URL = "/"
 
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # other finders..
+    'compressor.finders.CompressorFinder',
+)
+
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
 
 # Pageblocks/Pagetree settings
@@ -198,9 +203,8 @@ PAGEBLOCKS = ['pageblocks.HTMLBlockWYSIWYG',
               'pageblocks.HTMLBlock',
               'pageblocks.ImageBlock',
               'quizblock.Quiz',
-              'activity_treatment_choice.Block',
               'activity_prescription_writing.Block',
-              'main.FlashVideoBlock']
+              'activity_virtual_patient.PatientAssessmentBlock']
 
 LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL = '/'
 
@@ -222,6 +226,7 @@ TINYMCE_DEFAULT_CONFIG = {'cols': 80,
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_SAVE_EVERY_REQUEST = True
-SESSION_COOKIE_AGE = 900
+SESSION_COOKIE_AGE = 3600
 
-AUTH_PROFILE_MODULE = 'main.UserProfile'
+AUTH_PROFILE_MODULE = 'main.UserProfile'  # what is this for again?
+# new django doc - AUTH_USER_MODEL = 'myapp.MyUser'

@@ -1,22 +1,17 @@
-from django import forms
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, render
 from django.template import RequestContext
 from django.utils import simplejson
 from pagetree.helpers import get_section_from_path, get_module
-from pagetree.models import Section
-from registration.forms import RegistrationForm
+from pagetree.models import Section, UserLocation, UserPageVisit
 from tobaccocessation.activity_prescription_writing.models import \
     ActivityState as PrescriptionWritingActivityState
-from tobaccocessation.activity_treatment_choice.models import \
-    ActivityState as TreatmentChoiceActivityState
 from tobaccocessation.activity_virtual_patient.models import \
     ActivityState as VirtualPatientActivityState
-from tobaccocessation.main.models import UserProfile
-
-INDEX_URL = "/welcome/"
-UNLOCKED = ['welcome', 'resources']  # special cases
+from tobaccocessation.main.models import QuickFixProfileForm, UserProfile
+UNLOCKED = ['resources']  # special cases
 
 
 class rendered_with(object):
@@ -37,22 +32,37 @@ class rendered_with(object):
         return rendered_func
 
 
-def _edit_response(request, section, path):
-    first_leaf = section.hierarchy.get_first_leaf(section)
+@login_required
+@rendered_with('main/index.html')
+def index(request):
+    """Need to determine here whether to redirect
+    to profile creation or registraion and profile creation"""
+    profiles = UserProfile.objects.filter(user=request.user)
+    if len(profiles) > 0 and profiles[0].has_consented():
+        return {'user': request.user,
+                'profile': profiles[0]}
+    else:
+        return HttpResponseRedirect(reverse('create_profile'))
 
+
+def _edit_response(request, section):
     return dict(section=section,
+                hierarchy=section.hierarchy,
                 module=get_module(section),
-                root=section.hierarchy.get_root(),
-                leftnav=_get_left_parent(first_leaf),
-                prev=_get_previous_leaf(first_leaf),
-                next=first_leaf.get_next())
+                root=section.hierarchy.get_root())
 
 
 @user_passes_test(lambda u: u.is_staff)
 @rendered_with('main/edit_page.html')
-def edit_page(request, path):
-    section = get_section_from_path(path, "main")
-    return _edit_response(request, section, path)
+def edit_page(request, hierarchy, path):
+    section = get_section_from_path(path, hierarchy)
+    return _edit_response(request, section)
+
+
+@user_passes_test(lambda u: u.is_staff)
+def edit_page_by_id(request, hierarchy, section_id):
+    section = Section.objects.get(id=section_id)
+    return HttpResponseRedirect(section.get_edit_url())
 
 
 @user_passes_test(lambda u: u.is_staff)
@@ -64,15 +74,22 @@ def edit_resources(request, path):
 
 @login_required
 @rendered_with('main/page.html')
-def resources(request, path):
-    section = get_section_from_path(path, "resources")
-    return _response(request, section, path)
+def page(request, hierarchy, path):
+    section = get_section_from_path(path, hierarchy)
+    return _response(request, section)
 
 
 @login_required
 @rendered_with('main/page.html')
-def page(request, path):
-    section = get_section_from_path(path, "main")
+def page_by_id(request, hierarchy, section_id):
+    section = Section.objects.get(id=section_id)
+    return HttpResponseRedirect(section.get_absolute_url())
+
+
+@login_required
+@rendered_with('main/page.html')
+def resources(request, path):
+    section = get_section_from_path(path, "resources")
     return _response(request, section, path)
 
 
@@ -86,22 +103,18 @@ def _get_left_parent(first_leaf):
 
 
 @rendered_with('main/page.html')
-def _response(request, section, path):
+def _response(request, section):
     h = section.hierarchy
     if request.method == "POST":
         # user has submitted a form. deal with it
         proceed = True
         for p in section.pageblock_set.all():
-            if hasattr(p.block(), 'needs_submit'):
-                if p.block().needs_submit():
-                    prefix = "pageblock-%d-" % p.id
-                    data = dict()
-                    for k in request.POST.keys():
-                        if k.startswith(prefix):
-                            data[k[len(prefix):]] = request.POST[k]
-                    p.block().submit(request.user, data)
-                    if hasattr(p.block(), 'redirect_to_self_on_submit'):
-                        proceed = not p.block().redirect_to_self_on_submit()
+            if request.POST.get('action', '') == 'reset':
+                section.reset(request.user)
+                return HttpResponseRedirect(section.get_absolute_url())
+
+            if hasattr(p.block(), 'needs_submit') and p.block().needs_submit():
+                proceed = section.submit(request.POST, request.user)
 
         if request.is_ajax():
             json = simplejson.dumps({'submitted': 'True'})
@@ -114,7 +127,7 @@ def _response(request, section, path):
     else:
         first_leaf = h.get_first_leaf(section)
         ancestors = first_leaf.get_ancestors()
-        profile = UserProfile.objects.get_or_create(user=request.user)[0]
+        profile = UserProfile.objects.filter(user=request.user)[0]
 
         # Skip to the first leaf, make sure to mark these sections as visited
         if (section != first_leaf):
@@ -122,43 +135,67 @@ def _response(request, section, path):
             return HttpResponseRedirect(first_leaf.get_absolute_url())
 
         # the previous node is the last leaf, if one exists.
-        prev = _get_previous_leaf(first_leaf)
+        prev_page = _get_previous_leaf(first_leaf)
         next_page = first_leaf.get_next()
 
         # Is this section unlocked now?
-        can_access = _unlocked(first_leaf, request.user, prev, profile)
+        can_access = _unlocked(first_leaf, request.user, prev_page, profile)
         if can_access:
-            profile.save_last_location(request.path, first_leaf)
+            profile.set_has_visited([section])
 
         module = None
         if not first_leaf.is_root() and len(ancestors) > 1:
             module = ancestors[1]
 
-        # specify the leftnav parent up here.
-        leftnav = _get_left_parent(first_leaf)
+        allow_redo = False
+        needs_submit = first_leaf.needs_submit()
+        if needs_submit:
+            allow_redo = first_leaf.allow_redo()
 
-        return dict(section=first_leaf,
+        return dict(request=request,
+                    hierarchy=h,
+                    section=first_leaf,
                     accessible=can_access,
                     module=module,
                     root=ancestors[0],
-                    previous=prev,
+                    previous=prev_page,
                     next=next_page,
-                    depth=first_leaf.depth,
-                    request=request,
-                    leftnav=leftnav)
+                    needs_submit=needs_submit,
+                    allow_redo=allow_redo,
+                    is_submitted=first_leaf.submitted(request.user))
 
 
-@login_required
-def index(request):
+def create_profile(request):
+    """We actually dont need two views - can just return
+    a registration form for non Columbia ppl and a
+    QuickFixProfileForm for the Columbia ppl"""
+
     try:
-        profile = request.user.get_profile()
-        url = profile.last_location
+        user_profile = UserProfile.objects.get(user=request.user)
     except UserProfile.DoesNotExist:
-        url = INDEX_URL
+        user_profile = UserProfile(user=request.user)
 
-    return HttpResponseRedirect(url)
+    form = QuickFixProfileForm()
+    if request.method == 'POST':
+        form = QuickFixProfileForm(request.POST)
+        if form.is_valid():
+            user_profile.institute = form.data['institute']
+            user_profile.consent = True
+            user_profile.is_faculty = form.data['is_faculty']
+            user_profile.year_of_graduation = form.data['year_of_graduation']
+            user_profile.specialty = form.data['specialty']
+            user_profile.gender = form.data['gender']
+            user_profile.hispanic_latino = form.data['hispanic_latino']
+            user_profile.race = form.data['race']
+            user_profile.age = form.data['age']
+            user_profile.save()
+            return HttpResponseRedirect('/')
+    else:
+        form = QuickFixProfileForm()
 
-# templatetag
+    return render(request, 'main/create_profile.html', {
+        'form': form
+    })
 
 
 def accessible(section, user):
@@ -189,6 +226,10 @@ def clear_state(request):
     except UserProfile.DoesNotExist:
         pass
 
+    # clear visits & saved locations
+    UserLocation.objects.filter(user=request.user).delete()
+    UserPageVisit.objects.filter(user=request.user).delete()
+
     # clear quiz
     import quizblock
     quizblock.models.Submission.objects.filter(user=request.user).delete()
@@ -196,13 +237,10 @@ def clear_state(request):
     # clear prescription writing
     PrescriptionWritingActivityState.objects.filter(user=request.user).delete()
 
-    # clear treatment choices
-    TreatmentChoiceActivityState.objects.filter(user=request.user).delete()
-
     # clear virtual patient
     VirtualPatientActivityState.objects.filter(user=request.user).delete()
 
-    return HttpResponseRedirect(INDEX_URL)
+    return HttpResponseRedirect(reverse("index"))
 
 #####################################################################
 ## View Utility Methods
@@ -224,7 +262,7 @@ def _get_previous_leaf(section):
     # made it through without finding ourselves? weird.
     return None
 
-#UNLOCKED = ['welcome', 'resources']  # special cases
+UNLOCKED = ['resources']  # special cases
 
 
 def _unlocked(section, user, previous, profile):
@@ -241,7 +279,7 @@ def _unlocked(section, user, previous, profile):
 
     for p in previous.pageblock_set.all():
         if hasattr(p.block(), 'unlocked'):
-            if p.block().unlocked(user) is False:
+            if not p.block().unlocked(user):
                 return False
 
     if previous.slug in UNLOCKED:
@@ -254,21 +292,3 @@ def _unlocked(section, user, previous, profile):
         return False
 
     return profile.get_has_visited(previous)
-
-
-class CreateAccountForm(RegistrationForm):
-    '''This is a form class that will be used
-    to allow guest users to create guest accounts.'''
-    first_name = forms.CharField(
-        max_length=25, required=True, label="First Name")
-    last_name = forms.CharField(
-        max_length=25, required=True, label="Last Name")
-    username = forms.CharField(
-        max_length=25, required=True, label="Username")
-    password1 = forms.CharField(
-        max_length=25, widget=forms.PasswordInput, required=True,
-        label="Password")
-    password2 = forms.CharField(
-        max_length=25, widget=forms.PasswordInput, required=True,
-        label="Confirm Password")
-    email = forms.EmailField()

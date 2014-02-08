@@ -118,11 +118,59 @@ ol, ul
 }
 
 
-li
-{
-
+li {
 	margin: 0 0.25em .5em .25em;
+}
 
+.navbar.footer {
+    margin-top: 20px;
+}
+
+.navbar .nav>li {
+    margin: 0;
+}
+
+.navbar .nav>li>div {
+    float: none;
+    padding: 10px 15px 10px;
+    color: #777;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #fff;
+}
+
+ul.dropdown-menu.dropdown-menu-3 {
+    height: 503px;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+    -webkit-column-gap: 10px;
+    -moz-column-gap: 10px;
+    column-gap: 10px;
+}
+
+.dropdown .dropdown-menu .nav-header {
+    padding: 0;
+    padding-left: 10px;
+}
+
+
+.nav-header>ul {
+    z-index: 1000;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    list-style: none;
+    background-color: #fff;
+}
+
+.nav-header>ul>li>a {
+    display: block;
+    padding: 3px 10px;
+    clear: both;
+    font-weight: normal;
+    line-height: 20px;
+    color: #333;
+    white-space: nowrap;
 }
 
 
@@ -198,99 +246,10 @@ img, img a
 	background-color: #fff;
 }
 
-#header #logo_project
-{
-	display: block;
-	float: left;
-	width: 271px;
-	height: 100px;
-	overflow: hidden;
-	margin: 0;
-	padding: 0;
-	border: 0;
-}
 
-#header #logo_project a
-{
-	display: block;
-	width: 271px;
-	height: 94px;
-	margin: 0;
-	padding: 0;
-	border: 0;
-	background: transparent url('../img/logo_project.jpg') left center no-repeat;
-	float: left;
-}
-
-#header h4 
-
-{
-
-position: absolute;
-height:67px;
-width: 99%;
-min-width: 987px;
-top: 28px;
-left: 10px;
-display: block;
-
-
-}
-
-#header #logo_ccnmtl
-{
-	display: block;
-	float: right;
-	width: 180px;
-	height: 67px;
-	overflow: hidden;
-	/* margin: 34px 10px 0 0;*/
-	margin: 0;
-	padding: 0;
-	border: none;
-	background: transparent url('../img/logo_ccnmtl.gif') right top no-repeat;
-	margin-right: 10px;
-}
-
-#header #logo_dental
-{
-	display: block;
-	float: right;
-	width: 280px;
-	height: 67px;
-	overflow: hidden;
-	/* margin: 34px 10px 0 0;*/
-	margin: 0;
-	padding: 0;
-		border: none;
-	background: transparent url('../img/logo_ccnmtl.gif') left top no-repeat;
-}
-
-#header #logo_ccnmtl a
-{
-	display: block;
-	width: 180px;
-	height: 67px;
-	margin: 0;
-	padding: 0;
-	border: 0;
-}
-
-#header #logo_dental a
-{
-	display: block;
-	width: 280px;
-	height: 67px;
-	margin: 0;
-	padding: 0;
-	border: 0;
-}
-
-#header #logo_project span,
-#header #logo_ccnmtl span,
-#header #logo_dental span
-{
-	display: none;
+#header h4 {
+    height:67px;
+    float: right;
 }
 
 /* ---- Standard navigation block elements ---------- */
@@ -298,34 +257,40 @@ display: block;
 {
 	display: block;
 	float: right;
-	margin: 0 10px 10px 0;
-	padding: 0;
-	border: 0;
-	list-style: none;
+}
+
+
+#standardnav ul {
+    margin: 10px 10px 0 0;
+    float: right;
+    width: 300px;    
 }
 
 #standardnav li
 {
 	display: block;
-	float: left;
+	float: right;
 	margin: 0 0 0 0.5em;
 	padding:  0 0 0 0.5em;
 	border: 0;
 	font-size: 0.9em;
-	font-weight: bold;
 }
 
-#standardnav a
-{
+#standardnav a{
 	text-decoration: none;
 }
 
-#standardnav a:hover
-{
-
+#standardnav a:hover {
 }
 
 /* ---- Primary navigation block elements ---------- */
+/**
+body.fluid #primarynav,
+body.fluid #primarynav div.encase
+{
+    width: 100%;
+}
+
 #primarynav
 {
 	width: 900px;
@@ -395,6 +360,7 @@ display: block;
 	min-width: 60px;
 	text-align: center;
 	font-weight: bold;
+	z-index:1;
 }
 
 #primarynav li.disabled, #primarynav li.disabled:hover
@@ -437,6 +403,7 @@ display: block;
 #primarynav #usernav li a:hover
 {
 	color: #fff;
+	z-index:1;
 	
 }
 
@@ -457,6 +424,7 @@ display: block;
 {
 	float: left;
 }
+**/
 
  /* ---- Pagebody block elements ---------- */
 #pagebody
@@ -715,10 +683,6 @@ div#edit-blocks-tab div.row-fluid.odd {
     background-color: #f9f9f9;
 }
 
-ul.nav.pull-right {
-    float: right !important;
-}
-
 .mt-image-left
 {
 	float: left;
@@ -847,12 +811,6 @@ body.fluid
 
 }
 
-body.fluid #container
-{
-	margin: 0 10px;
-	width: auto;
-}
-
 /* ---- Header block elements ---------- */
 body.fluid #header
 {
@@ -863,13 +821,10 @@ body.fluid #subnav
 {
 	width: 100%;
 }
-
-
-/* ---- Delta block elements ---------- */
 body.fluid #primarynav,
 body.fluid #primarynav div.encase
 {
-	width: 100%;
+    width: 100%;
 }
 
 /* ---- Pagebody block elements ---------- */
@@ -878,68 +833,12 @@ body.fluid #pagebody
 	width: 100%;
 }
 
-/* ---- sidebar block elements ---------- */
-body.fluid #pagebody #sidebar_left {
-display:block;
-margin: 1em 1em 1em 10px;
-float: left;
-}
-
-
-body.fluid #pagebody #sidebar_left ul {
-	list-style: none;
-	font-size: 84%;
-	margin-left: 1em;
-	margin-bottom: 1.5em;
-	
-
-}
-
-body.fluid #pagebody #sidebar_left ul li{
-	padding: 5px;
-	border-bottom: 2px solid #fff;
-	background-color: #e1e1e1;
-	color: #333;
-	margin: 0;
-}
-
-body.fluid #pagebody #sidebar_left ul {
-	padding: 0px;
-	background-color: #fff;
-	color: #333;
-	margin: -5px 0 0 0;
-}
-
 li.reference{
     padding: 0px;
     background-color: #fff;
     color: #333;
     margin: -5px 0 10px 0;
 }
-
-
-body.fluid #pagebody #sidebar_left ul li.reference a{
- line-height: 20px;
-color: #84240A;
-}
-
-body.fluid #pagebody #sidebar_left ul li.reference a:hover{
-	text-decoration: underline;
-}
-
-body.fluid #pagebody #sidebar_left ul li a{
-	text-decoration: none;
-	color: #333;
-}
-
-body.fluid #pagebody #sidebar_left ul li.selected{
-
-	background-color: #333;
-	color: #fff;
-	font-weight: normal;
-}
-
-
 
 
 /* ---- Footer block elements ---------- */
@@ -992,7 +891,205 @@ float: left;
 	border: 0;
 }
 
-/* ---- Sub navigation block elements ---------- */
+
+
+#content .content-nav-block
+{
+	clear: both;
+	width: 100%;
+   height: 1.5em;
+
+}
+
+#content .content-nav
+{
+   height: 1.5em;
+   margin: 2em 0 0 0;
+   padding: 0.5em;
+   border: 0;
+   background-color: #dadada;
+   text-align: center;
+   font-size: 100%;
+   font-weight: bold;
+}
+
+#content .content-nav a, #content .content-nav div {
+	text-decoration: none;
+	color: #333;
+	font-size: 90%;
+	margin-top: -3px;
+}
+
+#content .content-nav a#previous, #content .content-nav div#prev_disabled
+{
+   display: block;
+   float: left;
+   width: auto;
+   white-space:nowrap;
+}
+
+#content .content-nav a#next, #content .content-nav div#next_disabled
+{
+  white-space:nowrap;
+  display: block;
+  float: right;
+  width: auto;
+}
+
+#content .content-nav div#next_disabled, #content .content-nav div#prev_disabled
+{  
+  background: #ca812e url('../img/bottom_button_bg_disabled.jpg') repeat-x;
+}
+
+#content .content-nav table, 
+#content .content-nav table tr, 
+#content .content-nav table tr td {
+	border: none; 
+	margin: 0; 
+	padding: 0;
+}
+
+.scrollable
+{
+   overflow:auto;
+}
+
+.invisible { display: none; }
+
+.cases {
+
+padding: 10px 10px 20px 10px;
+border: 1px solid #ccc;
+margin-bottom: 10px;
+}
+.casetitle {
+
+font-weight: bold;
+font-size: 110%;
+}
+
+.cases ol {
+
+margin-left: 35px;
+}
+
+.casesanswerdisplay {
+
+margin-top: 20px;
+display: block;
+
+}
+
+.answer {
+
+	padding: 10px;
+	border: 1px solid #ccc;
+	background-color: #dadada;
+
+}
+
+.moretoggle {
+
+
+	font-weight:bold;
+		background-color: #dadada;
+	padding: 10px;
+	display: inline;
+	width: 10em;
+
+}
+
+.casesanswerdisplay .toggleable {
+    background-color: #dadada;
+	padding: 20px;
+	margin-bottom:-10px;
+}
+
+#module_indicator {
+	border: 1px solid #ccc;
+	padding: 25px 5px 15px 5px;
+}
+
+#module_indicator ol {
+
+
+}
+
+#module_indicator ol li {
+
+float: left;
+margin: 0 1em 0 2.5em;
+}
+
+#module_indicator .header {
+
+float: left; 
+margin: -1.7em 0; 
+font-weight: bold; 
+color: green;
+
+}
+
+.thismodule {
+
+	border: 2px solid green;
+	float: left;
+	margin-top: -2px;
+
+}
+
+.caption  {
+
+margin-bottom: 1em;
+}
+
+.caption p {
+
+font-size: 80%;
+}
+
+#contact {
+    width: 425px;
+}    
+ 
+#contact .msg {
+    background-color: #CCCCCC;
+    font-size: 85%; 
+    font-weight: bold; 
+    padding-left: 5px;
+}
+
+#contact #contactform {
+    border: black solid 1px;
+    background-color: #F5E2C7; 
+    padding-top: 10px;
+}
+
+#contact #contactform td {
+    border: hidden;
+    padding: 5px;
+}
+
+#contact #contactform .text {
+    width: 250px;  
+    margin-right: 6px;  
+}
+
+#contact #contactform #description {
+    font: normal 0.88em/140% arial, helvetica, verdana, sans-serif;
+}
+
+#contact #contactform .labelcell {
+    text-align: right;
+    width: 150px;
+    vertical-align: top;
+}
+
+#contact #contactform .submitcell {
+    text-align: right;
+}
+
+
 #subnav
 {
    width: 900px;
@@ -1087,225 +1184,215 @@ float: left;
    text-decoration: none;
 }
 
-#content .content-nav-block
-{
-	clear: both;
-	width: 100%;
-   height: 1.5em;
-
+/* ---- sidebar block elements ---------- */
+body.fluid #pagebody #sidebar_left {
+display:block;
+margin: 1em 1em 1em 10px;
+float: left;
 }
 
 
-#content .content-nav
-{
-   height: 1.5em;
-   margin: 2em 0 0 0;
-   padding: 0.5em;
-   border: 0;
-   background-color: #dadada;
-   text-align: center;
-   font-size: 100%;
-   font-weight: bold;
+body.fluid #pagebody #sidebar_left ul {
+	list-style: none;
+	font-size: 84%;
+	margin-left: 1em;
+	margin-bottom: 1.5em;
+	
+
 }
 
-#content .content-nav a, #content .content-nav div
-{
-	background: #ca812e url('../img/bottom_button_bg.jpg') repeat-x;
-	padding: 3px 7px;
+body.fluid #pagebody #sidebar_left ul li{
+	padding: 5px;
+	border-bottom: 2px solid #fff;
+	background-color: #e1e1e1;
+	color: #333;
+	margin: 0;
+}
+
+body.fluid #pagebody #sidebar_left ul {
+	padding: 0px;
+	background-color: #fff;
+	color: #333;
+	margin: -5px 0 0 0;
+}
+
+body.fluid #pagebody #sidebar_left ul li.reference a{
+ line-height: 20px;
+color: #84240A;
+}
+
+body.fluid #pagebody #sidebar_left ul li.reference a:hover{
+	text-decoration: underline;
+}
+
+body.fluid #pagebody #sidebar_left ul li a{
 	text-decoration: none;
 	color: #333;
-	font-size: 90%;
-	margin-top: -3px;
 }
 
-#content .content-nav a#previous, #content .content-nav div#prev_disabled
-{
-   display: block;
-   float: left;
-   width: auto;
-   white-space:nowrap;
+body.fluid #pagebody #sidebar_left ul li.selected{
+
+	background-color: #333;
+	color: #fff;
+	font-weight: normal;
 }
 
-#content .content-nav a#next, #content .content-nav div#next_disabled
-{
-  white-space:nowrap;
-  display: block;
-  float: right;
-  width: auto;
-}
 
-#content .content-nav div#next_disabled, #content .content-nav div#prev_disabled
-{  
-  background: #ca812e url('../img/bottom_button_bg_disabled.jpg') repeat-x;
-}
-
-#content .content-nav table, 
-#content .content-nav table tr, 
-#content .content-nav table tr td {
-	border: none; 
-	margin: 0; 
-	padding: 0;
-}
-
-.scrollable
-{
-   overflow:auto;
-}
-
-.invisible { display: none; }
-
-.cases {
-
-padding: 10px 10px 20px 10px;
-border: 1px solid #ccc;
-margin-bottom: 10px;
-}
-.casetitle {
-
-font-weight: bold;
-font-size: 110%;
-}
-
-.cases ol {
-
-margin-left: 35px;
-}
-
-.casesanswerdisplay {
-
-margin-top: 20px;
-display: block;
-
-}
-
-.answer {
-
-	padding: 10px;
-	border: 1px solid #ccc;
-	background-color: #dadada;
-
-}
-
-.moretoggle {
-
-
-	font-weight:bold;
-		background-color: #dadada;
-	padding: 10px;
-	display: inline;
-	width: 10em;
-
-}
-
-.casesanswerdisplay .toggleable {
-    background-color: #dadada;
-	padding: 20px;
-	margin-bottom:-10px;
-}
-
-   
 #sidebar_left .disabled_link
 {
    color: #999;
 }
 
 
-a.reset_button {
+/** Treatment Choice Quizzes **/
 
-background-color:#DEDEDE;
-border:1px solid #CCCCCC;
-float:right;
-padding:3px;
+.generic-quiz .generic-feedback {
+    display: block;
 }
 
-#page_numbering {
-    width: auto;
-    background: none !important;
+.generic-quiz .personalized-feedback {
+    display: none;
 }
 
-#module_indicator {
-	border: 1px solid #ccc;
-	padding: 25px 5px 15px 5px;
+.generic-quiz .caseuserfeedback.top {
+    display: none;
 }
 
-#module_indicator ol {
-
-
+.generic-quiz .alert {
+    display: none;
 }
 
-#module_indicator ol li {
-
-float: left;
-margin: 0 1em 0 2.5em;
+div.quiz-results {
+    display: none;
 }
 
-#module_indicator .header {
-
-float: left; 
-margin: -1.7em 0; 
-font-weight: bold; 
-color: green;
-
+.treatment-choice-quiz div.quiz-results {
+    display: block;
 }
 
-.thismodule {
-
-	border: 2px solid green;
-	float: left;
-	margin-top: -2px;
-
+.treatment-choice-quiz ul {
+    list-style: none;
 }
 
-.caption  {
-
-margin-bottom: 1em;
+.treatment-choice-quiz div.cases {
+    float: left;
+    border: none;
+    margin-left: 50px;
+    padding: 0;
 }
 
-.caption p {
-
-font-size: 80%;
+.treatment-choice-quiz div.casetitle {
+    display: none;
 }
 
-#contact {
-    width: 425px;
-}    
- 
-#contact .msg {
-    background-color: #CCCCCC;
-    font-size: 85%; 
-    font-weight: bold; 
-    padding-left: 5px;
+.treatment-choice-quiz div.casequestion p {
+    font-weight: bold;
+    margin-top: 0;
 }
 
-#contact #contactform {
-    border: black solid 1px;
-    background-color: #F5E2C7; 
-    padding-top: 10px;
-}
-
-#contact #contactform td {
-    border: hidden;
-    padding: 5px;
-}
-
-#contact #contactform .text {
-    width: 250px;  
-    margin-right: 6px;  
-}
-
-#contact #contactform #description {
-    font: normal 0.88em/140% arial, helvetica, verdana, sans-serif;
-}
-
-#contact #contactform .labelcell {
-    text-align: right;
+.treatment-choice-quiz .smoker_quantity {
+    float: left;
+    height: 134px;
+    border: 1px solid #000;
+    margin-bottom: 1em;
+    text-align: center;
+    padding-top:23px;
     width: 150px;
-    vertical-align: top;
 }
 
-#contact #contactform .submitcell {
-    text-align: right;
+.treatment-choice-quiz .smoker_quantity .footer {
+    background-color: #333333;
+    color: white;
+    text-align: center;
+    vertical-align: bottom;
+    height: 34px;
+    font-size: 80%;
+}
+
+.multiple-video-quiz .cases,
+.single-video-quiz .cases {
+    border: 0;
+}
+
+.multiple-video-quiz .caseuserfeedback.bottom,
+.single-video-quiz .caseuserfeedback.bottom {
+    display: none;
 }
 
 
+.single-video-quiz .generic-feedback,
+.multiple-video-quiz .generic-feedback {
+    display: none;
+}
+
+.single-video-quiz .personalized-feedback,
+.multiple-video-quiz .personalized-feedback {
+    display: block;
+}
+
+.single-video-quiz .correct,
+.multiple-video-quiz .correct {
+    font-size: 120%;
+    color: #006600;
+    font-weight: bold;
+}
+
+.single-video-quiz .incorrect,
+.multiple-video-quiz .incorrect {
+    font-size: 120%;
+    color: #C00000;
+    font-weight: bold;
+}
+
+.single-video-quiz div.alert,
+.multiple-video-quiz div.alert {
+    width: 261px;
+    margin-bottom: 0;
+    border-radius: 0;
+    padding: 0px;
+    padding-left: 5px;  
+}
+
+.multiple-video-quiz .cases {
+    padding: 0;
+}
+
+.multiple-video-quiz .cases ol {
+    margin-left: 1.5em;
+}
+
+.multiple-video-quiz ol li {
+    margin-bottom: 25px;
+}
+
+.multiple-video-quiz div.answer-label {
+    width: 230px;
+    padding-left: 8px;
+    padding-bottom: 8px;
+    padding-right: 8px;
+    background-color: #f7f7f9;
+    border: 1px solid #e1e1e8;
+}
+
+.multiple-video-quiz div.alert {
+    width: 241px;
+}
+
+.multiple-video-quiz div.answer-video {
+    display: none;
+}
+
+.multiple-video-quiz div.quiz-video {
+    position: absolute;
+    left: 543px;
+    width: 480px;
+    height: 272px;
+}
+
+.single-video-quiz div.answer-video {
+    width: 100%;
+    background-color: #E1E1E1;
+    align: center;
+    border: 1px solid #ccc;
+}
 

@@ -12,12 +12,14 @@ class AccessibleNode(template.Node):
 
     def render(self, context):
         s = context[self.section]
-        r = context['request']
-        u = r.user
-        if section_accessible(s, u):
-            return self.nodelist_true.render(context)
-        else:
-            return self.nodelist_false.render(context)
+
+        if 'request' in context:
+            r = context['request']
+            u = r.user
+            if section_accessible(s, u):
+                return self.nodelist_true.render(context)
+
+        return self.nodelist_false.render(context)
 
 
 @register.tag('ifaccessible')
