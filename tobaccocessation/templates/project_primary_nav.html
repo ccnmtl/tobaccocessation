@@ -34,17 +34,26 @@
                         {{s.label}}
                         <ul>
                     {% else %}
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{s.label}}<b class="caret"></b></a>
-                        <ul class="dropdown-menu dropdown-menu-{{s_depth}}">
+                        <a href="#"
+                            class="dropdown-toggle {% ifaccessible s %}{% else %}grayout{%endifaccessible %}"
+                            data-toggle="dropdown">{{s.label}}
+                            {% ifequal s_depth 2 %}<b class="caret"></b>{% endifequal %}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-{{s_depth}} {{s_slug}}">
                     {% endifequal %}
                 {% else %}                    
-                   <li><a href="{{hierarchy.get_absolute_url}}{{s.id}}/">{{s.label}}</a>
-                    {% if s.next.depth < s_depth %}
-                        {% for lc in s.closing_children %}
-                            </ul>
-                        {% endfor %}
-                    {% endif %}
-               {% endif %}
+                    <li>
+                        {% ifaccessible s %}
+                            <a href="{{s.get_absolute_url}}">{{s.label}}</a>
+                        {% else %}
+                            <span>{{s.label}}</span>
+                        {% endifaccessible %}
+                        {% if s.next.depth < s_depth %}
+                            {% for lc in s.closing_children %}
+                                </ul>
+                            {% endfor %}
+                        {% endif %}
+                {% endif %}
            {% endwith %}{% endwith %}
            </li>
          {% endfor %}
@@ -64,7 +73,9 @@
                 {% else %}{% ifequal s.slug section.slug %}
                     active
                 {% endifequal %}{% endifequal %}">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{s.label}} <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    {{s.label}} <b class="caret"></b>
+                </a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ site.domain }}/main/media/pdf/TobaccoCessation_CourseGuide.pdf">Course Guide</a></li>
                     <li><a href="{{ site.domain }}/main/media/pdf/PharmacotherapyTable.pdf">Pharmacotherapy Guide</a></li>

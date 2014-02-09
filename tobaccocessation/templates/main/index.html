@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load accessible %}
 
 {% block extrahead %}
     {{ block.super }}
@@ -12,9 +13,6 @@
 
 {% block title %}Home{% endblock %}
 
-{% block primarynavtabs %}
-{% endblock %}
-                    
 {% block content %}
     <div class="landing-page">
         <h2>Welcome!</h2>
@@ -37,8 +35,8 @@
                 </li>
             {% endifequal %}   
             </ul>
-        </div>        
-        
+        </div>
+                        
         {% ifequal profile.role "pediatrics" %}
             @todo Pediatric Static Content 
         {% else %}{% ifequal profile.role "orthodontics" %}
@@ -46,9 +44,9 @@
         {% else %}{% ifequal profile.role "endodontics" %}
             @todo Endodontics Static Content
         {% else %}
-            {% with profile.last_location as section %}
+            {% with profile.last_location as last_location %}
                 {% ifequal profile.percent_complete 0 %}
-                    <a href="{{section.get_absolute_url}}" class="btn btn-primary">Begin the Course <i class="icon-arrow-right icon-white"></i></a>
+                    <a href="{{last_location.get_absolute_url}}" class="btn btn-primary">Begin the Course <i class="icon-arrow-right icon-white"></i></a>
                 {% else %}
                     <div class="course-progress">
                     <h3>Course Progress</h3>
@@ -56,33 +54,34 @@
                     <div class="progress progress-striped">
                         <div class="bar" style="width: {{profile.percent_complete}}%;"></div>
                     </div>
-                    <a href="{{section.get_absolute_url}}" class="btn pull-right">
+                    <a href="{{last_location.get_absolute_url}}" class="btn pull-right">
                         Continue <i class="icon-arrow-right"></i>
                     </a>
                     </div>
-
                 {% endifequal %}
+                
+                <h4>Table of Contents</h4>        
+                <ul class="toc">
+                {% for s in root.get_descendants %}
+                    <li class="menu" style="list-style: none; line-height: 150%">
+                        {% ifaccessible s %}                 
+                        <a href="{{s.get_absolute_url}}">
+                            {{s.label}}{% ifequal s last_location %} <i class="icon-hand-left"></i>{% endifequal %}
+                        </a>
+                        {% else %}
+                            <span class="disabled">{{s.label}}</span>
+                        {% endifaccessible %}
+                        {% if s.get_children %}
+                            <ul>
+                        {% else %}{% if s.is_last_child %}
+                            {% for lc in s.closing_children %}
+                                </ul>
+                            {% endfor %}
+                        {% endif %}{% endif %}     
+                     </li>
+                {% endfor %}
+                </ul>
             {% endwith %} 
         {% endifequal %}{% endifequal %}{% endifequal %}
-        
-        <p>
-        <h4>Table of Contents</h4>        
-        <ul>
-        {% for s in root.get_descendants %}                 
-            <li class="menu" style="list-style: none; line-height: 150%">
-                <a href="{{s.get_absolute_url}}">
-                    {{s.label}}{% ifequal s section %} <i class="icon-hand-left"></i>{% endifequal %}
-                </a>
-                {% if s.get_children %}
-                    <ul>
-                {% else %}{% if s.is_last_child %}
-                    {% for lc in s.closing_children %}
-                        </ul>
-                    {% endfor %}
-                {% endif %}{% endif %}     
-             </li>
-        {% endfor %}
-        </ul>
-        </p>
     </div> 
 {% endblock %}

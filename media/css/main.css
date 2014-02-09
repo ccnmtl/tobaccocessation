@@ -138,7 +138,7 @@ li {
     text-shadow: 0 1px 0 #fff;
 }
 
-ul.dropdown-menu.dropdown-menu-3 {
+ul.dropdown-menu.dropdown-menu-3.treatment-options {
     height: 503px;
     -webkit-column-count: 2;
     -moz-column-count: 2;
@@ -152,7 +152,6 @@ ul.dropdown-menu.dropdown-menu-3 {
     padding: 0;
     padding-left: 10px;
 }
-
 
 .nav-header>ul {
     z-index: 1000;
@@ -173,6 +172,29 @@ ul.dropdown-menu.dropdown-menu-3 {
     white-space: nowrap;
 }
 
+.dropdown-menu .grayout {
+    color: #999;
+}
+
+.dropdown-menu>li>span {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 20px;
+    color: #999;
+    white-space: nowrap;
+}
+
+.nav-header>ul>li>span {
+    display: block;
+    padding: 3px 10px;
+    clear: both;
+    font-weight: normal;
+    line-height: 20px;
+    color: #999;
+    white-space: nowrap;
+}
 
 a {
 	color: #84240a;
@@ -1244,15 +1266,21 @@ body.fluid #pagebody #sidebar_left ul li.selected{
 }
 
 /** Landing Page **/
+div.landing-page a.btn,
+div.landing-page a.btn:visited {
+    color: black;
+}
+
 div.landing-page a.btn-primary,
 div.landing-page a.btn-primary:visited {
     color: white;
 }
 
-div.landing-page a,
-div.landing-page a:visited {
-    color: black;
+
+div.landing-page span.disabled {
+    color: #999;
 }
+
 
 div.landing-page div.course-materials ul {
     margin-bottom: 50px;

@@ -41,7 +41,7 @@
 
 {% block primarynavtabs %}
     {% if user.is_authenticated %}
-        {% include "susans_new_project_primary_nav.html" %}
+        {% include "project_primary_nav.html" %}
     {% endif %}
 {% endblock %}
 
@@ -65,8 +65,12 @@
 
 {% block content %}
    {% if not accessible %}
-      <br />
-      This page is not currently accessible. Please complete your current section before moving onto a new section.
+      <div class="alert alert-error">
+          {% with profile.last_location as last_visited %}
+            <div><b>Error!</b></div>
+            <p>This page is not currently accessible. Please complete your current section before moving onto a new section.</p>
+          {% endwith %}
+      </div>
    {% else %}
         {% if needs_submit %}
             {% if is_submitted %}

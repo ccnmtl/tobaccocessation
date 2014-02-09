@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.db import models
-from pagetree.models import Section, Hierarchy, UserLocation, UserPageVisit
+from pagetree.models import Hierarchy, UserLocation, UserPageVisit
 from registration.forms import RegistrationForm
 from registration.signals import user_registered
 from tobaccocessation.main.choices import GENDER_CHOICES, FACULTY_CHOICES, \
@@ -84,10 +84,10 @@ class UserProfile(models.Model):
 
     def percent_complete(self):
         hierarchy = Hierarchy.get_hierarchy(self.role())
+        pages = len(hierarchy.get_root().get_descendants()) + 1
         visits = UserPageVisit.objects.filter(section__hierarchy=hierarchy)
-        sections = Section.objects.filter(hierarchy=hierarchy)
-        if len(sections) > 0:
-            return int(len(visits) / float(len(sections)) * 100)
+        if pages:
+            return int(len(visits) / float(pages) * 100)
         else:
             return 0
 
