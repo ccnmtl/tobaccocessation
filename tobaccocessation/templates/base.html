@@ -72,6 +72,7 @@
     		<div id="content">
     			<div id="squish"><!-- Don't touch this div -->
     				<div class="block">
+                        {% block breadcrumbs %}{% endblock %}
     					{% block pagetitle %}{% endblock %}
     				
     					{% block content %}{% endblock %}
@@ -79,10 +80,8 @@
         				<!-- ###### Don't touch this ###### -->
         				<div class="visualclear"></div><!-- id="visualclear" -->
     				
-    				
                         {% block contentnav %}
                         {% endblock %}
-                   				
     
     				</div><!-- class="block" -->
     			</div><!-- id="squish" -->

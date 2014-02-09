@@ -161,6 +161,7 @@ def _response(request, section):
             allow_redo = first_leaf.allow_redo()
 
         return dict(request=request,
+                    ancestors=ancestors,
                     profile=profile,
                     hierarchy=h,
                     section=first_leaf,

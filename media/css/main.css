@@ -215,6 +215,14 @@ img, img a
 	border: 0;
 }
 
+.breadcrumb {
+    margin-bottom: 0;
+}
+
+.breadcrumb>li {
+    margin: 0;
+}
+
 /* ########## Globally useful definitions ########## */
 
 /* ---- Block block elements ---------- */

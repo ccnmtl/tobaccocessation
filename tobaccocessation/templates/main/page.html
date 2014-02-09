@@ -63,6 +63,20 @@
     {% endif %}
 {% endblock %}
 
+{% block breadcrumbs %}
+    <ul class="breadcrumb">
+    {% for a in ancestors %}
+        {% ifnotequal a.label "Root" %}
+            <li>
+                <a href="{{a.get_absolute_url}}">{{a.label}}</a>
+                <span class="divider">/</span>
+            </li>
+        {% endifnotequal %}
+    {% endfor %}
+        <li class="active">{{section.label}}</li>
+    </ul>
+{% endblock %}
+
 {% block content %}
    {% if not accessible %}
       <div class="alert alert-error">
