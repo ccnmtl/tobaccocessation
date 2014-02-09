@@ -85,7 +85,8 @@ class UserProfile(models.Model):
     def percent_complete(self):
         hierarchy = Hierarchy.get_hierarchy(self.role())
         pages = len(hierarchy.get_root().get_descendants()) + 1
-        visits = UserPageVisit.objects.filter(section__hierarchy=hierarchy)
+        visits = UserPageVisit.objects.filter(user=self.user,
+                                              section__hierarchy=hierarchy)
         if pages:
             return int(len(visits) / float(pages) * 100)
         else:
