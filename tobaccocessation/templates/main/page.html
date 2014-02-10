@@ -50,11 +50,11 @@
          
         <!-- Everything you want hidden at 940px or less, place within here -->
         <div class="nav-collapse collapse">
-            {% if hierarchy.name != "resources" and hierarchy.name != "activities" %}
+            {% if hierarchy.name != "resources" and hierarchy.name != "faculty" %}
                 {% include "primary_nav.html" %}
             {% endif %}
             {% if profile.is_role_faculty or user.is_superuser %}
-                {% include "activities_nav.html" %}
+                {% include "faculty_nav.html" %}
             {% endif %}
             {% include "resources_nav.html" %}
         </div>
@@ -80,7 +80,7 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-{% if hierarchy.name != "resources" and hierarchy.name != "activities" %}
+{% if hierarchy.name != "resources" and hierarchy.name != "faculty" %}
     {% if section.depth > 3 %} 
         <ul class="breadcrumb">
             {% for a in ancestors %}

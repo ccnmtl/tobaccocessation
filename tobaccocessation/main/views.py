@@ -240,11 +240,11 @@ def _get_previous_leaf(section):
     return None
 
 UNLOCKED = ['resources',
-            'activities']  # special cases
+            'faculty']  # special cases
 
 
 def _unlocked(section, user, previous, profile):
-    if (section.hierarchy.name == 'activities' and (
+    if (section.hierarchy.name == 'faculty' and (
             not profile.is_faculty() and not user.is_staff)):
         return False
 
