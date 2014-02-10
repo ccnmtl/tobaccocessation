@@ -1,18 +1,33 @@
+{% load prescription_state %}
+
+{% getprescription block as prescription %}
+
 <input id='medication_name' name='medication_name' type='hidden' value='{{ block.medication.0.name }}'/>
 
-{% if not block.show_correct %}
+{% if not prescription.complete %}
     <h5>Fill out the prescription form below, then click Prescription Results to continue.</h5>
 {% endif %}
     
 {% ifequal block.medication.0.rx_count 1 %}
-
     <div id="blankrx">
-       <input class="required_field" id="dosage" name='dosage' type='text' onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
-       <input class="required_field" id="disp" type="text" onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
-       <textarea class="required_field" cols="25" id="sig" onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}>{{sig}}</textarea><br />
-       <input class="required_field" id="refills" type="text" maxlength="1" onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
+       <input id="dosage" class="required_field" name='pageblock-{{block.pageblock.id}}-dosage'
+        type='text' onkeyup="onEditChange(this)" value="{{prescription.dosage}}"
+        {% if prescription.dosage %} readonly="readonly" {% endif %}></input><br />
+        
+       <input id="disp" class="required_field" name="pageblock-{{block.pageblock.id}}-disp"
+        type="text" onkeyup="onEditChange(this)" value="{{prescription.disp}}"
+        {% if prescription.disp %} readonly="readonly" {% endif %}></input><br />
+        
+       <textarea id="sig" class="required_field" cols="25" name="pageblock-{{block.pageblock.id}}-sig"
+            onkeyup="onEditChange(this)"
+            {% if prescription.sig %} readonly="readonly" {% endif %}>{{prescription.sig}}</textarea><br />
+        
+       <input id="refills" class="required_field" name="pageblock-{{block.pageblock.id}}-refills"
+        type="text" maxlength="1" value="{{prescription.refills}}"        
+        onkeyup="onEditChange(this)"
+        {% if prescription.refills %} readonly="readonly" {% endif %}></input><br />
        
-        {% if block.show_correct %}
+        {% if prescription.complete %}
           <div id="feedback">
               <div id="answer_container">
                   <div id="dosage_correct" class="correct_answer">
@@ -24,8 +39,7 @@
                   <div id="sig_correct" class="correct_answer">
                       {{block.medication.0.signature}}
                   </div> 
-                  <div id="refills_correct" class="correct_answer">
-                      
+                  <div id="refills_correct" class="correct_answer">                      
                       {{block.medication.0.refills}} Refills
                   </div>
              </div>
@@ -39,72 +53,84 @@
    </div>    
 {% else %}
     <div id="blankrx">
-      <div id="rx_fields1">
-      <input id="dosage" type='text' onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
-       <input id="disp" type="text" onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
-       <textarea id="sig" rows="3" cols="18" onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}>{{sig}}</textarea><br />
-       <input id="refills" type="text" maxlength="1" onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
-       </div>
-       <div id="rx_fields2">  
-       <input id="dosage_2" type='text' onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
-       <input id="disp_2" type="text" onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
-       <textarea id="sig_2" rows="3" cols="18" onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}>{{sig_2}}</textarea><br />
-       <input id="refills_2" type="text" maxlength="1" onkeyup="onEditChange(this)" {% if block.show_correct %} readonly="readonly" {% endif %}></input><br />
-       </div>
-      {% if block.show_correct %}
-     <div id="feedback">
-      <div id="answer_container1">
-     <div id="dosage_correct" class="correct_answer">
-         
-              {{block.medication.0.name}}, {{block.medication.0.dosage}}
-          </div>
-       
-           <div id="disp_correct" class="correct_answer">
-           
-                  {{block.medication.0.dispensing}}
-           </div>
+        <div id="rx_fields1">
+            <input id="dosage" class="required_field" name='pageblock-{{block.pageblock.id}}-dosage'
+             type='text' onkeyup="onEditChange(this)" value="{{prescription.dosage}}"
+                {% if prescription.complete %} readonly="readonly" {% endif %}></input><br />
             
-           <div id="sig_correct" class="correct_answer">
+            <input id="disp" class="required_field" name="pageblock-{{block.pageblock.id}}-disp"
+                type="text" onkeyup="onEditChange(this)" value="{{prescription.disp}}"
+                {% if prescription.complete %} readonly="readonly" {% endif %}></input><br />
             
-              {{block.medication.0.signature}}
-           </div> 
-           
-           <div id="refills_correct" class="correct_answer">
+            <textarea id="sig" class="required_field" cols="25" name="pageblock-{{block.pageblock.id}}-sig"
+                    onkeyup="onEditChange(this)" {% if prescription.complete %}
+                    readonly="readonly" {% endif %}>{{prescription.sig}}</textarea><br />
             
-              {{block.medication.0.refills}}
-           </div> 
-         </div>
-          <div id="answer_container2">
-         <div id="dosage_2_correct" class="correct_answer">
-         
-              {{block.medication.1.name}}, {{block.medication.1.dosage}}
-          </div>
-          
-           <div id="disp_2_correct" class="correct_answer">
-             
-                  {{block.medication.1.dispensing}}
-           </div>
-           
-            <div id="sig_2_correct" class="correct_answer">
-            
-              {{block.medication.1.signature}}
-           </div> 
-           
-           <div id="refills_2_correct" class="correct_answer">
-            
-              {{block.medication.1.refills}}
-           </div> 
-           </div>
-           <div id="callout_container">
-           <div id="dosage_callout" style="{{ block.display }}" class="callout">{{block.medication.1.dosage_callout}}</div>       
-              
-           <div id="disp_callout"  style="{{ block.display }}" class="callout">{{block.medication.1.dispensing_callout}}</div>
-           
-           <div id="refills_callout" style="{{ block.display }}" class="callout">{{block.medication.1.refills_callout}}</div>
-           </div>
+            <input id="refills" class="required_field" name="pageblock-{{block.pageblock.id}}-refills"
+                type="text" maxlength="1" value="{{prescription.refills}}"        
+                onkeyup="onEditChange(this)" {% if prescription.complete %} readonly="readonly" {% endif %}></input><br />
         </div>
+         <div id="rx_fields2">  
+            <input id="dosage_2" class="required_field" name='pageblock-{{block.pageblock.id}}-dosage_2'
+             type='text' onkeyup="onEditChange(this)" value="{{prescription.dosage_2}}"
+                {% if prescription.complete %} readonly="readonly" {% endif %}></input><br />
+            
+            <input id="disp_2" class="required_field" name="pageblock-{{block.pageblock.id}}-disp_2"
+                type="text" onkeyup="onEditChange(this)" value="{{prescription.disp_2}}"
+                {% if prescription.complete %} readonly="readonly" {% endif %}></input><br />
+            
+            <textarea id="sig_2" class="required_field" cols="25" name="pageblock-{{block.pageblock.id}}-sig_2"
+                    onkeyup="onEditChange(this)" {% if prescription.complete %}
+                    readonly="readonly" {% endif %}>{{prescription.sig_2}}</textarea><br />
+            
+            <input id="refills_2" class="required_field" name="pageblock-{{block.pageblock.id}}-refills_2"
+                type="text" maxlength="1" value="{{prescription.refills_2}}"        
+                onkeyup="onEditChange(this)" {% if prescription.complete %} readonly="readonly" {% endif %}></input><br />
+        </div>
+    
+        {% if prescription.complete %}
+            <div id="feedback">
+                <div id="answer_container1">
+                    <div id="dosage_correct" class="correct_answer">
+                        {{block.medication.0.name}}, {{block.medication.0.dosage}}
+                    </div>
+       
+                    <div id="disp_correct" class="correct_answer">
+                          {{block.medication.0.dispensing}}
+                    </div>
+                    
+                    <div id="sig_correct" class="correct_answer">
+                      {{block.medication.0.signature}}
+                    </div> 
+                    
+                    <div id="refills_correct" class="correct_answer">
+                      {{block.medication.0.refills}}
+                    </div> 
+                </div>
+                <div id="answer_container2">
+                    <div id="dosage_2_correct" class="correct_answer">
+                        {{block.medication.1.name}}, {{block.medication.1.dosage}}
+                    </div>
+          
+                    <div id="disp_2_correct" class="correct_answer">
+                          {{block.medication.1.dispensing}}
+                    </div>
+                   
+                    <div id="sig_2_correct" class="correct_answer">
+                      {{block.medication.1.signature}}
+                    </div> 
+                   
+                    <div id="refills_2_correct" class="correct_answer">
+                      {{block.medication.1.refills}}
+                    </div> 
+                </div>
+           
+                <div id="callout_container">
+                   <div id="dosage_callout" style="{{ block.display }}" class="callout">{{block.medication.1.dosage_callout}}</div>       
+                   <div id="disp_callout"  style="{{ block.display }}" class="callout">{{block.medication.1.dispensing_callout}}</div>
+                   <div id="refills_callout" style="{{ block.display }}" class="callout">{{block.medication.1.refills_callout}}</div>
+               </div>
+           </div>
         {% endif %}       
    </div>
-   <br />
-   <br />    
 {% endifequal %}

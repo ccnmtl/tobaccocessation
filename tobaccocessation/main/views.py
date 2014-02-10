@@ -11,7 +11,6 @@ from tobaccocessation.activity_prescription_writing.models import \
 from tobaccocessation.activity_virtual_patient.models import \
     ActivityState as VirtualPatientActivityState
 from tobaccocessation.main.models import QuickFixProfileForm, UserProfile
-UNLOCKED = ['resources']  # special cases
 
 
 class rendered_with(object):
@@ -53,65 +52,20 @@ def index(request):
         return HttpResponseRedirect(reverse('create_profile'))
 
 
-def _edit_response(request, section):
+@user_passes_test(lambda u: u.is_staff)
+@rendered_with('main/edit_page.html')
+def edit_page(request, hierarchy, path):
+    section = get_section_from_path(path, hierarchy)
     return dict(section=section,
                 hierarchy=section.hierarchy,
                 module=get_module(section),
                 root=section.hierarchy.get_root())
 
 
-@user_passes_test(lambda u: u.is_staff)
-@rendered_with('main/edit_page.html')
-def edit_page(request, hierarchy, path):
-    section = get_section_from_path(path, hierarchy)
-    return _edit_response(request, section)
-
-
-@user_passes_test(lambda u: u.is_staff)
-def edit_page_by_id(request, hierarchy, section_id):
-    section = Section.objects.get(id=section_id)
-    return HttpResponseRedirect(section.get_edit_url())
-
-
-@user_passes_test(lambda u: u.is_staff)
-@rendered_with('main/edit_page.html')
-def edit_resources(request, path):
-    section = get_section_from_path(path, "resources")
-    return _edit_response(request, section, path)
-
-
 @login_required
 @rendered_with('main/page.html')
 def page(request, hierarchy, path):
     section = get_section_from_path(path, hierarchy)
-    return _response(request, section)
-
-
-@login_required
-@rendered_with('main/page.html')
-def page_by_id(request, hierarchy, section_id):
-    section = Section.objects.get(id=section_id)
-    return HttpResponseRedirect(section.get_absolute_url())
-
-
-@login_required
-@rendered_with('main/page.html')
-def resources(request, path):
-    section = get_section_from_path(path, "resources")
-    return _response(request, section)
-
-
-def _get_left_parent(first_leaf):
-    leftnav = first_leaf
-    if first_leaf.depth == 4:
-        leftnav = first_leaf.get_parent()
-    elif first_leaf.depth == 5:
-        leftnav = first_leaf.get_parent().get_parent()
-    return leftnav
-
-
-@rendered_with('main/page.html')
-def _response(request, section):
     h = section.hierarchy
     if request.method == "POST":
         # user has submitted a form. deal with it
@@ -165,7 +119,7 @@ def _response(request, section):
                     profile=profile,
                     hierarchy=h,
                     section=first_leaf,
-                    accessible=can_access,
+                    can_access=can_access,
                     module=module,
                     root=ancestors[0],
                     previous=prev_page,
@@ -285,10 +239,15 @@ def _get_previous_leaf(section):
     # made it through without finding ourselves? weird.
     return None
 
-UNLOCKED = ['resources']  # special cases
+UNLOCKED = ['resources',
+            'activities']  # special cases
 
 
 def _unlocked(section, user, previous, profile):
+    if (section.hierarchy.name == 'activities' and (
+            not profile.is_faculty() and not user.is_staff)):
+        return False
+
     """ if the user can proceed past this section """
     if (not section or
         section.is_root() or

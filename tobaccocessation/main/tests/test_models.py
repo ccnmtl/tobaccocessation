@@ -2,8 +2,6 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from pagetree.models import Hierarchy, Section
 from tobaccocessation.main.models import UserProfile
-from tobaccocessation.activity_prescription_writing.models import Medication, \
-    Block
 
 
 class UserProfileTest(TestCase):
@@ -95,21 +93,24 @@ class UserProfileTest(TestCase):
 
         self.assertEquals(0, profile.percent_complete())
 
-    def test_is_student(self):
+    def test_is_role_student(self):
         user = User.objects.get(username='test_student')
         profile = UserProfile.objects.get(user=user)
 
         profile.is_faculty = 'FA'
         profile.save()
-        self.assertFalse(profile.is_student())
+        self.assertFalse(profile.is_role_student())
+        self.assertTrue(profile.is_role_faculty())
 
         profile.is_faculty = 'OT'
         profile.save()
-        self.assertFalse(profile.is_student())
+        self.assertFalse(profile.is_role_student())
+        self.assertFalse(profile.is_role_faculty())
 
         profile.is_faculty = 'ST'
         profile.save()
-        self.assertTrue(profile.is_student())
+        self.assertTrue(profile.is_role_student())
+        self.assertFalse(profile.is_role_faculty())
 
     def test_default_role(self):
         user = User.objects.get(username='test_student')
@@ -165,82 +166,3 @@ class UserProfileTest(TestCase):
         profile.specialty = 'S10'  # Dental Public Health
         profile.save()
         self.assertEquals(profile.role(), "main")
-
-
-class TestModelsOther(TestCase):
-    def setUp(self):
-        self.block = Block()
-        self.block.save()
-
-    def test_block_submit_false(self):
-        self.assertEquals(self.block.needs_submit(), False)
-
-    def test_block_edit_form(self):
-        self.form_test = self.block.edit_form()
-        self.assertIsNotNone(self.form_test)
-
-    def test_block_add_form(self):
-        self.add_form_test = self.block.add_form()
-        self.assertIsNotNone(self.add_form_test)
-
-
-    # def test_block_create(self):
-    #     c = Client()
-    #     self.request = c.post('/some_page/', {
-    #         'medication_name': 'medication name', 'show_correct': False})
-    #     self.block_create = self.block.create(self.request)
-    #     self.assertIsNotNone(self.block_create)
-
-
-class TestModelsNoUser(TestCase):
-    def setUp(self):
-        self.medication = Medication(name="medication name", refills=2,
-                                     sort_order=2, rx_count=1)
-        self.medication.save()
-        self.block = Block(medication_name="block medication")
-        self.block.save()
-
-    def test_medication(self):
-        self.assertEquals("medication name", unicode(self.medication))
-
-    def test_block_submit_false(self):
-        self.assertEquals(self.block.needs_submit(), False)
-
-    def test_block_edit_form(self):
-        self.form_test = self.block.edit_form()
-        self.assertIsNotNone(self.form_test)
-
-    def test_block_add_form(self):
-        self.add_form_test = self.block.add_form()
-        self.assertIsNotNone(self.add_form_test)
-
-    def test_block_medication_method(self):
-        self.test_medication = self.block.medication()
-        self.assertIsNotNone(self.test_medication)
-
-
-class TestModelsMedBlock(TestCase):
-    def setUp(self):
-        self.medication = Medication(name="medication name", refills=2,
-                                     sort_order=2, rx_count=1)
-        self.medication.save()
-        self.block = Block(medication_name="block medication")
-        self.block.save()
-
-    def test_medication(self):
-        self.assertEquals("medication name", unicode(self.medication))
-
-    def test_block_submit_false(self):
-        self.assertEquals(self.block.needs_submit(), False)
-
-    def test_block_edit_form(self):
-        self.form_test = self.block.edit_form()
-        self.assertIsNotNone(self.form_test)
-
-    def test_block_add_form(self):
-        self.add_form_test = self.block.add_form()
-        self.assertIsNotNone(self.add_form_test)
-
-    def test_block_medication_method(self):
-        self.test_medication = self.block.medication()
-        self.assertIsNotNone(self.test_medication)

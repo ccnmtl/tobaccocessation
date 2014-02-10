@@ -2,8 +2,6 @@ from django.contrib.auth.models import User
 from django.test import TestCase, RequestFactory
 from django.test.client import Client
 from pagetree.models import Hierarchy, Section
-from tobaccocessation.activity_prescription_writing.views import loadstate, \
-    savestate
 from tobaccocessation.main.models import UserProfile
 
 
@@ -127,48 +125,3 @@ class TestViews(TestCase):
         self.assertEquals(self.response.templates[0].name,
                           "main/index.html")
         self.assertEquals(len(self.response.redirect_chain), 0)
-
-
-class TestOtherSimpleViews(TestCase):
-    '''Made this extra class to avoid name space collisions with
-    treatment choice loadstate and savestate.'''
-    def setUp(self):
-        self.c = Client()
-        self.factory = RequestFactory()
-        self.user = User.objects.create_user('test_student',
-                                             'test@ccnmtl.com',
-                                             'testpassword')
-        self.user.save()
-
-        self.hierarchy = Hierarchy(name="main", base_url="/")
-        self.hierarchy.save()
-
-        root = Section.add_root(label="Root", slug="",
-                                hierarchy=self.hierarchy)
-
-        root.append_child("Section 1", "section-1")
-        root.append_child("Section 2", "section-2")
-
-        self.section1 = Section.objects.get(slug="section-1")
-        self.section2 = Section.objects.get(slug="section-2")
-
-        self.staff = User.objects.create_user('test_staff',
-                                              'test@ccnmtl.com',
-                                              'staffpassword')
-        self.staff.save()
-
-    def tearDown(self):
-        self.user.delete()
-
-    def test_prescription_writing_load_state(self):
-        request = self.factory.get('/activity/prescription/load/')
-        request.user = self.user
-        response = loadstate(request)
-        self.assertEqual(response.status_code, 200)
-
-    def test_prescription_writing_save_state(self):
-        request = self.factory.post('/activity/prescription/save/',
-                                    {"json": '{"key": "value"}'})
-        request.user = self.user
-        response = savestate(request)
-        self.assertEqual(response.status_code, 200)

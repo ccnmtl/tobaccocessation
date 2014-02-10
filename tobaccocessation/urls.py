@@ -71,18 +71,6 @@ urlpatterns += patterns(
 
     (r'^pagetree/', include('pagetree.urls')),
 
-    # resources path -- content that's open by default
-    (r'^resources/edit/(?P<path>.*)$',
-     'tobaccocessation.main.views.edit_resources'),
-    (r'^resources/(?P<path>.*)$',
-     'tobaccocessation.main.views.resources'),
-
-    # very important that this stays last and in this order
-    (r'^pages/(?P<hierarchy>\w+)/edit/(?P<section_id>\d+)/$',
-     'tobaccocessation.main.views.edit_page_by_id'),
-    (r'^pages/(?P<hierarchy>\w+)/(?P<section_id>\d+)/$',
-     'tobaccocessation.main.views.page_by_id'),
-
     (r'^pages/(?P<hierarchy>\w+)/edit/(?P<path>.*)$',
      'tobaccocessation.main.views.edit_page'),
     (r'^pages/(?P<hierarchy>\w+)/(?P<path>.*)$',

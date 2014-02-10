@@ -39,11 +39,14 @@ class UserProfile(models.Model):
     def has_consented(self):
         return self.consent
 
-    def is_student(self):
+    def is_role_student(self):
         return self.is_faculty == 'ST'
 
+    def is_role_faculty(self):
+        return self.is_faculty == 'FA'
+
     def role(self):
-        if (self.is_student() or
+        if (self.is_role_student() or
             self.specialty in ['S2', 'S9', 'S10'] or
                 self.specialty is None):
             # Pre-Doctoral Student, Other, Dental Public Health

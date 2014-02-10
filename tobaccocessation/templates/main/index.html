@@ -26,6 +26,11 @@
         <div class="nav-collapse collapse">
             {% include "resources_nav.html" %}
         </div>
+        
+        {% if profile.is_role_faculty or user.is_staff %}
+            {% include "activities_nav.html" %}
+        {% endif %}
+        
     {% endif %}
 {% endblock %}
 
@@ -43,13 +48,13 @@
                     <i class="icon-download"></i>
                     </a>
                 </li>
-                {% ifequal profile.is_faculty "FA" %}
-                <li>Download Faculty Guide&nbsp;&nbsp;
-                    <a href="#" target="_blank" class="btn">
-                        <i class="icon-download"></i>
-                    </a>
-                </li>
-            {% endifequal %}   
+                {% if profile.is_role_faculty or user.is_staff %}
+                    <li>Download Faculty Guide&nbsp;&nbsp;
+                        <a href="#" target="_blank" class="btn">
+                            <i class="icon-download"></i>
+                        </a>
+                    </li>
+                {% endif %}   
             </ul>
         </div>
                         
@@ -97,7 +102,7 @@
                      </li>
                 {% endfor %}
                 </ul>
-            {% endwith %} 
+            {% endwith %}
         {% endifequal %}{% endifequal %}{% endifequal %}
     </div> 
 {% endblock %}

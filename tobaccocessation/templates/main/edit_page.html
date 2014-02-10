@@ -123,7 +123,7 @@
             <ul>
                 {% for s in root.get_descendants %}                 
                     <li class="menu" style="list-style: none; line-height: 150%">
-                        <a href="{{hierarchy.get_absolute_url}}edit/{{s.id}}/">
+                        <a href="{{s.get_edit_url}}">
                             {{s.label}}{% ifequal s section %} <i class="icon-hand-left"></i>{% endifequal %}
                         </a>
                         {% if s.get_children %}

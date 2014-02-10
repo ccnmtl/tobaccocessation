@@ -5,7 +5,7 @@
     downloadable resources + navigation to child sections.
 {% endcomment %}  
 {% getroot resources as root %} 
-{% with root.get_children.0 as s %}                   
+{% with root.get_children.0 as s %}             
     <ul class="nav pull-right">
         <li class="dropdown
             {% ifequal s.slug module.slug %}
@@ -21,9 +21,9 @@
                 <li><a href="{{ site.domain }}/main/media/pdf/PharmacotherapyTable.pdf">Pharmacotherapy Guide</a></li>
                 <li><a href="{{ site.domain }}/main/media/pdf/CDM_Excuses_NotQuitting.pdf">Excuses For Not Quiting</a></li>
                 <li><a href="{{ site.domain }}/main/media/pdf/CDM_Examples_Empathy.pdf">Examples of Empathy</a></li>
-                <li><a href="/resources/">Videos</a></li>
+                <li><a href="/pages/resources/public/videos/">Videos</a></li>
                 <li class="divider"></li>
-                <li><a href="/resources/">External Resources</a></li>              
+                <li><a href="/pages/resources/public/external/">External Resources</a></li>              
             </ul>
       </li>
     </ul>

@@ -50,9 +50,12 @@
          
         <!-- Everything you want hidden at 940px or less, place within here -->
         <div class="nav-collapse collapse">
-            {% ifnotequal hierarchy.name "resources" %}
+            {% if hierarchy.name != "resources" and hierarchy.name != "activities" %}
                 {% include "primary_nav.html" %}
-            {% endifnotequal %}
+            {% endif %}
+            {% if profile.is_role_faculty or user.is_superuser %}
+                {% include "activities_nav.html" %}
+            {% endif %}
             {% include "resources_nav.html" %}
         </div>
     {% endif %}
@@ -77,30 +80,32 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    {% ifnotequal hierarchy.name "resources" %}
-        {% if section.depth > 3 %} 
-            <ul class="breadcrumb">
-                {% for a in ancestors %}
-                    {% if a.depth > 2 %}
-                        <li>
-                            <a href="{{a.get_absolute_url}}">{{a.label}}</a>
-                            <span class="divider">/</span>
-                        </li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-       {% endif %}
-    {% endifnotequal %}
+{% if hierarchy.name != "resources" and hierarchy.name != "activities" %}
+    {% if section.depth > 3 %} 
+        <ul class="breadcrumb">
+            {% for a in ancestors %}
+                {% if a.depth > 2 %}
+                    <li>
+                        <a href="{{a.get_absolute_url}}">{{a.label}}</a>
+                        <span class="divider">/</span>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+   {% endif %}
+{% endif %}
 {% endblock %}
 
 {% block content %}
-   {% if not accessible %}
-      <div class="alert alert-error">
-          {% with profile.last_location as last_visited %}
-            <div><b>Error!</b></div>
-            <p>This page is not currently accessible. Please complete your current section before moving onto a new section.</p>
-          {% endwith %}
-      </div>
+   {% if not can_access %}
+        <div class="alert alert-error">
+            {% with profile.last_location as last_visited %}
+                <p>
+                    <b>Error!</b> This page is not available.
+                </p>                    
+                <a class="btn" href="/">Home</a>
+            {% endwith %}
+        </div>
    {% else %}
         {% if needs_submit %}
             {% if is_submitted %}
@@ -143,39 +148,40 @@
 
 
 {% block contentnav %}
-    <div class="navbar footer">
-        <div class="navbar-inner">
-            {% if previous %}
-            <ul class="nav">
-                <li>
-                    {% ifaccessible previous %}
-                        <a href="{{previous.get_absolute_url}}" id="previous">« {{previous.label}}</a>
-                    {% else %}
-                        <div id="prev_disabled">« {{previous.label}}<img align="top" src="/site_media/img/lock.png"/></div>
-                    {% endifaccessible %}
-                </li>
-            </ul>
-            {% endif %}
+    {% if can_access %}    
+        <div class="navbar footer">
+            <div class="navbar-inner">
+                {% if previous %}
+                <ul class="nav">
+                    <li>
+                        {% ifaccessible previous %}
+                            <a href="{{previous.get_absolute_url}}" id="previous">« {{previous.label}}</a>
+                        {% else %}
+                            <div id="prev_disabled">« {{previous.label}}<img align="top" src="/site_media/img/lock.png"/></div>
+                        {% endifaccessible %}
+                    </li>
+                </ul>
+                {% endif %}
+            
+                {% if next %}
+                <ul class="nav pull-right">
+                    <li>
+                         <!-- added to allow javascript access to the menu links. hack for the js activities enabling/disabling of links -->
+                         <input type="hidden" id="next_section_slug" name="next_section_slug" value="{{next.slug}}"/>
+                         {% ifaccessible next %}
+                            <a href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
+                            <div style="display: none;" id="next_disabled">{{next.label}} <img align="top" src="/site_media/img/lock.png" alt="locked"/></div>
+                         {% else %}
+                            <a style="display: none" href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
+                            <div id="next_disabled" title="You must complete the activities on this page before continuing.">
+                                <img align="top" src="/site_media/img/lock.png" alt="locked"/> {{next.label}} »
+                            </div>
+                         {% endifaccessible %}            
+                    </li>
+                </ul>
+                {% endif %}
         
-            {% if next %}
-            <ul class="nav pull-right">
-                <li>
-                     <!-- added to allow javascript access to the menu links. hack for the js activities enabling/disabling of links -->
-                     <input type="hidden" id="next_section_slug" name="next_section_slug" value="{{next.slug}}"/>
-                     {% ifaccessible next %}
-                        <a href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
-                        <div style="display: none;" id="next_disabled">{{next.label}} <img align="top" src="/site_media/img/lock.png" alt="locked"/></div>
-                     {% else %}
-                        <a style="display: none" href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
-                        <div id="next_disabled" title="You must complete the activities on this page before continuing.">
-                            <img align="top" src="/site_media/img/lock.png" alt="locked"/> {{next.label}} »
-                        </div>
-                     {% endifaccessible %}            
-                </li>
-            </ul>
-            {% endif %}
-    
+            </div>
         </div>
-    </div>
-    
+    {% endif %}    
 {% endblock %}

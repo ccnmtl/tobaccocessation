@@ -1,6 +1,11 @@
-{% load accessible %}
+{% load getroot %}
 
-<ul class="nav">    
+{% comment %}
+    ACTIVITIES - Standalone access to activities. faculty & superusers only
+{% endcomment %}  
+{% getroot activities as root %} 
+
+<ul class="nav pull-right">
     {% with section.slug as section_slug %}
     {% for s in root.get_descendants %}
         {% with s.depth as s_depth %}
@@ -25,7 +30,7 @@
                     <ul>
                 {% else %}
                     <a href="#"
-                        class="dropdown-toggle {% ifaccessible s %}{% else %}grayout{%endifaccessible %}"
+                        class="dropdown-toggle"
                         data-toggle="dropdown">{{s.label}}
                         {% ifequal s_depth 2 %}<b class="caret"></b>{% endifequal %}
                     </a>
@@ -33,11 +38,7 @@
                 {% endifequal %}
             {% else %}                    
                 <li>
-                    {% ifaccessible s %}
-                        <a href="{{s.get_absolute_url}}">{{s.label}}</a>
-                    {% else %}
-                        <span>{{s.label}}</span>
-                    {% endifaccessible %}
+                    <a href="{{s.get_absolute_url}}">{{s.label}}</a>
                     {% if s.next.depth < s_depth %}
                         {% for lc in s.closing_children %}
                             </ul>
