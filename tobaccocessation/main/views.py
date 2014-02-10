@@ -144,7 +144,7 @@ def _response(request, section):
 
         # the previous node is the last leaf, if one exists.
         prev_page = _get_previous_leaf(first_leaf)
-        next_page = first_leaf.get_next()
+        next_page = _get_next(first_leaf)
 
         # Is this section unlocked now?
         can_access = _unlocked(first_leaf, request.user, prev_page, profile)
@@ -254,6 +254,19 @@ def clear_state(request):
 
 #####################################################################
 ## View Utility Methods
+
+
+def _get_next(section):
+    # next node in the depth-first traversal
+    depth_first_traversal = Section.get_annotated_list(section.get_root())
+    for (i, (s, ai)) in enumerate(depth_first_traversal):
+        if s.id == section.id:
+            if i < len(depth_first_traversal) - 1:
+                return depth_first_traversal[i + 1][0]
+            else:
+                return None
+    # made it through without finding ourselves? weird.
+    return None
 
 
 def _get_previous_leaf(section):
