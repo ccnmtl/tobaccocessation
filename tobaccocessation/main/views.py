@@ -245,7 +245,7 @@ UNLOCKED = ['resources',
 
 def _unlocked(section, user, previous, profile):
     if (section.hierarchy.name == 'faculty' and (
-            not profile.is_faculty() and not user.is_staff)):
+            not profile.is_role_faculty() and not user.is_staff)):
         return False
 
     """ if the user can proceed past this section """

@@ -91,6 +91,24 @@
 {% endblock %}
 
 {% block extraprimarynav %}
+    <ul class="nav">
+        <li>
+            <a href="#"
+                class="dropdown-toggle"
+                data-toggle="dropdown">Hierarchies
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu dropdown-menu">        
+                <li><a href="/pages/main/edit/">main</a>
+                <li><a href="/pages/perio/edit/">perio</a>
+                <li><a href="/pages/general/edit/">general</a>
+                <li><a href="/pages/surgery/edit/">surgery</a>
+                <li><a href="/pages/resources/edit/">resources</a>
+                <li><a href="/pages/faculty/edit/">faculty (stand-alone resources)</a>
+            </ul>
+        </li>
+    </ul>
+    
     <ul class="nav pull-right">
         <li><a href="{{section.get_absolute_url}}">View Page</a></li>
     </ul>
@@ -100,7 +118,7 @@
 
 {% with section.is_root as is_root %}
 
-<h1>{{ section.label }}</h1>
+<h1><small>{{section.hierarchy.name}}</small> {{ section.label }}</h1>
 
 <ul class="nav nav-tabs">
     <li {% if is_root %}class="active"{% endif%}>
@@ -119,7 +137,7 @@
 <div class="tab-content">
     <div id="content-tree" class="tab-pane {% if is_root %}active{% endif%}">
         <div style="margin-left: 5px;">
-            <h3 style="margin-top: 0;"><a href="{{root.get_edit_url}}">{{hierarchy.name}}</a></h3>             
+            <h3 style="margin-top: 0;"><a href="{{root.get_edit_url}}">Root</a></h3>             
             <ul>
                 {% for s in root.get_descendants %}                 
                     <li class="menu" style="list-style: none; line-height: 150%">
