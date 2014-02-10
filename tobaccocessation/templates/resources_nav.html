@@ -1,0 +1,30 @@
+{% load getroot %}
+
+{% comment %}
+    RESOURCES - The resources menu is a bit more hard-coded, as it offers
+    downloadable resources + navigation to child sections.
+{% endcomment %}  
+{% getroot resources as root %} 
+{% with root.get_children.0 as s %}                   
+    <ul class="nav pull-right">
+        <li class="dropdown
+            {% ifequal s.slug module.slug %}
+                active
+            {% else %}{% ifequal s.slug section.slug %}
+                active
+            {% endifequal %}{% endifequal %}">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                {{s.label}} <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="{{ site.domain }}/main/media/pdf/TobaccoCessation_CourseGuide.pdf">Course Guide</a></li>
+                <li><a href="{{ site.domain }}/main/media/pdf/PharmacotherapyTable.pdf">Pharmacotherapy Guide</a></li>
+                <li><a href="{{ site.domain }}/main/media/pdf/CDM_Excuses_NotQuitting.pdf">Excuses For Not Quiting</a></li>
+                <li><a href="{{ site.domain }}/main/media/pdf/CDM_Examples_Empathy.pdf">Examples of Empathy</a></li>
+                <li><a href="/resources/">Videos</a></li>
+                <li class="divider"></li>
+                <li><a href="/resources/">External Resources</a></li>              
+            </ul>
+      </li>
+    </ul>
+{% endwith %}

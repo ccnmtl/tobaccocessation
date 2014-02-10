@@ -31,7 +31,18 @@
                 
                 <div id="standardnav">
             		{% block standardnav %}
-                       {% include "project_standard_nav.html" %}
+                        <ul>
+                            {% if user.is_authenticated %}
+                               <li><a href="/accounts/logout/">Log Out</a></li>
+                            {% else %}
+                               <li><a href="/accounts/login/?next=/welcome/">Log In</a></li>
+                            {% endif %}
+                            <li><a href="/about/">About</a></li>
+                            <li><a href="/help/">Help</a></li>
+                            {% if user.is_authenticated %}
+                             <li><a href="/contact/">Contact</a></li>
+                            {% endif %}
+                        </ul>
                     {% endblock %}
             		<!-- CCNMTL title/logo -->
                     <div>

@@ -98,7 +98,7 @@ def page_by_id(request, hierarchy, section_id):
 @rendered_with('main/page.html')
 def resources(request, path):
     section = get_section_from_path(path, "resources")
-    return _response(request, section, path)
+    return _response(request, section)
 
 
 def _get_left_parent(first_leaf):
@@ -257,7 +257,7 @@ def clear_state(request):
 
 
 def _get_previous_leaf(section):
-    depth_first_traversal = section.get_root().get_annotated_list()
+    depth_first_traversal = Section.get_annotated_list(section.get_root())
     for (i, (s, ai)) in enumerate(depth_first_traversal):
         if s.id == section.id:
             # first element is the root, so we don't want to return that

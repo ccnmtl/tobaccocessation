@@ -41,7 +41,20 @@
 
 {% block primarynavtabs %}
     {% if user.is_authenticated %}
-        {% include "project_primary_nav.html" %}
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+         
+        <!-- Everything you want hidden at 940px or less, place within here -->
+        <div class="nav-collapse collapse">
+            {% ifnotequal hierarchy.name "resources" %}
+                {% include "primary_nav.html" %}
+            {% endifnotequal %}
+            {% include "resources_nav.html" %}
+        </div>
     {% endif %}
 {% endblock %}
 
@@ -64,17 +77,20 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <ul class="breadcrumb">
-    {% for a in ancestors %}
-        {% ifnotequal a.label "Root" %}
-            <li>
-                <a href="{{a.get_absolute_url}}">{{a.label}}</a>
-                <span class="divider">/</span>
-            </li>
-        {% endifnotequal %}
-    {% endfor %}
-        <li class="active">{{section.label}}</li>
-    </ul>
+    {% ifnotequal hierarchy.name "resources" %}
+        {% if section.depth > 3 %} 
+            <ul class="breadcrumb">
+                {% for a in ancestors %}
+                    {% if a.depth > 2 %}
+                        <li>
+                            <a href="{{a.get_absolute_url}}">{{a.label}}</a>
+                            <span class="divider">/</span>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+       {% endif %}
+    {% endifnotequal %}
 {% endblock %}
 
 {% block content %}
@@ -135,7 +151,7 @@
                     {% ifaccessible previous %}
                         <a href="{{previous.get_absolute_url}}" id="previous">« {{previous.label}}</a>
                     {% else %}
-                        <div id="prev_disabled">« {{previous.label}} <img align="top" src="/site_media/img/lock.png"/></div>
+                        <div id="prev_disabled">« {{previous.label}}<img align="top" src="/site_media/img/lock.png"/></div>
                     {% endifaccessible %}
                 </li>
             </ul>
