@@ -69,15 +69,6 @@
     {% if user.is_staff %}
     <ul class="nav pull-right">
         <li><a href="{{section.get_edit_url}}">Edit Page</a></li>
-        
-        {% if needs_submit and is_submitted %}
-            <li>
-                <form id="reset-form" action="." method="post">
-                    <input type="hidden" name="action" value="reset" />
-                    <input type="submit" value="Reset" class="btn pull-right" />
-                </form>
-            </li>
-        {% endif %}
     </ul>
     {% endif %}
 {% endblock %}
@@ -144,9 +135,14 @@
                     {% if allow_redo %}
                     <form action="." method="post">
                     <input type="hidden" name="action" value="reset" />
-                    <input type="submit" value="try again" class="btn pull-right" />
+                    <input type="submit" value="Try Again" class="btn pull-right" />
                     </form>
-                    {% endif %}
+                    {% else %}{% if user.is_staff %}
+                        <form action="." method="post">
+                        <input type="hidden" name="action" value="reset" />
+                        <input type="submit" value="Reset (staff only)" class="btn pull-right" />
+                        </form>
+                    {% endif %}{% endif %}
                 {% else %}                    
                     <input type="submit" value="Submit" class="btn btn-primary pull-right" />
                     <div class="visualclear"></div>                
