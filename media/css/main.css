@@ -138,8 +138,27 @@ li {
     text-shadow: 0 1px 0 #fff;
 }
 
+.navbar .nav.home>li>a {
+    margin: 0;
+    padding: 10px 0;
+}
+
+.navbar .nav.home img {
+    width: 20px;
+}
+
 ul.dropdown-menu.dropdown-menu-3.treatment-options {
-    height: 503px;
+    height: 472px;
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+    -webkit-column-gap: 10px;
+    -moz-column-gap: 10px;
+    column-gap: 10px;
+}
+
+ul.dropdown-menu.dropdown-menu-3.virtual-patient {
+    height: 340px;
     -webkit-column-count: 2;
     -moz-column-count: 2;
     column-count: 2;
@@ -244,10 +263,15 @@ img, img a
 	border: 0;	
 }
 
-.visualhide
-{
+.visualhide {
 	display: none !important;
 }
+
+.scrollable {
+   overflow:auto;
+}
+
+.invisible { display: none; }
 
 
 /* ########## Blocks style definitions ########## */
@@ -313,149 +337,6 @@ img, img a
 #standardnav a:hover {
 }
 
-/* ---- Primary navigation block elements ---------- */
-/**
-body.fluid #primarynav,
-body.fluid #primarynav div.encase
-{
-    width: 100%;
-}
-
-#primarynav
-{
-	width: 900px;
-	height: 30px;
-	min-width: 900px;
-	clear: both;
-	margin: 0;
-	padding: 0;
-	border: 0;
-	background: #333 url('../img/primarynav_bg.jpg') left top repeat-x;
-}
-
-#primarynav div.encase
-{
-	width: 900px;
-	height: 30px;
-}
-
-#primarynav ul
-{
-	float: left;
-	height: 30px;
-	margin: 0 20px;
-	padding: 0;
-	border: 0;
-	list-style: none;
-	min-width: 760px;
-}
-
-#primarynav #leftside ul
-{
-	float: left;
-}
-
-#primarynav #rightside ul
-{
-	float: right;
-}
-
-#primarynav li
-{
-	display: block;
-	float: left;
-	border: 0;
-	height: 21px;
-	margin:3px 20px 0 -10px;
-	padding:3px 10px;
-	-moz-border-radius: 10px 10px 0 0; 
-	border-radius: 10px 10px 0 0; 
-	background-color: #333;
-}
-
-#primarynav li.selected, #primarynav li:hover
-{
-    background-color: #EAA141;
-    
-}
-
-#primarynav li.selected .selected, #primarynav li.disabled .disabled
-{
-	color: black;
-	text-decoration: none;
-	display: block;
-	height:24px;
-	margin:-3px 0 0 -10px;
-	padding:3px 5px 0 13px;
-	min-width: 60px;
-	text-align: center;
-	font-weight: bold;
-	z-index:1;
-}
-
-#primarynav li.disabled, #primarynav li.disabled:hover
-{
-    background-color: #333;
-}
-
-#primarynav a
-{
-	color: #ccc;
-	text-decoration: none;
-	display: block;
-	height:24px;
-	margin:-3px 0 0 -10px;
-	padding:3px 5px 0 13px;
-	min-width: 60px;
-	text-align: center;
-}
-
-#primarynav a:hover
-{
-	color: #000;
-	text-decoration: none;
-}
-
-#primarynav #usernav li
-{
-	background: transparent;
-	font-weight: bold;
-	color: #fc6;
-	
-}
-
-#primarynav #usernav li a
-{
-	color: #fc6;
-	
-}
-
-#primarynav #usernav li a:hover
-{
-	color: #fff;
-	z-index:1;
-	
-}
-
-#usernav
-{
-	background: transparent;
-	font-weight: bold;
-	color: #fc6;
-	
-}
-
-#primarynav #leftside #usernav
-{
-	float: right;
-}
-
-#primarynav #rightside #usernav
-{
-	float: left;
-}
-**/
-
  /* ---- Pagebody block elements ---------- */
 #pagebody
 {
@@ -467,175 +348,6 @@ body.fluid #primarynav div.encase
 	padding: 0 0 0 0;
 	border: 0;
 	background-color: #fff;
-}
-
-
-/* ---- Sidebar Left block elements ---------- */
-#sidebar_left
-{
-	display: block;
-	float: left;
-	width: 182px;
-	margin: 0;
-	padding: 0 0;
-	border: 0;
-	z-index: 100;
-}
-
-
-.three_columns #sidebar_left
-{
-	display: block;
-}
-
-.two_columns_left #sidebar_left
-{
-	display: block;
-}
-
-.two_columns_right #sidebar_left
-{
-	display: none;
-}
-
-.one_column #sidebar_left
-{
-	display: none;
-}
-
-/* ---- Sidebar Right block elements ---------- */
-#sidebar_right
-{
-	display: block;
-	float: left;
-	width: 200px;
-	margin: 0;
-	padding: 1em 0;
-	border: 0;
-	z-index: 10;
-}
-
-.three_columns #sidebar_right
-{
-	display: block;
-}
-
-.two_columns_left #sidebar_right
-{
-	display: none;
-}
-
-.two_columns_right #sidebar_right
-{
-	display: block;
-}
-
-.one_column #sidebar_right
-{
-	display: none;
-}
-
-/* ---- Sidebar block elements ---------- */
-
-.sidebar
-{
-	padding: 0;
-	border: 1px solid #ccc;
-	font-size: 92%;
-	line-height: 130%;
-}
-
-.sidebar h2
-{
-	margin: 0 0 0.7em 0;
-	padding: 2px;
-	border: 0;
-	border-bottom: 1px solid #999;
-	background-color: #e0e0e0;
-	font-size: 108%;	
-}
-
-.sidebar .content
-{
-	margin: 0 0.5em 0.7em 0.5em;
-	padding: 0;
-	border: 0;
-}
-
-.sidebar ol
-{
-	margin: 0 0 0 1.5em;
-	padding: 0;
-	border: 0;
-}
-
-.sidebar li
-{
-	margin: 0 0 0.4em 0;
-	padding: 0;
-	border: 0;
-}
-
-.sidebar ul
-{
-	margin: 0;
-	padding: 0;
-	border: 0;
-	list-style: none;
-}
-
-.sidebar ul li
-{
-	padding: 0 0 0 1.2em;
-	background: url('../img/bullet_blue.gif') left 0.2em no-repeat;
-}
-
-.sidebar a
-{
-	color: #06c;
-	text-decoration: none;
-}
-
-.sidebar a:hover
-{
-	color: #69c;
-	text-decoration: none;
-}
-
-#sidebarlogo
-{
-	margin-bottom: 2em;
-	padding: 0;
-	border: 0;
-	font-size: 92%;
-	line-height: 130%;
-}
-
-#sidebarlogo #logo_ccnmtl
-{
-	display: block;
-	width: 146px;
-	height: 33px;
-	overflow: hidden;
-	margin: auto;
-	padding: 0;
-	border: 0;
-	background: transparent url('../img/logo_ccnmtl_sidebar.gif') left top no-repeat;
-}
-
-#sidebarlogo #logo_ccnmtl a
-{
-	display: block;
-	width: 145px;
-	height: 33px;
-	margin: 0;
-	padding: 0;
-	border: 0;
-}
-
-#sidebarlogo #logo_ccnmtl span
-{
-	display: none;
 }
 
 /* ---- Content block elements ---------- */
@@ -655,23 +367,6 @@ body.fluid #primarynav div.encase
 	margin: 0;
 	padding: 0;
 	border: 0;
-}
-
-.three_columns #content
-{
-	display: block;
-}
-
-.two_columns_left #content,
-.two_columns_right #content
-{
-	display: block;
-	width: 780px;
-}
-
-.two_columns_right #squish
-{
-	margin: 0 0 0 10px;
 }
 
 .one_column #content
@@ -746,92 +441,6 @@ textarea.resizable {width: 90%; height: 90%;}
                float: right;
 }
 
-
-/* styles for hs.js */
-.hs-show { display: block; }
-.hs-hide { display: none; }
-
-/* styles for tabber.js */
-
-/*--------------------------------------------------
-  REQUIRED to hide the non-active tab content.
-  But do not hide them in the print stylesheet!
-  --------------------------------------------------*/
-.tabberlive .tabbertabhide {
- display:none;
-}
-
-/*--------------------------------------------------
-  .tabber = before the tabber interface is set up
-  .tabberlive = after the tabber interface is set up
-  --------------------------------------------------*/
-.tabber {
-}
-.tabberlive {
- /*margin-top:1em;*/
- margin: 0;
-}
-
-/*--------------------------------------------------
-  ul.tabbernav = the tab navigation list
-  li.tabberactive = the active tab
-  --------------------------------------------------*/
-ul.tabbernav
-{
- margin:0;
- padding: 3px 0;
- border-bottom: 1px solid #778;
-        font-family: arial, helvetica, verdana, sans-serif;
-}
-
-ul.tabbernav li
-{
- list-style: none;
- margin: 0;
- display: inline;
-}
-        
-ul.tabbernav li a
-{
- padding: 3px 0.5em;
- margin-left: 3px;
- border: 1px solid #778;
- border-bottom: none;
- background: #DDE;
- text-decoration: none;
-}
- 
-ul.tabbernav li a:link { color: #448; }
-ul.tabbernav li a:visited { color: #667; }
-        
-ul.tabbernav li a:hover
-{
- color: #000;
- background: #AAE;
- border-color: #227;
-}
-ul.tabbernav li.tabberactive a
-{
- background-color: #fff;
- border-bottom: 1px solid #fff;
-}
-
-ul.tabbernav li.tabberactive a:hover
-{
- color: #000;
- background: white;
- border-bottom: 1px solid white;
-}
-
-.tabberlive .tabbertab {
- margin: 0;
- padding:0;
- border: 0;
-}
-
-
-
-
 /* ########## FOR FLUID WIDTH CSS ############### */
 /* ########## Blocks style definitions ########## */
 
@@ -845,16 +454,6 @@ body.fluid
 body.fluid #header
 {
 	width: 100%;
-}
-
-body.fluid #subnav
-{
-	width: 100%;
-}
-body.fluid #primarynav,
-body.fluid #primarynav div.encase
-{
-    width: 100%;
 }
 
 /* ---- Pagebody block elements ---------- */
@@ -880,32 +479,6 @@ body.fluid #footer
 /* ---- Content block elements ---------- */
 
 
-.three_columns.fluid #squish
-{
-	margin: 0 210px;
-}
-
-
-.two_columns_left.fluid #content
-{
-float: left;
-}
-
-.two_columns_left.fluid #squish
-{
-	margin: 0;
-}
-
-.two_columns_right.fluid #content
-{
-	margin-left: 0;
-}
-
-.two_columns_right.fluid #squish
-{
-	margin: 0;
-}
-
 .one_column.fluid #content
 {
 	display: block;
@@ -922,111 +495,31 @@ float: left;
 }
 
 
-
-#content .content-nav-block
-{
-	clear: both;
-	width: 100%;
-   height: 1.5em;
-
-}
-
-#content .content-nav
-{
-   height: 1.5em;
-   margin: 2em 0 0 0;
-   padding: 0.5em;
-   border: 0;
-   background-color: #dadada;
-   text-align: center;
-   font-size: 100%;
-   font-weight: bold;
-}
-
-#content .content-nav a, #content .content-nav div {
-	text-decoration: none;
-	color: #333;
-	font-size: 90%;
-	margin-top: -3px;
-}
-
-#content .content-nav a#previous, #content .content-nav div#prev_disabled
-{
-   display: block;
-   float: left;
-   width: auto;
-   white-space:nowrap;
-}
-
-#content .content-nav a#next, #content .content-nav div#next_disabled
-{
-  white-space:nowrap;
-  display: block;
-  float: right;
-  width: auto;
-}
-
-#content .content-nav div#next_disabled, #content .content-nav div#prev_disabled
-{  
-  background: #ca812e url('../img/bottom_button_bg_disabled.jpg') repeat-x;
-}
-
-#content .content-nav table, 
-#content .content-nav table tr, 
-#content .content-nav table tr td {
-	border: none; 
-	margin: 0; 
-	padding: 0;
-}
-
-.scrollable
-{
-   overflow:auto;
-}
-
-.invisible { display: none; }
+/* ---- Quizblock basic ---------- */
 
 .cases {
-
-padding: 10px 10px 20px 10px;
-border: 1px solid #ccc;
-margin-bottom: 10px;
+    padding: 10px 10px 20px 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
 }
 .casetitle {
-
-font-weight: bold;
-font-size: 110%;
+    font-weight: bold;
+    font-size: 110%;
 }
 
 .cases ol {
-
-margin-left: 35px;
+    margin-left: 35px;
 }
 
 .casesanswerdisplay {
-
-margin-top: 20px;
-display: block;
-
+    margin-top: 20px;
+    display: block;
 }
 
 .answer {
-
 	padding: 10px;
 	border: 1px solid #ccc;
 	background-color: #dadada;
-
-}
-
-.moretoggle {
-
-
-	font-weight:bold;
-		background-color: #dadada;
-	padding: 10px;
-	display: inline;
-	width: 10em;
-
 }
 
 .casesanswerdisplay .toggleable {
@@ -1035,48 +528,45 @@ display: block;
 	margin-bottom:-10px;
 }
 
-#module_indicator {
-	border: 1px solid #ccc;
-	padding: 25px 5px 15px 5px;
-}
-
-#module_indicator ol {
-
-
-}
-
-#module_indicator ol li {
-
-float: left;
-margin: 0 1em 0 2.5em;
-}
-
-#module_indicator .header {
-
-float: left; 
-margin: -1.7em 0; 
-font-weight: bold; 
-color: green;
-
-}
-
-.thismodule {
-
-	border: 2px solid green;
-	float: left;
-	margin-top: -2px;
-
-}
-
 .caption  {
-
-margin-bottom: 1em;
+    margin-bottom: 1em;
 }
 
 .caption p {
-
-font-size: 80%;
+    font-size: 80%;
 }
+
+/* ---- Consent Agreement & Registration ---------- */
+
+#consent-form {
+    margin: 50px 20px 20px 20px;
+}
+
+#reg_form {
+    margin: 20px;
+}
+
+#reg_form ul.errorlist {
+    list-style: none;
+    margin: 0;
+    display: inline;
+    color: red;
+}
+
+#reg_form label {
+    display: inline;
+    font-size: 1.1em;
+}
+
+#reg_form input {
+    margin-top: -5px;
+    margin-right: 10px;
+}
+
+
+
+
+/* ---- Contact Us Form ---------- */
 
 #contact {
     width: 425px;
@@ -1119,159 +609,9 @@ font-size: 80%;
     text-align: right;
 }
 
-
-#subnav
-{
-   width: 900px;
-   height: 30px;
-   min-width: 900px;
-   clear: both;
-   margin: 0;
-   padding: 0;
-   border: 0;
-   border-top: 4px solid #eaa141;
-   font-size: 84%;
-   background-color: #efc48d;
-   
-}
-
-#subnav div.encase
-{
-   width: 900px;
-   height: 30px;
-}
-
-#subnav ul
-{
-   float: left;
-   height: 33px;
-   margin: 0px;
-   padding: 0;
-   border: 0;
-   list-style: none;
-}
-
-#subnav #leftside ul
-{
-   float: left;
-}
-
-#subnav #rightside ul
-{
-   float: right;
-}
-
-#subnav li
-{
-	display: block;
-	float: left;
-	margin: 0 ;
-	padding: 3px .5em 2px .5em;
-	border: none;
-	border-right: 1px solid #eaa141;
-	line-height: 24px;
-	text-align: center;
-	border-collapse: collapse;
-
-}
-
-#subnav li.selected
-{
-    display: block;
-    height: 25px;
-   color: #333;
-	background-color: #fff;
+/** Registration **/
 
 
-
-}
-
-
-#subnav li.selected .selected
-{
-	display: block;
-
-	height: 25px;
-		background-color: #fff;
-	margin:0;
-
-
-	
-}
-
-
-
-#subnav a
-{
-   text-decoration: none;
-}
-
-
-
-#subnav a:hover
-{
-   color: #c00;
-   text-decoration: none;
-}
-
-/* ---- sidebar block elements ---------- */
-body.fluid #pagebody #sidebar_left {
-display:block;
-margin: 1em 1em 1em 10px;
-float: left;
-}
-
-
-body.fluid #pagebody #sidebar_left ul {
-	list-style: none;
-	font-size: 84%;
-	margin-left: 1em;
-	margin-bottom: 1.5em;
-	
-
-}
-
-body.fluid #pagebody #sidebar_left ul li{
-	padding: 5px;
-	border-bottom: 2px solid #fff;
-	background-color: #e1e1e1;
-	color: #333;
-	margin: 0;
-}
-
-body.fluid #pagebody #sidebar_left ul {
-	padding: 0px;
-	background-color: #fff;
-	color: #333;
-	margin: -5px 0 0 0;
-}
-
-body.fluid #pagebody #sidebar_left ul li.reference a{
- line-height: 20px;
-color: #84240A;
-}
-
-body.fluid #pagebody #sidebar_left ul li.reference a:hover{
-	text-decoration: underline;
-}
-
-body.fluid #pagebody #sidebar_left ul li a{
-	text-decoration: none;
-	color: #333;
-}
-
-body.fluid #pagebody #sidebar_left ul li.selected{
-
-	background-color: #333;
-	color: #fff;
-	font-weight: normal;
-}
-
-
-#sidebar_left .disabled_link
-{
-   color: #999;
-}
 
 /** Landing Page **/
 div.landing-page a.btn,

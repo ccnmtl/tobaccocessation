@@ -2,197 +2,185 @@
 {% load i18n admin_static %}
 {% block title %}Sign up for an account{% endblock %}
 
-{% block extrahead %}
-    {{ block.super }}
-    <link rel="stylesheet" type="text/css" href='{% static "admin/css/widgets.css" %}' />        
-{% endblock %}
-
 {% block js %}
     {{ block.super }}
-    <script type="text/javascript" src="/site_media/bootstrap-multiselect/js/bootstrap-multiselect.js"></script>
-   
-
     <script type="text/javascript">
         jQuery(document).ready(function() {
-            jQuery('#id_state').addClass("multiselect");
-            jQuery('#id_state').multiselect({
-              buttonClass: 'btn',
-              buttonWidth: 'auto',
-              buttonContainer: '<div class="btn-group" />',
-              maxHeight: false,
-              buttonText: function(options) {
-                if (options.length == 0) {
-                  return 'None selected <b class="caret"></b>';
+            jQuery('#id_consent').change(function() {
+                if (jQuery('#id_consent').is(':checked')) {
+                    jQuery("#consent-form").hide();
+                    jQuery("div.consent-checkbox").hide();
+                    jQuery("#consent-given").show();
+                } else {
+                    jQuery("#consent-form").show();
+                    jQuery("div.consent-checkbox").show();
+                    jQuery("#consent-given").hide();
                 }
-                else if (options.length > 3) {
-                  return options.length + ' selected  <b class="caret"></b>';
-                }
-                else {
-                  var selected = '';
-                  options.each(function() {
-                    selected += jQuery(this).text() + ', ';
-                  });
-                  return selected.substr(0, selected.length -2) + ' <b class="caret"></b>';
-                }
-              }
             });
+            if (jQuery('#id_consent').attr('checked')) {
+                jQuery("#consent-given").show();
+                jQuery("#consent-form").hide();
+                jQuery("div.consent-checkbox").hide();
+            }
         });
     </script>
 
 {% endblock %}
 
 {% block registration_content %}
-<script type="text/javascript">
-$( document ).ready(function()
-{
-    $('#id_consent').change(function()
-    {
-    if ($('#id_consent').is (':checked'))
-    {
-        $("#consent_given").show();
-    }
-    else
-    {
-        $("#consent_given").hide();
-    }
-    });
+    <div id="consent-form">
+        <h1>Consent Agreement</h1>
+        Nulla sapien lorem, sollicitudin sagittis enim eget, porttitor egestas purus. Cras imperdiet non justo in euismod. Morbi aliquam leo enim, id scelerisque nisl pellentesque accumsan. Cras eget consectetur nisl. Cras consequat, quam a vestibulum luctus, neque velit accumsan odio, vel dictum augue neque non tortor. Quisque eu erat ut quam rhoncus rutrum. Phasellus vitae elementum nisi, non congue elit. Praesent vitae malesuada neque. Ut odio augue, sagittis eget orci at, varius vulputate tortor. Ut pretium ipsum ut massa congue consectetur. Etiam consectetur, ante ac egestas malesuada, dolor sapien adipiscing ipsum, id vestibulum urna elit vitae augue. Aenean tempus mollis ipsum, eget fermentum lorem porta vel.
+        
+        Maecenas sed velit id tortor faucibus blandit in in ligula. Nulla facilisi. Nulla vehicula eros elit. Nam nunc dolor, gravida et quam ut, hendrerit condimentum mi. Nam convallis, felis id hendrerit vulputate, libero metus luctus metus, a convallis massa augue vel enim. Morbi ac libero sem. Nunc quam velit, mattis nec lacus sed, mollis dignissim turpis. Nam interdum, arcu eu luctus molestie, turpis nisl accumsan mauris, eget euismod tortor nisl at leo. Duis auctor, diam sagittis cursus sagittis, tellus metus scelerisque massa, vel fermentum orci purus ac mauris. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam laoreet mauris a egestas scelerisque. Morbi varius libero et lacus viverra dignissim.
+        
+        Donec semper tellus est, eu euismod nisl tincidunt ut. Donec feugiat dui in luctus dictum. Fusce scelerisque nulla leo, tempor volutpat ligula iaculis a. Praesent vel scelerisque urna. Fusce aliquet cursus libero vel varius. Aenean convallis viverra velit, sed rutrum sapien. Mauris vel consectetur magna, non venenatis enim. Proin adipiscing sagittis nisl, in luctus lacus mattis facilisis. Nunc augue nunc, sagittis ut tincidunt id, pharetra aliquet dui. Cras varius lobortis pretium. Aliquam id est nec ligula accumsan dapibus.
+        
+        Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris sed sapien id lacus adipiscing dignissim at non ante. Nam sed vehicula metus, ut vehicula neque. Curabitur ac feugiat nibh, quis rhoncus sapien. Vestibulum posuere varius suscipit. Maecenas volutpat dolor vel odio lacinia, a convallis enim mollis. Vestibulum sapien mi, semper at dapibus et, sagittis vel nibh. Pellentesque non nunc nunc. Proin congue velit sit amet tincidunt malesuada.
+        
+        Mauris pretium sapien eget tellus posuere, ac aliquet felis fringilla. Integer semper euismod tortor, faucibus aliquam magna. Fusce mollis sodales pharetra. Morbi vitae dictum dolor, at vehicula dolor. Integer id purus massa. Proin volutpat sapien ac tortor dignissim, non placerat risus gravida. Phasellus ullamcorper interdum dignissim. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lobortis justo sed rutrum tincidunt. Curabitur laoreet nulla tempus, vulputate ipsum ac, interdum lectus.
+    </div>
 
-  if($('#id_consent').attr('checked')) {
+    <form id="reg_form" method="post" action="." class="register form-horizontal">
+        <div class="fieldWrapper consent-checkbox">
+            {{ form.consent }}
+            <label>I have read and agree to the Consent Agreement </label>
+        </div>
 
-        $("#consent_given").show();
-  }
-
-});
-</script>
-<div id="consent_form">
-<img src="/site_media/random/imposter.jpg" alt="shame on you! this is imposter content!">
-</div>
-
-<form id="reg_form" method="post" action="." class="register">
-
-    <div class="fieldWrapper">
-        <label>I have read and agree to the Consent Agreement </label>
         {{ form.consent.errors }}
-        {{ form.consent }}
-    </div>
-
-
-    <div id="consent_given" style="display: none">
-    <h2 class="pagetitle signuptitle">Sign up for an account</h2>
+        <div id="consent-given" style="display: none">
+            <h2 class="pagetitle signuptitle">Sign up for an account</h2>
+            <div><p>Use the following form to create a new account to access Tobacco Cessation.</p></div>
     
-    <div class="p">Use the following form to create a new account to access Tobacco Cessation.</div>
-    
-    
-    <div class="p">
-    If you already have a username or password, but have forgotten either,
-        <a href="{% url "auth_password_reset" %}">reset them here</a>.
-    </div>
-    <div class="p"><i><span style="color: #c00; font-size: 20px;">*</span> Indicates required field</i></div>
-    
+            <div><p>
+            If you already have a username or password, but have forgotten either,
+                <a href="{% url "auth_password_reset" %}">reset them here</a>.
+            </p></div>
+            <div><p><strong>All fields are required.</strong></p></div>
 
+            <br/>
+            <div class="fieldWrapper control-group">
+                {{ form.first_name.errors }}
+                <label class="control-label">First Name: </label>
+                <div class="controls">
+                    {{ form.first_name }}
+                </div>
+            </div>
+            <br/>
+        
+            <br/>
+            <div class="fieldWrapper control-group">
+                {{ form.last_name.errors }}
+                <label class="control-label">Last Name: </label>
+                <div class="controls">
+                    {{ form.last_name }}
+                </div>
+            </div>
+            <br/>
+        
+            <br/>
+            <div class="fieldWrapper control-group">
+                {{ form.username.errors }}
+                <label class="control-label">Username: </label>
+                <div class="controls">
+                    {{ form.username }}
+                </div>
+            </div>
+            <br/>
+        
+            <div class="fieldWrapper control-group">
+                {{ form.password1.errors }}
+                <label class="control-label">Password: </label>
+                <div class="controls">
+                    {{ form.password1 }}
+                </div>
+            </div>
+            <br/>
+        
+            <div class="fieldWrapper control-group">
+                {{ form.password2.errors }}
+                <label class="control-label">Confirm Password: </label>
+                <div class="controls">
+                    {{ form.password2 }}
+                </div>
+            </div>
+            <br/>
+        
+            <div class="fieldWrapper control-group">
+                {{ form.email.errors }}
+                <label class="control-label">Email: </label>
+                <div class="controls">
+                    {{ form.email }}
+                </div>
+            </div>
+            <br/>
+        
+            <br/>
+            <div class="fieldWrapper control-group">
+                {{ form.gender.errors }}
+                <label class="control-label">Gender: </label>
+                <div class="controls">
+                    {{ form.gender }}
+                </div>
+            </div>
+            <br/>
+        
+            <div class="fieldWrapper control-group">
+                {{ form.is_faculty.errors }}
+                <label class="control-label">Are you a faculty memeber or a student?</label>
+                <div class="controls">
+                    {{ form.is_faculty }}
+                </div>
+            </div>
         <br/>
-        <div class="fieldWrapper">
-            {{ form.first_name.errors }}
-            <label for="id_sender">First Name: </label>
-            {{ form.first_name }}
-        </div>
-        <br/>
-
-        <br/>
-        <div class="fieldWrapper">
-            {{ form.last_name.errors }}
-            <label for="id_sender">Last Name: </label>
-            {{ form.last_name }}
-        </div>
-        <br/>
-
-        <br/>
-        <div class="fieldWrapper">
-            {{ form.username.errors }}
-            <label for="id_sender">Username: </label>
-            {{ form.username }}
-        </div>
-        <br/>
-
-        <div class="fieldWrapper">
-            {{ form.password1.errors }}
-            <label for="id_sender">Password: </label>
-            {{ form.password1 }}
-        </div>
-        <br/>
-
-        <div class="fieldWrapper">
-            {{ form.password2.errors }}
-            <label for="id_sender">Confirm Password: </label>
-            {{ form.password2 }}
-        </div>
-        <br/>
-
-        <div class="fieldWrapper">
-            {{ form.email.errors }}
-            <label for="id_sender">Email: </label>
-            {{ form.email }}
-        </div>
-        <br/>
-
-
-        <br/>
-        <div class="fieldWrapper">
-            {{ form.gender.errors }}
-            <label for="id_sender">Gender: </label>
-            {{ form.gender }}
-        </div>
-        <br/>
-
-        <div class="fieldWrapper">
-            {{ form.is_faculty.errors }}
-            <label for="id_subject">Are you a faculty memeber or a student?</label>
-            {{ form.is_faculty }}
-        </div>
-       
-    <br/>
-    <div class="fieldWrapper">
-        {{ form.specialty.errors }}
-        <label for="id_sender">How would you describe your specialty?</label>
-        {{ form.specialty }}
-    </div><br/>
-
-
-    <div class="fieldWrapper">
-        {{ form.institute.errors }}
-        <label for="id_sender">What institute are you associated with?</label>
-        {{ form.institute }}
-    </div><br/>
-
-    <div class="fieldWrapper">
-        {{ form.year_of_graduation.errors }}
-        <label for="id_sender">What year did you graduate?</label>
-        {{ form.year_of_graduation }}
-    </div><br/>
-
-    <div class="fieldWrapper">
-        {{ form.age.errors }}
-        <label for="id_sender">Age: </label>
-        {{ form.age }}
-    </div><br/>
-
-    <div class="fieldWrapper">
-        {{ form.hispanic_latino.errors }}
-        <label for="id_sender">Are you hispanic or latino?: </label>
-        {{ form.hispanic_latino }}
-    </div><br/>
-
-    <div class="fieldWrapper">
-        {{ form.race.errors }}
-        <label for="id_sender">Race: </label>
-        {{ form.race }}
-    </div><br/>
-
-
-      
-      <input class="btn btn-primary" type="submit" id="submit-id" value="{% trans 'Sign up!' %}" />
-
-
+        <div class="fieldWrapper control-group">
+            {{ form.specialty.errors }}
+            <label class="control-label">How would you describe your specialty?</label>
+            <div class="controls">
+                {{ form.specialty }}
+            </div>
+        </div><br/>
+        
+        <div class="fieldWrapper control-group">
+            {{ form.institute.errors }}
+            <label class="control-label">What institute are you associated with?</label>
+            <div class="controls">
+                {{ form.institute }}
+            </div>
+        </div><br/>
+        
+        <div class="fieldWrapper control-group">
+            {{ form.year_of_graduation.errors }}
+            <label class="control-label">What year did you graduate?</label>
+            <div class="controls">
+                {{ form.year_of_graduation }}
+            </div>
+        </div><br/>
+        
+        <div class="fieldWrapper control-group">
+            {{ form.age.errors }}
+            <label class="control-label">Age: </label>
+            <div class="controls">
+                {{ form.age }}
+            </div>
+        </div><br/>
+        
+        <div class="fieldWrapper control-group">
+            {{ form.hispanic_latino.errors }}
+            <label class="control-label">Are you hispanic or latino?: </label>
+            <div class="controls">
+                {{ form.hispanic_latino }}
+            </div>
+        </div><br/>
+        
+        <div class="fieldWrapper control-group">
+            {{ form.race.errors }}
+            <label class="control-label">Race: </label>
+            <div class="controls">
+                {{ form.race }}
+            </div>
+        </div><br/>
+        <input class="btn btn-primary" type="submit" id="submit-id" value="{% trans 'Sign up!' %}" />
     </form>
 </div>
 {% endblock %}

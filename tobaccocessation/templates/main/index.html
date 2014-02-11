@@ -21,16 +21,17 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </a>
-         
+        
+        <ul class="nav home">
+          <li>
+            <a href="/"><img src="/site_media/img/home.png"></a>
+          </li>
+        </ul>
+        
         <!-- Everything you want hidden at 940px or less, place within here -->
         <div class="nav-collapse collapse">
             {% include "resources_nav.html" %}
         </div>
-        
-        {% if profile.is_role_faculty or user.is_staff %}
-            {% include "faculty_nav.html" %}
-        {% endif %}
-        
     {% endif %}
 {% endblock %}
 

@@ -83,15 +83,21 @@
 {% endblock %}
 
 {% block primarynavtabs %}
-{% comment %}
     {% if user.is_authenticated %}
-        {% include "susans_new_project_primary_nav.html" %}
-    {% endif %}
-{% endcomment %}
-{% endblock %}
-
-{% block extraprimarynav %}
-    <ul class="nav">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+        
+        <ul class="nav home">
+          <li>
+            <a href="/"><img src="/site_media/img/home.png"></a>
+          </li>
+        </ul>
+        
+        <ul class="nav">
         <li>
             <a href="#"
                 class="dropdown-toggle"
@@ -107,7 +113,12 @@
                 <li><a href="/pages/faculty/edit/">faculty (stand-alone resources)</a>
             </ul>
         </li>
-    </ul>
+        </ul>
+    {% endif %}
+{% endblock %}
+
+{% block extraprimarynav %}
+
     
     <ul class="nav pull-right">
         <li><a href="{{section.get_absolute_url}}">View Page</a></li>

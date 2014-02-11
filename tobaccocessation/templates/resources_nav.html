@@ -22,7 +22,13 @@
                 <li><a href="{{ site.domain }}/main/media/pdf/CDM_Excuses_NotQuitting.pdf">Excuses For Not Quiting</a></li>
                 <li><a href="{{ site.domain }}/main/media/pdf/CDM_Examples_Empathy.pdf">Examples of Empathy</a></li>
                 <li><a href="/pages/resources/public/videos/">Videos</a></li>
-                <li class="divider"></li>
+
+                {% if profile.is_role_faculty or user.is_superuser %}
+                    <li class="divider"></li>             
+                    <li><a href="/pages/faculty/">Standalone Activities</a></li> 
+                {% endif %}
+                
+                <li class="divider"></li>                
                 <li><a href="/pages/resources/public/external/">External Resources</a></li>              
             </ul>
       </li>

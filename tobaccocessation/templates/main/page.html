@@ -47,14 +47,17 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </a>
+        
+        <ul class="nav home">
+          <li>
+            <a href="/"><img src="/site_media/img/home.png"></a>
+          </li>
+        </ul>
          
         <!-- Everything you want hidden at 940px or less, place within here -->
         <div class="nav-collapse collapse">
             {% if hierarchy.name != "resources" and hierarchy.name != "faculty" %}
                 {% include "primary_nav.html" %}
-            {% endif %}
-            {% if profile.is_role_faculty or user.is_superuser %}
-                {% include "faculty_nav.html" %}
             {% endif %}
             {% include "resources_nav.html" %}
         </div>
@@ -79,23 +82,6 @@
     {% endif %}
 {% endblock %}
 
-{% block breadcrumbs %}
-{% if hierarchy.name != "resources" and hierarchy.name != "faculty" %}
-    {% if section.depth > 3 %} 
-        <ul class="breadcrumb">
-            {% for a in ancestors %}
-                {% if a.depth > 2 %}
-                    <li>
-                        <a href="{{a.get_absolute_url}}">{{a.label}}</a>
-                        <span class="divider">/</span>
-                    </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
-   {% endif %}
-{% endif %}
-{% endblock %}
-
 {% block content %}
    {% if not can_access %}
         <div class="alert alert-error">
@@ -115,7 +101,32 @@
         {% endif %}
         
 		<h2>{{ section.label }}</h2>
-		
+        
+        {% if section.show_toc %}
+            <ul class="toc">
+                {% for s in section.get_module.get_descendants %}
+                    {% ifnotequal s section %}
+                        <li class="menu-{{s.depth}}">
+                            <a href="{{s.get_absolute_url}}">{{s.label}}</a>
+                              {% if s.get_children %}
+                                 <ul id="section-ul-{{s.id}}">
+                              {% else %}
+                                 {% if s.is_last_child %}
+                                   {% for lc in s.closing_children %}
+                                     </ul>
+                                   {% endfor %}
+                                 {% endif %}
+                              {% endif %}
+                            
+                          {% if s.get_children %}
+                          {% else %}
+                            </li>
+                          {% endif %}
+                    {% endifnotequal %}
+                {% endfor %}
+            </ul>
+        {% endif %}               
+                
         {% for block in section.pageblock_set.all %}
             {% if block.label %}
                 <h3>{{block.label}}</h3>
