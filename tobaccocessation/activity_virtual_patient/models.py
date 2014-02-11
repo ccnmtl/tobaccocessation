@@ -186,7 +186,7 @@ class PatientAssessmentBlock(models.Model):
         return unicode(self.pageblock())
 
     def needs_submit(self):
-        return self.view != 'RS'
+        return self.view != self.VIEW_RESULTS
 
     def submit(self, user, data):
         state = ActivityState.get_for_user(user)
@@ -276,8 +276,9 @@ class PatientAssessmentBlock(models.Model):
                             not hasattr(choice, 'selected_concentration')):
                         return False
             return True
-        else:
-            return True
+        elif self.view == self.VIEW_RESULTS:
+            medications = self.medications(user)
+            return len(medications) > 0
 
     def available_treatments(self, user):
         state = ActivityState.get_for_user(user)
@@ -334,6 +335,9 @@ class PatientAssessmentBlock(models.Model):
         return sorted(medications, key=itemgetter('display_order'))
 
     def feedback(self, user):
+        if not self.unlocked(user):
+            return None
+
         medications = self.medications(user)
         combination = len(medications) == 2
 

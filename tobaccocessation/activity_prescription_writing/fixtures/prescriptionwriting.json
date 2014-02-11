@@ -1,0 +1,137 @@
+[
+{
+    "pk": 1, 
+    "model": "activity_prescription_writing.medication", 
+    "fields": {
+        "refills": 0, 
+        "name": "Nicotine Patch", 
+        "dosage_callout": "The 14mg patch is the first step of tapering.", 
+        "dispensing_callout": "14 patches is adequate for a 2 week tapering period. ", 
+        "refills_callout": "There are 14 patches in a box, so no refill is needed. ", 
+        "sort_order": 1, 
+        "dispensing": "1 box (14 patches)", 
+        "signature": "Apply one patch daily to dry hairless skin. Apply to different area of upper body each day.", 
+        "signature_callout": "Use medication as directed in the product insert.  ", 
+        "dosage": "14mg", 
+        "rx_count": 1
+    }
+},
+{
+    "pk": 2, 
+    "model": "activity_prescription_writing.medication", 
+    "fields": {
+        "refills": 1, 
+        "name": "Nicotine Gum", 
+        "dosage_callout": "For best results, always start with the 4 mg dosage.", 
+        "dispensing_callout": "Provide your patient with at least 1 month's supply.", 
+        "refills_callout": "Patients should use until confident about their quit attempt, then taper by gradually reducing daily use of gum.", 
+        "sort_order": 2, 
+        "dispensing": "2 boxes (400 pieces)", 
+        "signature": "Use one piece of gum every 1-2 hours for a total of about 10 pieces each day for first 6 weeks. Then, 1 piece every 2-4 hours for the next 3 weeks. Then, 1 piece every 4-8 hours for the next 3 weeks. Then, gradually stop usage. \r\n\r\nRecommended use time 20 to 30 minutes.\r\nUse park and chew method.\r\nDo not eat or drink 15 minutes before or while using gum.\r\nNever use more than 24 pieces of gum per day.", 
+        "signature_callout": "Use medication as directed in the product insert.", 
+        "dosage": "4mg", 
+        "rx_count": 1
+    }
+},
+{
+    "pk": 3, 
+    "model": "activity_prescription_writing.medication", 
+    "fields": {
+        "refills": 2, 
+        "name": "Nicotine Lozenge", 
+        "dosage_callout": "For best results, always start with the 4 mg dosage.", 
+        "dispensing_callout": "Provide your patient with at least 1 month's supply.", 
+        "refills_callout": "Two refills recommended for 3 months supply initially.  However, patients should use until confident about their quit attempt, then taper by gradually reducing daily use of lozenge.", 
+        "sort_order": 3, 
+        "dispensing": "4 boxes (288 lozenges)", 
+        "signature": "Use one lozenge every 1-2 hours for a total of about 10 lozenges each day.\r\nDissolve in mouth slowly while moving lozenge from side to side.\r\nDo not eat or drink 15 minutes before or while using lozenge.\r\nDo not use more than 24 lozenges per day.", 
+        "signature_callout": "Use medication as directed in the product insert.", 
+        "dosage": "4mg", 
+        "rx_count": 1
+    }
+},
+{
+    "pk": 4, 
+    "model": "activity_prescription_writing.medication", 
+    "fields": {
+        "refills": 2, 
+        "name": "Nicotine Nasal Spray", 
+        "dosage_callout": "Nasal spray is available in the 10 mg/ml concentration only.", 
+        "dispensing_callout": "Provide your patient with at least 1 month's supply.", 
+        "refills_callout": "2 refills recommended for 3 months supply initially.  However, patients should use until confident about their quit attempt then taper by gradually reducing daily use of nasal spray.", 
+        "sort_order": 4, 
+        "dispensing": "4 boxes (16 bottles)", 
+        "signature": "Tilt head back and use one spray in each nostril.  Use 1-2 doses per hour.  Do not use more than 40 doses per day.", 
+        "signature_callout": "Use medication as directed in the product insert.", 
+        "dosage": "10mg/ml", 
+        "rx_count": 1
+    }
+},
+{
+    "pk": 5, 
+    "model": "activity_prescription_writing.medication", 
+    "fields": {
+        "refills": 2, 
+        "name": "Nicotine Inhaler", 
+        "dosage_callout": "For best results, always start with the 10 mg dosage.", 
+        "dispensing_callout": "Provide your patient with at least 1 month's supply.", 
+        "refills_callout": "Two refills recommended for 3 months supply initially.  However, patients should use until confident about their quit attempt then taper by gradually reducing daily use of inhaler.", 
+        "sort_order": 5, 
+        "dispensing": "2 boxes (336 cartridges)", 
+        "signature": "Use 10 cartridges per day.\r\nPlace cartridge in the inhaler and take a puff.  Hold each puff in your mouth for a moment and then resume normal breathing. Take 80 puffs over 20 minutes.\r\nDo not use more than 16 cartridges per day.  Avoid food and acidic drinks such as coffee, tea, citrus juices, and sodas before and during use.", 
+        "signature_callout": "Use medication as directed in the product insert.", 
+        "dosage": "10mg", 
+        "rx_count": 1
+    }
+},
+{
+    "pk": 6, 
+    "model": "activity_prescription_writing.medication", 
+    "fields": {
+        "refills": 0, 
+        "name": "Varenicline", 
+        "dosage_callout": "", 
+        "dispensing_callout": "", 
+        "refills_callout": "", 
+        "sort_order": 6, 
+        "dispensing": "11 tablets", 
+        "signature": "Begin taking Varenicline one week before your quit date.  Days 1 to 3: 0.5 mg once a day.  Days 4 to 7: 0.5 mg twice a day.  Take after eating and with a full glass of water. Separate doses by 8 hours or more. ", 
+        "signature_callout": "", 
+        "dosage": "0.5mg", 
+        "rx_count": 0
+    }
+},
+{
+    "pk": 7, 
+    "model": "activity_prescription_writing.medication", 
+    "fields": {
+        "refills": 2, 
+        "name": "Varenicline", 
+        "dosage_callout": "This does not change. You are always to prescribe 0.5 mg dosage for week one, and the 1.0 mg dosage for the duration of treatment.", 
+        "dispensing_callout": "Utilize 2 prescriptions. One for week 1, and another for the remaining treatment. Provide your patient with at least 1 month's supply of the 1.0 mg dosage.", 
+        "refills_callout": "Two refills recommended for 3 months supply initially. Take patient off varenicline once your patient is confident about his or her  quit attempt.", 
+        "sort_order": 6, 
+        "dispensing": "56 tablets", 
+        "signature": "1.0 mg twice a day for 28 days.  Take after eating and with a full glass of water. Separate doses by 8 hours or more.", 
+        "signature_callout": "Use medication as directed in the product insert.", 
+        "dosage": "1.0mg", 
+        "rx_count": 2
+    }
+},
+{
+    "pk": 8, 
+    "model": "activity_prescription_writing.medication", 
+    "fields": {
+        "refills": 2, 
+        "name": "Bupropion", 
+        "dosage_callout": "This does not change. You are always to prescribe 150 mg dosage of Bupropion.", 
+        "dispensing_callout": "Provide your patient with at least 1 month's supply.", 
+        "refills_callout": "Two refills recommended for 3 months supply initially. Take patient off bupropion once your patient is confident about his or her quit attempt.", 
+        "sort_order": 7, 
+        "dispensing": "60 tablets", 
+        "signature": "One tablet once a day for days 1-3, then one tablet twice a day.\r\n\r\n\r\nTake after eating and with a full glass of water.\r\n\r\n\r\nSeparate doses by 8 hours or more. ", 
+        "signature_callout": "Use medication as directed in the product insert.", 
+        "dosage": "150mg", 
+        "rx_count": 1
+    }
+}]

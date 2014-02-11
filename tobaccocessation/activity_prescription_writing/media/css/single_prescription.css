@@ -1,7 +1,7 @@
 #callout_container {
     float:left;
-    left: 305px;
-    margin-top:-35px;
+    left: 150px;
+    margin-top:-23px;
     position:absolute;
 }
 
@@ -47,7 +47,7 @@
    background-repeat: no-repeat;
    background-position: top center;
    padding: 244px 0 0 349px;
-   
+   position: relative;
 }
 
 
@@ -100,8 +100,8 @@
 #refills_correct {
     position: absolute;
     width: 44px;
-    top: 646px;
-    left: 679px;
+    top: 397px;
+    left: 446px;
 }
 
 #refills_callout {

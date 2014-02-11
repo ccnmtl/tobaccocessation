@@ -23,31 +23,6 @@ class Medication(models.Model):
         return "%s" % (self.name)
 
 
-class ActivityState (models.Model):
-    user = models.ForeignKey(User, unique=True,
-                             related_name="prescription_writing_user")
-    json = models.TextField(blank=True)
-
-    def loads(self):
-        return simplejson.loads(self.json)
-
-    @classmethod
-    def get_for_user(cls, user):
-        try:
-            state = ActivityState.objects.get(user=user)
-        except ActivityState.DoesNotExist:
-            state = ActivityState.objects.create(user=user)
-
-            obj = {}
-            for m in Medication.objects.all():
-                obj[m.name] = {}
-
-            state.json = simplejson.dumps(obj)
-            state.save()
-
-        return state
-
-
 class Block(models.Model):
     pageblocks = generic.GenericRelation(
         PageBlock, related_name="prescription_writing_pageblocks")
@@ -92,14 +67,17 @@ class Block(models.Model):
         return True
 
     def clear_user_submissions(self, user):
-        state = ActivityState.objects.get(user=user)
-        obj = simplejson.loads(state.json)
-        obj[self.medication_name] = {}
-        state.json = simplejson.dumps(obj)
-        state.save()
+        try:
+            state = ActivityState.objects.get(user=user, block=self)
+            obj = simplejson.loads(state.json)
+            obj[self.medication_name] = {}
+            state.json = simplejson.dumps(obj)
+            state.save()
+        except ActivityState.DoesNotExist:
+            pass  # calling reset before they've done anything
 
     def submit(self, user, data):
-        state = ActivityState.objects.get(user=user)
+        state = ActivityState.get_for_user(self, user)
         obj = simplejson.loads(state.json)
         obj[self.medication_name] = {}
 
@@ -110,7 +88,7 @@ class Block(models.Model):
 
     def unlocked(self, user):
         unlock = False
-        state = ActivityState.get_for_user(user)
+        state = ActivityState.get_for_user(self, user)
         obj = simplejson.loads(state.json)
 
         if self.medication_name in obj:
@@ -136,3 +114,31 @@ class Block(models.Model):
 class PrescriptionBlockForm(forms.ModelForm):
     class Meta:
         model = Block
+
+
+class ActivityState (models.Model):
+    user = models.ForeignKey(User, related_name="prescription_writing_user")
+    block = models.ForeignKey(Block)
+    json = models.TextField(blank=True)
+
+    class Meta:
+        unique_together = (("user", "block"),)
+
+    def loads(self):
+        return simplejson.loads(self.json)
+
+    @classmethod
+    def get_for_user(cls, block, user):
+        try:
+            state = ActivityState.objects.get(user=user, block=block)
+        except ActivityState.DoesNotExist:
+            state = ActivityState.objects.create(user=user, block=block)
+
+            obj = {}
+            for m in Medication.objects.all():
+                obj[m.name] = {}
+
+            state.json = simplejson.dumps(obj)
+            state.save()
+
+        return state

@@ -12,7 +12,11 @@ class GetPrescription(template.Node):
         b = context[self.block]
         u = context['request'].user
 
-        state = ActivityState.get_for_user(u).loads()[b.medication_name]
+        state = ActivityState.get_for_user(b, u).loads()
+
+        if b.medication_name in state.keys():
+            state = state[b.medication_name]
+
         state['complete'] = b.unlocked(u)
         context[self.var_name] = state
         return ''
