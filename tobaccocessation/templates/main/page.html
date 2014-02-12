@@ -59,6 +59,9 @@
             {% if hierarchy.name != "resources" and hierarchy.name != "faculty" %}
                 {% include "primary_nav.html" %}
             {% endif %}
+            {% ifequal hierarchy.name "faculty" %}
+                {% include "faculty_nav.html" %}
+            {% endifequal %}            
             {% include "resources_nav.html" %}
         </div>
     {% endif %}

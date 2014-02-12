@@ -5,7 +5,7 @@
 {% endcomment %}  
 {% getroot faculty as root %} 
 
-<ul class="nav pull-right">
+<ul class="nav">
     {% with section.slug as section_slug %}
     {% for s in root.get_descendants %}
         {% with s.depth as s_depth %}
