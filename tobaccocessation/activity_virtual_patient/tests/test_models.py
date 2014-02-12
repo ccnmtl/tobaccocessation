@@ -65,32 +65,32 @@ class TestTreatmentOption(TestCase):
 
 class TestTreatmentOptionReasoning(TestCase):
     def test_unicode(self):
-        p = Patient.objects.create(
+        patient = Patient.objects.create(
             name="foo",
             description="bar",
             history="history",
             display_order=1)
-        m1 = Medication.objects.create(
-            name="m1",
+        med1 = Medication.objects.create(
+            name="med1",
             instructions="instructions",
             display_order=1,
             tag="none")
-        tc = TreatmentClassification.objects.create(rank=1, description="foo")
+        tcl = TreatmentClassification.objects.create(rank=1, description="foo")
         tor = TreatmentOptionReasoning.objects.create(
-            patient=p, classification=tc, medication=m1,
+            patient=patient, classification=tcl, medication=med1,
             combination=True, reasoning="i don't know")
-        self.assertEqual(str(tor), "OptionReasoning: foo [m1, i don't know]")
+        self.assertEqual(str(tor), "OptionReasoning: foo [med1, i don't know]")
 
 
 class TestTreatmentFeedback(TestCase):
     def test_unicode(self):
-        p = Patient.objects.create(
+        patient = Patient.objects.create(
             name="foo",
             description="bar",
             history="history",
             display_order=1)
-        tc = TreatmentClassification.objects.create(
+        tcl = TreatmentClassification.objects.create(
             rank=1, description="foo")
-        tf = TreatmentFeedback.objects.create(
-            patient=p, classification=tc, feedback="ok")
-        self.assertEqual(str(tf), "Feedback: 1. foo foo")
+        tfd = TreatmentFeedback.objects.create(
+            patient=patient, classification=tcl, feedback="ok")
+        self.assertEqual(str(tfd), "Feedback: 1. foo foo")

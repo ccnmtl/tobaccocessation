@@ -287,9 +287,9 @@ class PatientAssessmentBlock(models.Model):
     def available_treatments(self, user):
         state = ActivityState.get_for_user(user, self.get_hierarchy())
         patient_state = self._patient_state(state)
-        qs = self.patient.treatments()
+        qst = self.patient.treatments()
 
-        lst = list(qs)
+        lst = list(qst)
         for med in lst:
             if med.tag in patient_state:
                 setattr(med, "classification",
@@ -308,31 +308,31 @@ class PatientAssessmentBlock(models.Model):
         for key, value in patient_state.items():
             if (key != 'combination' and
                     ('combination' in value or 'prescribe' in value)):
-                qs = Medication.objects.filter(
+                qst = Medication.objects.filter(
                     tag=key).order_by("display_order")
-                context = {'rx_count': len(qs),
-                           'name': qs[0].name,
-                           'tag': qs[0].tag,
-                           'display_order': qs[0].display_order,
+                context = {'rx_count': len(qst),
+                           'name': qst[0].name,
+                           'tag': qst[0].tag,
+                           'display_order': qst[0].display_order,
                            'choices': []}
-                for med in qs:
+                for med in qst:
                     if 'rx' in value:
                         setattr(med, "selected_concentration",
                                 int(value['rx'][str(med.id)]['concentration']))
                         setattr(med, "selected_dosage",
                                 int(value['rx'][str(med.id)]['dosage']))
 
-                        cc = ConcentrationChoice.objects.get(
+                        cnc = ConcentrationChoice.objects.get(
                             id=int(value['rx'][str(med.id)]['concentration']))
-                        dc = DosageChoice.objects.get(
+                        dsc = DosageChoice.objects.get(
                             id=int(value['rx'][str(med.id)]['dosage']))
 
                         setattr(med,
                                 "selected_concentration_label",
-                                cc.concentration)
+                                cnc.concentration)
                         setattr(med,
                                 "selected_dosage_label",
-                                dc.dosage)
+                                dsc.dosage)
                     context['choices'].append(med)
                 medications.append(context)
 
@@ -350,34 +350,34 @@ class PatientAssessmentBlock(models.Model):
         medication_ids = []
         for medicine in medications:
             for choice in medicine['choices']:
-                cc = choice.concentrationchoice_set.get(correct=True)
-                dc = choice.dosagechoice_set.get(correct=True)
+                cnc = choice.concentrationchoice_set.get(correct=True)
+                dsc = choice.dosagechoice_set.get(correct=True)
 
-                if (choice.selected_concentration != cc.id or
-                        choice.selected_dosage != dc.id):
+                if (choice.selected_concentration != cnc.id or
+                        choice.selected_dosage != dsc.id):
                     correct_rx = False
 
                 medication_ids.append(choice.id)
 
         # Find the treatment option associated with the prescribed medications
-        to = TreatmentOption.objects.filter(patient__id=self.patient.id)
+        topt = TreatmentOption.objects.filter(patient__id=self.patient.id)
         if combination:
-            to = to.get(medication_one__id__in=medication_ids,
-                        medication_two__id__in=medication_ids)
+            topt = topt.get(medication_one__id__in=medication_ids,
+                            medication_two__id__in=medication_ids)
         else:
-            to = to.get(medication_one__id__in=medication_ids,
-                        medication_two__isnull=True)
+            topt = topt.get(medication_one__id__in=medication_ids,
+                            medication_two__isnull=True)
 
-        tf = TreatmentFeedback.objects.filter(patient__id=self.patient.id,
-                                              classification=to.classification)
+        tfd = TreatmentFeedback.objects.filter(
+            patient__id=self.patient.id, classification=topt.classification)
 
-        if to.classification.rank == 1:
+        if topt.classification.rank == 1:
             # For the best, factor in correct dosage
-            tf = tf.get(correct_dosage=correct_rx)
+            tfd = tfd.get(correct_dosage=correct_rx)
         else:  # for ineffective + harmful factor in combination
-            tf = tf.get(combination_therapy=combination)
+            tfd = tfd.get(combination_therapy=combination)
 
-        return tf
+        return tfd
 
 
 class PatientAssessmentForm(forms.ModelForm):

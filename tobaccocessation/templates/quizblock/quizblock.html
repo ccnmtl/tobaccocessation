@@ -4,7 +4,7 @@
 
 {{ block.description|markdown }}
 
-{% if request.user.is_anonymous %}
+{% if request.user.is_anonymous and not block.rhetorical %}
   <p class="warning">You must be logged in to view this content</p>
 {% else %}
     

@@ -43,11 +43,11 @@ def index(request):
 
     if profile is not None and profile.has_consented():
         profile = UserProfile.objects.get(user=request.user)
-        h = get_hierarchy(name=profile.role())
+        hierarchy = get_hierarchy(name=profile.role())
         return {'user': request.user,
                 'profile': profile,
-                'hierarchy': h,
-                'root': h.get_root()}
+                'hierarchy': hierarchy,
+                'root': hierarchy.get_root()}
     else:
         return HttpResponseRedirect(reverse('create_profile'))
 
@@ -248,7 +248,7 @@ def _unlocked(section, user, previous, profile):
             not profile.is_role_faculty() and not user.is_staff)):
         return False
 
-    """ if the user can proceed past this section """
+    # if the user can proceed past this section
     if (not section or
         section.is_root() or
         profile.get_has_visited(section) or
@@ -259,18 +259,12 @@ def _unlocked(section, user, previous, profile):
     if not previous or previous.is_root():
         return True
 
-    for p in previous.pageblock_set.all():
-        if hasattr(p.block(), 'unlocked'):
-            if not p.block().unlocked(user):
+    for pbl in previous.pageblock_set.all():
+        if hasattr(pbl.block(), 'unlocked'):
+            if not pbl.block().unlocked(user):
                 return False
 
     if previous.slug in UNLOCKED:
         return True
-
-    # Special case for virtual patient as this activity was too big to fit
-    # into a "block"
-    if (previous.label == "Virtual Patient" and
-            not VirtualPatientActivityState.is_complete(user)):
-        return False
 
     return profile.get_has_visited(previous)
