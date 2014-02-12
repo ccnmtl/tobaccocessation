@@ -89,6 +89,12 @@
    {% else %}
         {% if needs_submit %}
             {% if is_submitted %}
+               {% if not allow_redo and user.is_staff %}
+                        <form action="." method="post">
+                            <input type="hidden" name="action" value="reset" />
+                            <input type="submit" id="generic-reset" value="Clear Response (staff only)" class="btn pull-right" />
+                        </form>
+                {% endif %}            
             {% else %}
                 <form action="." method="post">
             {% endif %}
@@ -140,12 +146,7 @@
                     <input type="hidden" name="action" value="reset" />
                     <input type="submit" value="Try Again" class="btn pull-right" />
                     </form>
-                    {% else %}{% if user.is_staff %}
-                        <form action="." method="post">
-                        <input type="hidden" name="action" value="reset" />
-                        <input type="submit" value="Reset (staff only)" class="btn pull-right" />
-                        </form>
-                    {% endif %}{% endif %}
+                    {% endif %}
                 {% else %}                    
                     <input type="submit" value="Submit" class="btn btn-primary pull-right" />
                     <div class="visualclear"></div>                

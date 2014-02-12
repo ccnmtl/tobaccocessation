@@ -7,7 +7,7 @@ from django.db.models.signals import pre_save, post_init
 from django.dispatch.dispatcher import receiver
 from django.utils import simplejson
 from operator import itemgetter
-from pagetree.models import PageBlock
+from pagetree.models import PageBlock, Hierarchy
 
 
 class Medication(models.Model):
@@ -118,31 +118,32 @@ class TreatmentFeedback(models.Model):
 
 
 class ActivityState (models.Model):
-    user = models.ForeignKey(User, unique=True,
+    user = models.ForeignKey(User,
                              related_name="virtual_patient_user")
+    hierarchy = models.ForeignKey(Hierarchy)
     json = models.TextField()
 
+    class Meta:
+        unique_together = (("user", "hierarchy"),)
+
     @classmethod
-    def get_for_user(cls, user):
+    def get_for_user(cls, user, hierarchy):
         try:
-            stored_state = ActivityState.objects.get(user=user)
+            stored_state = ActivityState.objects.get(user=user,
+                                                     hierarchy=hierarchy)
         except ActivityState.DoesNotExist:
             # setup the template
             state = {}
-            state['version'] = 1
             state['patients'] = {}
 
             stored_state = ActivityState.objects.create(
-                user=user, json=simplejson.dumps(state))
-        except ActivityState.MultipleObjectsReturned:
-            a = ActivityState.objects.filter(user=user).order_by('id')
-            stored_state = a[0]
+                user=user, hierarchy=hierarchy, json=simplejson.dumps(state))
 
         return stored_state
 
     @classmethod
-    def clear_for_user(cls, user, patient_id):
-        state = ActivityState.objects.get(user=user)
+    def clear_for_user(cls, user, hierarchy, patient_id):
+        state = ActivityState.objects.get(user=user, hierarchy=hierarchy)
         state.data['patients'][patient_id] = {}
         state.save()
 
@@ -179,17 +180,20 @@ class PatientAssessmentBlock(models.Model):
     js_template_file = "activity_virtual_patient/patient_js.html"
     display_name = "Virtual Patient"
 
+    def __unicode__(self):
+        return unicode(self.pageblock())
+
     def pageblock(self):
         return self.pageblocks.all()[0]
 
-    def __unicode__(self):
-        return unicode(self.pageblock())
+    def get_hierarchy(self):
+        return self.pageblock().section.hierarchy
 
     def needs_submit(self):
         return self.view != self.VIEW_RESULTS
 
     def submit(self, user, data):
-        state = ActivityState.get_for_user(user)
+        state = ActivityState.get_for_user(user, self.get_hierarchy())
 
         if self.view == self.CLASSIFY_TREATMENTS:
             state.data['patients'][self.patient.id] = {}
@@ -248,7 +252,7 @@ class PatientAssessmentBlock(models.Model):
         return state.data["patients"][patient_id]
 
     def unlocked(self, user):
-        state = ActivityState.get_for_user(user)
+        state = ActivityState.get_for_user(user, self.get_hierarchy())
         patient_state = self._patient_state(state)
 
         if self.view == self.CLASSIFY_TREATMENTS:
@@ -281,7 +285,7 @@ class PatientAssessmentBlock(models.Model):
             return len(medications) > 0
 
     def available_treatments(self, user):
-        state = ActivityState.get_for_user(user)
+        state = ActivityState.get_for_user(user, self.get_hierarchy())
         patient_state = self._patient_state(state)
         qs = self.patient.treatments()
 
@@ -297,7 +301,7 @@ class PatientAssessmentBlock(models.Model):
         return lst
 
     def medications(self, user):
-        state = ActivityState.get_for_user(user)
+        state = ActivityState.get_for_user(user, self.get_hierarchy())
         patient_state = self._patient_state(state)
 
         medications = []

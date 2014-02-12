@@ -2,6 +2,10 @@ div.virtualpatient a:visited {
     color: #777;
 }
 
+#generic-reset {
+    display: none;
+}
+
 div.virtual-patient a.btn {
     color: #777;
 }

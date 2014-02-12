@@ -1,22 +1,5 @@
 from django import template
-from tobaccocessation.activity_virtual_patient.models import ActivityState
 register = template.Library()
-
-
-class GetUserState(template.Node):
-    def __init__(self, var_name):
-        self.var_name = var_name
-
-    def render(self, context):
-        u = context['request'].user
-        context[self.var_name] = ActivityState.get_for_user(u)
-        return ''
-
-
-@register.tag('getuserstate')
-def get_user_state(parser, token):
-    var_name = token.split_contents()[1:][1]
-    return GetUserState(var_name)
 
 
 class GetAvailableTreatments(template.Node):

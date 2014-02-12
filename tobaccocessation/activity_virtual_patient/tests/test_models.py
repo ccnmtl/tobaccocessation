@@ -94,26 +94,3 @@ class TestTreatmentFeedback(TestCase):
         tf = TreatmentFeedback.objects.create(
             patient=p, classification=tc, feedback="ok")
         self.assertEqual(str(tf), "Feedback: 1. foo foo")
-
-
-class TestPatientAssessmentBlock(TestCase):
-    def setUp(self):
-        p = Patient.objects.create(
-            name="foo",
-            description="bar",
-            history="history",
-            display_order=1)
-        m1 = Medication.objects.create(
-            name="m1",
-            instructions="instructions",
-            display_order=1,
-            tag="none")
-        m2 = Medication.objects.create(
-            name="m2",
-            instructions="instructions",
-            display_order=2,
-            tag="none")
-        tc = TreatmentClassification.objects.create(rank=1, description="foo")
-        to = TreatmentOption.objects.create(
-            patient=p, classification=tc, medication_one=m1, medication_two=m2)
-        self.assertEqual(str(to), "Option: foo [m1, m2]")

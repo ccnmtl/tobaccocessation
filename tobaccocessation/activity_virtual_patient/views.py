@@ -8,5 +8,5 @@ from tobaccocessation.activity_virtual_patient.models import ActivityState
 def reset(request, section_id, patient_id):
     section = Section.objects.get(id=section_id)
 
-    ActivityState.clear_for_user(request.user, patient_id)
+    ActivityState.clear_for_user(request.user, section.hierarchy, patient_id)
     return HttpResponseRedirect(section.get_parent().get_absolute_url())

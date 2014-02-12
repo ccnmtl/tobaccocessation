@@ -51,14 +51,6 @@ class TestViews(TestCase):
         self.response = self.c.get('/')
         self.assertEqual(self.response.status_code, 302)
 
-#    def test_flash_creation(self):
-#        self.flash_create = self.c.post(
-        #self.flash_create = self.c.post('/', {
-        #'file_url': 'medication name', 'image_url': Falsewidth'height})
-    #     self.request =
-    #     self.block_create = self.block.create(self.request)
-    #     self.assertIsNotNone(self.block_create)
-
     def test_accessible(self):
         pass
         #'''Need better test...'''
