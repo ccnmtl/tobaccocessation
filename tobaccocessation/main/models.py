@@ -46,8 +46,7 @@ class UserProfile(models.Model):
         return self.is_faculty == 'FA'
 
     def role(self):
-        if (self.is_role_student() or
-            self.specialty in ['S2', 'S9', 'S10'] or
+        if (self.specialty in ['S2', 'S9', 'S10'] or
                 self.specialty is None):
             # Pre-Doctoral Student, Other, Dental Public Health
             return "main"

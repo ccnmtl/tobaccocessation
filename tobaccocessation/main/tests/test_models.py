@@ -14,7 +14,7 @@ class UserProfileTest(TestCase):
                                           gender='M',
                                           is_faculty='ST',
                                           institute='I1',
-                                          specialty='S1',
+                                          specialty='S2',
                                           hispanic_latino='Y',
                                           year_of_graduation=2015,
                                           consent=True)
@@ -122,11 +122,14 @@ class UserProfileTest(TestCase):
         user = User.objects.get(username='test_student')
         profile = UserProfile.objects.get(user=user)
 
-        profile.is_faculty = 'ST'
+        # pre-doctoral
+        self.assertEquals(profile.role(), "main")
+
+        # verify being a faculty doesn't change this selection
+        profile.is_faculty = 'FA'
         profile.save()
         self.assertEquals(profile.role(), "main")
 
-        profile.is_faculty = 'FA'
         profile.specialty = 'S1'
         profile.save()
         self.assertEquals(profile.role(), "general")
