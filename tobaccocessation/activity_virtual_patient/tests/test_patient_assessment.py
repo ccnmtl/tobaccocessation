@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
-from django.test.client import Client
+from django.test.client import Client, RequestFactory
 from pagetree.helpers import get_section_from_path
 from pagetree.models import Hierarchy
 from tobaccocessation.activity_virtual_patient.models import \
@@ -37,6 +37,54 @@ class TestPatientAssessmentBlock(TestCase):
         alt_hierarchy = Hierarchy.objects.get(name='alt')
         self.alt_section = alt_hierarchy.get_root().append_child(
             'Sam I Am', 'sam-i-am')
+
+    def test_add_form(self):
+        form = PatientAssessmentBlock.add_form()
+        self.assertIsNotNone(form)
+        self.assertTrue('patient' in form.fields)
+        self.assertTrue('view' in form.fields)
+
+    def test_edit_form(self):
+        block = PatientAssessmentBlock(
+            patient=self.patient1,
+            view=PatientAssessmentBlock.CLASSIFY_TREATMENTS)
+        block.save()
+
+        form = block.edit_form()
+        self.assertIsNotNone(form)
+        self.assertTrue('patient' in form.fields)
+        self.assertTrue('view' in form.fields)
+        self.assertEquals(form.initial['patient'],
+                          self.patient1.id)
+        self.assertEquals(form.initial['view'],
+                          PatientAssessmentBlock.CLASSIFY_TREATMENTS)
+
+    def test_create(self):
+        rf = RequestFactory()
+        post_request = rf.post('/',
+                               {'patient': '4',
+                                'view': PatientAssessmentBlock.VIEW_RESULTS})
+        block = PatientAssessmentBlock.create(post_request)
+        self.assertEquals(block.view, PatientAssessmentBlock.VIEW_RESULTS)
+        self.assertEquals(block.patient, self.patient4)
+
+    def test_edit(self):
+        block = PatientAssessmentBlock(
+            patient=self.patient1,
+            view=PatientAssessmentBlock.CLASSIFY_TREATMENTS)
+        block.save()
+        self.assertEquals(block.patient, self.patient1)
+        self.assertEquals(block.view,
+                          PatientAssessmentBlock.CLASSIFY_TREATMENTS)
+
+        rf = RequestFactory()
+        post_request = rf.post('/',
+                               {'patient': '4',
+                                'view': PatientAssessmentBlock.VIEW_RESULTS})
+
+        block.edit(post_request.POST, None)
+        self.assertEquals(block.patient, self.patient4)
+        self.assertEquals(block.view, PatientAssessmentBlock.VIEW_RESULTS)
 
     CLASSIFY_TREATMENTS_DATA = {
         u'nicotinepatch': u'appropriate',

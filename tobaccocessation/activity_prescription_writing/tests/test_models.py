@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
+from django.test.client import RequestFactory
 from tobaccocessation.activity_prescription_writing.models import Block, \
     Medication
 
@@ -7,12 +8,53 @@ from tobaccocessation.activity_prescription_writing.models import Block, \
 class TestBlock(TestCase):
     fixtures = ['prescriptionwriting.json']
 
-    def test_default_settings(self):
+    def test_default(self):
         block = Block(medication_name='Nicotine Patch')
         block.save()
 
         self.assertTrue(block.needs_submit())
         self.assertTrue(block.redirect_to_self_on_submit())
+
+    def test_add_form(self):
+        form = Block.add_form()
+        self.assertIsNotNone(form)
+        self.assertTrue('medication_name' in form.fields)
+        self.assertTrue('allow_redo' in form.fields)
+
+    def test_edit_form(self):
+        block = Block(medication_name='Nicotine Patch')
+        block.save()
+
+        form = block.edit_form()
+        self.assertIsNotNone(form)
+        self.assertTrue('medication_name' in form.fields)
+        self.assertTrue('allow_redo' in form.fields)
+        self.assertEquals(form.initial['medication_name'], 'Nicotine Patch')
+        self.assertTrue(form.initial['allow_redo'])
+
+    def test_create(self):
+        rf = RequestFactory()
+        post_request = rf.post('/',
+                               {'medication_name': 'Nicotine Patch',
+                                'allow_redo': False})
+        block = Block.create(post_request)
+        self.assertEquals(block.medication_name, 'Nicotine Patch')
+        self.assertFalse(block.allow_redo)
+
+    def test_edit(self):
+        block = Block(medication_name='Nicotine Patch')
+        block.save()
+        self.assertEquals(block.medication_name, 'Nicotine Patch')
+        self.assertTrue(block.allow_redo)
+
+        rf = RequestFactory()
+        post_request = rf.post('/',
+                               {'medication_name': 'Nicotine Gum',
+                                'allow_redo': False})
+
+        block.edit(post_request.POST, None)
+        self.assertEquals(block.medication_name, 'Nicotine Gum')
+        self.assertFalse(block.allow_redo)
 
     def test_single_prescription(self):
         user = User.objects.create(username="test")
