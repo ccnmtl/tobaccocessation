@@ -37,6 +37,8 @@
 
 {% block content %}
     <div class="landing-page">
+        
+    <div class="span7">    
         <h2>Welcome!</h2>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget sem mattis, rhoncus dolor ac, mollis augue. Cras ligula libero, viverra ut dui vel, commodo volutpat enim. Nullam eu lorem tellus. Fusce elementum eget purus sed venenatis. Suspendisse sit amet justo dolor. Fusce posuere vestibulum adipiscing. Nulla facilisi. Integer porttitor, diam quis vehicula elementum, ipsum lectus molestie velit, ut rhoncus purus neque at magna. Fusce turpis nisi, fringilla vitae feugiat ac, mattis in leo. Donec felis est, pellentesque quis urna eu, auctor pretium diam. Duis sagittis venenatis turpis at auctor.
         
@@ -81,8 +83,9 @@
                     </a>
                     </div>
                 {% endifequal %}
-                
-                <h4>Table of Contents</h4>        
+                </div>
+                <div class="span5">
+                <h3>Table of Contents</h3>        
                 <ul class="toc">
                 {% for s in root.get_descendants %}
                     <li class="menu" style="list-style: none; line-height: 150%">
@@ -105,5 +108,6 @@
                 </ul>
             {% endwith %}
         {% endifequal %}{% endifequal %}{% endifequal %}
+    </div>
     </div> 
 {% endblock %}

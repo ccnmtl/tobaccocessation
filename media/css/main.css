@@ -4,8 +4,10 @@ body
 	margin: 0;
 	padding: 0;
 	border: 0;
-	background-color: #fff;
-	font: normal 0.88em/140% arial, helvetica, verdana, sans-serif;
+	background: url('../img/paper_fibers.png') repeat;
+	background-color: #f5f5f5;
+	font-family: 'Helvetica Neue' 'Helvetica', sans-serif;
+	font-style: normal;
 	color: #000;
 }
 
@@ -16,7 +18,8 @@ h1, h2, h3, h4, h5, h6
 	margin: 0 0 0.5em 0;
 	padding: 0;
 	border: 0;
-	font-weight: bold;
+	font-family: 'Sintony', 'Open Sans', 'Helvetica';
+	font-weight: 400;
 }
 
 h1
@@ -27,6 +30,7 @@ h1
 
 h2
 {
+
 	margin: 1em 0 1em 0;
 	font-size: 130%;
 	text-transform: uppercase;
@@ -120,6 +124,10 @@ ol, ul
 
 li {
 	margin: 0 0.25em .5em .25em;
+}
+
+.navbar.main {
+	padding: 0 10px;
 }
 
 .navbar.footer {
@@ -282,7 +290,9 @@ img, img a
 	min-width: 987px;
 	margin: 0 auto;
 	padding: 0;
-	border: 1px solid #999;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
 	border-collapse: collapse;
 	background-color: #fff;
 }
@@ -660,9 +670,7 @@ div.landing-page h3 a {
 }
 
 div.landing-page h4 {
-    font-size: 17.5px;
-    margin-top: 50px;
-    font-style: normal;
+     font-style: normal;
 }
 
 div.landing-page h5 {
