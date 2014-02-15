@@ -67,8 +67,8 @@
 }
 
 #refills {
-    height: 10px;
-    margin: 21px 0 0 45px;
+    height: 14px;
+    margin: 17px 0 0 45px;
     width: 31px; 
     text-align: right;
     border-right: 1px solid #ddd;
@@ -77,7 +77,6 @@
 }
 
 #feedback {
-
     display:block;
     height:209px;
     margin: -151px 0 0 -55px;
@@ -101,7 +100,7 @@
 #refills_correct {
     position: absolute;
     width: 44px;
-    top: 395px;
+    top: 392px;
     left: 446px;
 }
 

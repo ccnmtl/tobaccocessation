@@ -7,3 +7,12 @@
 {% else %}{% ifequal block.view block.VIEW_RESULTS %}
     {% include "activity_virtual_patient/results.html" %}
 {% endifequal %}{% endifequal %}{% endifequal %}{% endifequal %}
+
+
+{% if not needs_submit or is_submitted %}
+    <br />
+    <form action="/activity/virtualpatient/reset/{{section.id}}/{{block.patient.id}}/" method="post" class="pull-left">
+        <input type="hidden" name="action" value="reset" />
+        <input type="submit" value="Reset Patient Assessment" class="btn" />
+    </form>
+{% endif %}

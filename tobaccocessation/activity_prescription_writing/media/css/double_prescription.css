@@ -5,8 +5,8 @@
 }
 
 #callout_container {
-    left: 214px;
-    margin-top: 185px;
+    margin-left: 45px;
+    top: 409px;
 	position:absolute;
 }
 
@@ -95,8 +95,8 @@
 }
 
 #refills, #refills_2 {
-    height: 10px;
-    margin: 23px 0 0 45px;     
+    height: 14px;
+    margin: 18px 0 0 45px;     
     width: 31px;
     text-align: right;
     font-size: 12px;
@@ -120,7 +120,7 @@
 #refills_correct, #refills_2_correct {
 	left: 310px;
 	position: absolute;
-	top: 155px;
+	top: 153px;
 	width: 44px;
 }
 

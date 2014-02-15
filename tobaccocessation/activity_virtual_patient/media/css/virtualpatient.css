@@ -244,7 +244,7 @@ div.virtual-patient a.btn {
 
 .prescribe .blankrx_single .field.concentration {
     position: absolute;
-    left: 449px;
+    left: 490px;
     top: 235px;
 }
 
@@ -322,7 +322,7 @@ div.virtual-patient a.btn {
 
 .prescribe .blankrx_double .field.concentration {
     position: absolute;
-    left: 259px;
+    left: 236px;
     top: 235px;
 }
 
@@ -377,7 +377,7 @@ div.virtual-patient a.btn {
 
 .prescribe .blankrx_double .field.concentration.two {
     position: absolute;
-    left: 639px;
+    left: 613px;
     top: 235px;
 }
 
