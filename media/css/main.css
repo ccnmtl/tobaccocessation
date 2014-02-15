@@ -156,7 +156,8 @@ li {
 }
 
 ul.dropdown-menu.dropdown-menu-3.treatment-options {
-    height: 472px;
+    width: 450px;
+    height: 378px;
     -webkit-column-count: 2;
     -moz-column-count: 2;
     column-count: 2;
@@ -167,6 +168,7 @@ ul.dropdown-menu.dropdown-menu-3.treatment-options {
 
 ul.dropdown-menu.dropdown-menu-3.virtual-patient {
     height: 340px;
+    width: 450px;
     -webkit-column-count: 2;
     -moz-column-count: 2;
     column-count: 2;

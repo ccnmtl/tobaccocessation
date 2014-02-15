@@ -45,11 +45,11 @@
         {% if hierarchy.name != "resources" and hierarchy.name != "faculty" %}
             {% include "primary_nav.html" %}
         {% endif %}
-        {% ifequal hierarchy.name "faculty" %}
+        {% if hierarchy.name == "faculty" and can_access %}
             {% include "faculty_nav.html" %}
-        {% endifequal %}            
+        {% endif %}            
         {% include "resources_nav.html" %}
-    </div>
+    </div>   
 {% endblock %}
 
 
@@ -68,7 +68,6 @@
                 <p>
                     <b>Error!</b> This page is not available.
                 </p>                    
-                <a class="btn" href="/">Home</a>
             {% endwith %}
         </div>
    {% else %}

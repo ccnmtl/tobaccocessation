@@ -155,19 +155,21 @@ div.virtual-patient a.btn {
 }
 
 .prescribe .field.concentration {
-    height: 22px;
-    width: 90px; 
+    width: 90px;
+    height: 28px; 
+    font-size: 1.1em;
 }
 
 .prescribe .field.dosage {
-    height: 22px;
     width: 188px;
+    height: 28px;
+    font-size: 1.1em;
 }
 
 .prescribe .field.med_inst {
     border: 1px solid #CCCCCC;
     background-color: #eee;
-    height: 59px;
+    height: 63px;
     overflow: auto;
     padding: 0 5px 5px 0;
     width: 260px;
@@ -243,7 +245,7 @@ div.virtual-patient a.btn {
 .prescribe .blankrx_single .field.concentration {
     position: absolute;
     left: 449px;
-    top: 239px;
+    top: 235px;
 }
 
 .prescribe .blankrx_single .field.dosage {
@@ -255,7 +257,7 @@ div.virtual-patient a.btn {
 .prescribe .blankrx_single .field.med_inst {
     position: absolute;
     left: 337px;
-    top: 295px;
+    top: 298px;
 }
 
 .prescribe .blankrx_single .field.refills {
@@ -321,7 +323,7 @@ div.virtual-patient a.btn {
 .prescribe .blankrx_double .field.concentration {
     position: absolute;
     left: 259px;
-    top: 239px;
+    top: 235px;
 }
 
 .prescribe .blankrx_double .field.dosage {
@@ -333,7 +335,7 @@ div.virtual-patient a.btn {
 .prescribe .blankrx_double .field.med_inst {
     position: absolute;
     left: 147px;
-    top: 295px;
+    top: 298px;
 }
 
 .prescribe .blankrx_double .field.refills {
@@ -376,7 +378,7 @@ div.virtual-patient a.btn {
 .prescribe .blankrx_double .field.concentration.two {
     position: absolute;
     left: 639px;
-    top: 239px;
+    top: 235px;
 }
 
 .prescribe .blankrx_double .field.dosage.two {
@@ -388,7 +390,7 @@ div.virtual-patient a.btn {
 .prescribe .blankrx_double .field.med_inst.two {
     position: absolute;
     left: 527px;
-    top: 295px;
+    top: 298px;
 }
 
 .prescribe .blankrx_double .field.refills.two {

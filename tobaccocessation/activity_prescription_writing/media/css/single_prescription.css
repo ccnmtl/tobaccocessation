@@ -1,7 +1,7 @@
 #callout_container {
     float:left;
     left: 150px;
-    margin-top:-23px;
+    margin-top:-28px;
     position:absolute;
 }
 
@@ -30,15 +30,13 @@
     width: 160px;
 }
 
-.connecting_line
-{
+.connecting_line {
    position: absolute;
    margin: 0;
    padding: 0;
    background-color: white;
    z-index: 20;
    border-bottom: 1px solid #eaa141;
-
 }
 
 #blankrx {
@@ -52,10 +50,11 @@
 
 
 #dosage, #disp {
-    height: 10px;
-    margin-bottom: 3px;
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
+    height: 14px;
+    margin-bottom: 3px;
+    font-size: 12px;
 }
 
 #sig {
@@ -64,15 +63,17 @@
     width: 207px;
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
+    font-size: 12px;
 }
 
 #refills {
     height: 10px;
-    margin: 30px 0 0 45px; 
+    margin: 21px 0 0 45px;
     width: 31px; 
     text-align: right;
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
+    font-size: 12px;
 }
 
 #feedback {
@@ -84,23 +85,23 @@
 
 #dosage_correct {
    position: relative;
-   margin: 0px 0 3px 280px;
+   margin: 2px 0 3px 280px;
 }
 
 #disp_correct {
     position: relative;  
-    margin: 4px 0 2px 280px;
+    margin: 8px 0 2px 280px;
 }
 
 #sig_correct {
    position: relative;  
-   margin: 4px 0 2px 280px;
+   margin: 8px 0 2px 280px;
 }
 
 #refills_correct {
     position: absolute;
     width: 44px;
-    top: 397px;
+    top: 395px;
     left: 446px;
 }
 
