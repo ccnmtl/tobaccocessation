@@ -569,7 +569,7 @@ body.fluid #footer
 /* ---- Contact Us Form ---------- */
 
 #contact {
-    width: 425px;
+    width: 100%;
 }    
  
 #contact .msg {
@@ -597,6 +597,7 @@ body.fluid #footer
 
 #contact #contactform #description {
     font: normal 0.88em/140% arial, helvetica, verdana, sans-serif;
+    width: 100%;
 }
 
 #contact #contactform .labelcell {

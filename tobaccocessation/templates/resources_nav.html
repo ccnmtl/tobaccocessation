@@ -18,18 +18,22 @@
             </a>
             <ul class="dropdown-menu">
                 <li><a href="{{ site.domain }}/main/media/pdf/TobaccoCessation_CourseGuide.pdf">Course Guide</a></li>
+                
+                {% if profile.is_role_faculty or user.is_superuser %}
+                <li><a href="#">Faculty Guide</a></li>
+                {% endif %}
                 <li><a href="{{ site.domain }}/main/media/pdf/PharmacotherapyTable.pdf">Pharmacotherapy Guide</a></li>
                 <li><a href="{{ site.domain }}/main/media/pdf/CDM_Excuses_NotQuitting.pdf">Excuses For Not Quiting</a></li>
                 <li><a href="{{ site.domain }}/main/media/pdf/CDM_Examples_Empathy.pdf">Examples of Empathy</a></li>
                 <li><a href="/pages/resources/public/videos/">Videos</a></li>
+                
+                <li class="divider"></li>
+                <li><a href="/pages/resources/public/external/">External Resources</a></li>
 
                 {% if profile.is_role_faculty or user.is_superuser %}
                     <li class="divider"></li>             
                     <li><a href="/pages/faculty/">Standalone Activities</a></li> 
-                {% endif %}
-                
-                <li class="divider"></li>                
-                <li><a href="/pages/resources/public/external/">External Resources</a></li>              
+                {% endif %}                              
             </ul>
       </li>
     </ul>
