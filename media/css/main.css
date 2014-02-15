@@ -835,7 +835,7 @@ div.quiz-results {
 
 .multiple-video-quiz div.quiz-video {
     position: absolute;
-    left: 543px;
+    margin-left: 269px;
     width: 480px;
     height: 272px;
 }
