@@ -31,16 +31,19 @@
                 
                 <div id="standardnav">
             		{% block standardnav %}
-                        <ul>
+                        <ul class="nav nav-pills">
                             {% if user.is_authenticated %}
-                               <li><a href="/accounts/logout/">Log Out</a></li>
+                                <li><a href="/accounts/logout/">Log Out</a></li>
+                                {% if user.has_usable_password %}
+                                    <li><a href="/accounts/password/change/">Change Password</a></li>
+                                {% endif %}
                             {% else %}
                                <li><a href="/accounts/login/">Log In</a></li>
                             {% endif %}
                             <li><a href="/about/">About</a></li>
                             <li><a href="/help/">Help</a></li>
                             {% if user.is_authenticated %}
-                             <li><a href="/contact/">Contact</a></li>
+                                <li><a href="/contact/">Contact</a></li>
                             {% endif %}
                         </ul>
                     {% endblock %}
@@ -61,18 +64,34 @@
     	<div class="visualclear"></div>
     
         {% block primarynav %}
-        	<!-- ###### Primary navigation ###### -->
-            <div class="navbar">
-              <div class="navbar-inner">
-                <div class="container">
-                    {% block extraprimarynav %}
-                    {% endblock %}
-                                    
-                    {% block primarynavtabs %}
-                    {% endblock %}
+            {% if user.is_authenticated %}
+                <!-- ###### Primary navigation ###### -->
+                <div class="navbar">
+                  <div class="navbar-inner">
+                    <div class="container">
+                        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        
+                        <ul class="nav home">
+                          <li>
+                            <a href="/"><img src="/site_media/img/home.png"></a>
+                          </li>
+                        </ul>
+                    
+                    
+                        {% block extraprimarynav %}
+                        {% endblock %}
+                                        
+                        {% block primarynavtabs %}
+                        {% endblock %}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>        
+            {% endif %}        
         {% endblock %}
     
     	<!-- ###### Page: Sidebars and Content ###### -->

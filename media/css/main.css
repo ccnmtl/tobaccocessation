@@ -317,15 +317,13 @@ img, img a
 #standardnav ul {
     margin: 10px 10px 0 0;
     float: right;
-    width: 300px;    
+    width: 450px;    
 }
 
 #standardnav li
 {
 	display: block;
 	float: right;
-	margin: 0 0 0 0.5em;
-	padding:  0 0 0 0.5em;
 	border: 0;
 	font-size: 0.9em;
 }
@@ -546,6 +544,9 @@ body.fluid #footer
     margin: 20px;
 }
 
+div.password-reset ul.errorlist,
+div.password-change ul.errorlist,
+div.signup-block ul.errorlist,
 #reg_form ul.errorlist {
     list-style: none;
     margin: 0;
