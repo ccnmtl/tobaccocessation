@@ -83,38 +83,27 @@
 {% endblock %}
 
 {% block primarynavtabs %}
-    {% if user.is_authenticated %}
-        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </a>
-        
-        <ul class="nav home">
-          <li>
-            <a href="/"><img src="/site_media/img/home.png"></a>
-          </li>
-        </ul>
-        
-        <ul class="nav">
-        <li>
-            <a href="#"
-                class="dropdown-toggle"
-                data-toggle="dropdown">Hierarchies
-                <b class="caret"></b>
+    <ul class="nav">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Hierarchies <b class="caret"></b>
             </a>
             <ul class="dropdown-menu dropdown-menu">        
-                <li><a href="/pages/main/edit/">main</a>
-                <li><a href="/pages/perio/edit/">perio</a>
-                <li><a href="/pages/general/edit/">general</a>
-                <li><a href="/pages/surgery/edit/">surgery</a>
-                <li><a href="/pages/resources/edit/">resources</a>
-                <li><a href="/pages/faculty/edit/">faculty (stand-alone resources)</a>
+                <li>
+                    <a href="/pages/main/edit/">main (<small><i>Pre-Doctoral Student, Dental Public Health, Other</i></small>)</a>
+                </li>
+                <li>
+                    <a href="/pages/general/edit/">general (<small><i>Prosthodontics, General Dentistry</i></small>)</a>
+                </li>                    
+                <li>
+                    <a href="/pages/perio/edit/">perio (<small><i>Periodontics</i></small>)</a>
+                </li>
+                <li><a href="/pages/surgery/edit/">surgery (<small><i>Oral & Maxillofacial Surgery</i></small>)</a></li>
+                <li><a href="/pages/resources/edit/">resources</a></li>
+                <li><a href="/pages/faculty/edit/">faculty (<small><i>Stand-alone Activities</i></small>)</a></li>
             </ul>
         </li>
-        </ul>
-    {% endif %}
+    </ul>
 {% endblock %}
 
 {% block extraprimarynav %}
