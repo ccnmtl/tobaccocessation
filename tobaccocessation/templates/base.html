@@ -6,7 +6,7 @@
 	<title>Tobacco Cessation: {% block title %}{% endblock %}</title>
 	<link rel="shortcut icon" href="/site_media/img/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="/site_media/bootstrap/css/bootstrap.min.css" media="screen" />
-    <link href='http://fonts.googleapis.com/css?family=Sintony:400,700' rel='stylesheet' type='text/css'></link>
+    <link href='http://fonts.googleapis.com/css?family=Sintony:400,700' rel='stylesheet' type='text/css' />
 
     
     <script type="text/javascript" src="/site_media/js/jquery-1.10.1.min.js"></script>
@@ -49,6 +49,7 @@
                             {% endif %}
                         </ul>
                     {% endblock %}
+                    <div class="visualclear"></div>
             		<!-- CCNMTL title/logo -->
                     <div>
                         <a id="logo_dental" href="http://dental.columbia.edu" target="_blank" title="Columbia University College of Dental Medicine">
@@ -148,7 +149,7 @@
         <script type="text/javascript">
             jQuery(document).ready(function() {
                 /* Select from list: Chrome, Firefox, Safari, MSIE */
-                shieldbrowser({"Chrome": 1, "Firefox": 3.6, "Safari": 4, "MSIE": 8 });
+                shieldbrowser({"Chrome": 1, "Firefox": 3.6, "Safari": 4, "MSIE": 8, "Mozilla": 11 });
             });
         </script>
         {% block js %}{% endblock %}

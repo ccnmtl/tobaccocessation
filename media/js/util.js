@@ -4,22 +4,24 @@ function hasVideo() {
 }
 
 function showVideo(radioElt) {
-    // hide any videos that are currently playing
-    // stop the video?
-    jQuery("div.quiz-video").addClass("answer-video").removeClass("quiz-video");
-    var video = jQuery(radioElt).siblings("div.answer-video")[0];
-    
-    jQuery(video).addClass("quiz-video");
-    
-    // center the video vertically 
-    var top = jQuery("div.multiple-video-quiz").offset().top;
-    var height = jQuery("div.multiple-video-quiz").outerHeight();
-    
-    var center = (top + height) / 2 - jQuery(video).height() / 2 ; 
-    
-    jQuery(video).css({"top": center + "px"});
-    
-    jQuery(video).removeClass("answer-video");
+    if (jQuery("div.multiple-video-quiz").length > 0) {    
+        // hide any videos that are currently playing
+        // stop the video?
+        jQuery("div.quiz-video").addClass("answer-video").removeClass("quiz-video");
+        var video = jQuery(radioElt).siblings("div.answer-video")[0];
+        
+        jQuery(video).addClass("quiz-video");
+        
+        // center the video vertically 
+        var top = jQuery("div.multiple-video-quiz").offset().top;
+        var height = jQuery("div.multiple-video-quiz").outerHeight();
+        
+        var center = (top + height) / 2 - jQuery(video).height() / 2 ; 
+        
+        jQuery(video).css({"top": center + "px"});
+        
+        jQuery(video).removeClass("answer-video");
+    }
 }
 
 
