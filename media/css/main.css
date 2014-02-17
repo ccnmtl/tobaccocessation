@@ -22,49 +22,6 @@ h1, h2, h3, h4, h5, h6
 	font-weight: 400;
 }
 
-h1
-{
-	font-size: 140%;
-	font-weight: normal;
-}
-
-h2
-{
-
-	margin: 1em 0 1em 0;
-	font-size: 130%;
-	text-transform: uppercase;
-
-}
-
-h3
-{
-	
-	font-size: 115%;
-	margin: 1.7em 0 1.25em 0;
-	color: #223334;
-}
-
-h4
-{
-
-	font-size: 100%;
-	font-style: italic;
-	color: #223334;
-	margin-bottom: .75em; 
-}
-
-h5
-{
-
-	font-size: 100%;
-		font-weight: normal;
-	font-style: italic;
-	color: #223334;
-	margin: 1em 0;
-	text-transform: none;
-	
-}
 
 h6
 {
@@ -323,6 +280,8 @@ img, img a
 {
 	display: block;
 	float: right;
+	width: 100%;
+	background: #00aacb;
 }
 
 
@@ -342,9 +301,11 @@ img, img a
 
 #standardnav a{
 	text-decoration: none;
+	color: #fff;
 }
 
 #standardnav a:hover {
+	color: #00768d;
 }
 
 /* ---- Logos ---------- */
@@ -665,40 +626,21 @@ div.landing-page span.disabled {
 }
 
 
-div.landing-page div.course-materials ul {
+div.course-materials ul {
     margin-bottom: 50px;
 }
 
-div.landing-page div.course-materials li {
-    margin: 0 .75em 1.5em .75em;
+.course-materials li {
+	margin: 0 0 1em -1.25em;
+	list-style-type: none;
+	font-size: .875em;
 }
 
-div.landing-page div.course-materials li a {
+div.course-materials li a {
     margin-top: -5px;
 }
 
-div.landing-page h2 {
-    /** overriding the main.css overrides of bootstrap **/
-    font-size: 31.5px;
-    margin: 10px 0;
-    text-transform: none;
-}
-
-div.landing-page h3 {
-    /** overriding the main.css overrides of bootstrap **/    
-    font-size: 17.5px;
-    margin: 0;
-}
-
-div.landing-page h3 a {
-    margin-top: -5px;
-}
-
-div.landing-page h4 {
-     font-style: normal;
-}
-
-div.landing-page .course-progress {
+.course-progress {
 	padding: 15px;
     margin: 0;
     background-color: #fff;
@@ -709,10 +651,12 @@ div.landing-page .course-progress {
 }
 
 
-div.landing-page .contents {
+.contents {
 	font-size: .875em;
 	background-color: #f5f5f5;
 	padding: 0 1em 1em 1em;
+	border-radius: 5px;
+	border: solid 1px #ccc;
 }
 
 
