@@ -8,7 +8,7 @@ body
 	background-color: #f5f5f5;
 	font-family: 'Helvetica Neue' 'Helvetica', sans-serif;
 	font-style: normal;
-	color: #000;
+
 }
 
 /* ########## Standard elements ########## */
@@ -215,7 +215,7 @@ img, img a
 .block
 {
 	display: block;
-	margin: 0 10px 1em 10px;
+	margin: 15px;
 	padding: 0;
 	border: 0;
 }
@@ -313,20 +313,24 @@ img, img a
 	clear: both;
 	display: block;
 	float: left;
+	width: 100%;
+	margin: 1em 0 0 0;
 }
 
 #tc_logo {
+	height: 75px;
 	float: left; 
 }
 
 #dental_logo {
-	width: 250px;
+	height: 50px;
+	float: right;
 }
 
 #ccnmtl_logo {
-	width: 150px; 
+	height: 50px;
+	float: right;
 }
-
 
 
  /* ---- Pagebody block elements ---------- */
@@ -641,8 +645,8 @@ div.course-materials li a {
 }
 
 .course-progress {
-	padding: 15px;
-    margin: 0;
+	padding: 10px 15px;
+    margin: 3em 0 0 0;
     background-color: #fff;
     border: 1px solid #ddd;
     -webkit-border-radius: 4px;
@@ -654,7 +658,7 @@ div.course-materials li a {
 .contents {
 	font-size: .875em;
 	background-color: #f5f5f5;
-	padding: 0 1em 1em 1em;
+	padding: 1em;
 	border-radius: 5px;
 	border: solid 1px #ccc;
 }

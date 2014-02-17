@@ -30,8 +30,8 @@
     <div class="span8 landing-page">
         <div class="row-fluid">
         <div class="span8">    
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget sem mattis, rhoncus dolor ac, mollis augue. Cras ligula libero, viverra ut dui vel, commodo volutpat enim. Nullam eu lorem tellus. Fusce elementum eget purus sed venenatis. Suspendisse sit amet justo dolor. Fusce posuere vestibulum adipiscing. Nulla facilisi. Integer porttitor, diam quis vehicula elementum, ipsum lectus molestie velit, ut rhoncus purus neque at magna. Fusce turpis nisi, fringilla vitae feugiat ac, mattis in leo. Donec felis est, pellentesque quis urna eu, auctor pretium diam. Duis sagittis venenatis turpis at auctor.
-        </p>        
+        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget sem mattis, rhoncus dolor ac, mollis augue.</p><p> Cras ligula libero, viverra ut dui vel, commodo volutpat enim. Nullam eu lorem tellus. Fusce elementum eget purus sed venenatis. Suspendisse sit amet justo dolor. Fusce posuere vestibulum adipiscing. Nulla facilisi. Integer porttitor, diam quis vehicula elementum, ipsum lectus molestie velit, ut rhoncus purus neque at magna. Fusce turpis nisi, fringilla vitae feugiat ac, mattis in leo. Donec felis est, pellentesque quis urna eu, auctor pretium diam. Duis sagittis venenatis turpis at auctor.
+        </p><p>Cras ligula libero, viverra ut dui vel, commodo volutpat enim. Nullam eu lorem tellus. Fusce elementum eget purus sed venenatis. Suspendisse sit amet justo dolor. Fusce posuere vestibulum adipiscing. Nulla facilisi. Integer porttitor, diam quis vehicula elementum, ipsum lectus molestie velit, ut rhoncus purus neque at magna. Fusce turpis nisi, fringilla vitae feugiat ac, mattis in leo. Donec felis est, pellentesque quis urna eu, auctor pretium diam. Duis sagittis venenatis turpis at auctor</p>        
         </div>
         <div class="span4 course-materials">
             <h4>Course Materials</h4>
@@ -63,7 +63,7 @@
                     <a href="{{last_location.get_absolute_url}}" class="btn btn-large btn-primary">Begin the Course <i class="icon-arrow-right icon-white"></i></a>
                 {% else %}
                     <div class="course-progress">
-                    <h3>Course Progress</h3>
+                    <h4>Course Progress</h4>
                     <h5>{{profile.percent_complete}}% Complete</h5>
                     <div class="progress progress-striped">
                         <div class="bar" style="width: {{profile.percent_complete}}%;"></div>
@@ -78,7 +78,7 @@
              </div>
                 <div class="span4">
                     <div class="contents">
-                <h3>Table of Contents</h3>        
+                <h4>Table of Contents</h4>        
                 <ul class="toc">
                     {% for s in root.get_descendants %}
                         <li class="menu" style="list-style: none; line-height: 150%">
