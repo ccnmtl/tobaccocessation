@@ -26,13 +26,8 @@
         {% block masthead %}
         	<!-- ###### Site banner ###### -->
         	<div id="header">
-        		<!-- Project title/logo -->
-                <a href="/" title="Tobacco Cessation" class="pull-left">
-                    <img src="/site_media/img/tc_logo_2014_web.png" alt="Tobacco Cessation Logo"/>
-                </a>
-                
-                <div id="standardnav">
-            		{% block standardnav %}
+        	     <div id="standardnav">
+                    {% block standardnav %}
                         <ul class="nav nav-pills">
                             {% if user.is_authenticated %}
                                 <li><a href="/accounts/logout/">Log Out</a></li>
@@ -50,17 +45,24 @@
                         </ul>
                     {% endblock %}
                     <div class="visualclear"></div>
-            		<!-- CCNMTL title/logo -->
-                    <div>
+                    
+               </div>
+               <div id="logos">
+               
+        		<!-- Project title/logo -->
+                <a href="/" title="Tobacco Cessation" class="pull-left">
+                    <img src="/site_media/img/tc_logo_2014_web.png" alt="Tobacco Cessation Logo" id="tc_logo"/>
+                </a>
+                <!-- CCNMTL title/logo -->
+                    
                         <a id="logo_dental" href="http://dental.columbia.edu" target="_blank" title="Columbia University College of Dental Medicine">
-                            <img src="/site_media/img/logo_dental.png" alt="Dental Medicine Logo" />
+                            <img src="/site_media/img/logo_dental.png" alt="Dental Medicine Logo" id="dental_logo" />
                         </a>
                         <a id="logo_ccnmtl" href="http://ccnmtl.columbia.edu" target="_blank" title="Columbia Center for New Media Teaching and Learning">
-                            <img src="/site_media/img/logo_ccnmtl.png" alt="CCNMTL Logo" />
+                            <img src="/site_media/img/logo_ccnmtl.png" alt="CCNMTL Logo" id="ccnmtl_logo" />
                         </a>
-                    </div>
-               </div>
-        	</div><!-- id="header" -->
+                </div>
+             </div><!-- id="header" -->
         {% endblock %}
     
     	<!-- ###### Don't touch this ###### -->

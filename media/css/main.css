@@ -226,17 +226,17 @@ ul.dropdown-menu.dropdown-menu-3.virtual-patient {
 }
 
 a {
-	color: #16899C;
+	color: #00aacb;
 }
 
 a:hover
 {
-	color: #4A4D54;
+	color: #0a6073;
 }
 
 a:visited
 {
-	color: #16899C;
+	color: #00aacb;
 }
 
 img, img a
@@ -346,6 +346,27 @@ img, img a
 
 #standardnav a:hover {
 }
+
+/* ---- Logos ---------- */
+#logos {
+	clear: both;
+	display: block;
+	float: left;
+}
+
+#tc_logo {
+	float: left; 
+}
+
+#dental_logo {
+	width: 250px;
+}
+
+#ccnmtl_logo {
+	width: 150px; 
+}
+
+
 
  /* ---- Pagebody block elements ---------- */
 #pagebody
@@ -696,6 +717,13 @@ div.landing-page .contents {
 
 
 /** Treatment Choice Quizzes **/
+	
+.pageblock.treatment-choice-quiz {
+	background: #f5f5f5;
+	border: solid 1px #ccc;
+	padding: 10px 35px;
+	margin: 0 0 1em 0;
+}
 
 .generic-quiz .generic-feedback {
     display: block;
@@ -745,7 +773,8 @@ div.quiz-results {
     float: left;
     height: 134px;
     border: 1px solid #000;
-    margin-bottom: 1em;
+    background-color: #fff;
+    margin: 2em 0 0 0;
     text-align: center;
     padding-top:23px;
     width: 150px;
@@ -843,7 +872,7 @@ div.quiz-results {
 .single-video-quiz div.answer-video {
     width: 100%;
     background-color: #E1E1E1;
-    align: center;
     border: 1px solid #ccc;
+    margin: 0 0 3em 0;
 }
 
