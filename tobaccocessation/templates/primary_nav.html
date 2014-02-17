@@ -1,52 +1,44 @@
 {% load accessible %}
 
-<ul class="nav">    
-    {% with section.slug as section_slug %}
+<ul class="nav">
     {% for s in root.get_descendants %}
-        {% with s.depth as s_depth %}
-        {% with s.slug as s_slug %}
-        
-            {% if s.get_children %}
-                <li class="{% ifequal s_slug module.slug %}
-                               active
-                           {% else %}{% ifequal s_slug section_slug %}
-                               active
-                           {% endifequal %}{% endifequal %}
-                
-                           {% ifequal s_depth 2 %}
-                               dropdown
-                           {% else %}{% ifequal s_depth 3 %} 
-                               dropdown-submenu
-                           {% else %}{% ifequal s_depth 4 %}
-                               nav-header 
-                           {% endifequal %}{% endifequal %}{% endifequal %}">
-                {% ifequal s_depth 4 %}
+        {% if s.get_children %}
+            <li class="{% ifequal s.slug module.slug %}
+                           active
+                       {% else %}{% ifequal s.slug section.slug %}
+                           active
+                       {% endifequal %}{% endifequal %}            
+                       {% ifequal s.depth 2 %}
+                           dropdown
+                       {% else %}{% ifequal s.depth 3 %} 
+                           dropdown-submenu
+                       {% else %}{% ifequal s.depth 4 %}
+                           nav-header 
+                       {% endifequal %}{% endifequal %}{% endifequal %}">
+                {% ifequal s.depth 4 %}
                     {{s.label}}
                     <ul>
                 {% else %}
                     <a href="#"
                         class="dropdown-toggle {% ifaccessible s %}{% else %}grayout{%endifaccessible %}"
                         data-toggle="dropdown">{{s.label}}
-                        {% ifequal s_depth 2 %}<b class="caret"></b>{% endifequal %}
+                        {% ifequal s.depth 2 %}<b class="caret"></b>{% endifequal %}
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-{{s_depth}} {{s_slug}}">
-                {% endifequal %}
-            {% else %}                    
-                <li>
-                    {% ifaccessible s %}
-                        <a href="{{s.get_absolute_url}}">{{s.label}}</a>
-                    {% else %}
-                        <span>{{s.label}}</span>
-                    {% endifaccessible %}
-                    {% if s.next.depth < s_depth %}
-                        {% for lc in s.closing_children %}
-                            </ul>
-                        {% endfor %}
-                    {% endif %}
+                    <ul class="dropdown-menu dropdown-menu-{{s.depth}} {{s.slug}}">
+                {% endifequal %}        
+        {% else %}
+            <li>
+                {% ifaccessible s %}
+                    <a href="{{s.get_absolute_url}}">{{s.label}}</a>
+                {% else %}
+                    <span>{{s.label}}</span>
+                {% endifaccessible %}        
+            </li>                    
+            {% if s.is_last_child %}
+                {% for lc in s.closing_children %}
+                    {% if lc.depth > 2 %}</ul></li>{% endif %}
+                {% endfor %}
             {% endif %}
-       {% endwith %}{% endwith %}
-       </li>
-     {% endfor %}
-     {% endwith %}
-</ul>  
-
+        {% endif %}
+    {% endfor %}
+ </ul>
