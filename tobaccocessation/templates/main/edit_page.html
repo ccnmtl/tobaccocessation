@@ -139,19 +139,21 @@
         <div style="margin-left: 5px;">
             <h3 style="margin-top: 0;"><a href="{{root.get_edit_url}}">Root</a></h3>             
             <ul>
-                {% for s in root.get_descendants %}                 
+                {% for s in root.get_descendants %}
                     <li class="menu" style="list-style: none; line-height: 150%">
                         <a href="{{s.get_edit_url}}">
                             {{s.label}}{% ifequal s section %} <i class="icon-hand-left"></i>{% endifequal %}
                         </a>
                         {% if s.get_children %}
                             <ul>
-                        {% else %}{% if s.is_last_child %}
-                            {% for lc in s.closing_children %}
-                                </ul>
-                            {% endfor %}
-                        {% endif %}{% endif %}     
-                     </li>
+                        {% else %}
+                            </li>                    
+                            {% if s.is_last_child %}
+                                {% for lc in s.closing_children %}
+                                    {% if lc.depth > 2 %}</ul></li>{% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endif %}
                 {% endfor %}
              </ul>
          </div>
@@ -343,10 +345,8 @@ method="post">
     <form action="{% url 'move-section' section.id %}" method="post">{% csrf_token %}        
         <fieldset>
             <legend>Move "{{section.label}}" Section To...</legend>
-            <p>
-                {{ section.move_form.as_p }}
-                <input value="Move" class="default" name="_move" type="submit">
-            </p>
+            {{ section.move_form.as_p }}
+            <input value="Move" class="default" name="_move" type="submit" />
         </fieldset>
     </form>
 </div>
@@ -365,19 +365,18 @@ method="post">
         </tr>
     </thead>
     <tbody>
-{% for version in section.version_set.all %}
-    <tr>
-            <td>{{version.saved_at}}</td>
-            <td>{{version.user}}</td>
-            <td>{{version.activity}}</td>
-            <td><a href="{% url 'revert-to-version' version.id %}" class="btn
-            btn-mini btn-warning"><i class="icon-repeat"></i> revert</a></td>
-        </tr>
-{% endfor %}
-</tbody>
+        {% for version in section.version_set.all %}
+            <tr>
+                    <td>{{version.saved_at}}</td>
+                    <td>{{version.user}}</td>
+                    <td>{{version.activity}}</td>
+                    <td><a href="{% url 'revert-to-version' version.id %}" class="btn
+                    btn-mini btn-warning"><i class="icon-repeat"></i> revert</a></td>
+                </tr>
+        {% endfor %}
+    </tbody>
 </table>
 {% endif %}
-</div>
 </div>
 
 {% endwith %}
