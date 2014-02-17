@@ -7,7 +7,7 @@
    
    <script type="text/javascript">
        function validate() {
-           var emptyString = /^\s*$/
+           var emptyString = new RegExp(/^\s*$/);
            var msg = "";
 
            if (emptyString.test(document.forms.feedback.email.value)) {
@@ -22,6 +22,12 @@
 
            element = document['msg'] || document.getElementById('msg');
            element.innerHTML = msg;
+           
+           if (msg.length > 0) {
+               element.style.display = "block";
+           } else {
+               element.style.display = "none";
+           }
 
            return msg.length < 1;
        }
@@ -37,11 +43,11 @@
     <p>If you have comments, suggestions, or questions about this site, or are having a problem using it, please contact us using the following form.</p>
 
     <div id="contact">
-        <div id="msg" class="msg">
-            {% if request.GET.received %}
-                <p>Thank you for your comments.</p>
-            {% endif %}
-        </div>
+        {% if request.GET.received %}
+            <div class="alert alert-info">Thank you for your comments.</div>
+        {% endif %}
+    
+        <div id="msg" class="alert alert-error" style="display: none"></div>
    
         <form id="contactform" action="http://pmt.ccnmtl.columbia.edu/external_add_item.pl" method="post" name="feedback" onsubmit="return validate()">
             <table>
