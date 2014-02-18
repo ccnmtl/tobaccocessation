@@ -1,16 +1,25 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
 from django.utils import simplejson
+from django.utils.encoding import smart_str
 from pagetree.helpers import get_section_from_path, get_module, get_hierarchy
-from pagetree.models import Section, UserLocation, UserPageVisit
+from pagetree.models import Section, UserLocation, UserPageVisit, Hierarchy
+from quizblock.models import Submission, Response
 from tobaccocessation.activity_prescription_writing.models import \
-    ActivityState as PrescriptionWritingActivityState
+    ActivityState as PrescriptionWritingState, PrescriptionColumn
 from tobaccocessation.activity_virtual_patient.models import \
-    ActivityState as VirtualPatientActivityState
+    ActivityState as VirtualPatientActivityState, VirtualPatientColumn
+from tobaccocessation.main.choices import RACE_CHOICES, SPECIALTY_CHOICES, \
+    INSTITUTION_CHOICES, HISPANIC_LATINO_CHOICES, GENDER_CHOICES, choices_key
 from tobaccocessation.main.models import QuickFixProfileForm, UserProfile
+import csv
+
+
+UNLOCKED = ['resources', 'faculty']  # special cases
 
 
 class rendered_with(object):
@@ -199,16 +208,16 @@ def clear_state(request):
     quizblock.models.Submission.objects.filter(user=request.user).delete()
 
     # clear prescription writing
-    PrescriptionWritingActivityState.objects.filter(user=request.user).delete()
+    PrescriptionWritingState.objects.filter(user=request.user).delete()
 
     # clear virtual patient
     VirtualPatientActivityState.objects.filter(user=request.user).delete()
 
     return HttpResponseRedirect(reverse("index"))
 
+
 #####################################################################
 ## View Utility Methods
-
 
 def _get_next(section):
     # next node in the depth-first traversal
@@ -239,9 +248,6 @@ def _get_previous_leaf(section):
     # made it through without finding ourselves? weird.
     return None
 
-UNLOCKED = ['resources',
-            'faculty']  # special cases
-
 
 def _unlocked(section, user, previous, profile):
     if (section.hierarchy.name == 'faculty' and (
@@ -268,3 +274,212 @@ def _unlocked(section, user, previous, profile):
         return True
 
     return profile.get_has_visited(previous)
+
+
+#####################################################################
+## Reporting
+
+def clean_header(s):
+    s = s.replace('<p>', '')
+    s = s.replace('</p>', '')
+    s = s.replace('</div>', '')
+    s = s.replace('\n', '')
+    s = s.replace('\r', '')
+    s = s.replace('<', '')
+    s = s.replace('>', '')
+    s = s.replace('\'', '')
+    s = s.replace('\"', '')
+    s = s.replace(',', '')
+    s = s.encode('utf-8')
+    return s
+
+
+class QuestionColumn(object):
+    def __init__(self, hierarchy, question, answer=None):
+        self.hierarchy = hierarchy
+        self.question = question
+        self.answer = answer
+
+        self._submission_cache = Submission.objects.filter(
+            quiz=self.question.quiz)
+        self._response_cache = Response.objects.filter(
+            question=self.question)
+        self._answer_cache = self.question.answer_set.all()
+
+    def question_id(self):
+        return "%s_%s" % (self.hierarchy.id, self.question.id)
+
+    def question_answer_id(self):
+        return "%s_%s_%s" % (self.hierarchy.id,
+                             self.question.id,
+                             self.answer.id)
+
+    def identifier(self):
+        if self.question and self.answer:
+            return self.question_answer_id()
+        else:
+            return self.question_id()
+
+    def key_row(self):
+        row = [self.question_id(),
+               self.hierarchy.name,
+               self.question.question_type,
+               clean_header(self.question.text)]
+        if self.answer:
+            row.append(self.answer.id)
+            row.append(clean_header(self.answer.label))
+        return row
+
+    def user_value(self, user):
+        r = self._submission_cache.filter(user=user).order_by("-submitted")
+        if r.count() == 0:
+            # user has not submitted this form
+            return ""
+        submission = r[0]
+        r = self._response_cache.filter(submission=submission)
+        if r.count() > 0:
+            if (self.question.is_short_text() or
+                    self.question.is_long_text()):
+                return r[0].value
+            elif self.question.is_multiple_choice():
+                if self.answer.value in [res.value for res in r]:
+                    return self.answer.id
+            else:  # single choice
+                for a in self._answer_cache:
+                    if a.value == r[0].value:
+                        return a.id
+
+        return ''
+
+    @classmethod
+    def all(cls, hierarchy, section, key_only=True):
+        columns = []
+        content_type = ContentType.objects.get(name='quiz',
+                                               app_label='quizblock')
+
+        # quizzes
+        for p in section.pageblock_set.filter(content_type=content_type):
+            for q in p.block().question_set.all():
+                if q.answerable() and (key_only or q.is_multiple_choice()):
+                    # need to make a column for each answer
+                    for a in q.answer_set.all():
+                        columns.append(
+                            QuestionColumn(hierarchy=hierarchy,
+                                           question=q, answer=a))
+                else:
+                    columns.append(QuestionColumn(hierarchy=hierarchy,
+                                                  question=q))
+
+        return columns
+
+
+def _get_columns(key_only):
+    columns = []
+    exclusions = ['faculty', 'resources']
+    for hierarchy in Hierarchy.objects.all().exclude(name__in=exclusions):
+        for section in hierarchy.get_root().get_descendants():
+            columns += QuestionColumn.all(hierarchy, section, key_only) + \
+                PrescriptionColumn.all(hierarchy, section, key_only) + \
+                VirtualPatientColumn.all(hierarchy, section, key_only)
+    return columns
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def all_results_key(request):
+    """
+        A "key" for all questions and answers in the system.
+        * One row for short/long text questions
+        * Multiple rows for single/multiple-choice questions.
+        Each question/answer pair get a row
+        itemIdentifier - unique system identifier,
+            concatenates hierarchy id, item type string,
+            page block id (if necessary) and item id
+        hierarchy - first child label in the hierarchy
+        itemType - [question, discussion topic, referral field]
+        itemText - identifying text for the item
+        answerIdentifier - for single/multiple-choice questions. an answer id
+        answerText
+    """
+    response = HttpResponse(mimetype='text/csv')
+    response['Content-Disposition'] = \
+        'attachment; filename=tobacco_response_key.csv'
+    writer = csv.writer(response)
+    headers = ['itemIdentifier', 'hierarchy', 'itemType', 'itemText',
+               'answerIdentifier', 'answerText']
+    writer.writerow(headers)
+
+    # key to profile choices / values
+    # username, e-mail, gender, is_faculty, institution, specialty
+    #    hispanic/latino, race, year_of_graduation, consent, % complete
+    writer.writerow(['username', 'profile', 'string', 'Username'])
+    writer.writerow(['user e-mail', 'profile', 'string', 'User E-mail'])
+    choices_key(writer, GENDER_CHOICES, 'gender', 'single_choice')
+    writer.writerow(['faculty', 'profile', 'boolean', 'Is Faculty'])
+    choices_key(writer, INSTITUTION_CHOICES, 'institution', 'single_choice')
+    choices_key(writer, SPECIALTY_CHOICES, 'specialty', 'single_choice')
+    choices_key(writer, HISPANIC_LATINO_CHOICES,
+                'hispanic_latino', 'single_choice')
+    choices_key(writer, RACE_CHOICES, 'race', 'single_choice')
+    writer.writerow(['graduation year',
+                     'profile', 'number', 'Graduation Year'])
+    writer.writerow(['consent', 'profile', 'boolean', 'Has Consented'])
+    writer.writerow(['complete', 'profile', 'percent', 'Percent Complete'])
+
+    # quizzes, prescription writing, virtual patient keys -- data / values
+    for column in _get_columns(True):
+        writer.writerow(column.key_row())
+
+    return response
+
+
+@user_passes_test(lambda user: user.is_superuser)
+@rendered_with("main/all_results.html")
+def all_results(request):
+    """
+    All system results
+    * One or more column for each question in system.
+        ** 1 column for short/long text. label = itemIdentifier from key
+        ** 1 column for single choice. label = itemIdentifier from key
+        ** n columns for multiple choice: 1 column for each possible answer
+           *** column labeled as itemIdentifer_answer.id
+
+        * One row for each user in the system.
+            1. username
+            2 - n: answers
+                * short/long text. text value
+                * single choice. answer.id
+                * multiple choice.
+                    ** answer id is listed in each question/answer
+                    column the user selected
+                * Unanswered fields represented as an empty cell
+    """
+    response = HttpResponse(mimetype='text/csv')
+    response['Content-Disposition'] = \
+        'attachment; filename=tobacco_responses.csv'
+    writer = csv.writer(response)
+
+    columns = _get_columns(False)
+
+    headers = ['username', 'email', 'gender', 'is faculty', 'institute',
+               'specialty', 'hispanic_latino', 'race', 'year_of_graduation',
+               'consent', 'percent_complete']
+    for column in columns:
+        headers += [column.identifier()]
+    writer.writerow(headers)
+
+    # Only look at users who have create a profile + consented
+    profiles = UserProfile.objects.filter(consent=True)
+    for profile in profiles:
+        row = [profile.user.username, profile.user.email, profile.gender,
+               profile.is_role_faculty(), profile.institute,
+               profile.specialty, profile.hispanic_latino, profile.race,
+               profile.year_of_graduation, profile.has_consented(),
+               profile.percent_complete()]
+
+        for column in columns:
+            v = smart_str(column.user_value(profile.user))
+            row.append(v)
+
+        writer.writerow(row)
+
+    return response

@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models.query_utils import Q
 from django.db.models.signals import pre_save, post_init
@@ -383,3 +384,39 @@ class PatientAssessmentBlock(models.Model):
 class PatientAssessmentForm(forms.ModelForm):
     class Meta:
         model = PatientAssessmentBlock
+
+
+class VirtualPatientColumn(object):
+    def __init__(self, hierarchy, patient, view):
+        self.hierarchy = hierarchy
+        self.patient = patient
+        self.view = view
+
+    def description(self):
+        return '%s %s' % (self.patient.name,
+                          PatientAssessmentBlock.VIEW_CHOICES[self.view][1])
+
+    def identifier(self):
+        return "%s_%s_%s" % (self.hierarchy.id, self.patient.id, self.view)
+
+    def key_row(self):
+        return [self.identifier(),
+                self.hierarchy.name,
+                'virtual patient',  # item type
+                self.description()]
+
+    def user_value(self, user):
+        return ''
+
+    @classmethod
+    def all(cls, hierarchy, section, key_only=True):
+        columns = []
+        ctype = ContentType.objects.get(
+            app_label="activity_virtual_patient",
+            name='patient assessment block')
+
+        for activity in section.pageblock_set.filter(content_type=ctype):
+            columns.append(VirtualPatientColumn(hierarchy,
+                                                activity.block().patient,
+                                                activity.block().view))
+        return columns

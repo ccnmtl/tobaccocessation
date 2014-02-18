@@ -4,8 +4,19 @@ from django.test.client import Client, RequestFactory
 from pagetree.helpers import get_section_from_path
 from pagetree.models import Hierarchy
 from tobaccocessation.activity_virtual_patient.models import \
-    PatientAssessmentBlock, Patient
+    PatientAssessmentBlock, Patient, VirtualPatientColumn
 from tobaccocessation.main.models import UserProfile
+
+
+def create_block(section, patient, view_type):
+    block = PatientAssessmentBlock(patient=patient, view=view_type)
+    block.save()
+
+    section.append_pageblock(label="virtual patient",
+                             css_extra="",
+                             content_object=block)
+
+    return block
 
 
 class TestPatientAssessmentBlock(TestCase):
@@ -96,19 +107,9 @@ class TestPatientAssessmentBlock(TestCase):
         u'combination': u'appropriate'
     }
 
-    def create_block(self, section, patient, view_type):
-        block = PatientAssessmentBlock(patient=patient, view=view_type)
-        block.save()
-
-        section.append_pageblock(label="virtual patient",
-                                 css_extra="",
-                                 content_object=block)
-
-        return block
-
     def test_classify_treatments_view(self):
-        block = self.create_block(self.section, self.patient1,
-                                  PatientAssessmentBlock.CLASSIFY_TREATMENTS)
+        block = create_block(self.section, self.patient1,
+                             PatientAssessmentBlock.CLASSIFY_TREATMENTS)
         self.assertTrue(block.needs_submit())
         self.assertFalse(block.unlocked(self.user))
 
@@ -141,6 +142,9 @@ class TestPatientAssessmentBlock(TestCase):
             self.assertFalse(hasattr(t, 'prescribe'))
             self.assertFalse(hasattr(t, 'combination'))
 
+        block.view = PatientAssessmentBlock.VIEW_RESULTS
+        self.assertFalse(block.unlocked(self.user))
+
     BEST_TREATMENT_SINGLE_APPROPRIATE = {
         u'prescribe': u'bupropion'
     }
@@ -159,8 +163,8 @@ class TestPatientAssessmentBlock(TestCase):
     }
 
     def test_best_treatment_single(self):
-        block = self.create_block(self.section, self.patient1,
-                                  PatientAssessmentBlock.CLASSIFY_TREATMENTS)
+        block = create_block(self.section, self.patient1,
+                             PatientAssessmentBlock.CLASSIFY_TREATMENTS)
         block.submit(self.user, self.CLASSIFY_TREATMENTS_DATA)
 
         block.view = PatientAssessmentBlock.BEST_TREATMENT_OPTION
@@ -182,8 +186,8 @@ class TestPatientAssessmentBlock(TestCase):
         self.assertFalse(hasattr(obj, 'selected_dosage'))
 
     def test_best_treatment_double(self):
-        block = self.create_block(self.section, self.patient1,
-                                  PatientAssessmentBlock.CLASSIFY_TREATMENTS)
+        block = create_block(self.section, self.patient1,
+                             PatientAssessmentBlock.CLASSIFY_TREATMENTS)
         block.submit(self.user, self.CLASSIFY_TREATMENTS_DATA)
 
         block.view = PatientAssessmentBlock.BEST_TREATMENT_OPTION
@@ -208,8 +212,8 @@ class TestPatientAssessmentBlock(TestCase):
         self.assertFalse(hasattr(obj, 'selected_dosage'))
 
     def test_best_treatment_combination(self):
-        block = self.create_block(self.section, self.patient1,
-                                  PatientAssessmentBlock.CLASSIFY_TREATMENTS)
+        block = create_block(self.section, self.patient1,
+                             PatientAssessmentBlock.CLASSIFY_TREATMENTS)
         block.submit(self.user, self.CLASSIFY_TREATMENTS_DATA)
 
         block.view = PatientAssessmentBlock.BEST_TREATMENT_OPTION
@@ -302,8 +306,8 @@ class TestPatientAssessmentBlock(TestCase):
         u'dosage-8': u'31'}
 
     def test_prescribe_single(self):
-        block = self.create_block(self.section, self.patient1,
-                                  PatientAssessmentBlock.CLASSIFY_TREATMENTS)
+        block = create_block(self.section, self.patient1,
+                             PatientAssessmentBlock.CLASSIFY_TREATMENTS)
         block.submit(self.user, self.CLASSIFY_TREATMENTS_DATA)
 
         block.view = PatientAssessmentBlock.BEST_TREATMENT_OPTION
@@ -328,8 +332,8 @@ class TestPatientAssessmentBlock(TestCase):
         self.assertEquals(obj.selected_dosage_label, u'2 boxes, 28 patches')
 
     def test_prescribe_double(self):
-        block = self.create_block(self.section, self.patient1,
-                                  PatientAssessmentBlock.CLASSIFY_TREATMENTS)
+        block = create_block(self.section, self.patient1,
+                             PatientAssessmentBlock.CLASSIFY_TREATMENTS)
         block.submit(self.user, self.CLASSIFY_TREATMENTS_DATA)
 
         block.view = PatientAssessmentBlock.BEST_TREATMENT_OPTION
@@ -355,8 +359,8 @@ class TestPatientAssessmentBlock(TestCase):
         self.assertEquals(int(obj.selected_dosage), 31)
 
     def test_prescribe_combination(self):
-        block = self.create_block(self.section, self.patient1,
-                                  PatientAssessmentBlock.CLASSIFY_TREATMENTS)
+        block = create_block(self.section, self.patient1,
+                             PatientAssessmentBlock.CLASSIFY_TREATMENTS)
         block.submit(self.user, self.CLASSIFY_TREATMENTS_DATA)
 
         block.view = PatientAssessmentBlock.BEST_TREATMENT_OPTION
@@ -397,8 +401,8 @@ class TestPatientAssessmentBlock(TestCase):
         # Appropriate treatment - single prescription - incorrectrx - dosage
         # Appropriate treatment - single prescription - incorrectrx - concentr
         # Appropriate treatment - single prescription - incorrectrx - both
-        block = self.create_block(self.section, self.patient1,
-                                  PatientAssessmentBlock.CLASSIFY_TREATMENTS)
+        block = create_block(self.section, self.patient1,
+                             PatientAssessmentBlock.CLASSIFY_TREATMENTS)
         block.submit(self.user, self.CLASSIFY_TREATMENTS_DATA)
 
         # Bupropion
@@ -434,13 +438,16 @@ class TestPatientAssessmentBlock(TestCase):
         self.assertFalse(feedback.correct_dosage)
         self.assertEquals(feedback.classification.rank, 1)
 
+        block.view = PatientAssessmentBlock.VIEW_RESULTS
+        self.assertTrue(block.unlocked(self.user))
+
     def test_feedback_double_appropriate(self):
         # Appropriate treatment - double prescription - correctrx
         # Appropriate treatment - double prescription - incorrectrx - both
         # Appropriate treatment - double prescription - incorrectrx - rx1
         # Appropriate treatment - double prescription - incorrectrx - rx2
-        block = self.create_block(self.section, self.patient1,
-                                  PatientAssessmentBlock.CLASSIFY_TREATMENTS)
+        block = create_block(self.section, self.patient1,
+                             PatientAssessmentBlock.CLASSIFY_TREATMENTS)
         block.submit(self.user, self.CLASSIFY_TREATMENTS_DATA)
 
         block.view = PatientAssessmentBlock.BEST_TREATMENT_OPTION
@@ -480,8 +487,8 @@ class TestPatientAssessmentBlock(TestCase):
     def test_feedback_single_ineffective(self):
         # "correct" is irrelevant
         # combination is relevant
-        block = self.create_block(self.section, self.patient1,
-                                  PatientAssessmentBlock.CLASSIFY_TREATMENTS)
+        block = create_block(self.section, self.patient1,
+                             PatientAssessmentBlock.CLASSIFY_TREATMENTS)
         block.submit(self.user, self.CLASSIFY_TREATMENTS_DATA)
 
         block.view = PatientAssessmentBlock.BEST_TREATMENT_OPTION
@@ -497,9 +504,9 @@ class TestPatientAssessmentBlock(TestCase):
     def test_feedback_double_harmful(self):
         # "correct" is irrelevant
         # combination is relevant
-        block = self.create_block(self.section,
-                                  self.patient4,
-                                  PatientAssessmentBlock.CLASSIFY_TREATMENTS)
+        block = create_block(self.section,
+                             self.patient4,
+                             PatientAssessmentBlock.CLASSIFY_TREATMENTS)
         block.submit(self.user, self.CLASSIFY_TREATMENTS_DATA)
 
         block.view = PatientAssessmentBlock.BEST_TREATMENT_OPTION
@@ -520,8 +527,8 @@ class TestPatientAssessmentBlock(TestCase):
     def test_feedback_combination_ineffective(self):
         # correct is irrelevant
         # combination is not
-        block = self.create_block(self.section, self.patient1,
-                                  PatientAssessmentBlock.CLASSIFY_TREATMENTS)
+        block = create_block(self.section, self.patient1,
+                             PatientAssessmentBlock.CLASSIFY_TREATMENTS)
         block.submit(self.user, self.CLASSIFY_TREATMENTS_DATA)
 
         block.view = PatientAssessmentBlock.BEST_TREATMENT_OPTION
@@ -535,10 +542,10 @@ class TestPatientAssessmentBlock(TestCase):
         self.assertTrue(feedback.combination_therapy)
 
     def test_separate_hierarchies(self):
-        block = self.create_block(
+        block = create_block(
             self.section, self.patient1,
             PatientAssessmentBlock.CLASSIFY_TREATMENTS)
-        alt_block = self.create_block(
+        alt_block = create_block(
             self.alt_section, self.patient1,
             PatientAssessmentBlock.CLASSIFY_TREATMENTS)
 
@@ -551,10 +558,10 @@ class TestPatientAssessmentBlock(TestCase):
         self.assertTrue(alt_block.unlocked(self.user))
 
     def test_reset(self):
-        block = self.create_block(
+        block = create_block(
             self.section, self.patient1,
             PatientAssessmentBlock.CLASSIFY_TREATMENTS)
-        alt_block = self.create_block(
+        alt_block = create_block(
             self.alt_section, self.patient1,
             PatientAssessmentBlock.CLASSIFY_TREATMENTS)
 
@@ -572,3 +579,45 @@ class TestPatientAssessmentBlock(TestCase):
         self.assertEquals(response.request["PATH_INFO"], "/")
         self.assertFalse(block.unlocked(self.user))
         self.assertTrue(alt_block.unlocked(self.user))
+
+
+class TestVirtualPatientColumn(TestCase):
+    fixtures = ['virtualpatient.json']
+
+    def setUp(self):
+        self.c = Client()
+
+        self.user = User.objects.create_user('test_student',
+                                             'test@ccnmtl.com',
+                                             'testpassword')
+        UserProfile.objects.get_or_create(user=self.user,
+                                          gender='M',
+                                          is_faculty='ST',
+                                          institute='I1',
+                                          specialty='S1',
+                                          hispanic_latino='Y',
+                                          year_of_graduation=2015,
+                                          consent=True)
+
+        self.patient1 = Patient.objects.get(display_order=1)
+        self.patient4 = Patient.objects.get(display_order=4)
+
+        get_section_from_path("")  # creates a root if one doesn't exist
+        self.hierarchy = Hierarchy.objects.get(name='main')
+        self.section = self.hierarchy.get_root().append_child('Foo', 'foo')
+
+    def test_instance(self):
+        create_block(self.section, self.patient1,
+                     PatientAssessmentBlock.CLASSIFY_TREATMENTS)
+
+        column = VirtualPatientColumn(
+            self.hierarchy, self.patient1,
+            PatientAssessmentBlock.CLASSIFY_TREATMENTS)
+
+        idt = "%s_%s_%s" % (self.hierarchy.id, self.patient1.id,
+                            PatientAssessmentBlock.CLASSIFY_TREATMENTS)
+        self.assertEquals(column.identifier(), idt)
+
+        key_row = [idt, "main", 'virtual patient',
+                   u'Beverly Johnson Treatment Options']
+        self.assertEquals(column.key_row(), key_row)

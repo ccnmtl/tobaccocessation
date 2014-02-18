@@ -38,7 +38,7 @@ GENDER_CHOICES = (
     ('U', 'Unavailable')
 )
 
-HISPANIC_LATINO = (
+HISPANIC_LATINO_CHOICES = (
     ('-----', '-----'),
     ('Y', 'Yes, Hispanic or Latino'),
     ('N', 'No, not Hispanic or Latino'),
@@ -68,3 +68,9 @@ AGE_CHOICES = (
     ('A6', '60-69 Years'),
     ('A7', '70 Years or Older'),
 )
+
+
+def choices_key(writer, items, name, item_type):
+    for key, val in items:
+        if key != '-----':
+            writer.writerow([name, 'profile', item_type, name, key, val])

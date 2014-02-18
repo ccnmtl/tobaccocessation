@@ -1,9 +1,10 @@
-from django.db import models
-from django.contrib.auth.models import User
-from django.utils import simplejson
-from django.contrib.contenttypes import generic
-from pagetree.models import PageBlock
 from django import forms
+from django.contrib.auth.models import User
+from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.models import ContentType
+from django.db import models
+from django.utils import simplejson
+from pagetree.models import PageBlock
 
 
 class Medication(models.Model):
@@ -142,3 +143,81 @@ class ActivityState (models.Model):
             state.save()
 
         return state
+
+
+class PrescriptionColumn(object):
+    def __init__(self, hierarchy, block, medication, field):
+        self.hierarchy = hierarchy
+        self.block = block
+        self.medication = medication
+        self.field = field
+
+    def key_row(self):
+        return [self.identifier(),
+                self.hierarchy.name,
+                'prescription exercise',  # item type
+                '%s %s' % (self.medication.name, self.field)]  # item descript
+
+    def identifier(self):
+        return "%s_%s_%s" % (
+            self.hierarchy.id, self.medication.id, self.field)
+
+    def user_value(self, user):
+        try:
+            state = ActivityState.objects.get(
+                block=self.block,
+                user=user).loads()
+            if (self.medication.name in state and
+                    self.field in state[self.medication.name]):
+                return state[self.medication.name][self.field]
+            state[self.medication.name]
+        except ActivityState.DoesNotExist:
+            pass
+
+        return ''
+
+    @classmethod
+    def all(cls, hierarchy, section, key_only=True):
+        columns = []
+        ctype = ContentType.objects.get(
+            app_label="activity_prescription_writing", name='block')
+
+        for activity in section.pageblock_set.filter(content_type=ctype):
+            medications = Medication.objects.filter(
+                name=activity.block().medication_name, rx_count__gt=0)
+            for med in medications:
+                columns.append(PrescriptionColumn(hierarchy=hierarchy,
+                                                  block=activity.block(),
+                                                  medication=med,
+                                                  field='dosage'))
+                columns.append(PrescriptionColumn(hierarchy=hierarchy,
+                                                  block=activity.block(),
+                                                  medication=med,
+                                                  field='disp'))
+                columns.append(PrescriptionColumn(hierarchy=hierarchy,
+                                                  block=activity.block(),
+                                                  medication=med,
+                                                  field='sig'))
+                columns.append(PrescriptionColumn(hierarchy=hierarchy,
+                                                  block=activity.block(),
+                                                  medication=med,
+                                                  field='refills'))
+
+                if med.rx_count > 1:
+                    columns.append(PrescriptionColumn(hierarchy=hierarchy,
+                                                      block=activity.block(),
+                                                      medication=med,
+                                                      field='dosage_2'))
+                    columns.append(PrescriptionColumn(hierarchy=hierarchy,
+                                                      block=activity.block(),
+                                                      medication=med,
+                                                      field='disp_2'))
+                    columns.append(PrescriptionColumn(hierarchy=hierarchy,
+                                                      block=activity.block(),
+                                                      medication=med,
+                                                      field='sig_2'))
+                    columns.append(PrescriptionColumn(hierarchy=hierarchy,
+                                                      block=activity.block(),
+                                                      medication=med,
+                                                      field='refills_2'))
+        return columns

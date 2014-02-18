@@ -3,6 +3,7 @@ from django.test import TestCase, RequestFactory
 from django.test.client import Client
 from pagetree.models import Hierarchy, Section
 from tobaccocessation.main.models import UserProfile
+from tobaccocessation.main.views import clean_header
 
 
 class TestViews(TestCase):
@@ -44,13 +45,6 @@ class TestViews(TestCase):
         response = self.c.get("/smoketest/")
         self.assertEquals(response.status_code, 200)
 
-    '''Test Views in Main'''
-    def test_index2(self):
-        self.c = Client()
-        self.c.login(username='test_student', password='testpassword')
-        self.response = self.c.get('/')
-        self.assertEqual(self.response.status_code, 302)
-
     def test_accessible(self):
         pass
         #'''Need better test...'''
@@ -63,6 +57,10 @@ class TestViews(TestCase):
 
     def test_clear_state(self):
         pass
+
+    def test_clean_header(self):
+        s = "<p></p></div>\n\r<>'\"foobar,"
+        self.assertEquals(clean_header(s), 'foobar')
 
     def test_consent_no_profile(self):
         self.c = Client()
