@@ -23,6 +23,10 @@ h1, h2, h3, h4, h5, h6
 }
 
 
+h5 {
+	margin: 0 0 1em 0;
+}
+
 h6
 {
 
@@ -215,7 +219,7 @@ img, img a
 .block
 {
 	display: block;
-	margin: 15px;
+	margin: 25px;
 	padding: 0;
 	border: 0;
 }
