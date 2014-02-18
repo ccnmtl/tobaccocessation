@@ -7,7 +7,7 @@
     <h5>Step 1: Based on the patient history below, classify each treatment option as appropriate, unlikely to be effective <br/>
     or potentially harmful. Choose at least one to be an Appropriate Treatment Choice.</h5>
       
-    <div class="row">
+    <div class="row-fluid">
         <div class="span6 well about-patient">
             <h3>Patient History</h3>
             <img class="pull-left" src="/activity/virtualpatient/media/images/patient_{{patient.id}}.jpg" />
@@ -22,15 +22,15 @@
         </div>
     
         <div class="span6 treatment-classification">
-            <div class="row">
-                <div class="span2 available-treatments">
+            <div class="row-fluid">
+                <div class="span4 offset1 available-treatments">
                   {% for med in treatments %}
                      <div class="{{med.tag}} available-treatment">
                         <img src="/activity/virtualpatient/media/images/{{med.tag}}.jpg">
                      </div>
                   {% endfor %}       
                 </div>
-                <div class="span1 appropriate-treatment-choice">
+                <div class="span2 appropriate-treatment-choice">
                     <div class="header">Appropriate Treatment Choice</div>
                     {% for med in treatments %}
                         <div class="{{med.tag}} treatment-type">
@@ -41,7 +41,7 @@
                         </div>
                     {% endfor %}
                 </div>
-                <div class="span1 unlikely-to-be-effective">
+                <div class="span2 unlikely-to-be-effective">
                     <div class="header">Unlikely To Be Effective</div>
                     {% for med in treatments %}
                         <div class="{{med.tag}} treatment-type">
@@ -52,7 +52,7 @@
                         </div>
                     {% endfor %}                        
                 </div>
-                <div class="span1 potentially-harmful">
+                <div class="span2 potentially-harmful">
                     <div class="header">Potentially Harmful</div>
                     {% for med in treatments %}
                         <div class="{{med.tag}} treatment-type">
