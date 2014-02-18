@@ -1,7 +1,11 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
+from django.test.client import Client
+from pagetree.helpers import get_section_from_path
 from pagetree.models import Hierarchy, Section
+from quizblock.models import Quiz, Question, Answer
 from tobaccocessation.main.models import UserProfile
+from tobaccocessation.main.views import QuestionColumn
 
 
 class UserProfileTest(TestCase):
@@ -169,3 +173,137 @@ class UserProfileTest(TestCase):
         profile.specialty = 'S10'  # Dental Public Health
         profile.save()
         self.assertEquals(profile.role(), "main")
+
+
+class TestQuestionColumn(TestCase):
+
+    def setUp(self):
+        self.c = Client()
+
+        self.user = User.objects.create_user('test_student',
+                                             'test@ccnmtl.com',
+                                             'testpassword')
+
+        get_section_from_path("")  # creates a root if one doesn't exist
+        self.hierarchy = Hierarchy.objects.get(name='main')
+        self.section = self.hierarchy.get_root().append_child('Foo', 'foo')
+
+    def create_quizblock(self, section):
+        quiz = Quiz()
+        quiz.save()
+
+        self.section.append_pageblock(label="quiz",
+                                      css_extra="",
+                                      content_object=quiz)
+        return quiz
+
+    def test_text_question(self):
+        quiz = self.create_quizblock(self.section)
+
+        question = Question.objects.create(
+            quiz=quiz, text="foo", question_type="long text")
+
+        column = QuestionColumn(self.hierarchy, question)
+
+        idt = "%s_%s" % (self.hierarchy.id, question.id)
+        self.assertEquals(column.identifier(), idt)
+
+        key_row = [idt, "main", 'long text', 'foo']
+        self.assertEquals(column.key_row(), key_row)
+
+        # no data
+        self.assertEquals(column.user_value(self.user), '')
+
+        data_id = 'question%s' % question.id
+        data = {data_id: 'here is my long text'}
+        quiz.submit(self.user, data)
+        self.assertEquals(column.user_value(self.user), 'here is my long text')
+
+    def test_single_choice_question(self):
+        choice_quiz = self.create_quizblock(self.section)
+
+        question = Question.objects.create(
+            quiz=choice_quiz, text="foo", question_type="single choice")
+        answer = Answer.objects.create(question=question,
+                                       value='1', label='one')
+
+        column = QuestionColumn(self.hierarchy, question, answer)
+
+        question_id = "%s_%s" % (self.hierarchy.id, question.id)
+        answer_id = "%s_%s_%s" % (self.hierarchy.id, question.id, answer.id)
+        self.assertEquals(column.identifier(), answer_id)
+
+        key_row = [question_id, "main", 'single choice',
+                   'foo', answer.id, "one"]
+        self.assertEquals(column.key_row(), key_row)
+
+        # no data
+        self.assertEquals(column.user_value(self.user), '')
+
+        data_id = 'question%s' % question.id
+        data = {data_id: '1'}
+        choice_quiz.submit(self.user, data)
+        self.assertEquals(column.user_value(self.user), answer.id)
+
+    def test_multiple_choice_question(self):
+        choice_quiz = self.create_quizblock(self.section)
+
+        question = Question.objects.create(
+            quiz=choice_quiz, text="foo", question_type="multiple choice")
+        answer1 = Answer.objects.create(question=question,
+                                        value='1', label='one')
+        answer2 = Answer.objects.create(question=question,
+                                        value='2', label='two')
+        answer3 = Answer.objects.create(question=question,
+                                        value='3', label='three')
+
+        column = QuestionColumn(self.hierarchy, question, answer1)
+        column2 = QuestionColumn(self.hierarchy, question, answer2)
+        column3 = QuestionColumn(self.hierarchy, question, answer3)
+
+        question_id = "%s_%s" % (self.hierarchy.id, question.id)
+        answer_id = "%s_%s_%s" % (self.hierarchy.id, question.id, answer1.id)
+        self.assertEquals(column.identifier(), answer_id)
+
+        key_row = [question_id, "main", 'multiple choice',
+                   'foo', answer1.id, "one"]
+        self.assertEquals(column.key_row(), key_row)
+
+        # no data
+        self.assertEquals(column.user_value(self.user), '')
+
+        data_id = 'question%s' % question.id
+        data = {data_id: ['2', '1']}
+        choice_quiz.submit(self.user, data)
+        self.assertEquals(column.user_value(self.user), answer1.id)
+        self.assertEquals(column2.user_value(self.user), answer2.id)
+        self.assertEquals(column3.user_value(self.user), '')
+
+    def test_all(self):
+        choice_quiz = self.create_quizblock(self.section)
+        quest1 = Question.objects.create(
+            quiz=choice_quiz, text="foo", question_type="single choice")
+        a1 = Answer.objects.create(question=quest1,
+                                   value='1', label='one', correct=True)
+        a2 = Answer.objects.create(question=quest1,
+                                   value='2', label='two')
+
+        text_quiz = self.create_quizblock(self.section)
+        quest2 = Question.objects.create(
+            quiz=text_quiz, text="foo", question_type="long text")
+
+        columns = QuestionColumn.all(self.hierarchy, self.section, True)
+        self.assertEquals(len(columns), 3)
+        self.assertEquals(columns[0].question, quest1)
+        self.assertEquals(columns[0].answer, a1)
+        self.assertEquals(columns[1].question, quest1)
+        self.assertEquals(columns[1].answer, a2)
+        self.assertEquals(columns[2].question, quest2)
+        self.assertEquals(columns[2].answer, None)
+
+        columns = QuestionColumn.all(self.hierarchy, self.section, False)
+        self.assertEquals(len(columns), 2)
+        self.assertEquals(columns[0].question, quest1)
+        self.assertEquals(columns[0].answer, None)
+        self.assertEquals(columns[1].question, quest2)
+        self.assertEquals(columns[1].answer, None)

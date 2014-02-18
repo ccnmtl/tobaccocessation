@@ -6,7 +6,7 @@ from registration.forms import RegistrationForm
 from registration.signals import user_registered
 from tobaccocessation.main.choices import GENDER_CHOICES, FACULTY_CHOICES, \
     INSTITUTION_CHOICES, SPECIALTY_CHOICES, RACE_CHOICES, AGE_CHOICES, \
-    HISPANIC_LATINO
+    HISPANIC_LATINO_CHOICES
 
 
 class UserProfile(models.Model):
@@ -14,14 +14,13 @@ class UserProfile(models.Model):
     user = models.ForeignKey(User, related_name="application_user",
                              unique=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
-    is_faculty = models.CharField(max_length=2,
-                                  choices=FACULTY_CHOICES)
-    institute = models.CharField(max_length=2,
-                                 choices=INSTITUTION_CHOICES)
-    specialty = models.CharField(max_length=3,
-                                 choices=SPECIALTY_CHOICES)
+    is_faculty = models.CharField(max_length=2, choices=FACULTY_CHOICES)
+    institute = models.CharField(max_length=2, choices=INSTITUTION_CHOICES)
+    specialty = models.CharField(max_length=3, choices=SPECIALTY_CHOICES)
     hispanic_latino = models.CharField(max_length=1,
-                                       choices=HISPANIC_LATINO)
+                                       choices=HISPANIC_LATINO_CHOICES)
+    race = models.CharField(max_length=2, choices=RACE_CHOICES)
+
     # I was not sure whether or not to make year_of_graduation required
     # if someone self registers or is a student they may not have graduated
     year_of_graduation = models.PositiveIntegerField(blank=True)
@@ -104,7 +103,8 @@ class QuickFixProfileForm(forms.Form):
         min_value=1900, max_value=3000,
         label="What year did you graduate?", required=True)
     race = forms.ChoiceField(choices=RACE_CHOICES, required=True)
-    hispanic_latino = forms.ChoiceField(choices=HISPANIC_LATINO, required=True)
+    hispanic_latino = forms.ChoiceField(choices=HISPANIC_LATINO_CHOICES,
+                                        required=True)
     age = forms.ChoiceField(choices=AGE_CHOICES, required=True)
     specialty = forms.ChoiceField(choices=SPECIALTY_CHOICES, required=True)
 
@@ -179,7 +179,8 @@ class CreateAccountForm(RegistrationForm):
         required=True, min_value=1900, max_value=3000,
         label="What year did you graduate?")
     race = forms.ChoiceField(required=True, choices=RACE_CHOICES)
-    hispanic_latino = forms.ChoiceField(required=True, choices=HISPANIC_LATINO)
+    hispanic_latino = forms.ChoiceField(required=True,
+                                        choices=HISPANIC_LATINO_CHOICES)
     age = forms.ChoiceField(required=True, choices=AGE_CHOICES)
     specialty = forms.ChoiceField(required=True, choices=SPECIALTY_CHOICES)
 

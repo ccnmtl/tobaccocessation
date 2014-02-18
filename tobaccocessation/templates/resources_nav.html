@@ -35,6 +35,11 @@
                     <li><a href="#">Faculty Guide</a></li>             
                     <li><a href="/pages/faculty/">Standalone Activities</a></li> 
                 {% endif %}
+                {% if user.is_superuser %}
+                    <li class="divider"></li>
+                    <li><a href="/main/allresultskey/">Results Key</a></li>             
+                    <li><a href="/main/allresults/">Results</a></li>
+                {% endif %}
             </ul>
       </li>
     </ul>
