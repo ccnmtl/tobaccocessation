@@ -81,28 +81,10 @@
     <div class="span4">
         <div class="contents">
             <h4>Table of Contents</h4>
-            <ul class="toc">
-                {% for s in root.get_descendants %}
-                    <li class="menu" style="list-style: none; line-height: 150%">
-                        {% ifaccessible s %}                 
-                            <a href="{{s.get_absolute_url}}">
-                                {{s.label}}{% ifequal s last_location %} <i class="icon-hand-left"></i>{% endifequal %}
-                            </a>
-                        {% else %}
-                            <span class="disabled">{{s.label}}</span>
-                        {% endifaccessible %}
-                        {% if s.get_children %}
-                            <ul>
-                        {% else %}
-                            </li>                    
-                            {% if s.is_last_child %}
-                                {% for lc in s.closing_children %}
-                                    {% if lc.depth > 2 %}</ul></li>{% endif %}
-                                {% endfor %}
-                            {% endif %}
-                        {% endif %}
-                {% endfor %}
-             </ul>             
+            {% with "true" as gated %}
+            {% with 2 as closing_depth %}
+                {% include "toc.html" %}
+            {% endwith %}{% endwith %}
         </div>
     </div>
  </div> 

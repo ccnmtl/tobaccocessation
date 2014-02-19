@@ -1,6 +1,6 @@
 #callout_container {
     float:left;
-    left: 150px;
+    left: 130px;
     margin-top:-28px;
     position:absolute;
 }
@@ -44,7 +44,7 @@
    background-image: url(/activity/prescription/media/images/blankrx_sm.jpg);
    background-repeat: no-repeat;
    background-position: top center;
-   padding: 244px 0 0 349px;
+   padding: 244px 0 0 334px;
    position: relative;
 }
 

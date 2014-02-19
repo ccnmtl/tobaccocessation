@@ -5,7 +5,7 @@
 }
 
 #callout_container {
-    margin-left: 45px;
+    margin-left: 28px;
     top: 409px;
 	position:absolute;
 }
@@ -68,7 +68,7 @@
 #rx_fields1 {
     float: left;
     width: 323px;
-    margin: 242px 0 0 158px;
+    margin: 242px 0 0 143px;
 }
 
 #rx_fields2 {
@@ -104,21 +104,21 @@
 
 #dosage_correct, #dosage_2_correct {
    position: relative;
-    margin: 4px 0 3px 438px;
+    margin: 4px 0 3px 421px;
 }
 
 #disp_correct, #disp_2_correct {
    position: relative;  
-   margin: 8px 0 3px 438px;
+   margin: 8px 0 3px 421px;
 }
 
 #sig_correct, #sig_2_correct {
    position: relative;  
-   margin: 8px 0 2px 438px;
+   margin: 8px 0 2px 421px;
 }
 
 #refills_correct, #refills_2_correct {
-	left: 310px;
+	left: 290px;
 	position: absolute;
 	top: 153px;
 	width: 44px;

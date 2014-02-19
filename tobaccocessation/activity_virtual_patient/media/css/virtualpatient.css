@@ -51,7 +51,7 @@ div.virtual-patient a.btn {
 }
 
 .about-patient .patient-history {
-   height: 424px;
+   height: 443px;
    -webkit-column-count: 2;
       -moz-column-count: 2;
            column-count: 2;
@@ -217,22 +217,22 @@ div.virtual-patient a.btn {
 }
 
 .prescribe .blankrx_single .prompt.dosage {
-    left: 177px;
+    left: 163px;
     top: 236px;
 }
 
 .prescribe .blankrx_single .prompt.quantity {
-    left: 177px;
+    left: 163px;
     top: 269px;
 }
 
 .prescribe .blankrx_single .prompt.instructions {
-    left: 177px;    
+    left: 163px;    
     top: 297px;
 }
 
 .prescribe .blankrx_single .prompt.refills {
-    left: 177px;
+    left: 163px;
     top: 393px;
 }
 
@@ -250,19 +250,19 @@ div.virtual-patient a.btn {
 
 .prescribe .blankrx_single .field.dosage {
     position: absolute;
-    left: 337px;
+    left: 319px;
     top: 267px;
 }
 
 .prescribe .blankrx_single .field.med_inst {
     position: absolute;
-    left: 337px;
+    left: 319px;
     top: 298px;
 }
 
 .prescribe .blankrx_single .field.refills {
     position: absolute;
-    left: 414px;
+    left: 396px;
     top: 401px;
 }
 
@@ -328,19 +328,19 @@ div.virtual-patient a.btn {
 
 .prescribe .blankrx_double .field.dosage {
     position: absolute;
-    left: 147px;
+    left: 130px;
     top: 267px;
 }
 
 .prescribe .blankrx_double .field.med_inst {
     position: absolute;
-    left: 147px;
+    left: 130px;
     top: 298px;
 }
 
 .prescribe .blankrx_double .field.refills {
     position: absolute;
-    left: 224px;
+    left: 207px;
     top: 401px;
 }
 
@@ -383,19 +383,19 @@ div.virtual-patient a.btn {
 
 .prescribe .blankrx_double .field.dosage.two {
     position: absolute;
-    left: 527px;
+    left: 509px;
     top: 267px;
 }
 
 .prescribe .blankrx_double .field.med_inst.two {
     position: absolute;
-    left: 527px;
+    left: 509px;
     top: 298px;
 }
 
 .prescribe .blankrx_double .field.refills.two {
     position: absolute;
-    left: 604px;
+    left: 587px;
     top: 401px;
 }
 

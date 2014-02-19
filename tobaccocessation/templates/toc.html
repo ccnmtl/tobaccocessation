@@ -1,0 +1,30 @@
+{% load accessible %}
+
+<ul class="toc">
+    {% for s in root.get_descendants %}
+        <li class="menu" style="list-style: none; line-height: 150%">
+            {% if gated %}
+                {% ifaccessible s %}                 
+                    <a href="{{s.get_absolute_url}}">
+                        {{s.label}}{% ifequal s last_location %} <i class="icon-hand-left"></i>{% endifequal %}
+                    </a>
+                {% else %}
+                    <span class="disabled">{{s.label}}</span>
+                {% endifaccessible %}
+            {% else %}
+                <a href="{{s.get_absolute_url}}">
+                    {{s.label}}{% ifequal s last_location %} <i class="icon-hand-left"></i>{% endifequal %}
+                </a>            
+            {% endif %}
+            {% if s.get_children %}
+                <ul>
+            {% else %}
+                </li>                    
+                {% if s.is_last_child %}
+                    {% for lc in s.closing_children %}
+                        {% if lc.depth > closing_depth %}</ul></li>{% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+    {% endfor %}
+ </ul>             

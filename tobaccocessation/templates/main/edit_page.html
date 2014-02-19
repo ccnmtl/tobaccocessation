@@ -138,24 +138,9 @@
     <div id="content-tree" class="tab-pane {% if is_root %}active{% endif%}">
         <div style="margin-left: 5px;">
             <h3 style="margin-top: 0;"><a href="{{root.get_edit_url}}">Root</a></h3>
-            <ul>
-                {% for s in root.get_descendants %}
-                    <li class="menu" style="list-style: none; line-height: 150%">
-                        <a href="{{s.get_edit_url}}">
-                            {{s.label}}{% ifequal s section %} <i class="icon-hand-left"></i>{% endifequal %}
-                        </a>
-                        {% if s.get_children %}
-                            <ul>
-                        {% else %}
-                            </li>                    
-                            {% if s.is_last_child %}
-                                {% for lc in s.closing_children %}
-                                    {% if lc.depth > 2 %}</ul></li>{% endif %}
-                                {% endfor %}
-                            {% endif %}
-                        {% endif %}
-                {% endfor %}
-             </ul>
+            {% with 2 as closing_depth %}
+                {% include "toc.html" %}
+            {% endwith %}
          </div>
     </div>        
 
@@ -207,33 +192,29 @@
     <button type="button" class="close" data-dismiss="modal">×</button>
     <h3>Edit {{block.block.display_name}}</h3>
   </div>
-  <div class="modal-body">
+    <div class="modal-body">
+        {% if block.block.importable %}
+        <a href="{% url 'import-pageblock-json' block.id %}">import json</a>
+        {% endif %}
+        
+        <form action="{% url 'edit-pageblock' block.id %}" method="post"
+        class=""
+        {% if block.edit_form.is_multipart %}enctype="multipart/form-data"{% endif %}>
+        
+        {{ block.default_edit_form|bootstrap }}
+        {% with block.edit_form as ef %}
+        {{ ef|bootstrap }}
+        {% if ef.alt_text %}
+        <div>{{ ef.alt_text|safe }}</div>
+        {% endif %}
+        {% endwith %}
+        </form>
+    </div>
 
-{% if block.block.importable %}
-<a href="{% url 'import-pageblock-json' block.id %}">import json</a>
-{% endif %}
-
-<form action="{% url 'edit-pageblock' block.id %}" method="post"
-class=""
-{% if block.edit_form.is_multipart %}enctype="multipart/form-data"{% endif %}>
-
-{{ block.default_edit_form|bootstrap }}
-{% with block.edit_form as ef %}
-{{ ef|bootstrap }}
-{% if ef.alt_text %}
-<div>{{ ef.alt_text|safe }}</div>
-{% endif %}
-{% endwith %}
-</div>
-
-  <div class="modal-footer">
-    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-        <input type="submit" value="Save" 
-             class="btn btn-primary" />
-  </div>
-
-</form>
-
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+            <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
 </div>
 {% endfor %}
 

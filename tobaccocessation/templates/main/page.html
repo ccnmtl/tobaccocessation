@@ -87,28 +87,10 @@
 		<h2>{{ section.label }}</h2>
         
         {% if section.show_toc %}
-            <ul class="toc">
-                {% for s in section.get_module.get_descendants %}
-                    {% ifnotequal s section %}
-                        <li class="menu-{{s.depth}}">
-                            <a href="{{s.get_absolute_url}}">{{s.label}}</a>
-                              {% if s.get_children %}
-                                 <ul id="section-ul-{{s.id}}">
-                              {% else %}
-                                 {% if s.is_last_child %}
-                                   {% for lc in s.closing_children %}
-                                     </ul>
-                                   {% endfor %}
-                                 {% endif %}
-                              {% endif %}
-                            
-                          {% if s.get_children %}
-                          {% else %}
-                            </li>
-                          {% endif %}
-                    {% endifnotequal %}
-                {% endfor %}
-            </ul>
+            {% with section.get_module as root %}
+            {% with 3 as closing_depth %}
+                {% include "toc.html" %}
+            {% endwith %}{% endwith %}
         {% endif %}               
                 
         {% for block in section.pageblock_set.all %}
