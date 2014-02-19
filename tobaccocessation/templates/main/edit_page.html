@@ -137,7 +137,7 @@
 <div class="tab-content">
     <div id="content-tree" class="tab-pane {% if is_root %}active{% endif%}">
         <div style="margin-left: 5px;">
-            <h3 style="margin-top: 0;"><a href="{{root.get_edit_url}}">Root</a></h3>             
+            <h3 style="margin-top: 0;"><a href="{{root.get_edit_url}}">Root</a></h3>
             <ul>
                 {% for s in root.get_descendants %}
                     <li class="menu" style="list-style: none; line-height: 150%">
@@ -251,14 +251,18 @@ class=""
 <h2>Reorder Children</h2>
 <div class="well">
 <p>Drag and drop arrows to reorder children</p>
-<ul id="children-order-list">
-    {% for child in section.get_children %}
-        <li class="draggable" id="child-{{child.id}}">
-            <span title="drag to reorder pageblocks" class="draghandle ui-icon ui-icon-arrowthick-2-n-s"></span>
-            <a href="{{child.get_edit_url}}">{{child.label}}</a>
-        </li>
-    {% endfor %}
-</ul>
+{% with section.get_children as section_children %}
+    {% if children|length > 0 %}
+        <ul id="children-order-list">
+            {% for child in section.get_children %}
+                <li class="draggable" id="child-{{child.id}}">
+                    <span title="drag to reorder pageblocks" class="draghandle ui-icon ui-icon-arrowthick-2-n-s"></span>
+                    <a href="{{child.get_edit_url}}">{{child.label}}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
 </div>
 
 <h2>Add Child</h2>

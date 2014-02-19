@@ -23,86 +23,86 @@
 {% block content %}
 <div class="row-fluid">
     <span class="span8">
-                <h2>Welcome!</h2>
+        <h2>Welcome!</h2>
     </span>
 </div>
 <div class="row-fluid">
     <div class="span8 landing-page">
         <div class="row-fluid">
-        <div class="span8">    
-        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget sem mattis, rhoncus dolor ac, mollis augue.</p><p> Cras ligula libero, viverra ut dui vel, commodo volutpat enim. Nullam eu lorem tellus. Fusce elementum eget purus sed venenatis. Suspendisse sit amet justo dolor. Fusce posuere vestibulum adipiscing. Nulla facilisi. Integer porttitor, diam quis vehicula elementum, ipsum lectus molestie velit, ut rhoncus purus neque at magna. Fusce turpis nisi, fringilla vitae feugiat ac, mattis in leo. Donec felis est, pellentesque quis urna eu, auctor pretium diam. Duis sagittis venenatis turpis at auctor.
-        </p><p>Cras ligula libero, viverra ut dui vel, commodo volutpat enim. Nullam eu lorem tellus. Fusce elementum eget purus sed venenatis. Suspendisse sit amet justo dolor. Fusce posuere vestibulum adipiscing. Nulla facilisi. Integer porttitor, diam quis vehicula elementum, ipsum lectus molestie velit, ut rhoncus purus neque at magna. Fusce turpis nisi, fringilla vitae feugiat ac, mattis in leo. Donec felis est, pellentesque quis urna eu, auctor pretium diam. Duis sagittis venenatis turpis at auctor</p>        
-        </div>
-        <div class="span4 course-materials">
-            <h4>Course Materials</h4>
-            <ul>
-                <li>&nbsp;&nbsp;
-                    <a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/TobaccoCessation_CourseGuide.pdf" target="_blank" class="btn">Download Course Guide&nbsp;<i class="icon-download"></i>
-                    </a>
-                </li>
-                {% if profile.is_role_faculty or user.is_staff %}
-                    <li>
-                        <a href="#" target="_blank" class="btn">Download Faculty Guide&nbsp;<i class="icon-download"></i>
+            <div class="span8">    
+            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget sem mattis, rhoncus dolor ac, mollis augue.</p><p> Cras ligula libero, viverra ut dui vel, commodo volutpat enim. Nullam eu lorem tellus. Fusce elementum eget purus sed venenatis. Suspendisse sit amet justo dolor. Fusce posuere vestibulum adipiscing. Nulla facilisi. Integer porttitor, diam quis vehicula elementum, ipsum lectus molestie velit, ut rhoncus purus neque at magna. Fusce turpis nisi, fringilla vitae feugiat ac, mattis in leo. Donec felis est, pellentesque quis urna eu, auctor pretium diam. Duis sagittis venenatis turpis at auctor.
+            </p><p>Cras ligula libero, viverra ut dui vel, commodo volutpat enim. Nullam eu lorem tellus. Fusce elementum eget purus sed venenatis. Suspendisse sit amet justo dolor. Fusce posuere vestibulum adipiscing. Nulla facilisi. Integer porttitor, diam quis vehicula elementum, ipsum lectus molestie velit, ut rhoncus purus neque at magna. Fusce turpis nisi, fringilla vitae feugiat ac, mattis in leo. Donec felis est, pellentesque quis urna eu, auctor pretium diam. Duis sagittis venenatis turpis at auctor</p>        
+            </div>
+            <div class="span4 course-materials">
+                <h4>Course Materials</h4>
+                <ul>
+                    <li>&nbsp;&nbsp;
+                        <a href="http://tobaccocessation.ccnmtl.columbia.edu/main/media/pdf/TobaccoCessation_CourseGuide.pdf" target="_blank" class="btn">Download Course Guide&nbsp;<i class="icon-download"></i>
                         </a>
                     </li>
-                {% endif %}   
-            </ul>
-        </div>
+                    {% if profile.is_role_faculty or user.is_staff %}
+                        <li>
+                            <a href="#" target="_blank" class="btn">Download Faculty Guide&nbsp;<i class="icon-download"></i>
+                            </a>
+                        </li>
+                    {% endif %}   
+                </ul>
+            </div>
         </div>           
         <div class="row-fluid">
             <div class="span12">
-        {% ifequal profile.role "pediatrics" %}
-            @todo Pediatric Static Content 
-        {% else %}{% ifequal profile.role "orthodontics" %}
-            @todo Orthodontics Static Content
-        {% else %}{% ifequal profile.role "endodontics" %}
-            @todo Endodontics Static Content
-        {% else %}
-            {% with profile.last_location as last_location %}
-                {% ifequal profile.percent_complete 0 %}
-                    <a href="{{last_location.get_absolute_url}}" class="btn btn-large btn-primary">Begin the Course <i class="icon-arrow-right icon-white"></i></a>
+                {% ifequal profile.role "pediatrics" %}
+                    @todo Pediatric Static Content 
+                {% else %}{% ifequal profile.role "orthodontics" %}
+                    @todo Orthodontics Static Content
+                {% else %}{% ifequal profile.role "endodontics" %}
+                    @todo Endodontics Static Content
                 {% else %}
-                    <div class="course-progress">
-                    <h4>Course Progress</h4>
-                    <h5>{{profile.percent_complete}}% Complete</h5>
-                    <div class="progress progress-striped">
-                        <div class="bar" style="width: {{profile.percent_complete}}%;"></div>
-                    </div>
-                    <a href="{{last_location.get_absolute_url}}" class="btn btn-large">
-                        Continue <i class="icon-arrow-right"></i>
-                    </a>
-                    </div>
-                {% endifequal %}
-                    </div>
-                </div>
-             </div>
-                <div class="span4">
-                    <div class="contents">
-                <h4>Table of Contents</h4>        
-                <ul class="toc">
-                    {% for s in root.get_descendants %}
-                        <li class="menu" style="list-style: none; line-height: 150%">
-                            {% ifaccessible s %}                 
-                                <a href="{{s.get_absolute_url}}">
-                                    {{s.label}}{% ifequal s last_location %} <i class="icon-hand-left"></i>{% endifequal %}
-                                </a>
-                            {% else %}
-                                <span class="disabled">{{s.label}}</span>
-                            {% endifaccessible %}
-                            {% if s.get_children %}
-                                <ul>
-                            {% else %}
-                                </li>                    
-                                {% if s.is_last_child %}
-                                    {% for lc in s.closing_children %}
-                                        {% if lc.depth > 2 %}</ul></li>{% endif %}
-                                    {% endfor %}
-                                {% endif %}
+                    {% with profile.last_location as last_location %}
+                        {% ifequal profile.percent_complete 0 %}
+                            <a href="{{last_location.get_absolute_url}}" class="btn btn-large btn-primary">Begin the Course <i class="icon-arrow-right icon-white"></i></a>
+                        {% else %}
+                            <div class="course-progress">
+                            <h4>Course Progress</h4>
+                            <h5>{{profile.percent_complete}}% Complete</h5>
+                            <div class="progress progress-striped">
+                                <div class="bar" style="width: {{profile.percent_complete}}%;"></div>
+                            </div>
+                            <a href="{{last_location.get_absolute_url}}" class="btn btn-large">
+                                Continue <i class="icon-arrow-right"></i>
+                            </a>
+                            </div>
+                        {% endifequal %}
+                    {% endwith %}
+               {% endifequal %}{% endifequal %}{% endifequal %}
+            </div>
+        </div>
+    </div>
+    <div class="span4">
+        <div class="contents">
+            <h4>Table of Contents</h4>
+            <ul class="toc">
+                {% for s in root.get_descendants %}
+                    <li class="menu" style="list-style: none; line-height: 150%">
+                        {% ifaccessible s %}                 
+                            <a href="{{s.get_absolute_url}}">
+                                {{s.label}}{% ifequal s last_location %} <i class="icon-hand-left"></i>{% endifequal %}
+                            </a>
+                        {% else %}
+                            <span class="disabled">{{s.label}}</span>
+                        {% endifaccessible %}
+                        {% if s.get_children %}
+                            <ul>
+                        {% else %}
+                            </li>                    
+                            {% if s.is_last_child %}
+                                {% for lc in s.closing_children %}
+                                    {% if lc.depth > 2 %}</ul></li>{% endif %}
+                                {% endfor %}
                             {% endif %}
-                    {% endfor %}
-                 </ul>
-            {% endwith %}
-        {% endifequal %}{% endifequal %}{% endifequal %}
+                        {% endif %}
+                {% endfor %}
+             </ul>             
         </div>
     </div>
  </div> 
