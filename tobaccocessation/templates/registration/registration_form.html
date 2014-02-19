@@ -28,7 +28,7 @@
 {% endblock %}
 
 {% block registration_content %}
-    <div class="well" id="consent-form">
+    <div class="well tc" id="consent-form">
         <h2>Consent Agreement</h2>
         Nulla sapien lorem, sollicitudin sagittis enim eget, porttitor egestas purus. Cras imperdiet non justo in euismod. Morbi aliquam leo enim, id scelerisque nisl pellentesque accumsan. Cras eget consectetur nisl. Cras consequat, quam a vestibulum luctus, neque velit accumsan odio, vel dictum augue neque non tortor. Quisque eu erat ut quam rhoncus rutrum. Phasellus vitae elementum nisi, non congue elit. Praesent vitae malesuada neque. Ut odio augue, sagittis eget orci at, varius vulputate tortor. Ut pretium ipsum ut massa congue consectetur. Etiam consectetur, ante ac egestas malesuada, dolor sapien adipiscing ipsum, id vestibulum urna elit vitae augue. Aenean tempus mollis ipsum, eget fermentum lorem porta vel.
         
@@ -58,7 +58,7 @@
             </p></div>
             <div><p><strong>All fields are required.</strong></p></div>
 
-            <br/>
+            <div class="well">
             <div class="fieldWrapper control-group">
                 {{ form.first_name.errors }}
                 <label class="control-label">First Name: </label>
@@ -66,19 +66,14 @@
                     {{ form.first_name }}
                 </div>
             </div>
-            <br/>
-        
-            <br/>
-            <div class="fieldWrapper control-group">
+           
+           <div class="fieldWrapper control-group">
                 {{ form.last_name.errors }}
                 <label class="control-label">Last Name: </label>
                 <div class="controls">
                     {{ form.last_name }}
                 </div>
             </div>
-            <br/>
-        
-            <br/>
             <div class="fieldWrapper control-group">
                 {{ form.username.errors }}
                 <label class="control-label">Username: </label>
@@ -86,7 +81,6 @@
                     {{ form.username }}
                 </div>
             </div>
-            <br/>
         
             <div class="fieldWrapper control-group">
                 {{ form.password1.errors }}
@@ -95,7 +89,6 @@
                     {{ form.password1 }}
                 </div>
             </div>
-            <br/>
         
             <div class="fieldWrapper control-group">
                 {{ form.password2.errors }}
@@ -104,27 +97,23 @@
                     {{ form.password2 }}
                 </div>
             </div>
-            <br/>
-        
+                    
             <div class="fieldWrapper control-group">
                 {{ form.email.errors }}
                 <label class="control-label">Email: </label>
                 <div class="controls">
                     {{ form.email }}
-                </div>
+                </div>       
             </div>
-            <br/>
-        
-            <br/>
-            <div class="fieldWrapper control-group">
+            </div>
+                <div class="fieldWrapper control-group">
                 {{ form.gender.errors }}
                 <label class="control-label">Gender: </label>
                 <div class="controls">
                     {{ form.gender }}
                 </div>
             </div>
-            <br/>
-        
+            
             <div class="fieldWrapper control-group">
                 {{ form.is_faculty.errors }}
                 <label class="control-label">Are you a faculty memeber or a student?</label>
@@ -132,14 +121,14 @@
                     {{ form.is_faculty }}
                 </div>
             </div>
-        <br/>
+        
         <div class="fieldWrapper control-group">
             {{ form.specialty.errors }}
             <label class="control-label">How would you describe your specialty?</label>
             <div class="controls">
                 {{ form.specialty }}
             </div>
-        </div><br/>
+        </div>
         
         <div class="fieldWrapper control-group">
             {{ form.institute.errors }}
@@ -147,7 +136,7 @@
             <div class="controls">
                 {{ form.institute }}
             </div>
-        </div><br/>
+        </div>
         
         <div class="fieldWrapper control-group">
             {{ form.year_of_graduation.errors }}
@@ -155,7 +144,7 @@
             <div class="controls">
                 {{ form.year_of_graduation }}
             </div>
-        </div><br/>
+        </div>
         
         <div class="fieldWrapper control-group">
             {{ form.age.errors }}
@@ -163,15 +152,15 @@
             <div class="controls">
                 {{ form.age }}
             </div>
-        </div><br/>
+        </div>
         
         <div class="fieldWrapper control-group">
             {{ form.hispanic_latino.errors }}
-            <label class="control-label">Are you hispanic or latino?: </label>
+            <label class="control-label">Are you Hispanic or Latino?: </label>
             <div class="controls">
                 {{ form.hispanic_latino }}
             </div>
-        </div><br/>
+        </div>
         
         <div class="fieldWrapper control-group">
             {{ form.race.errors }}
@@ -179,8 +168,10 @@
             <div class="controls">
                 {{ form.race }}
             </div>
-        </div><br/>
-        <input class="btn btn-primary" type="submit" id="submit-id" value="{% trans 'Sign up!' %}" />
+        </div>
+        <div class="well" style="text-align: center">
+        <input class="btn btn-primary btn-large" type="submit" id="submit-id" value="{% trans 'Sign up!' %}" />
+        </div>
     </form>
 </div>
 {% endblock %}

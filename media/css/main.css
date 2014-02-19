@@ -211,6 +211,10 @@ img, img a
     margin: 0;
 }
 
+.well.tc {
+	background-color: #f0fbfe;
+}
+
 /* ########## Globally useful definitions ########## */
 
 /* ---- Block block elements ---------- */
