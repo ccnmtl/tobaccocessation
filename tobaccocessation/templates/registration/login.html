@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
 <br />
-<div style="background-color: #F5E2C7; padding: 20px; margin: 0px 5px 0px 30px; width: 285px; border: black solid 1px; float: right;">
+<div class="login_tc">
     
     <div style="padding-bottom: 5px">
-        <h1>Log In</h1>
+        <h3>Log In</h3>
     </div>
         
     <div style="padding-bottom: 5px">
@@ -21,7 +21,7 @@
     <div style="padding-top: 5px">
         <h6>All Other Users:</h6>
 
-        <div style="background-color: #CCCCCC; font-size: 85%; font-weight: bold; padding-left: 5px;">
+        <div>
             {% if form.username.errors %}
                 <p>Please enter your username.</p>
             {% else %}    
@@ -62,7 +62,7 @@
     </div>
 </div>
 
-<h1>Welcome to Tobacco Cessation</h1>
+<h2>Welcome to Tobacco Cessation</h2>
 <p>
 This educational website provides students in the Columbia College of Dental Medicine with multimedia 
 learning modules on pharmacotherapy regimens for tobacco cessation, including demonstrative videos, immediate-response quizzes, 
