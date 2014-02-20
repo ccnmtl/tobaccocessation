@@ -64,11 +64,9 @@
 {% block content %}
    {% if not can_access %}
         <div class="alert alert-error">
-            {% with profile.last_location as last_visited %}
-                <p>
-                    <b>Error!</b> This page is not available.
-                </p>                    
-            {% endwith %}
+            <p>
+                <b>Error!</b> This page is not available.
+            </p>                    
         </div>
    {% else %}
         {% if needs_submit %}
