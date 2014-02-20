@@ -70,6 +70,16 @@ class Patient(models.Model):
             Q(tag="combination")).distinct().order_by("display_order")
         return qs
 
+    def appropriate_treatment_options(self):
+        return self.treatmentoptionreasoning_set.filter(classification__rank=1)
+
+    def less_appropriate_treatment_options(self):
+        opts = self.treatmentoptionreasoning_set.filter(classification__rank=2)
+        return opts
+
+    def harmful_treatment_options(self):
+        return self.treatmentoptionreasoning_set.filter(classification__rank=3)
+
 
 class TreatmentClassification(models.Model):
     rank = models.IntegerField()
@@ -104,6 +114,9 @@ class TreatmentOptionReasoning(models.Model):
     def __unicode__(self):
         return "OptionReasoning: %s [%s, %s]" % \
             (self.classification.description, self.medication, self.reasoning)
+
+    class Meta:
+        ordering = ['display_order', 'id']
 
 
 class TreatmentFeedback(models.Model):

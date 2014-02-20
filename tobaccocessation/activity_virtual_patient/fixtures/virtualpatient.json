@@ -826,7 +826,7 @@
   "pk": 1, 
   "model": "activity_virtual_patient.treatmentclassification", 
   "fields": {
-    "description": "Appropriate Treatment Choice", 
+    "description": "More Appropriate Treatment Choice", 
     "rank": 1
   }
 },
@@ -834,7 +834,7 @@
   "pk": 3, 
   "model": "activity_virtual_patient.treatmentclassification", 
   "fields": {
-    "description": "Unlikely To Be Effective", 
+    "description": "Less Appropriate Treatment Choice", 
     "rank": 2
   }
 },

@@ -30,6 +30,30 @@ class TestPatient(TestCase):
         treatments = patient.treatments()
         self.assertEquals(len(treatments), 8)
 
+    def test_appropriate_treatment_options(self):
+        patient = Patient.objects.get(display_order=1)
+        options = patient.appropriate_treatment_options()
+        self.assertEquals(len(options), 3)
+        self.assertTrue(options[0].combination)
+        self.assertEquals(options[1].medication.name, 'Varenicline')
+        self.assertFalse(options[1].combination)
+        self.assertEquals(options[2].medication.name, 'Bupropion')
+        self.assertEquals(options[1].medication.name, 'Varenicline')
+
+    def test_less_appropriate_treatment_options(self):
+        patient = Patient.objects.get(display_order=1)
+        options = patient.less_appropriate_treatment_options()
+        self.assertEquals(len(options), 4)
+
+    def test_harmful_treatment_options(self):
+        patient = Patient.objects.get(display_order=1)
+        options = patient.harmful_treatment_options()
+        self.assertEquals(len(options), 0)
+
+        patient = Patient.objects.get(display_order=3)
+        options = patient.harmful_treatment_options()
+        self.assertEquals(len(options), 1)
+
 
 class TestTreatmentClassification(TestCase):
     def test_unicode(self):

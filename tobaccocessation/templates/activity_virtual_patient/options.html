@@ -4,8 +4,8 @@
 {% with block.patient as patient %}
 
 <div class="virtualpatient treatment-options">
-    <h5>Step 1: Based on the patient history below, classify each treatment option as appropriate, unlikely to be effective <br/>
-    or potentially harmful. Choose at least one to be an Appropriate Treatment Choice.</h5>
+    <h5>Step 1: Based on the patient history below, classify each treatment option as more appropriate, less appropriate <br/>
+    or potentially harmful. Choose at least one medication to be a More Appropriate Treatment.</h5>
       
     <div class="row-fluid">
         <div class="span6 well about-patient">
@@ -31,7 +31,7 @@
                   {% endfor %}       
                 </div>
                 <div class="span2 appropriate-treatment-choice">
-                    <div class="header">Appropriate Treatment Choice</div>
+                    <div class="header">More Appropriate Treatment Choice</div>
                     {% for med in treatments %}
                         <div class="{{med.tag}} treatment-type">
                             <input name="pageblock-{{block.pageblock.id}}-{{med.tag}}" value="appropriate" type="radio"
@@ -42,7 +42,7 @@
                     {% endfor %}
                 </div>
                 <div class="span2 unlikely-to-be-effective">
-                    <div class="header">Unlikely To Be Effective</div>
+                    <div class="header">Less Appropriate Treatment Choice</div>
                     {% for med in treatments %}
                         <div class="{{med.tag}} treatment-type">
                             <input name="pageblock-{{block.pageblock.id}}-{{med.tag}}" value="ineffective" type="radio"
