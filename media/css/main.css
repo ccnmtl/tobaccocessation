@@ -585,9 +585,10 @@ div.signup-block ul.errorlist,
 }
 
 #contact #contactform {
-    border: black solid 1px;
-    background-color: #F5E2C7; 
-    padding-top: 10px;
+    background: #f5f5f5;
+    border: solid 1px #ccc;
+    padding: 10px 35px;
+    margin: 0 0 1em 0;
 }
 
 #contact #contactform td {
