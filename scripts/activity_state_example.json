@@ -1,0 +1,82 @@
+{
+  "patients": {
+    "1": {
+      "varenicline": {
+        "rx": {
+          "7": {
+            "concentration": "22",
+            "dosage": "27"
+          },
+          "8": {
+            "concentration": "33",
+            "dosage": "29"
+          }
+        },
+        "combination": "true",
+        "classification": "ineffective"
+      },
+      "nicotinenasalspray": {
+        "classification": "ineffective"
+      },
+      "combination": {
+        "prescribe": "true",
+        "classification": "appropriate"
+      },
+      "nicotinepatch": {
+        "classification": "ineffective"
+      },
+      "nicotinegum": {
+        "rx": {
+          "2": {
+            "concentration": "1",
+            "dosage": "2"
+          }
+        },
+        "combination": "true",
+        "classification": "ineffective"
+      },
+      "bupropion": {
+        "classification": "ineffective"
+      },
+      "nicotinelozenge": {
+        "classification": "ineffective"
+      },
+      "nicotineinhaler": {
+        "classification": "ineffective"
+      }
+    },
+    "2": {
+      "varenicline": {
+        "classification": "ineffective"
+      },
+      "nicotinenasalspray": {
+        "rx": {
+          "6": {
+            "concentration": "18",
+            "dosage": "23"
+          }
+        },
+        "prescribe": "true",
+        "classification": "appropriate"
+      },
+      "combination": {
+        "classification": "ineffective"
+      },
+      "nicotinepatch": {
+        "classification": "ineffective"
+      },
+      "nicotinegum": {
+        "classification": "ineffective"
+      },
+      "bupropion": {
+        "classification": "ineffective"
+      },
+      "nicotinelozenge": {
+        "classification": "ineffective"
+      },
+      "nicotineinhaler": {
+        "classification": "ineffective"
+      }
+    }
+  }
+}
