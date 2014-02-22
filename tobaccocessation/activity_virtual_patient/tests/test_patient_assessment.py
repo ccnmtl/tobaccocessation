@@ -742,7 +742,8 @@ class TestWritePrescriptionColumn(VirtualPatientTestCase):
                                   PatientAssessmentBlock.WRITE_PRESCRIPTION)
 
         med = Medication.objects.get(tag="nicotinepatch")
-        dosage = DosageChoice.objects.filter(medication=med)[0]
+        dosage = DosageChoice.objects.get(medication=med,
+                                          dosage='4 boxes, 56 patches')
 
         # key
         column = WritePrescriptionColumn(self.hierarchy, self.patient1,
