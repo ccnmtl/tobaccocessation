@@ -10,6 +10,12 @@ div.virtual-patient a.btn {
     color: #777;
 }
 
+.row-fluid .span2.appropriate-treatment-choice,
+.row-fluid .span2.unlikely-to-be-effective,
+.row-fluid .span2.potentially-harmful {
+    width: 17.5%;
+}
+
 .appropriate-treatment-choice {
     color: #468847;
     background-color: #dff0d8;

@@ -155,7 +155,8 @@ class PrescriptionColumn(object):
     def key_row(self):
         return [self.identifier(),
                 self.hierarchy.name,
-                'prescription exercise',  # item type
+                'Prescription Writing Exercise',
+                'short text',  # item type
                 '%s %s' % (self.medication.name, self.field)]  # item descript
 
     def identifier(self):
@@ -177,7 +178,7 @@ class PrescriptionColumn(object):
         return ''
 
     @classmethod
-    def all(cls, hierarchy, section, key_only=True):
+    def all(cls, hrchy, section, key_only=True):
         columns = []
         ctype = ContentType.objects.get(
             app_label="activity_prescription_writing", name='block')
@@ -186,37 +187,37 @@ class PrescriptionColumn(object):
             medications = Medication.objects.filter(
                 name=activity.block().medication_name, rx_count__gt=0)
             for med in medications:
-                columns.append(PrescriptionColumn(hierarchy=hierarchy,
+                columns.append(PrescriptionColumn(hierarchy=hrchy,
                                                   block=activity.block(),
                                                   medication=med,
                                                   field='dosage'))
-                columns.append(PrescriptionColumn(hierarchy=hierarchy,
+                columns.append(PrescriptionColumn(hierarchy=hrchy,
                                                   block=activity.block(),
                                                   medication=med,
                                                   field='disp'))
-                columns.append(PrescriptionColumn(hierarchy=hierarchy,
+                columns.append(PrescriptionColumn(hierarchy=hrchy,
                                                   block=activity.block(),
                                                   medication=med,
                                                   field='sig'))
-                columns.append(PrescriptionColumn(hierarchy=hierarchy,
+                columns.append(PrescriptionColumn(hierarchy=hrchy,
                                                   block=activity.block(),
                                                   medication=med,
                                                   field='refills'))
 
                 if med.rx_count > 1:
-                    columns.append(PrescriptionColumn(hierarchy=hierarchy,
+                    columns.append(PrescriptionColumn(hierarchy=hrchy,
                                                       block=activity.block(),
                                                       medication=med,
                                                       field='dosage_2'))
-                    columns.append(PrescriptionColumn(hierarchy=hierarchy,
+                    columns.append(PrescriptionColumn(hierarchy=hrchy,
                                                       block=activity.block(),
                                                       medication=med,
                                                       field='disp_2'))
-                    columns.append(PrescriptionColumn(hierarchy=hierarchy,
+                    columns.append(PrescriptionColumn(hierarchy=hrchy,
                                                       block=activity.block(),
                                                       medication=med,
                                                       field='sig_2'))
-                    columns.append(PrescriptionColumn(hierarchy=hierarchy,
+                    columns.append(PrescriptionColumn(hierarchy=hrchy,
                                                       block=activity.block(),
                                                       medication=med,
                                                       field='refills_2'))

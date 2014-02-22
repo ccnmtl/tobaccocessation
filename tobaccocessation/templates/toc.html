@@ -12,7 +12,11 @@
                     <span class="disabled">{{s.label}}</span>
                 {% endifaccessible %}
             {% else %}
-                <a href="{{s.get_absolute_url}}">
+                {% if editing %}
+                    <a href="{{s.get_edit_url}}">
+                {% else %}
+                    <a href="{{s.get_absolute_url}}">
+                {% endif %}
                     {{s.label}}{% ifequal s last_location %} <i class="icon-hand-left"></i>{% endifequal %}
                 </a>            
             {% endif %}

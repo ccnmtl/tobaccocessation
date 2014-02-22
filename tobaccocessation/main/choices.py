@@ -73,4 +73,4 @@ AGE_CHOICES = (
 def choices_key(writer, items, name, item_type):
     for key, val in items:
         if key != '-----':
-            writer.writerow([name, 'profile', item_type, name, key, val])
+            writer.writerow([name, 'profile', '', item_type, name, key, val])

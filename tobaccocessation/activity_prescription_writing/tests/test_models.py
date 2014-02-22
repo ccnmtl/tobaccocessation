@@ -212,7 +212,8 @@ class TestPrescriptionColumn(TestCase):
         idt = "%s_%s_sig" % (self.hierarchy.id, medication.id)
         self.assertEquals(column.identifier(), idt)
 
-        key_row = [idt, "main", 'prescription exercise', 'Nicotine Patch sig']
+        key_row = [idt, "main", 'Prescription Writing Exercise',
+                   'short text', 'Nicotine Patch sig']
         self.assertEquals(column.key_row(), key_row)
 
     def test_user_value_none(self):

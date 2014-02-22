@@ -139,8 +139,9 @@
         <div style="margin-left: 5px;">
             <h3 style="margin-top: 0;"><a href="{{root.get_edit_url}}">Root</a></h3>
             {% with 2 as closing_depth %}
+            {% with True as editing %}
                 {% include "toc.html" %}
-            {% endwith %}
+            {% endwith %}{% endwith %}
          </div>
     </div>        
 

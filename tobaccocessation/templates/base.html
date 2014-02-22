@@ -41,6 +41,9 @@
                             {% if user.is_authenticated %}
                                 <li><a href="/contact/">Contact</a></li>
                             {% endif %}
+                            {% if user.is_superuser %}
+                                <li><a href="/admin/" title="Django admin (superusers only)">Admin</a></li>
+                            {% endif %}
                         </ul>
                     {% endblock %}
                     <div class="visualclear"></div>

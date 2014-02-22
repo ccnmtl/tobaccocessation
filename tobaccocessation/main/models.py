@@ -1,7 +1,9 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from pagetree.models import Hierarchy, UserLocation, UserPageVisit
+from quizblock.models import Submission, Response
 from registration.forms import RegistrationForm
 from registration.signals import user_registered
 from tobaccocessation.main.choices import GENDER_CHOICES, FACULTY_CHOICES, \
@@ -250,3 +252,95 @@ def user_created(sender, user, request, **kwargs):
 
 
 user_registered.connect(user_created)
+
+
+def clean_header(s):
+    s = s.replace('<p>', '')
+    s = s.replace('</p>', '')
+    s = s.replace('</div>', '')
+    s = s.replace('\n', '')
+    s = s.replace('\r', '')
+    s = s.replace('<', '')
+    s = s.replace('>', '')
+    s = s.replace('\'', '')
+    s = s.replace('\"', '')
+    s = s.replace(',', '')
+    s = s.encode('utf-8')
+    return s
+
+
+class QuestionColumn(object):
+    def __init__(self, hierarchy, question, answer=None):
+        self.hierarchy = hierarchy
+        self.question = question
+        self.answer = answer
+
+        self._submission_cache = Submission.objects.filter(
+            quiz=self.question.quiz)
+        self._response_cache = Response.objects.filter(
+            question=self.question)
+        self._answer_cache = self.question.answer_set.all()
+
+    def question_id(self):
+        return "%s_%s" % (self.hierarchy.id, self.question.id)
+
+    def question_answer_id(self):
+        return "%s_%s_%s" % (self.hierarchy.id,
+                             self.question.id,
+                             self.answer.id)
+
+    def identifier(self):
+        if self.question and self.answer:
+            return self.question_answer_id()
+        else:
+            return self.question_id()
+
+    def key_row(self):
+        row = [self.question_id(),
+               self.hierarchy.name,
+               "Quiz",
+               self.question.question_type,
+               clean_header(self.question.text)]
+        if self.answer:
+            row.append(self.answer.id)
+            row.append(clean_header(self.answer.label))
+        return row
+
+    def user_value(self, user):
+        r = self._submission_cache.filter(user=user).order_by("-submitted")
+        if r.count() == 0:
+            # user has not submitted this form
+            return ""
+        submission = r[0]
+        r = self._response_cache.filter(submission=submission)
+        if r.count() > 0:
+            if (self.question.is_short_text() or
+                    self.question.is_long_text()):
+                return r[0].value
+            elif self.question.is_multiple_choice():
+                if self.answer.value in [res.value for res in r]:
+                    return self.answer.id
+            else:  # single choice
+                for a in self._answer_cache:
+                    if a.value == r[0].value:
+                        return a.id
+
+        return ''
+
+    @classmethod
+    def all(cls, hrchy, section, key=True):
+        columns = []
+        ctype = ContentType.objects.get(name='quiz', app_label='quizblock')
+
+        # quizzes
+        for p in section.pageblock_set.filter(content_type=ctype):
+            for q in p.block().question_set.all():
+                if q.answerable() and (key or q.is_multiple_choice()):
+                    # need to make a column for each answer
+                    for a in q.answer_set.all():
+                        columns.append(QuestionColumn(
+                            hierarchy=hrchy, question=q, answer=a))
+                else:
+                    columns.append(QuestionColumn(hierarchy=hrchy, question=q))
+
+        return columns

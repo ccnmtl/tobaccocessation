@@ -3,7 +3,6 @@ from django.test import TestCase, RequestFactory
 from django.test.client import Client
 from pagetree.models import Hierarchy, Section
 from tobaccocessation.main.models import UserProfile
-from tobaccocessation.main.views import clean_header
 
 
 class TestViews(TestCase):
@@ -57,10 +56,6 @@ class TestViews(TestCase):
 
     def test_clear_state(self):
         pass
-
-    def test_clean_header(self):
-        s = "<p></p></div>\n\r<>'\"foobar,"
-        self.assertEquals(clean_header(s), 'foobar')
 
     def test_consent_no_profile(self):
         self.c = Client()

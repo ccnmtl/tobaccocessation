@@ -1,5 +1,4 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, render
@@ -8,14 +7,14 @@ from django.utils import simplejson
 from django.utils.encoding import smart_str
 from pagetree.helpers import get_section_from_path, get_module, get_hierarchy
 from pagetree.models import Section, UserLocation, UserPageVisit, Hierarchy
-from quizblock.models import Submission, Response
 from tobaccocessation.activity_prescription_writing.models import \
     ActivityState as PrescriptionWritingState, PrescriptionColumn
 from tobaccocessation.activity_virtual_patient.models import \
     ActivityState as VirtualPatientActivityState, VirtualPatientColumn
 from tobaccocessation.main.choices import RACE_CHOICES, SPECIALTY_CHOICES, \
     INSTITUTION_CHOICES, HISPANIC_LATINO_CHOICES, GENDER_CHOICES, choices_key
-from tobaccocessation.main.models import QuickFixProfileForm, UserProfile
+from tobaccocessation.main.models import QuickFixProfileForm, UserProfile, \
+    QuestionColumn
 import csv
 
 
@@ -279,108 +278,14 @@ def _unlocked(section, user, previous, profile):
 #####################################################################
 ## Reporting
 
-def clean_header(s):
-    s = s.replace('<p>', '')
-    s = s.replace('</p>', '')
-    s = s.replace('</div>', '')
-    s = s.replace('\n', '')
-    s = s.replace('\r', '')
-    s = s.replace('<', '')
-    s = s.replace('>', '')
-    s = s.replace('\'', '')
-    s = s.replace('\"', '')
-    s = s.replace(',', '')
-    s = s.encode('utf-8')
-    return s
-
-
-class QuestionColumn(object):
-    def __init__(self, hierarchy, question, answer=None):
-        self.hierarchy = hierarchy
-        self.question = question
-        self.answer = answer
-
-        self._submission_cache = Submission.objects.filter(
-            quiz=self.question.quiz)
-        self._response_cache = Response.objects.filter(
-            question=self.question)
-        self._answer_cache = self.question.answer_set.all()
-
-    def question_id(self):
-        return "%s_%s" % (self.hierarchy.id, self.question.id)
-
-    def question_answer_id(self):
-        return "%s_%s_%s" % (self.hierarchy.id,
-                             self.question.id,
-                             self.answer.id)
-
-    def identifier(self):
-        if self.question and self.answer:
-            return self.question_answer_id()
-        else:
-            return self.question_id()
-
-    def key_row(self):
-        row = [self.question_id(),
-               self.hierarchy.name,
-               self.question.question_type,
-               clean_header(self.question.text)]
-        if self.answer:
-            row.append(self.answer.id)
-            row.append(clean_header(self.answer.label))
-        return row
-
-    def user_value(self, user):
-        r = self._submission_cache.filter(user=user).order_by("-submitted")
-        if r.count() == 0:
-            # user has not submitted this form
-            return ""
-        submission = r[0]
-        r = self._response_cache.filter(submission=submission)
-        if r.count() > 0:
-            if (self.question.is_short_text() or
-                    self.question.is_long_text()):
-                return r[0].value
-            elif self.question.is_multiple_choice():
-                if self.answer.value in [res.value for res in r]:
-                    return self.answer.id
-            else:  # single choice
-                for a in self._answer_cache:
-                    if a.value == r[0].value:
-                        return a.id
-
-        return ''
-
-    @classmethod
-    def all(cls, hierarchy, section, key_only=True):
-        columns = []
-        content_type = ContentType.objects.get(name='quiz',
-                                               app_label='quizblock')
-
-        # quizzes
-        for p in section.pageblock_set.filter(content_type=content_type):
-            for q in p.block().question_set.all():
-                if q.answerable() and (key_only or q.is_multiple_choice()):
-                    # need to make a column for each answer
-                    for a in q.answer_set.all():
-                        columns.append(
-                            QuestionColumn(hierarchy=hierarchy,
-                                           question=q, answer=a))
-                else:
-                    columns.append(QuestionColumn(hierarchy=hierarchy,
-                                                  question=q))
-
-        return columns
-
-
-def _get_columns(key_only):
+def _get_columns(key):
     columns = []
     exclusions = ['faculty', 'resources']
     for hierarchy in Hierarchy.objects.all().exclude(name__in=exclusions):
         for section in hierarchy.get_root().get_descendants():
-            columns += QuestionColumn.all(hierarchy, section, key_only) + \
-                PrescriptionColumn.all(hierarchy, section, key_only) + \
-                VirtualPatientColumn.all(hierarchy, section, key_only)
+            columns += QuestionColumn.all(hierarchy, section, key)
+            columns += PrescriptionColumn.all(hierarchy, section, key)
+            columns += VirtualPatientColumn.all(hierarchy, section, key)
     return columns
 
 
@@ -395,7 +300,8 @@ def all_results_key(request):
             concatenates hierarchy id, item type string,
             page block id (if necessary) and item id
         hierarchy - first child label in the hierarchy
-        itemType - [question, discussion topic, referral field]
+        section description - ['', 'Prescription Writing Exercise', 'Quiz'...]
+        itemType - ['single choice', 'multiple choice', 'short text', 'bool']
         itemText - identifying text for the item
         answerIdentifier - for single/multiple-choice questions. an answer id
         answerText
@@ -404,26 +310,26 @@ def all_results_key(request):
     response['Content-Disposition'] = \
         'attachment; filename=tobacco_response_key.csv'
     writer = csv.writer(response)
-    headers = ['itemIdentifier', 'hierarchy', 'itemType', 'itemText',
-               'answerIdentifier', 'answerText']
+    headers = ['itemIdentifier', 'hierarchy', 'exercise type',
+               'itemType', 'itemText', 'answerIdentifier', 'answerText']
     writer.writerow(headers)
 
     # key to profile choices / values
     # username, e-mail, gender, is_faculty, institution, specialty
     #    hispanic/latino, race, year_of_graduation, consent, % complete
-    writer.writerow(['username', 'profile', 'string', 'Username'])
-    writer.writerow(['user e-mail', 'profile', 'string', 'User E-mail'])
+    writer.writerow(['username', 'profile', '', 'string', 'Username'])
+    writer.writerow(['user e-mail', 'profile', '', 'string', 'User E-mail'])
     choices_key(writer, GENDER_CHOICES, 'gender', 'single_choice')
-    writer.writerow(['faculty', 'profile', 'boolean', 'Is Faculty'])
+    writer.writerow(['faculty', 'profile', '', 'boolean', 'Is Faculty'])
     choices_key(writer, INSTITUTION_CHOICES, 'institution', 'single_choice')
     choices_key(writer, SPECIALTY_CHOICES, 'specialty', 'single_choice')
     choices_key(writer, HISPANIC_LATINO_CHOICES,
                 'hispanic_latino', 'single_choice')
     choices_key(writer, RACE_CHOICES, 'race', 'single_choice')
     writer.writerow(['graduation year',
-                     'profile', 'number', 'Graduation Year'])
-    writer.writerow(['consent', 'profile', 'boolean', 'Has Consented'])
-    writer.writerow(['complete', 'profile', 'percent', 'Percent Complete'])
+                     'profile', '', 'number', 'Graduation Year'])
+    writer.writerow(['consent', 'profile', '', 'boolean', 'Has Consented'])
+    writer.writerow(['complete', 'profile', '', 'percent', 'Percent Complete'])
 
     # quizzes, prescription writing, virtual patient keys -- data / values
     for column in _get_columns(True):

@@ -88,6 +88,15 @@ class TreatmentClassification(models.Model):
     def __unicode__(self):
         return "%s. %s" % (self.rank, self.description)
 
+    @classmethod
+    def value_to_rank(cls, value):
+        if value == 'appropriate':
+            return 1
+        if value == 'ineffective':
+            return 2
+        if value == 'harmful':
+            return 3
+
 
 class TreatmentOption(models.Model):
     patient = models.ForeignKey(Patient)
@@ -161,6 +170,16 @@ class ActivityState (models.Model):
         state.data['patients'][patient_id] = {}
         state.save()
 
+    def patient_state(self, patient):
+        patient_id = str(patient.id)
+        if patient_id not in self.data["patients"]:
+            self.data["patients"][patient_id] = {}
+        return self.data["patients"][patient_id]
+
+    def save_patient_state(self, patient, data):
+        self.data["patients"][str(patient.id)] = data
+        self.save()
+
 
 @receiver(post_init, sender=ActivityState)
 def post_init_activity_state(sender, instance, *args, **kwargs):
@@ -208,15 +227,14 @@ class PatientAssessmentBlock(models.Model):
 
     def submit(self, user, data):
         state = ActivityState.get_for_user(user, self.get_hierarchy())
+        patient_state = state.patient_state(self.patient)
 
         if self.view == self.CLASSIFY_TREATMENTS:
-            state.data['patients'][self.patient.id] = {}
+            patient_state = {}
             for k in data.keys():
-                state.data['patients'][self.patient.id][k] = {}
-                state.data['patients'][self.patient.id][k][
-                    'classification'] = data[k]
+                patient_state[k] = {}
+                patient_state[k]['classification'] = data[k]
         elif self.view == self.BEST_TREATMENT_OPTION:
-            patient_state = state.data["patients"][str(self.patient.id)]
             patient_state[data['prescribe']]['prescribe'] = 'true'
             for k in data.keys():
                 if k == 'prescribe':
@@ -225,7 +243,6 @@ class PatientAssessmentBlock(models.Model):
                     for m in data[k]:
                         patient_state[m][k] = 'true'
         elif self.view == self.WRITE_PRESCRIPTION:
-            patient_state = state.data["patients"][str(self.patient.id)]
             for key, value in data.items():
                 field, med_id = key.split('-')  # fieldname-medicine_id
                 medicine = Medication.objects.get(id=med_id)
@@ -235,8 +252,7 @@ class PatientAssessmentBlock(models.Model):
                     patient_state[medicine.tag]['rx'][med_id] = {}
                 patient_state[medicine.tag]['rx'][med_id][field] = value
 
-        state.save()
-
+        state.save_patient_state(self.patient, patient_state)
         return True
 
     def redirect_to_self_on_submit(self):
@@ -259,15 +275,9 @@ class PatientAssessmentBlock(models.Model):
         if form.is_valid():
             form.save()
 
-    def _patient_state(self, state):
-        patient_id = str(self.patient.id)
-        if patient_id not in state.data["patients"]:
-            state.data["patients"][patient_id] = {}
-        return state.data["patients"][patient_id]
-
     def unlocked(self, user):
         state = ActivityState.get_for_user(user, self.get_hierarchy())
-        patient_state = self._patient_state(state)
+        patient_state = state.patient_state(self.patient)
 
         if self.view == self.CLASSIFY_TREATMENTS:
             return (len(self.patient.treatments()) ==
@@ -300,7 +310,7 @@ class PatientAssessmentBlock(models.Model):
 
     def available_treatments(self, user):
         state = ActivityState.get_for_user(user, self.get_hierarchy())
-        patient_state = self._patient_state(state)
+        patient_state = state.patient_state(self.patient)
         qst = self.patient.treatments()
 
         lst = list(qst)
@@ -316,7 +326,7 @@ class PatientAssessmentBlock(models.Model):
 
     def medications(self, user):
         state = ActivityState.get_for_user(user, self.get_hierarchy())
-        patient_state = self._patient_state(state)
+        patient_state = state.patient_state(self.patient)
 
         medications = []
         for key, value in patient_state.items():
@@ -352,13 +362,16 @@ class PatientAssessmentBlock(models.Model):
 
         return sorted(medications, key=itemgetter('display_order'))
 
-    def feedback(self, user):
-        if not self.unlocked(user):
-            return None
+    def complete_rx(self, medications):
+        for medicine in medications:
+            for choice in medicine['choices']:
+                if not hasattr(choice, 'selected_concentration'):
+                    return False
+                if not hasattr(choice, 'selected_dosage'):
+                    return False
+        return True
 
-        medications = self.medications(user)
-        combination = len(medications) == 2
-
+    def correct_rx(self, medications):
         # "Correct" the concentration & dosage choices
         correct_rx = True
         medication_ids = []
@@ -372,9 +385,22 @@ class PatientAssessmentBlock(models.Model):
                     correct_rx = False
 
                 medication_ids.append(choice.id)
+        return correct_rx, medication_ids
+
+    def feedback(self, user):
+        if not self.unlocked(user):
+            return None
+
+        medications = self.medications(user)
+        if not self.complete_rx(medications):
+            return None
+
+        correct_rx, medication_ids = self.correct_rx(medications)
 
         # Find the treatment option associated with the prescribed medications
         topt = TreatmentOption.objects.filter(patient__id=self.patient.id)
+
+        combination = len(medications) == 2
         if combination:
             topt = topt.get(medication_one__id__in=medication_ids,
                             medication_two__id__in=medication_ids)
@@ -400,36 +426,311 @@ class PatientAssessmentForm(forms.ModelForm):
 
 
 class VirtualPatientColumn(object):
-    def __init__(self, hierarchy, patient, view):
+    def identifier(self):
+        raise NotImplementedError
+
+    def key_row(self):
+        raise NotImplementedError
+
+    def user_value(self, user):
+        raise NotImplementedError
+
+    @classmethod
+    def all(cls, hrchy, section, key=True):
+        columns = []
+        ctype = ContentType.objects.get(name='patient assessment block')
+
+        for activity in section.pageblock_set.filter(content_type=ctype):
+            block = activity.block()
+            patient = activity.block().patient
+
+            if block.view == PatientAssessmentBlock.CLASSIFY_TREATMENTS:
+                columns += ClassifyTreatmentColumn.all(hrchy, patient, key)
+            elif block.view == PatientAssessmentBlock.BEST_TREATMENT_OPTION:
+                columns += BestTreatmentColumn.all(hrchy, patient, key)
+                columns += CombinationTreatmentColumn.all(hrchy, patient, key)
+            elif block.view == PatientAssessmentBlock.WRITE_PRESCRIPTION:
+                columns += WritePrescriptionColumn.all(hrchy, patient, key)
+            elif block.view == PatientAssessmentBlock.VIEW_RESULTS:
+                columns += TreatmentRankColumn.all(hrchy, block, key)
+                columns += CorrectRxColumn.all(hrchy, block, key)
+
+        return columns
+
+
+class ClassifyTreatmentColumn(VirtualPatientColumn):
+
+    def __init__(self, hierarchy, patient, treatment, classification=None):
         self.hierarchy = hierarchy
         self.patient = patient
-        self.view = view
+        self.treatment = treatment
+        self.classification = classification
 
     def description(self):
-        return '%s %s' % (self.patient.name,
-                          PatientAssessmentBlock.VIEW_CHOICES[self.view][1])
+        return "Step 1 - Classify Treatments for %s - %s" % \
+            (self.patient.name, self.treatment.name)
 
     def identifier(self):
-        return "%s_%s_%s" % (self.hierarchy.id, self.patient.id, self.view)
+        return "vp_%s_1_%s_%s" % (self.hierarchy.id,
+                                  self.patient.id,
+                                  self.treatment.id)
+
+    def key_row(self):
+        return [self.identifier(), self.hierarchy.name, "Virtual Patient",
+                "single choice", self.description(),
+                self.classification.rank, self.classification.description]
+
+    def user_value(self, user):
+        state = ActivityState.get_for_user(user, self.hierarchy)
+        patient_state = state.patient_state(self.patient)
+
+        try:
+            clss = patient_state[self.treatment.tag]['classification']
+            return TreatmentClassification.value_to_rank(clss)
+        except KeyError:
+            return ''
+
+    @classmethod
+    def all(cls, hierarchy, patient, key):
+        columns = []
+
+        for treat in patient.treatments():
+            if key:
+                classifications = TreatmentClassification.objects.all()
+                for classification in classifications.order_by('rank'):
+                    columns.append(ClassifyTreatmentColumn(
+                        hierarchy, patient, treat, classification))
+            else:
+                columns.append(ClassifyTreatmentColumn(
+                    hierarchy, patient, treat))
+        return columns
+
+
+class BestTreatmentColumn(VirtualPatientColumn):
+
+    def __init__(self, hierarchy, patient, treatment=None):
+        self.hierarchy = hierarchy
+        self.patient = patient
+        self.treatment = treatment
+
+    def description(self):
+        return "Step 2 - Best Treatment for %s" % self.patient.name
+
+    def identifier(self):
+        return "vp_%s_2_%s" % (self.hierarchy.id, self.patient.id)
+
+    def key_row(self):
+        return [self.identifier(), self.hierarchy.name, "Virtual Patient",
+                "single choice", self.description(),
+                self.treatment.id, self.treatment.name]
+
+    def user_value(self, user):
+        state = ActivityState.get_for_user(user, self.hierarchy)
+        patient_state = state.patient_state(self.patient)
+
+        for treatment in self.patient.treatments():
+            if (treatment.tag in patient_state and
+                    'prescribe' in patient_state[treatment.tag]):
+                return treatment.id
+
+        return ''
+
+    @classmethod
+    def all(cls, hierarchy, patient, key):
+        columns = []
+
+        # One single choice question -- "best" treatment
+        if key:
+            for trt in patient.treatments():
+                columns.append(BestTreatmentColumn(hierarchy, patient, trt))
+        else:
+            columns.append(BestTreatmentColumn(hierarchy, patient))
+
+        return columns
+
+
+class CombinationTreatmentColumn(VirtualPatientColumn):
+
+    def __init__(self, hierarchy, patient, treatment):
+        self.hierarchy = hierarchy
+        self.patient = patient
+        self.treatment = treatment
+
+    def description(self):
+        return "Step 3 - Combination Therapy for %s" % self.patient.name
+
+    def patient_id(self):
+        return "vp_%s_3_%s" % (self.hierarchy.id, self.patient.id)
+
+    def patient_treatment_id(self, treat):
+        return "vp_%s_3_%s_%s" % (self.hierarchy.id, self.patient.id, treat.id)
+
+    def identifier(self):
+        return self.patient_treatment_id(self.treatment)
+
+    def key_row(self):
+        return [self.patient_id(), self.hierarchy.name, "Virtual Patient",
+                "multiple choice", self.description(), self.treatment.id,
+                self.treatment.name]
+
+    def user_value(self, user):
+        state = ActivityState.get_for_user(user, self.hierarchy)
+        patient_state = state.patient_state(self.patient)
+
+        try:
+            if 'combination' in patient_state[self.treatment.tag]:
+                return self.treatment.id
+        except KeyError:
+            pass  # that's okay
+
+        return ''
+
+    @classmethod
+    def all(cls, hierarchy, patient, key):
+        columns = []
+
+        # One multichoice question -- 2 combination treatments
+        for trt in patient.treatments():
+            if trt.name != "combination":
+                columns.append(BestTreatmentColumn(hierarchy, patient, trt))
+        return columns
+
+
+class WritePrescriptionColumn(VirtualPatientColumn):
+
+    def __init__(self, hierarchy, patient, field, medication, choice=None):
+        self.hierarchy = hierarchy
+        self.patient = patient
+        self.field = field
+        self.medication = medication
+        self.choice = choice
+
+    def identifier(self):
+        return "vp_%s_4_%s_%s_%s" % (self.hierarchy.id, self.patient.id,
+                                     self.medication.id, self.field)
+
+    def description(self):
+        return "Step 4 - Prescribe %s for %s - %s" % (self.medication.name,
+                                                      self.patient.name,
+                                                      self.field)
+
+    def key_row(self):
+        return [self.identifier(), self.hierarchy.name, "Virtual Patient",
+                "single choice", self.description(), self.choice.id,
+                getattr(self.choice, self.field)]
+
+    def user_value(self, user):
+        state = ActivityState.get_for_user(user, self.hierarchy)
+        patient_state = state.patient_state(self.patient)
+
+        try:
+            rx = patient_state[self.medication.tag]['rx']
+            return rx[str(self.medication.id)][self.field]
+        except KeyError:
+            return ''
+
+    @classmethod
+    def all(cls, hierarchy, patient, key):
+        columns = []
+
+        # rows for each medication / dosage / choice value
+        for trt in patient.treatments():
+            medications = Medication.objects.filter(tag=trt.tag)
+            for med in medications:
+                if key:
+                    for dosage in med.dosagechoice_set.all():
+                        columns.append(WritePrescriptionColumn(hierarchy,
+                                                               patient,
+                                                               "dosage",
+                                                               med,
+                                                               dosage))
+                    for conc in med.concentrationchoice_set.all():
+                        columns.append(WritePrescriptionColumn(hierarchy,
+                                                               patient,
+                                                               "concentration",
+                                                               med,
+                                                               conc))
+                else:
+                    columns.append(WritePrescriptionColumn(hierarchy, patient,
+                                                           "dosage", med))
+                    columns.append(WritePrescriptionColumn(hierarchy, patient,
+                                                           "concentration",
+                                                           med))
+
+        return columns
+
+
+class TreatmentRankColumn(VirtualPatientColumn):
+    def __init__(self, hierarchy, block, classification=None):
+        self.hierarchy = hierarchy
+        self.patient = block.patient
+        self.block = block
+        self.classification = classification
+
+    def identifier(self):
+        return "vp_%s_5_%s" % (self.hierarchy.id, self.patient.id)
+
+    def description(self):
+        return "Selected Treatment Rank for %s" % (self.patient.name)
 
     def key_row(self):
         return [self.identifier(),
                 self.hierarchy.name,
-                'virtual patient',  # item type
+                "Virtual Patient",
+                "single choice",
+                self.description(),
+                self.classification.rank,
+                self.classification.description]
+
+    def user_value(self, user):
+        feedback = self.block.feedback(user)
+        if feedback is not None:
+            return feedback.classification.rank
+        else:
+            return ''
+
+    @classmethod
+    def all(cls, hierarchy, block, key):
+        columns = []
+        if key:
+            for classification in TreatmentClassification.objects.all():
+                columns.append(TreatmentRankColumn(hierarchy,
+                                                   block,
+                                                   classification))
+        else:
+            columns.append(TreatmentRankColumn(hierarchy, block))
+
+        return columns
+
+
+class CorrectRxColumn(VirtualPatientColumn):
+    def __init__(self, hierarchy, block):
+        self.hierarchy = hierarchy
+        self.patient = block.patient
+        self.block = block
+
+    def identifier(self):
+        return "vp_%s_6_%s" % (self.hierarchy.id, self.patient.id)
+
+    def description(self):
+        return "Is Selected Prescription Correct for %s" % (self.patient.name)
+
+    def key_row(self):
+        return [self.identifier(),
+                self.hierarchy.name,
+                "Virtual Patient",
+                "boolean",
                 self.description()]
 
     def user_value(self, user):
-        return ''
+        medications = self.block.medications(user)
+
+        if not self.block.complete_rx(medications):
+            return ''
+
+        correct_rx, a = self.block.correct_rx(medications)
+        return correct_rx
 
     @classmethod
-    def all(cls, hierarchy, section, key_only=True):
-        columns = []
-        ctype = ContentType.objects.get(
-            app_label="activity_virtual_patient",
-            name='patient assessment block')
-
-        for activity in section.pageblock_set.filter(content_type=ctype):
-            columns.append(VirtualPatientColumn(hierarchy,
-                                                activity.block().patient,
-                                                activity.block().view))
-        return columns
+    def all(cls, hierarchy, block, key):
+        return [CorrectRxColumn(hierarchy, block)]

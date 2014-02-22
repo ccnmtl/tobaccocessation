@@ -2,7 +2,7 @@ from django.contrib import admin
 from tobaccocessation.activity_virtual_patient.models import DosageChoice, \
     RefillChoice, ConcentrationChoice, Medication, Patient, \
     TreatmentClassification, TreatmentOptionReasoning, TreatmentOption, \
-    TreatmentFeedback
+    TreatmentFeedback, ActivityState
 
 
 class MedicationDosageChoiceInline(admin.TabularInline):
@@ -61,3 +61,4 @@ class PatientAdmin(admin.ModelAdmin):
     ]
 
 admin.site.register(Patient, PatientAdmin)
+admin.site.register(ActivityState)
