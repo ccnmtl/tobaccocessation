@@ -15,6 +15,8 @@ from tobaccocessation.main.choices import RACE_CHOICES, SPECIALTY_CHOICES, \
     INSTITUTION_CHOICES, HISPANIC_LATINO_CHOICES, GENDER_CHOICES, choices_key
 from tobaccocessation.main.models import QuickFixProfileForm, UserProfile, \
     QuestionColumn
+from zipfile import ZipFile
+from StringIO import StringIO
 import csv
 
 
@@ -278,26 +280,6 @@ def _unlocked(section, user, previous, profile):
 #####################################################################
 ## Reporting
 
-@user_passes_test(lambda u: u.is_superuser)
-@rendered_with("main/report.html")
-def report(request):
-    if request.method == "GET":
-        exclusions = ['faculty', 'resources']
-        hierarchies = Hierarchy.objects.all().exclude(
-            name__in=exclusions).order_by("id")
-        return {'hierarchies': hierarchies}
-    else:
-        hierarchy_id = request.POST.get('hierarchy-id', None)
-        hierarchy = Hierarchy.objects.get(id=hierarchy_id)
-
-        report_type = request.POST.get('report-type', None)
-        include_superusers = request.POST.get('include-superusers', False)
-
-        if report_type == 'key':
-            return _all_results_key(request, hierarchy)
-        else:
-            return _all_results(request, hierarchy, include_superusers)
-
 
 def _get_columns(key, hierarchy):
     columns = []
@@ -308,7 +290,7 @@ def _get_columns(key, hierarchy):
     return columns
 
 
-def _all_results_key(request, hierarchy):
+def _all_results_key(output, hierarchy):
     """
         A "key" for all questions and answers in the system.
         * One row for short/long text questions
@@ -324,10 +306,7 @@ def _all_results_key(request, hierarchy):
         answerIdentifier - for single/multiple-choice questions. an answer id
         answerText
     """
-    response = HttpResponse(mimetype='text/csv')
-    response['Content-Disposition'] = \
-        'attachment; filename=tobacco_response_key.csv'
-    writer = csv.writer(response)
+    writer = csv.writer(output)
     headers = ['itemIdentifier', 'hierarchy', 'exercise type',
                'itemType', 'itemText', 'answerIdentifier', 'answerText']
     writer.writerow(headers)
@@ -353,10 +332,10 @@ def _all_results_key(request, hierarchy):
     for column in _get_columns(True, hierarchy):
         writer.writerow(column.key_row())
 
-    return response
+    return writer
 
 
-def _all_results(request, hierarchy, include_superusers):
+def _all_results(output, hierarchy, include_superusers):
     """
     All system results
     * One or more column for each question in system.
@@ -375,10 +354,7 @@ def _all_results(request, hierarchy, include_superusers):
                     column the user selected
                 * Unanswered fields represented as an empty cell
     """
-    response = HttpResponse(mimetype='text/csv')
-    response['Content-Disposition'] = \
-        'attachment; filename=tobacco_responses.csv'
-    writer = csv.writer(response)
+    writer = csv.writer(output)
 
     columns = _get_columns(False, hierarchy)
 
@@ -407,4 +383,35 @@ def _all_results(request, hierarchy, include_superusers):
 
         writer.writerow(row)
 
-    return response
+    return writer
+
+
+@user_passes_test(lambda u: u.is_superuser)
+@rendered_with("main/report.html")
+def report(request):
+    if request.method == "GET":
+        exclusions = ['faculty', 'resources']
+        hierarchies = Hierarchy.objects.all().exclude(
+            name__in=exclusions).order_by("id")
+        return {'hierarchies': hierarchies}
+    else:
+        hierarchy_id = request.POST.get('hierarchy-id', None)
+        hierarchy = Hierarchy.objects.get(id=hierarchy_id)
+
+        include_superusers = request.POST.get('include-superusers', False)
+
+        response = HttpResponse(mimetype='application/zip')
+        response['Content-Disposition'] = 'attachment; filename=tobacco.zip'
+
+        z = ZipFile(response, 'w')
+
+        output = StringIO()  # temp output file
+        _all_results_key(output, hierarchy)
+        z.writestr("tobacco_%s_key.csv" % hierarchy.name, output.getvalue())
+
+        output.truncate(0)
+        output.seek(0)
+        _all_results(output, hierarchy, include_superusers)
+        z.writestr("tobacco_%s_values.csv" % hierarchy.name, output.getvalue())
+
+        return response
