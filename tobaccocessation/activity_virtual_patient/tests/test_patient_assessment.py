@@ -653,9 +653,9 @@ class TestBestTreatmentColumn(VirtualPatientTestCase):
 
         # key
         column = BestTreatmentColumn(self.hierarchy, self.patient1, med)
-        self.assertEquals(column.identifier(), "vp_3_2_1")
+        self.assertEquals(column.identifier(), "vp_3_1_2")
         self.assertEquals(column.key_row(),
-                          ["vp_3_2_1",
+                          ["vp_3_1_2",
                            "main",
                            "Virtual Patient", "single choice",
                            "Step 2 - Best Treatment for Beverly Johnson",
@@ -695,9 +695,9 @@ class TestCombinationTreatmentColumn(VirtualPatientTestCase):
 
         # key
         column = CombinationTreatmentColumn(self.hierarchy, self.patient1, med)
-        self.assertEquals(column.identifier(), "vp_3_3_1_1")
+        self.assertEquals(column.identifier(), "vp_3_1_3_1")
         self.assertEquals(column.key_row(),
-                          ["vp_3_3_1",
+                          ["vp_3_1_3",
                            "main",
                            "Virtual Patient", "multiple choice",
                            "Step 3 - Combination Therapy for Beverly Johnson",
@@ -728,7 +728,7 @@ class TestWritePrescriptionColumn(VirtualPatientTestCase):
         self.assertEquals(len(a), 54)
         self.assertIsNotNone(a[0].choice)
         a = WritePrescriptionColumn.all(self.hierarchy, self.patient1, False)
-        self.assertEquals(len(a), 16)
+        self.assertEquals(len(a), 14)
         self.assertIsNone(a[0].choice)
 
     def test_instance(self):
@@ -748,9 +748,9 @@ class TestWritePrescriptionColumn(VirtualPatientTestCase):
         # key
         column = WritePrescriptionColumn(self.hierarchy, self.patient1,
                                          "dosage", med, dosage)
-        self.assertEquals(column.identifier(), "vp_3_4_1_1_dosage")
+        self.assertEquals(column.identifier(), "vp_3_1_4_1_dosage")
         self.assertEquals(column.key_row(),
-                          ["vp_3_4_1_1_dosage",
+                          ["vp_3_1_4_1_dosage",
                            "main", "Virtual Patient",
                            "single choice",
                            "Step 4 - Prescribe Nicotine Patch for "
@@ -796,9 +796,9 @@ class TestTreatmentRankColumn(VirtualPatientTestCase):
         # key
         classification = TreatmentClassification.objects.get(rank=2)
         column = TreatmentRankColumn(self.hierarchy, results, classification)
-        self.assertEquals(column.identifier(), "vp_3_5_1")
+        self.assertEquals(column.identifier(), "vp_3_1_5")
         self.assertEquals(column.key_row(),
-                          ["vp_3_5_1",
+                          ["vp_3_1_5",
                            "main", "Virtual Patient",
                            "single choice",
                            "Selected Treatment Rank for Beverly Johnson",
@@ -840,9 +840,9 @@ class TestCorrectRxColumn(VirtualPatientTestCase):
 
         # key
         column = CorrectRxColumn(self.hierarchy, results)
-        self.assertEquals(column.identifier(), "vp_3_6_1")
+        self.assertEquals(column.identifier(), "vp_3_1_6")
         self.assertEquals(column.key_row(),
-                          ["vp_3_6_1",
+                          ["vp_3_1_6",
                            "main", "Virtual Patient",
                            "boolean",
                            "Is Selected Prescription Correct "

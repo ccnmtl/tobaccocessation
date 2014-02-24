@@ -471,8 +471,9 @@ class ClassifyTreatmentColumn(VirtualPatientColumn):
             (self.patient.name, self.treatment.name)
 
     def identifier(self):
-        return "vp_%s_1_%s_%s" % (self.hierarchy.id,
+        return "vp_%s_%s_1_%s" % (self.hierarchy.id,
                                   self.patient.id,
+                                  # virtual patient page
                                   self.treatment.id)
 
     def key_row(self):
@@ -517,7 +518,7 @@ class BestTreatmentColumn(VirtualPatientColumn):
         return "Step 2 - Best Treatment for %s" % self.patient.name
 
     def identifier(self):
-        return "vp_%s_2_%s" % (self.hierarchy.id, self.patient.id)
+        return "vp_%s_%s_2" % (self.hierarchy.id, self.patient.id)
 
     def key_row(self):
         return [self.identifier(), self.hierarchy.name, "Virtual Patient",
@@ -560,10 +561,10 @@ class CombinationTreatmentColumn(VirtualPatientColumn):
         return "Step 3 - Combination Therapy for %s" % self.patient.name
 
     def patient_id(self):
-        return "vp_%s_3_%s" % (self.hierarchy.id, self.patient.id)
+        return "vp_%s_%s_3" % (self.hierarchy.id, self.patient.id)
 
     def patient_treatment_id(self, treat):
-        return "vp_%s_3_%s_%s" % (self.hierarchy.id, self.patient.id, treat.id)
+        return "vp_%s_%s_3_%s" % (self.hierarchy.id, self.patient.id, treat.id)
 
     def identifier(self):
         return self.patient_treatment_id(self.treatment)
@@ -592,7 +593,8 @@ class CombinationTreatmentColumn(VirtualPatientColumn):
         # One multichoice question -- 2 combination treatments
         for trt in patient.treatments():
             if trt.name != "combination":
-                columns.append(BestTreatmentColumn(hierarchy, patient, trt))
+                columns.append(CombinationTreatmentColumn(hierarchy,
+                                                          patient, trt))
         return columns
 
 
@@ -606,7 +608,7 @@ class WritePrescriptionColumn(VirtualPatientColumn):
         self.choice = choice
 
     def identifier(self):
-        return "vp_%s_4_%s_%s_%s" % (self.hierarchy.id, self.patient.id,
+        return "vp_%s_%s_4_%s_%s" % (self.hierarchy.id, self.patient.id,
                                      self.medication.id, self.field)
 
     def description(self):
@@ -635,7 +637,8 @@ class WritePrescriptionColumn(VirtualPatientColumn):
 
         # rows for each medication / dosage / choice value
         for trt in patient.treatments():
-            medications = Medication.objects.filter(tag=trt.tag)
+            medications = Medication.objects.filter(
+                tag=trt.tag).exclude(tag='combination')
             for med in medications:
                 if key:
                     for dosage in med.dosagechoice_set.all():
@@ -668,7 +671,7 @@ class TreatmentRankColumn(VirtualPatientColumn):
         self.classification = classification
 
     def identifier(self):
-        return "vp_%s_5_%s" % (self.hierarchy.id, self.patient.id)
+        return "vp_%s_%s_5" % (self.hierarchy.id, self.patient.id)
 
     def description(self):
         return "Selected Treatment Rank for %s" % (self.patient.name)
@@ -710,7 +713,7 @@ class CorrectRxColumn(VirtualPatientColumn):
         self.block = block
 
     def identifier(self):
-        return "vp_%s_6_%s" % (self.hierarchy.id, self.patient.id)
+        return "vp_%s_%s_6" % (self.hierarchy.id, self.patient.id)
 
     def description(self):
         return "Is Selected Prescription Correct for %s" % (self.patient.name)
