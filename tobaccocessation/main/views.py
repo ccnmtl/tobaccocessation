@@ -278,19 +278,37 @@ def _unlocked(section, user, previous, profile):
 #####################################################################
 ## Reporting
 
-def _get_columns(key):
+@user_passes_test(lambda u: u.is_superuser)
+@rendered_with("main/report.html")
+def report(request):
+    if request.method == "GET":
+        exclusions = ['faculty', 'resources']
+        hierarchies = Hierarchy.objects.all().exclude(
+            name__in=exclusions).order_by("id")
+        return {'hierarchies': hierarchies}
+    else:
+        hierarchy_id = request.POST.get('hierarchy-id', None)
+        hierarchy = Hierarchy.objects.get(id=hierarchy_id)
+
+        report_type = request.POST.get('report-type', None)
+        include_superusers = request.POST.get('include-superusers', False)
+
+        if report_type == 'key':
+            return _all_results_key(request, hierarchy)
+        else:
+            return _all_results(request, hierarchy, include_superusers)
+
+
+def _get_columns(key, hierarchy):
     columns = []
-    exclusions = ['faculty', 'resources']
-    for hierarchy in Hierarchy.objects.all().exclude(name__in=exclusions):
-        for section in hierarchy.get_root().get_descendants():
-            columns += QuestionColumn.all(hierarchy, section, key)
-            columns += PrescriptionColumn.all(hierarchy, section, key)
-            columns += VirtualPatientColumn.all(hierarchy, section, key)
+    for section in hierarchy.get_root().get_descendants():
+        columns += QuestionColumn.all(hierarchy, section, key)
+        columns += PrescriptionColumn.all(hierarchy, section, key)
+        columns += VirtualPatientColumn.all(hierarchy, section, key)
     return columns
 
 
-@user_passes_test(lambda u: u.is_superuser)
-def all_results_key(request):
+def _all_results_key(request, hierarchy):
     """
         A "key" for all questions and answers in the system.
         * One row for short/long text questions
@@ -332,15 +350,13 @@ def all_results_key(request):
     writer.writerow(['complete', 'profile', '', 'percent', 'Percent Complete'])
 
     # quizzes, prescription writing, virtual patient keys -- data / values
-    for column in _get_columns(True):
+    for column in _get_columns(True, hierarchy):
         writer.writerow(column.key_row())
 
     return response
 
 
-@user_passes_test(lambda user: user.is_superuser)
-@rendered_with("main/all_results.html")
-def all_results(request):
+def _all_results(request, hierarchy, include_superusers):
     """
     All system results
     * One or more column for each question in system.
@@ -364,7 +380,7 @@ def all_results(request):
         'attachment; filename=tobacco_responses.csv'
     writer = csv.writer(response)
 
-    columns = _get_columns(False)
+    columns = _get_columns(False, hierarchy)
 
     headers = ['username', 'email', 'gender', 'is faculty', 'institute',
                'specialty', 'hispanic_latino', 'race', 'year_of_graduation',
@@ -375,6 +391,9 @@ def all_results(request):
 
     # Only look at users who have create a profile + consented
     profiles = UserProfile.objects.filter(consent=True)
+    if not include_superusers:
+        profiles = profiles.filter(user__is_superuser=False)
+
     for profile in profiles:
         row = [profile.user.username, profile.user.email, profile.gender,
                profile.is_role_faculty(), profile.institute,

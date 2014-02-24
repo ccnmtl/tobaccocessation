@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load accessible %}
+
+{% block extrahead %}
+    {{ block.super }}
+{% endblock %}
+
+{% block js %}{% endblock %}
+
+{% block extrajs %}
+    {{ block.super }}
+{% endblock %}
+
+{% block title %}Home{% endblock %}
+
+{% block primarynavtabs %}
+    <!-- Everything you want hidden at 940px or less, place within here -->
+    <div class="nav-collapse collapse">
+        {% include "resources_nav.html" %}
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="row-fluid">
+    <span class="span6">
+        <h2>Reports</h2>
+        
+        <div id="report-container">
+            <form action="." method="post" class="form-horizontal">
+                <div class="control-group">
+                    <label class="control-label" for="hierarchy-id">Select a hierarchy:</label>
+                    <div class="controls">                
+                        <select name="hierarchy-id">
+                            {% for h in hierarchies %}
+                                <option value="{{h.id}}">{{h.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="report-type">Select a report type:</label>
+                    <div class="controls">   
+                        <select name="report-type">
+                            <option value="key">Key</option>
+                            <option value="values">Values</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                <div class="controls">
+                    <label class="checkbox">
+                        <input type="checkbox" name="include-superusers" />Include Superusers
+                    </label>
+                </div>
+
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </span>
+</div>
+
+{% endblock %}
