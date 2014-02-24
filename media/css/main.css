@@ -93,6 +93,7 @@ li {
     margin: 20px 0;
 }
 
+li.dropdown-submenu,
 .navbar .nav>li {
     margin: 0;
 }
