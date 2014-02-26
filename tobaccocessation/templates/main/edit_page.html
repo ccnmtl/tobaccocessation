@@ -193,14 +193,15 @@
     <button type="button" class="close" data-dismiss="modal">×</button>
     <h3>Edit {{block.block.display_name}}</h3>
   </div>
+  <form action="{% url 'edit-pageblock' block.id %}" method="post"
+        class=""
+        {% if block.edit_form.is_multipart %}enctype="multipart/form-data"{% endif %}>
+  
     <div class="modal-body">
         {% if block.block.importable %}
         <a href="{% url 'import-pageblock-json' block.id %}">import json</a>
         {% endif %}
         
-        <form action="{% url 'edit-pageblock' block.id %}" method="post"
-        class=""
-        {% if block.edit_form.is_multipart %}enctype="multipart/form-data"{% endif %}>
         
         {{ block.default_edit_form|bootstrap }}
         {% with block.edit_form as ef %}
@@ -209,13 +210,14 @@
         <div>{{ ef.alt_text|safe }}</div>
         {% endif %}
         {% endwith %}
-        </form>
     </div>
 
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Cancel</a>
             <input type="submit" value="Save" class="btn btn-primary" />
     </div>
+    </form>
+    
 </div>
 {% endfor %}
 
