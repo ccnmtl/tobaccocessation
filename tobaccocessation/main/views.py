@@ -315,7 +315,7 @@ def _all_results_key(output, hierarchy):
     # username, e-mail, gender, is_faculty, institution, specialty
     #    hispanic/latino, race, year_of_graduation, consent, % complete
     writer.writerow(['username', 'profile', '', 'string', 'Username'])
-    writer.writerow(['user e-mail', 'profile', '', 'string', 'User E-mail'])
+    writer.writerow(['email', 'profile', '', 'string', 'User E-mail'])
     choices_key(writer, GENDER_CHOICES, 'gender', 'single_choice')
     writer.writerow(['faculty', 'profile', '', 'boolean', 'Is Faculty'])
     choices_key(writer, INSTITUTION_CHOICES, 'institution', 'single_choice')
@@ -323,7 +323,7 @@ def _all_results_key(output, hierarchy):
     choices_key(writer, HISPANIC_LATINO_CHOICES,
                 'hispanic_latino', 'single_choice')
     choices_key(writer, RACE_CHOICES, 'race', 'single_choice')
-    writer.writerow(['graduation year',
+    writer.writerow(['year_of_graduation',
                      'profile', '', 'number', 'Graduation Year'])
     writer.writerow(['consent', 'profile', '', 'boolean', 'Has Consented'])
     writer.writerow(['complete', 'profile', '', 'percent', 'Percent Complete'])
@@ -358,7 +358,7 @@ def _all_results(output, hierarchy, include_superusers):
 
     columns = _get_columns(False, hierarchy)
 
-    headers = ['username', 'email', 'gender', 'is faculty', 'institute',
+    headers = ['username', 'email', 'gender', 'faculty', 'institution',
                'specialty', 'hispanic_latino', 'race', 'year_of_graduation',
                'consent', 'percent_complete']
     for column in columns:
