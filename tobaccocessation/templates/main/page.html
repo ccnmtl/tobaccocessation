@@ -71,10 +71,7 @@
    {% else %}
         {% if needs_submit %}
             {% if is_submitted %}
-                <div id="thank-you" class="alert alert-block alert-success" style="display: none;">
-                    <h4 class="alert-heading">Thank You!</h4>
-                    <p>The survey is complete. We appreciate your time.</p>
-                </div>
+                <input type="hidden" value="true" name="submitted" />
                 
                 {% if not allow_redo and user.is_staff %}
                     <form action="." method="post">

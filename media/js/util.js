@@ -29,9 +29,8 @@ jQuery(document).ready(function() {
         jQuery("div.block input[type='text']").addClass("optional");
     }
     
-    if (jQuery("div#thank-you").length > 0 &&
-            jQuery("div.survey").length > 0) {
-        jQuery("div#thank-you").show();
+    if (jQuery("div.survey").length > 0 &&
+            jQuery("input[name='submitted']").length > 0) {
         jQuery("div.block input[type='radio']").attr("disabled", "disabled");
     }
 });
