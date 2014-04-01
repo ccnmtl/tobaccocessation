@@ -1,8 +1,3 @@
-function hasVideo() {
-    // Video associated with each answer
-    return jQuery("#multivideo").length > 0 || jQuery("#singlevideo").length > 0; 
-}
-
 function showVideo(radioElt) {
     if (jQuery("div.multiple-video-quiz").length > 0) {    
         // hide any videos that are currently playing
@@ -24,11 +19,20 @@ function showVideo(radioElt) {
     }
 }
 
-
 jQuery(document).ready(function() {
     var a = jQuery("div.multiple-video-quiz").find("input[type='radio']:checked");
     if (a.length > 0) {
         showVideo(a[0]);
+    }
+    
+    if (jQuery("div.survey").length > 0) {
+        jQuery("div.block input[type='text']").addClass("optional");
+    }
+    
+    if (jQuery("div#thank-you").length > 0 &&
+            jQuery("div.survey").length > 0) {
+        jQuery("div#thank-you").show();
+        jQuery("div.block input[type='radio']").attr("disabled", "disabled");
     }
 });
 
@@ -38,7 +42,9 @@ function is_form_complete(form) {
     
     var children = jQuery(form).find("input,textarea,select");
     jQuery.each(children, function() {
-        if (complete && jQuery(this).is(":visible")) {
+        if (complete && jQuery(this).is(":visible") &&
+                !jQuery(this).hasClass("optional")) {
+            
             if (this.tagName === 'INPUT' && this.type === 'text' ||
                 this.tagName === 'TEXTAREA') {
                 complete = jQuery(this).val().trim().length > 0;

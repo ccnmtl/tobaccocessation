@@ -1,6 +1,6 @@
 {% load markup %}
 
-<ol type="A">
+<ol class="caseanswers">
 {% for answer in question.answer_set.all %}
     {% if block.rhetorical %}
         <li><input name="question{{question.id}}" value="{{answer.label}}" type="radio" /> {{answer.label|safe}}</li>

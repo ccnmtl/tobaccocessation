@@ -514,6 +514,14 @@ body.fluid #footer
     margin-left: 35px;
 }
 
+.cases .casequestion ul.caseanswers {
+    list-style-type: none;
+}
+
+.cases .casequestion ol.caseanswers {
+    list-style-type: upper-alpha;
+}
+
 .casesanswerdisplay {
     margin-top: 20px;
     display: block;
@@ -842,5 +850,57 @@ div.quiz-results {
     background-color: #E1E1E1;
     border: 1px solid #ccc;
     margin: 0 0 3em 0;
+}
+
+.survey {
+    margin-bottom: 40px;
+}
+
+.survey .alert {
+    display: none;
+}
+
+.survey .cases {
+    border: none;
+    clear: both;
+    padding: 0;
+    margin-left: 15px;    
+}
+
+.survey .quizdescription {
+    font-weight: bold;
+}
+
+.survey.horizontal .quizdescription div.row {
+    margin-top: 10px;
+    margin-left: 169px;
+}
+
+.survey.horizontal .quizdescription div.answer-heading {
+    float: left;
+    width: 210px;
+    text-align: center;
+}
+
+.survey.horizontal .casequestiontext {
+    float: left;
+    width: 190px;
+    margin-right: 35px;
+    font-weight: normal !important;
+    margin-left: 15px;    
+}
+
+.survey.horizontal .cases .casequestion ol.caseanswers {
+    list-style-type: none;
+}
+
+.survey.horizontal ol.caseanswers li {
+    float: left;
+    width: 100px;
+}
+
+.survey .cases .casequestiontext {
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 

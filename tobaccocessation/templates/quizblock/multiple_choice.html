@@ -1,7 +1,7 @@
 {% load markup %}
 {% load getresponse %}
 
-<ul type="A">
+<ul class="caseanswers">
 {% if response %}
     {% for answer in question.answer_set.all %}
         {% ifanswerin response answer  %}

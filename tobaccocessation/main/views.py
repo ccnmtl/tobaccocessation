@@ -91,7 +91,7 @@ def page(request, hierarchy, path):
         if request.is_ajax():
             json = simplejson.dumps({'submitted': 'True'})
             return HttpResponse(json, 'application/json')
-        elif proceed:
+        elif request.POST.get('proceed', False) or proceed:
             return HttpResponseRedirect(section.get_next().get_absolute_url())
         else:
             # giving them feedback before they proceed

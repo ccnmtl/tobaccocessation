@@ -8,6 +8,7 @@
 
     <div class="casecontent">
         <div class="casequestion">
+            {% if not 'survey' in block.pageblock.css_extra %}
             <div class="caseuserfeedback top">
                 {% if block.rhetorical %}
                     {% include 'quizblock/show_answer.html' %}
@@ -17,8 +18,11 @@
                     {% endif %}
                 {% endif %}
             </div>
+            {% endif %}
 
-            {{question.text|markdown}}
+            <div class="casequestiontext">
+            {{question.text|safe}}
+            </div>
             
             {% if question.answerable %}
                 {% if block.rhetorical %}
@@ -50,6 +54,7 @@
                 {% endif %}
             {% endif %}
             
+            {% if not 'survey' in block.pageblock.css_extra %}
             <div class="caseuserfeedback bottom">
                 {% if block.rhetorical %}
                     {% include 'quizblock/show_answer.html' %}
@@ -58,7 +63,8 @@
                         {% include 'quizblock/show_answer.html' %}
                     {% endif %}
                 {% endif %}
-            </div>            
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>

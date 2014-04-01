@@ -236,9 +236,9 @@
 <div class="well">
 <p>Drag and drop arrows to reorder children</p>
 {% with section.get_children as section_children %}
-    {% if children|length > 0 %}
+    {% if section_children|length > 0 %}
         <ul id="children-order-list">
-            {% for child in section.get_children %}
+            {% for child in section_children %}
                 <li class="draggable" id="child-{{child.id}}">
                     <span title="drag to reorder pageblocks" class="draghandle ui-icon ui-icon-arrowthick-2-n-s"></span>
                     <a href="{{child.get_edit_url}}">{{child.label}}</a>
