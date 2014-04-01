@@ -40,6 +40,9 @@ class UserProfile(models.Model):
     def has_consented(self):
         return self.consent
 
+    def has_content(self):
+        return self.role() in ['main', 'general', 'surgery', 'perio']
+
     def is_role_student(self):
         return self.is_faculty == 'ST'
 

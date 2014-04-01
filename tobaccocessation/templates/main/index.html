@@ -14,10 +14,11 @@
 {% block title %}Home{% endblock %}
 
 {% block primarynavtabs %}
-    <!-- Everything you want hidden at 940px or less, place within here -->
-    <div class="nav-collapse collapse">
-        {% include "resources_nav.html" %}
-    </div>
+    {% if profile.has_content %}
+        <div class="nav-collapse collapse">
+            {% include "resources_nav.html" %}
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -27,63 +28,19 @@
     </span>
 </div>
 
-{% ifequal profile.role "pediatrics" %}
+{% if not profile.has_content %}
     <div class="row-fluid">
         <div class="span8 landing-page">
             <div class="row-fluid">
                 <div class="span12">    
-                    <p class="lead">Pediatric Static Content.</p>
-                    <p>
-                        Cras ligula libero, viverra ut dui vel, commodo volutpat enim. Nullam eu lorem tellus. Fusce elementum eget purus sed venenatis. Suspendisse sit amet justo dolor. Fusce posuere vestibulum adipiscing. Nulla facilisi. Integer porttitor, diam quis vehicula elementum, ipsum lectus molestie velit, ut rhoncus purus neque at magna. Fusce turpis nisi, fringilla vitae feugiat ac, mattis in leo. Donec felis est, pellentesque quis urna eu, auctor pretium diam. Duis sagittis venenatis turpis at auctor.
-                    </p>
-                    <p>
-                        Cras ligula libero, viverra ut dui vel, commodo volutpat enim. Nullam eu lorem tellus. Fusce elementum eget purus sed venenatis. Suspendisse sit amet justo dolor. Fusce posuere vestibulum adipiscing. Nulla facilisi. Integer porttitor, diam quis vehicula elementum, ipsum lectus molestie velit, ut rhoncus purus neque at magna. Fusce turpis nisi, fringilla vitae feugiat ac, mattis in leo. Donec felis est, pellentesque quis urna eu, auctor pretium diam. Duis sagittis venenatis turpis at auctor
-                    </p>        
-                </div>
+                    <p>Thank you for taking the time to complete the registration page and for your interest in tobacco cessation counseling.</p>
 
-                </div>
-            </div>
-        </div>
-    </div>
-{% else %}{% ifequal profile.role "orthodontics" %}
-    <div class="row-fluid">
-        <div class="span8 landing-page">
-            <div class="row-fluid">
-                <div class="span12">    
-                    <p class="lead">Orthodontic Static Content.</p>
-                    <p>
-                        Cras ligula libero, viverra ut dui vel, commodo volutpat enim. Nullam eu lorem tellus. Fusce elementum eget purus sed venenatis. Suspendisse sit amet justo dolor. Fusce posuere vestibulum adipiscing. Nulla facilisi. Integer porttitor, diam quis vehicula elementum, ipsum lectus molestie velit, ut rhoncus purus neque at magna. Fusce turpis nisi, fringilla vitae feugiat ac, mattis in leo. Donec felis est, pellentesque quis urna eu, auctor pretium diam. Duis sagittis venenatis turpis at auctor.
-                    </p>
-                    <p>
-                        Cras ligula libero, viverra ut dui vel, commodo volutpat enim. Nullam eu lorem tellus. Fusce elementum eget purus sed venenatis. Suspendisse sit amet justo dolor. Fusce posuere vestibulum adipiscing. Nulla facilisi. Integer porttitor, diam quis vehicula elementum, ipsum lectus molestie velit, ut rhoncus purus neque at magna. Fusce turpis nisi, fringilla vitae feugiat ac, mattis in leo. Donec felis est, pellentesque quis urna eu, auctor pretium diam. Duis sagittis venenatis turpis at auctor
-                    </p>        
-                </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-{% else %}{% ifequal profile.role "endodontics" %}
-    <div class="row-fluid">
-        <div class="span8 landing-page">
-            <div class="row-fluid">
-                <div class="span12">    
-                    <p class="lead">Endodontics Static Content.</p>
-                    <p>
-                        Cras ligula libero, viverra ut dui vel, commodo volutpat enim. Nullam eu lorem tellus. Fusce elementum eget purus sed venenatis. Suspendisse sit amet justo dolor. Fusce posuere vestibulum adipiscing. Nulla facilisi. Integer porttitor, diam quis vehicula elementum, ipsum lectus molestie velit, ut rhoncus purus neque at magna. Fusce turpis nisi, fringilla vitae feugiat ac, mattis in leo. Donec felis est, pellentesque quis urna eu, auctor pretium diam. Duis sagittis venenatis turpis at auctor.
-                    </p>
-                    <p>
-                        Cras ligula libero, viverra ut dui vel, commodo volutpat enim. Nullam eu lorem tellus. Fusce elementum eget purus sed venenatis. Suspendisse sit amet justo dolor. Fusce posuere vestibulum adipiscing. Nulla facilisi. Integer porttitor, diam quis vehicula elementum, ipsum lectus molestie velit, ut rhoncus purus neque at magna. Fusce turpis nisi, fringilla vitae feugiat ac, mattis in leo. Donec felis est, pellentesque quis urna eu, auctor pretium diam. Duis sagittis venenatis turpis at auctor
-                    </p>        
-                </div>
-
+                    <p>You have identified yourself as a dental specialist for which this Tobacco Cessation course has not yet been tailored. As a result, we apologize, but access to the site is limited to those dental specialties for which it has been developed.</p>        
                 </div>
             </div>
         </div>
     </div>
 {% else %}
-
     <div class="row-fluid">
         <div class="span8 landing-page">
             <div class="row-fluid">
@@ -137,8 +94,7 @@
                 {% endwith %}{% endwith %}
             </div>
         </div>
-     </div> 
- 
-{% endifequal %}{% endifequal %}{% endifequal %}
+     </div>
+{% endif %}
  
 {% endblock %}
