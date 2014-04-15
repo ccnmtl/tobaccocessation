@@ -38,7 +38,7 @@ class Block(models.Model):
         return self.pageblocks.all()[0]
 
     def __unicode__(self):
-        return unicode(self.pageblock())
+        return "%s -- %s" % (unicode(self.pageblock()), self.medication_name)
 
     @classmethod
     def add_form(self):
@@ -130,11 +130,9 @@ class ActivityState (models.Model):
 
     @classmethod
     def get_for_user(cls, block, user):
-        try:
-            state = ActivityState.objects.get(user=user, block=block)
-        except ActivityState.DoesNotExist:
-            state = ActivityState.objects.create(user=user, block=block)
-
+        state, created = ActivityState.objects.get_or_create(user=user,
+                                                             block=block)
+        if created:
             obj = {}
             for m in Medication.objects.all():
                 obj[m.name] = {}

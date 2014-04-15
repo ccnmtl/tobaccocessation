@@ -734,6 +734,7 @@ div.quiz-results {
     border: none;
     margin-left: 50px;
     padding: 0;
+    margin-top: 20px;
 }
 
 .treatment-choice-quiz div.casetitle {
