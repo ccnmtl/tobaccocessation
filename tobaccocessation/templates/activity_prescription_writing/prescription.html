@@ -5,7 +5,7 @@
 <input id='medication_name' name='medication_name' type='hidden' value='{{ block.medication.0.name }}'/>
 
 {% if not prescription.complete %}
-    <h5>Fill out the prescription form below, then click Prescription Results to continue.</h5>
+    <h5>Fill out the prescription form below, then click Submit.</h5>
 {% endif %}
     
 {% ifequal block.medication.0.rx_count 1 %}
