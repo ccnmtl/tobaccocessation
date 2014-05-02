@@ -9,7 +9,7 @@
     <div class="row-fluid">
         <div class="span6 well about-patient">
             <h3>Patient History</h3>
-            <img class="pull-left" src="/activity/virtualpatient/media/images/patient_{{patient.id}}.jpg" />
+            <img class="pull-left" src="/activity/virtualpatient/media/images/patient_{{patient.display_order}}.jpg" />
             <div class="patient-description">                
                 <h4>{{patient.name}}</h4>
                 <h5>{% autoescape off %}{{ patient.description }}{% endautoescape %} </h5> 
