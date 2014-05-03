@@ -5,17 +5,17 @@
     {% if block.rhetorical %}
         <li><input name="question{{question.id}}" value="{{answer.label}}" type="radio" /> {{answer.label|safe}}</li>
     {% else %}
-        <li><div class="radio"><label>        
+        <li><div class="radio">        
             {% if response %}
                 {% ifequal response.value answer.value %}
                     <input name="pageblock-{{block.pageblock.id}}-question{{question.id}}"
                            checked="checked"
                            value="{{answer.value}}" type="radio"
-                           onclick="return showVideo(this);"/>
+                           onclick="return showVideo(this);"></input>
                 {% else %}
                     <input name="pageblock-{{block.pageblock.id}}-question{{question.id}}"
                            value="{{answer.value}}" type="radio"
-                           onclick="return showVideo(this);"/>
+                           onclick="return showVideo(this);"></input>
                 {% endifequal %}
                 {% if answer.correct %}
                     <div class="alert alert-success">
@@ -31,7 +31,8 @@
                        value="{{answer.value}}" type="radio" onclick="return showVideo(this);"/>
             {% endif %}
             {{answer.label|safe}}
-        </label></div></li>
+        </div></li>
     {% endif %}
 {% endfor %}
 </ol>
+<div class="visualclear"></div>
