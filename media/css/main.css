@@ -93,10 +93,15 @@ li {
     margin: 20px 0;
 }
 
+ul.nav ul.dropdown-menu-2 li.dropdown-submenu {
+    margin: 0 0.25em .5em .25em;
+}
+
 li.dropdown-submenu,
 .navbar .nav>li {
     margin: 0;
 }
+
 
 .navbar .nav>li>div {
     float: none;
