@@ -17,14 +17,16 @@
                 Resources <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-                <li><a href="{{ site.domain }}/main/media/pdf/TobaccoCessation_CourseGuide.pdf" target="_blank" >Course Guide</a></li>
+                <li><a href="/main/media/pdf/TobaccoCessation_CourseGuide_{{profile.role|capfirst}}.pdf" target="_blank" >Course Guide</a></li>
                 
-                {% if profile.is_role_faculty or user.is_superuser %}
+                {% ifequal profile.role "main" %}
+                    <li><a href="/main/media/pdf/PharmacotherapyTable_Main.pdf" target="_blank" >Pharmacotherapy Guide</a></li>
+                {% else %}
+                    <li><a href="/main/media/pdf/PharmacotherapyTable.pdf" target="_blank" >Pharmacotherapy Guide</a></li>
+                {% endifequal %}
                 
-                {% endif %}
-                <li><a href="{{ site.domain }}/main/media/pdf/PharmacotherapyTable.pdf" target="_blank" >Pharmacotherapy Guide</a></li>
-                <li><a href="{{ site.domain }}/main/media/pdf/CDM_Excuses_NotQuitting.pdf" target="_blank" >Excuses For Not Quiting</a></li>
-                <li><a href="{{ site.domain }}/main/media/pdf/CDM_Examples_Empathy.pdf" target="_blank" >Examples of Empathy</a></li>
+                <li><a href="/main/media/pdf/CDM_Excuses_NotQuitting.pdf" target="_blank" >Excuses For Not Quiting</a></li>
+                <li><a href="/main/media/pdf/CDM_Examples_Empathy.pdf" target="_blank" >Examples of Empathy</a></li>
                 <li><a href="/pages/resources/all/videos/">Videos</a></li>
                 
                 <li class="divider"></li>
