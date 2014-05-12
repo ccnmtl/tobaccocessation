@@ -72,6 +72,26 @@ def edit_page(request, hierarchy, path):
                 root=section.hierarchy.get_root())
 
 
+def page_post(request, section):
+    proceed = True
+    for p in section.pageblock_set.all():
+        if request.POST.get('action', '') == 'reset':
+            section.reset(request.user)
+            return HttpResponseRedirect(section.get_absolute_url())
+
+        if hasattr(p.block(), 'needs_submit') and p.block().needs_submit():
+            proceed = section.submit(request.POST, request.user)
+
+    if request.is_ajax():
+        json = simplejson.dumps({'submitted': 'True'})
+        return HttpResponse(json, 'application/json')
+    elif request.POST.get('proceed', False) or proceed:
+        return HttpResponseRedirect(section.get_next().get_absolute_url())
+    else:
+        # giving them feedback before they proceed
+        return HttpResponseRedirect(section.get_absolute_url())
+
+
 @login_required
 @rendered_with('main/page.html')
 def page(request, hierarchy, path):
@@ -79,64 +99,47 @@ def page(request, hierarchy, path):
     h = section.hierarchy
     if request.method == "POST":
         # user has submitted a form. deal with it
-        proceed = True
-        for p in section.pageblock_set.all():
-            if request.POST.get('action', '') == 'reset':
-                section.reset(request.user)
-                return HttpResponseRedirect(section.get_absolute_url())
+        return page_post(request, section)
+    first_leaf = h.get_first_leaf(section)
+    ancestors = first_leaf.get_ancestors()
+    profile = UserProfile.objects.filter(user=request.user)[0]
 
-            if hasattr(p.block(), 'needs_submit') and p.block().needs_submit():
-                proceed = section.submit(request.POST, request.user)
+    # Skip to the first leaf, make sure to mark these sections as visited
+    if (section != first_leaf):
+        profile.set_has_visited(ancestors)
+        return HttpResponseRedirect(first_leaf.get_absolute_url())
 
-        if request.is_ajax():
-            json = simplejson.dumps({'submitted': 'True'})
-            return HttpResponse(json, 'application/json')
-        elif request.POST.get('proceed', False) or proceed:
-            return HttpResponseRedirect(section.get_next().get_absolute_url())
-        else:
-            # giving them feedback before they proceed
-            return HttpResponseRedirect(section.get_absolute_url())
-    else:
-        first_leaf = h.get_first_leaf(section)
-        ancestors = first_leaf.get_ancestors()
-        profile = UserProfile.objects.filter(user=request.user)[0]
+    # the previous node is the last leaf, if one exists.
+    prev_page = _get_previous_leaf(first_leaf)
+    next_page = _get_next(first_leaf)
 
-        # Skip to the first leaf, make sure to mark these sections as visited
-        if (section != first_leaf):
-            profile.set_has_visited(ancestors)
-            return HttpResponseRedirect(first_leaf.get_absolute_url())
+    # Is this section unlocked now?
+    can_access = _unlocked(first_leaf, request.user, prev_page, profile)
+    if can_access:
+        profile.set_has_visited([section])
 
-        # the previous node is the last leaf, if one exists.
-        prev_page = _get_previous_leaf(first_leaf)
-        next_page = _get_next(first_leaf)
+    module = None
+    if not first_leaf.is_root() and len(ancestors) > 1:
+        module = ancestors[1]
 
-        # Is this section unlocked now?
-        can_access = _unlocked(first_leaf, request.user, prev_page, profile)
-        if can_access:
-            profile.set_has_visited([section])
+    allow_redo = False
+    needs_submit = first_leaf.needs_submit()
+    if needs_submit:
+        allow_redo = first_leaf.allow_redo()
 
-        module = None
-        if not first_leaf.is_root() and len(ancestors) > 1:
-            module = ancestors[1]
-
-        allow_redo = False
-        needs_submit = first_leaf.needs_submit()
-        if needs_submit:
-            allow_redo = first_leaf.allow_redo()
-
-        return dict(request=request,
-                    ancestors=ancestors,
-                    profile=profile,
-                    hierarchy=h,
-                    section=first_leaf,
-                    can_access=can_access,
-                    module=module,
-                    root=ancestors[0],
-                    previous=prev_page,
-                    next=next_page,
-                    needs_submit=needs_submit,
-                    allow_redo=allow_redo,
-                    is_submitted=first_leaf.submitted(request.user))
+    return dict(request=request,
+                ancestors=ancestors,
+                profile=profile,
+                hierarchy=h,
+                section=first_leaf,
+                can_access=can_access,
+                module=module,
+                root=ancestors[0],
+                previous=prev_page,
+                next=next_page,
+                needs_submit=needs_submit,
+                allow_redo=allow_redo,
+                is_submitted=first_leaf.submitted(request.user))
 
 
 def create_profile(request):
