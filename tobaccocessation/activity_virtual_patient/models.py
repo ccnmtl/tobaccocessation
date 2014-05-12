@@ -310,19 +310,22 @@ class PatientAssessmentBlock(models.Model):
                     (prescribe != 'combination' or
                      combination == 2))
         elif self.view == self.WRITE_PRESCRIPTION:
-            medications = self.medications(user)
-            for med in medications:
-                if len(med['choices']) != med['rx_count']:
-                    return False
-                for choice in med['choices']:
-                    if (not hasattr(choice, 'selected_dosage') or
-                            not hasattr(choice, 'selected_concentration')):
-                        return False
-            return True
+            return self.unlocked_write_prescription(self, user)
         elif self.view == self.VIEW_RESULTS:
             medications = self.medications(user)
             return len(medications) > 0
         return False
+
+    def unlocked_write_prescription(self, user):
+        medications = self.medications(user)
+        for med in medications:
+            if len(med['choices']) != med['rx_count']:
+                return False
+            for choice in med['choices']:
+                if (not hasattr(choice, 'selected_dosage') or
+                        not hasattr(choice, 'selected_concentration')):
+                    return False
+        return True
 
     def available_treatments(self, user):
         state = ActivityState.get_for_user(user, self.get_hierarchy())
