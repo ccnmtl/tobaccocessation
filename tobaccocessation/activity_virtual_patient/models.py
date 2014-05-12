@@ -225,32 +225,47 @@ class PatientAssessmentBlock(models.Model):
     def needs_submit(self):
         return self.view != self.VIEW_RESULTS
 
+    def submit_classify_treatments(self, data, patient_state):
+        patient_state = {}
+        for k in data.keys():
+            patient_state[k] = {}
+            patient_state[k]['classification'] = data[k]
+        return patient_state
+
+    def submit_best_treatment_option(self, data, patient_state):
+        patient_state[data['prescribe']]['prescribe'] = 'true'
+        for k in data.keys():
+            if k == 'prescribe':
+                patient_state[data[k]][k] = 'true'
+            elif k == 'combination':
+                for m in data[k]:
+                    patient_state[m][k] = 'true'
+        return patient_state
+
+    def submit_write_prescription(self, data, patient_state):
+        for key, value in data.items():
+            field, med_id = key.split('-')  # fieldname-medicine_id
+            medicine = Medication.objects.get(id=med_id)
+            if 'rx' not in patient_state[medicine.tag]:
+                patient_state[medicine.tag]['rx'] = {}
+            if med_id not in patient_state[medicine.tag]['rx']:
+                patient_state[medicine.tag]['rx'][med_id] = {}
+            patient_state[medicine.tag]['rx'][med_id][field] = value
+        return patient_state
+
     def submit(self, user, data):
         state = ActivityState.get_for_user(user, self.get_hierarchy())
         patient_state = state.patient_state(self.patient)
 
         if self.view == self.CLASSIFY_TREATMENTS:
-            patient_state = {}
-            for k in data.keys():
-                patient_state[k] = {}
-                patient_state[k]['classification'] = data[k]
+            patient_state = self.submit_classify_treatments(
+                data, patient_state)
         elif self.view == self.BEST_TREATMENT_OPTION:
-            patient_state[data['prescribe']]['prescribe'] = 'true'
-            for k in data.keys():
-                if k == 'prescribe':
-                    patient_state[data[k]][k] = 'true'
-                elif k == 'combination':
-                    for m in data[k]:
-                        patient_state[m][k] = 'true'
+            patient_state = self.submit_best_treatment_option(
+                data, patient_state)
         elif self.view == self.WRITE_PRESCRIPTION:
-            for key, value in data.items():
-                field, med_id = key.split('-')  # fieldname-medicine_id
-                medicine = Medication.objects.get(id=med_id)
-                if 'rx' not in patient_state[medicine.tag]:
-                    patient_state[medicine.tag]['rx'] = {}
-                if med_id not in patient_state[medicine.tag]['rx']:
-                    patient_state[medicine.tag]['rx'][med_id] = {}
-                patient_state[medicine.tag]['rx'][med_id][field] = value
+            patient_state = self.submit_write_prescription(
+                data, patient_state)
 
         state.save_patient_state(self.patient, patient_state)
         return True
