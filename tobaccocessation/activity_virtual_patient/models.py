@@ -322,6 +322,7 @@ class PatientAssessmentBlock(models.Model):
         elif self.view == self.VIEW_RESULTS:
             medications = self.medications(user)
             return len(medications) > 0
+        return False
 
     def available_treatments(self, user):
         state = ActivityState.get_for_user(user, self.get_hierarchy())
