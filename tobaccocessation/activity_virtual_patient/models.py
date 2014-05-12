@@ -6,7 +6,7 @@ from django.db import models
 from django.db.models.query_utils import Q
 from django.db.models.signals import pre_save, post_init
 from django.dispatch.dispatcher import receiver
-from django.utils import simplejson
+import json
 from operator import itemgetter
 from pagetree.models import PageBlock, Hierarchy
 
@@ -28,21 +28,21 @@ class Medication(models.Model):
 class ConcentrationChoice(models.Model):
     medication = models.ForeignKey(Medication)
     concentration = models.CharField(max_length=50)
-    correct = models.BooleanField()
+    correct = models.BooleanField(default=False)
     display_order = models.IntegerField()
 
 
 class DosageChoice(models.Model):
     medication = models.ForeignKey(Medication)
     dosage = models.CharField(max_length=50)
-    correct = models.BooleanField()
+    correct = models.BooleanField(default=False)
     display_order = models.IntegerField()
 
 
 class RefillChoice(models.Model):
     medication = models.ForeignKey(Medication)
     refill = models.CharField(max_length=50)
-    correct = models.BooleanField()
+    correct = models.BooleanField(default=False)
     display_order = models.IntegerField()
 
 
@@ -131,8 +131,8 @@ class TreatmentOptionReasoning(models.Model):
 class TreatmentFeedback(models.Model):
     patient = models.ForeignKey(Patient)
     classification = models.ForeignKey(TreatmentClassification)
-    correct_dosage = models.BooleanField(blank=True)
-    combination_therapy = models.BooleanField(blank=True)
+    correct_dosage = models.BooleanField(blank=True, default=False)
+    combination_therapy = models.BooleanField(blank=True, default=False)
     feedback = models.TextField()
 
     def __unicode__(self):
@@ -160,7 +160,7 @@ class ActivityState (models.Model):
             state['patients'] = {}
 
             stored_state = ActivityState.objects.create(
-                user=user, hierarchy=hierarchy, json=simplejson.dumps(state))
+                user=user, hierarchy=hierarchy, json=json.dumps(state))
 
         return stored_state
 
@@ -183,12 +183,12 @@ class ActivityState (models.Model):
 
 @receiver(post_init, sender=ActivityState)
 def post_init_activity_state(sender, instance, *args, **kwargs):
-    instance.data = simplejson.loads(instance.json)
+    instance.data = json.loads(instance.json)
 
 
 @receiver(pre_save, sender=ActivityState)
 def pre_save_activity_state(sender, instance, *args, **kwargs):
-    instance.json = simplejson.dumps(instance.data)
+    instance.json = json.dumps(instance.data)
 
 
 class PatientAssessmentBlock(models.Model):

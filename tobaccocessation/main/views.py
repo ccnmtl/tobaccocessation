@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
-from django.utils import simplejson
+from json import dumps
 from django.utils.encoding import smart_str
 from pagetree.helpers import get_section_from_path, get_module, get_hierarchy
 from pagetree.models import Section, UserLocation, UserPageVisit, Hierarchy
@@ -83,7 +83,7 @@ def page_post(request, section):
             proceed = section.submit(request.POST, request.user)
 
     if request.is_ajax():
-        json = simplejson.dumps({'submitted': 'True'})
+        json = dumps({'submitted': 'True'})
         return HttpResponse(json, 'application/json')
     elif request.POST.get('proceed', False) or proceed:
         return HttpResponseRedirect(section.get_next().get_absolute_url())
@@ -192,7 +192,7 @@ def is_accessible(request, section_slug):
     if _unlocked(section, request.user, previous, request.user.get_profile()):
         response[section_slug] = "True"
 
-    json = simplejson.dumps(response)
+    json = dumps(response)
     return HttpResponse(json, 'application/json')
 
 

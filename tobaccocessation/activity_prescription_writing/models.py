@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.utils import simplejson
+import json
 from pagetree.models import PageBlock
 
 
@@ -70,27 +70,27 @@ class Block(models.Model):
     def clear_user_submissions(self, user):
         try:
             state = ActivityState.objects.get(user=user, block=self)
-            obj = simplejson.loads(state.json)
+            obj = json.loads(state.json)
             obj[self.medication_name] = {}
-            state.json = simplejson.dumps(obj)
+            state.json = json.dumps(obj)
             state.save()
         except ActivityState.DoesNotExist:
             pass  # calling reset before they've done anything
 
     def submit(self, user, data):
         state = ActivityState.get_for_user(self, user)
-        obj = simplejson.loads(state.json)
+        obj = json.loads(state.json)
         obj[self.medication_name] = {}
 
         for key, value in data.items():
             obj[self.medication_name][key] = value
-        state.json = simplejson.dumps(obj)
+        state.json = json.dumps(obj)
         state.save()
 
     def unlocked(self, user):
         unlock = False
         state = ActivityState.get_for_user(self, user)
-        obj = simplejson.loads(state.json)
+        obj = json.loads(state.json)
 
         if self.medication_name in obj:
             d = obj[self.medication_name]
@@ -126,7 +126,7 @@ class ActivityState (models.Model):
         unique_together = (("user", "block"),)
 
     def loads(self):
-        return simplejson.loads(self.json)
+        return json.loads(self.json)
 
     @classmethod
     def get_for_user(cls, block, user):
@@ -137,7 +137,7 @@ class ActivityState (models.Model):
             for m in Medication.objects.all():
                 obj[m.name] = {}
 
-            state.json = simplejson.dumps(obj)
+            state.json = json.dumps(obj)
             state.save()
 
         return state
