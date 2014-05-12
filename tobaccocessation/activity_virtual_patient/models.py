@@ -298,23 +298,26 @@ class PatientAssessmentBlock(models.Model):
             return (len(self.patient.treatments()) ==
                     len(patient_state.keys()))
         elif self.view == self.BEST_TREATMENT_OPTION:
-            prescribe = None
-            combination = 0
-            for key in patient_state.keys():
-                if 'prescribe' in patient_state[key]:
-                    prescribe = key
-                if 'combination' in patient_state[key]:
-                    combination += 1
-
-            return (prescribe is not None and
-                    (prescribe != 'combination' or
-                     combination == 2))
+            return self.unlocked_best_treatment_option(patient_state)
         elif self.view == self.WRITE_PRESCRIPTION:
-            return self.unlocked_write_prescription(self, user)
+            return self.unlocked_write_prescription(user)
         elif self.view == self.VIEW_RESULTS:
             medications = self.medications(user)
             return len(medications) > 0
         return False
+
+    def unlocked_best_treatment_option(self, patient_state):
+        prescribe = None
+        combination = 0
+        for key in patient_state.keys():
+            if 'prescribe' in patient_state[key]:
+                prescribe = key
+            if 'combination' in patient_state[key]:
+                combination += 1
+
+        return (prescribe is not None and
+                (prescribe != 'combination' or
+                 combination == 2))
 
     def unlocked_write_prescription(self, user):
         medications = self.medications(user)
