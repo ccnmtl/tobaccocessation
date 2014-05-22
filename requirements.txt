@@ -48,7 +48,7 @@ django-tinymce==1.5.2
 sqlparse==0.1.11
 
 django-smartif==0.1
-djangowind==0.12.1
+djangowind==0.12.2
 sorl==3.1
 tagging==0.3-pre
 typogrify==2.0.0

@@ -23,13 +23,13 @@
 
         <div>
             {% if form.username.errors %}
-                <p>Please enter your username.</p>
+                <div class="alert alert-danger"><p>Please enter your username.</p></div>
             {% else %}    
                 {% if form.password.errors %}
-                    <p>Please enter your password.</p>
+                    <div class="alert alert-danger"><p>Please enter your password.</p></div>
                 {% else %}                
                     {% if form.errors %}
-                        <p>Please enter a correct username and password. Note that both fields are case-sensitive.</p>
+                        <div class="alert alert-danger"><p>Please enter a correct username and password. Note that both fields are case-sensitive.</p></div>
                     {% endif %}
                 {% endif %}
             {% endif %}
@@ -47,7 +47,7 @@
             </tr>
             <tr>
                 <td style="border: hidden;" />
-                <td style="border: hidden;"><a href="/accounts/password/reset/">Forgot Password</a>
+                <td style="border: hidden;"><a href="/accounts/password_reset/">Forgot Password</a>
                 </td>
             </tr>            
             <tr>
