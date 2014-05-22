@@ -30,11 +30,11 @@
                 <li><a href="/pages/resources/all/videos/">Videos</a></li>
                 
                 <li class="divider"></li>
-                <li><a href="/pages/resources/external/">External Resources</a></li>
+                <li><a href="/pages/resources/external/">Provider Resources</a></li>
 
                 {% if profile.is_role_faculty or user.is_superuser %}
                     <li class="divider"></li>
-                    <li><a href="#">Faculty Guide</a></li>             
+                    {% comment %}<li><a href="#">Faculty Guide</a></li>{% endcomment %}             
                     <li><a href="/pages/faculty/">Standalone Activities</a></li>
                     
                     {% if user.is_superuser %}
