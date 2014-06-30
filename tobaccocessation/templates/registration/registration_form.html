@@ -49,8 +49,10 @@
 
     <form id="reg_form" method="post" action="." class="register form-horizontal">
         <div class="fieldWrapper consent-checkbox">
-            {{ form.consent }}
-            <label>I have read and agree to the Consent Agreement </label>
+            {{ form.option_one }}
+            <label>I have read the consent agreement and agree to participate in this study.</label>
+            {{form.option_two}}
+            <label>I would like to take the course but I do not want to participate in the study.</label>
         </div>
 
         {{ form.consent.errors }}

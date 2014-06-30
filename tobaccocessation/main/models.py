@@ -26,6 +26,8 @@ class UserProfile(models.Model):
     # I was not sure whether or not to make year_of_graduation required
     # if someone self registers or is a student they may not have graduated
     year_of_graduation = models.PositiveIntegerField(blank=True)
+    option_one = models.BooleanField(default=False)
+    option_two = models.BooleanField(default=False)
     consent = models.BooleanField(default=False)
 
     def __unicode__(self):
@@ -100,7 +102,8 @@ class UserProfile(models.Model):
 
 
 class QuickFixProfileForm(forms.Form):
-    consent = forms.BooleanField(required=True)
+    option_one = forms.BooleanField(required=False)
+    option_two = forms.BooleanField(required=False)
     is_faculty = forms.ChoiceField(choices=FACULTY_CHOICES, required=True)
     institute = forms.ChoiceField(choices=INSTITUTION_CHOICES, required=True)
     gender = forms.ChoiceField(choices=GENDER_CHOICES, required=True)
@@ -175,7 +178,9 @@ class CreateAccountForm(RegistrationForm):
         max_length=25, widget=forms.PasswordInput, required=True,
         label="Confirm Password")
     email = forms.EmailField()
-    consent = forms.BooleanField(required=True)
+    # consent = forms.BooleanField(required=True)
+    option_one = forms.BooleanField(required=False)
+    option_two = forms.BooleanField(required=False)
     is_faculty = forms.ChoiceField(required=True, choices=FACULTY_CHOICES)
     institute = forms.ChoiceField(choices=INSTITUTION_CHOICES, required=True)
     gender = forms.ChoiceField(required=True, initial="-----",
@@ -241,8 +246,9 @@ def user_created(sender, user, request, **kwargs):
         profile = UserProfile.objects.get(user=user)
     except UserProfile.DoesNotExist:
         profile = UserProfile(user=user)
-
     profile.institute = form.data['institute']
+    profile.option_one = form.data['option_one']
+    profile.option_two = form.data['option_two']
     profile.consent = True
     profile.is_faculty = form.data['is_faculty']
     profile.year_of_graduation = form.data['year_of_graduation']
@@ -252,7 +258,6 @@ def user_created(sender, user, request, **kwargs):
     profile.race = form.data['race']
     profile.age = form.data['age']
     profile.save()
-
 
 user_registered.connect(user_created)
 
@@ -277,7 +282,6 @@ class QuestionColumn(object):
         self.hierarchy = hierarchy
         self.question = question
         self.answer = answer
-
         self._submission_cache = Submission.objects.filter(
             quiz=self.question.quiz)
         self._response_cache = Response.objects.filter(
