@@ -875,6 +875,7 @@ div.quiz-results {
 
 .survey .quizdescription {
     font-weight: bold;
+    margin-left: 16px;
 }
 
 .survey.horizontal .quizdescription div.row {
