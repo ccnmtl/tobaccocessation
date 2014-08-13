@@ -1,6 +1,6 @@
 {% load i18n %}
 
-Thank you for registering for the Tobacco Cessation learning activity. To activate your account, please click the link below. This link will be available to you for {{ expiration_days }}.
+Thank you for registering for the Tobacco Cessation learning activity. To activate your account, please click the link below. This link will be available to you for {{ expiration_days }} days.
 
 http://{{ site.domain }}{% url "registration_activate" activation_key %}
 
