@@ -166,10 +166,17 @@ class QuickFixProfileForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(QuickFixProfileForm, self).clean()
-        if consent_participant and consent_not_participant:
+        participant = cleaned_data.get("consent_participant")
+        not_participant = cleaned_data.get("consent_not_participant")
+        if participant and not_participant:
             # User should only select one field
             raise forms.ValidationError("You can be a participant or "
                         "not, please select one or the other.")
+        if consent_participant == False and consent_not_participant == False:
+            # User should select at least one field
+            raise forms.ValidationError("You must consent that you "
+                        "have read the document, whether you participate or not.")
+
 
 class CreateAccountForm(RegistrationForm):
     '''This is a form class that will be used
@@ -249,12 +256,14 @@ class CreateAccountForm(RegistrationForm):
 
     def clean(self):
         cleaned_data = super(QuickFixProfileForm, self).clean()
-        if consent_participant and consent_not_participant:
+        participant = cleaned_data.get("consent_participant")
+        not_participant = cleaned_data.get("consent_not_participant")
+        if participant and not_participant:
             # User should only select one field
             raise forms.ValidationError("You can be a participant or "
                         "not, please select one or the other.")
-        if not consent_participant and not consent_not_participant:
-            # User should only select one field
+        if consent_participant == False and consent_not_participant == False:
+            # User should select at least one field
             raise forms.ValidationError("You must consent that you "
                         "have read the document, whether you participate or not.")
 
