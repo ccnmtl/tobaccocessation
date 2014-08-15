@@ -6,8 +6,8 @@
     {{ block.super }}
     <script type="text/javascript">
         jQuery(document).ready(function() {
-            jQuery('#id_consent').change(function() {
-                if (jQuery('#id_consent').is(':checked')) {
+            jQuery('#id_consent_participant').change(function() {
+                if (jQuery('#id_consent_participant').is(':checked')) {
                     jQuery("#consent-form").hide();
                     jQuery("div.consent-checkbox").hide();
                     jQuery("#consent-given").show();
@@ -17,11 +17,31 @@
                     jQuery("#consent-given").hide();
                 }
             });
-            if (jQuery('#id_consent').attr('checked')) {
+            
+            if (jQuery('#id_consent_participant').attr('checked')) {
                 jQuery("#consent-given").show();
                 jQuery("#consent-form").hide();
                 jQuery("div.consent-checkbox").hide();
             }
+            
+            jQuery('#id_consent_not_participant').change(function() {
+                if (jQuery('#id_consent_not_participant').is(':checked')) {
+                    jQuery("#consent-form").hide();
+                    jQuery("div.consent-checkbox").hide();
+                    jQuery("#consent-given").show();
+                } else {
+                    jQuery("#consent-form").show();
+                    jQuery("div.consent-checkbox").show();
+                    jQuery("#consent-given").hide();
+                }
+            });
+            if (jQuery('#id_consent_not_participant').attr('checked')) {
+                jQuery("#consent-given").show();
+                jQuery("#consent-form").hide();
+                jQuery("div.consent-checkbox").hide();
+            }
+            
+            
         });
     </script>
 
@@ -49,14 +69,17 @@
 
     <form id="reg_form" method="post" action="." class="register form-horizontal">
         <div class="fieldWrapper consent-checkbox">
-            {{ form.option_one }}
-            <label>I have read the consent agreement and agree to participate in this study.</label>
-            {{form.option_two}}
-            <label>I would like to take the course but I do not want to participate in the study.</label>
+            {{ form.consent_participant }}
+            <label> I have read the consent agreement and agree to participate in this study. </label>
+            {{ form.consent_participant.errors }}
+            {{form.consent_not_participant}}
+            <label> I would like to take the course but I do not want to participate in the study. </label>
+            {{ form.consent_not_participant.errors }}
         </div>
-
-        {{ form.consent.errors }}
+       
         <div id="consent-given" style="display: none">
+        
+        
             <h2 class="pagetitle signuptitle">Sign up for an account</h2>
             <div><p>Use the following form to create a new account to access Tobacco Cessation.</p></div>
     

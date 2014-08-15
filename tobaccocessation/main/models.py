@@ -1,7 +1,9 @@
+import urllib
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.http import QueryDict
 from pagetree.models import Hierarchy, UserLocation, UserPageVisit
 from quizblock.models import Submission, Response
 from registration.forms import RegistrationForm
@@ -23,12 +25,9 @@ class UserProfile(models.Model):
                                        choices=HISPANIC_LATINO_CHOICES)
     race = models.CharField(max_length=2, choices=RACE_CHOICES)
 
-    # I was not sure whether or not to make year_of_graduation required
-    # if someone self registers or is a student they may not have graduated
     year_of_graduation = models.PositiveIntegerField(blank=True)
-    option_one = models.BooleanField(default=False)
-    option_two = models.BooleanField(default=False)
-    consent = models.BooleanField(default=False)
+    consent_participant = models.BooleanField(default=False)
+    consent_not_participant = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.user.username
@@ -40,7 +39,13 @@ class UserProfile(models.Model):
         return self.user.username
 
     def has_consented(self):
-        return self.consent
+        '''We need to make sure it checks both.'''
+        if consent_participant is True:
+            return True
+        elif consent_not_participant is True:
+            return True
+        else:
+            return False
 
     def has_content(self):
         return self.role() in ['main', 'general', 'surgery', 'perio']
@@ -102,8 +107,6 @@ class UserProfile(models.Model):
 
 
 class QuickFixProfileForm(forms.Form):
-    option_one = forms.BooleanField(required=False)
-    option_two = forms.BooleanField(required=False)
     is_faculty = forms.ChoiceField(choices=FACULTY_CHOICES, required=True)
     institute = forms.ChoiceField(choices=INSTITUTION_CHOICES, required=True)
     gender = forms.ChoiceField(choices=GENDER_CHOICES, required=True)
@@ -115,6 +118,14 @@ class QuickFixProfileForm(forms.Form):
                                         required=True)
     age = forms.ChoiceField(choices=AGE_CHOICES, required=True)
     specialty = forms.ChoiceField(choices=SPECIALTY_CHOICES, required=True)
+    consent_participant = forms.BooleanField(required=False)
+    consent_not_participant = forms.BooleanField(required=False)             
+
+    def __init__(self, user, *args, **kwargs):
+        super(QuickFixProfileForm, self).__init__(*args, **kwargs)
+        if not user.is_authenticated():
+            self.fields['captcha'] = CaptchaField()
+
 
     def clean_is_faculty(self):
         data = self.cleaned_data['is_faculty']
@@ -178,9 +189,9 @@ class CreateAccountForm(RegistrationForm):
         max_length=25, widget=forms.PasswordInput, required=True,
         label="Confirm Password")
     email = forms.EmailField()
-    # consent = forms.BooleanField(required=True)
-    option_one = forms.BooleanField(required=False)
-    option_two = forms.BooleanField(required=False)
+    # consent = forms.(required=True)
+    consent_participant = forms.BooleanField(required=False)
+    consent_not_participant = forms.BooleanField(required=False)
     is_faculty = forms.ChoiceField(required=True, choices=FACULTY_CHOICES)
     institute = forms.ChoiceField(choices=INSTITUTION_CHOICES, required=True)
     gender = forms.ChoiceField(required=True, initial="-----",
@@ -241,15 +252,14 @@ class CreateAccountForm(RegistrationForm):
 
 def user_created(sender, user, request, **kwargs):
     form = CreateAccountForm(request.POST)
-
+    #print form
     try:
         profile = UserProfile.objects.get(user=user)
     except UserProfile.DoesNotExist:
         profile = UserProfile(user=user)
     profile.institute = form.data['institute']
-    profile.option_one = form.data['option_one']
-    profile.option_two = form.data['option_two']
-    profile.consent = True
+    profile.consent_participant = request.POST.get('consent_participant', False)
+    profile.consent_not_participant = request.POST.get('consent_not_participant', False)
     profile.is_faculty = form.data['is_faculty']
     profile.year_of_graduation = form.data['year_of_graduation']
     profile.specialty = form.data['specialty']
