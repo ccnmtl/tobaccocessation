@@ -253,6 +253,10 @@ class CreateAccountForm(RegistrationForm):
             # User should only select one field
             raise forms.ValidationError("You can be a participant or "
                         "not, please select one or the other.")
+        if not consent_participant and not consent_not_participant:
+            # User should only select one field
+            raise forms.ValidationError("You must consent that you "
+                        "have read the document, whether you participate or not.")
 
 def user_created(sender, user, request, **kwargs):
     form = CreateAccountForm(request.POST)
