@@ -67,13 +67,19 @@ You may also contact the CUMC Institutional Review Board (IRB) at 212-305-5883 (
 
     <form id="reg_form" method="post" action="." class="register form-horizontal">
         <div class="fieldWrapper consent-checkbox">
-            {{ form.consent_participant }}
-            <label> I have read the consent agreement and agree to participate in this study. </label>
-            {{ form.consent_participant.errors }}
-            {{form.consent_not_participant}}
-            <label> I would like to take the course but I do not want to participate in the study. </label>
-            {{ form.consent_not_participant.errors }}
+            <div>
+                {{ form.consent_participant }}
+                <label> I have read the consent agreement and agree to participate in this study. </label>
+                {{ form.consent_participant.errors }}
+             </div>
+             <br />
+             <div>
+                {{form.consent_not_participant}}
+                <label> I would like to take the course but I do not want to participate in the study. </label>
+                {{ form.consent_not_participant.errors }}
+             </div>
         </div>
+ 
        
         <div id="consent-given" style="display: none">
         
