@@ -76,7 +76,8 @@ class TestViews(TestCase):
                                    specialty='S1',
                                    hispanic_latino='Y',
                                    year_of_graduation=2015,
-                                   consent=False)
+                                   consent_participant=False,
+                                   consent_not_participant=False)
 
         self.c = Client()
         self.c.login(username='test_student', password='testpassword')
@@ -95,12 +96,14 @@ class TestViews(TestCase):
                                              specialty='S1',
                                              hispanic_latino='Y',
                                              year_of_graduation=2015,
-                                             consent=True)
+                                             consent_participant=True,
+                                             consent_not_participant=False)
         profile.gender = 'F'
         profile.is_faculty = 'ST'
         profile.specialty = 'S10'
         profile.year_of_graduation = 2014
-        profile.consent = True
+        profile.consent_participant = True
+        profile.consent_not_participant=False
         profile.save()
 
         self.c = Client()

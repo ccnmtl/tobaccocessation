@@ -164,6 +164,12 @@ class QuickFixProfileForm(forms.Form):
         if data == '-----':
             raise forms.ValidationError("Please select a specialty.")
 
+    def clean(self):
+        cleaned_data = super(QuickFixProfileForm, self).clean()
+        if consent_participant and consent_not_participant:
+            # User should only select one field
+            raise forms.ValidationError("You can be a participant or "
+                        "not, please select one or the other.")
 
 class CreateAccountForm(RegistrationForm):
     '''This is a form class that will be used
@@ -241,6 +247,12 @@ class CreateAccountForm(RegistrationForm):
         if data == '-----':
             raise forms.ValidationError("Please select a specialty.")
 
+    def clean(self):
+        cleaned_data = super(QuickFixProfileForm, self).clean()
+        if consent_participant and consent_not_participant:
+            # User should only select one field
+            raise forms.ValidationError("You can be a participant or "
+                        "not, please select one or the other.")
 
 def user_created(sender, user, request, **kwargs):
     form = CreateAccountForm(request.POST)
