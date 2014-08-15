@@ -170,12 +170,13 @@ class QuickFixProfileForm(forms.Form):
         not_participant = cleaned_data.get("consent_not_participant")
         if participant and not_participant:
             # User should only select one field
-            raise forms.ValidationError("You can be a participant or "
-                        "not, please select one or the other.")
-        if consent_participant == False and consent_not_participant == False:
+            raise forms.ValidationError("You can be a participant or not,"
+                                        " please select one or the other.")
+        if not participant and not not_participant:
             # User should select at least one field
-            raise forms.ValidationError("You must consent that you "
-                        "have read the document, whether you participate or not.")
+            raise forms.ValidationError("You must consent that you have "
+                                        "read the document, whether you "
+                                        "participate or not.")
 
 
 class CreateAccountForm(RegistrationForm):
@@ -260,12 +261,14 @@ class CreateAccountForm(RegistrationForm):
         not_participant = cleaned_data.get("consent_not_participant")
         if participant and not_participant:
             # User should only select one field
-            raise forms.ValidationError("You can be a participant or "
-                        "not, please select one or the other.")
-        if consent_participant == False and consent_not_participant == False:
+            raise forms.ValidationError("You can be a participant or not, "
+                                        "please select one or the other.")
+        if not participant and not not_participant:
             # User should select at least one field
-            raise forms.ValidationError("You must consent that you "
-                        "have read the document, whether you participate or not.")
+            raise forms.ValidationError("You must consent that you have read"
+                                        " the document, whether you "
+                                        "participate or not.")
+
 
 def user_created(sender, user, request, **kwargs):
     form = CreateAccountForm(request.POST)

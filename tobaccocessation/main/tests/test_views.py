@@ -103,7 +103,7 @@ class TestViews(TestCase):
         profile.specialty = 'S10'
         profile.year_of_graduation = 2014
         profile.consent_participant = True
-        profile.consent_not_participant=False
+        profile.consent_not_participant = False
         profile.save()
 
         self.c = Client()
