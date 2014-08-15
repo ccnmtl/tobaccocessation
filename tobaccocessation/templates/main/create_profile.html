@@ -1,12 +1,13 @@
-{% extends "base.html" %}
-{% load i18n %}
+{% extends "registration/base_registration.html" %}
+{% load i18n admin_static %}
+{% block title %}Sign up for an account{% endblock %}
 
 {% block js %}
     {{ block.super }}
     <script type="text/javascript">
         jQuery(document).ready(function() {
-            jQuery('#id_consent').change(function() {
-                if (jQuery('#id_consent').is(':checked')) {
+            jQuery('#id_consent_participant').change(function() {
+                if (jQuery('#id_consent_participant').is(':checked')) {
                     jQuery("#consent-form").hide();
                     jQuery("div.consent-checkbox").hide();
                     jQuery("#consent-given").show();
@@ -16,27 +17,43 @@
                     jQuery("#consent-given").hide();
                 }
             });
-            if (jQuery('#id_consent').attr('checked')) {
+            
+            if (jQuery('#id_consent_participant').attr('checked')) {
                 jQuery("#consent-given").show();
                 jQuery("#consent-form").hide();
                 jQuery("div.consent-checkbox").hide();
             }
+            
+            jQuery('#id_consent_not_participant').change(function() {
+                if (jQuery('#id_consent_not_participant').is(':checked')) {
+                    jQuery("#consent-form").hide();
+                    jQuery("div.consent-checkbox").hide();
+                    jQuery("#consent-given").show();
+                } else {
+                    jQuery("#consent-form").show();
+                    jQuery("div.consent-checkbox").show();
+                    jQuery("#consent-given").hide();
+                }
+            });
+            if (jQuery('#id_consent_not_participant').attr('checked')) {
+                jQuery("#consent-given").show();
+                jQuery("#consent-form").hide();
+                jQuery("div.consent-checkbox").hide();
+            }
+            
+            
         });
     </script>
 
 {% endblock %}
 
-{% block content %}
-    {% if error_message %}
-        <p class="errornote">{{ error_message }}</p>
-    {% endif %}
-
+{% block registration_content %}
     <div class="well tc" id="consent-form">
         <h2>Consent Agreement</h2>
         <p>Welcome to Columbia University's online tobacco cessation education website. This educational website was produced, through the collaborative efforts of Dr. David Albert from the College of Dental Medicine and the Columbia Center for New Media Teaching and Learning (CCNMTL)</p>
 
         <p>The purpose of this course is to train dentists to provide evidence-based tobacco cessation education. In addition to completing the course, you are being asked to take part in a research project that will help us to learn more about how to best educate dentists about tobacco cessation.</p>
-
+        
         <p>As part of the course, we will ask you some questions about yourself and your training as a dentist. You will also complete a pre-test assessment, periodic knowledge questions throughout the modules and a final post-test. If you consent to the research portion of this program, the information you provide will be analyzed to help us determine if the course is effective.</p>
 
 <p>You are not required to participate in the research portion of the project. If you do not wish to participate, the data you provide will not be included in any research analysis. Participation is confidential; if you do not wish to participate in the research you will be able to complete the course.</p>
@@ -47,82 +64,151 @@
 You may also contact the CUMC Institutional Review Board (IRB) at 212-305-5883 (reference # IRB- AAAL4455).</p>
       
     </div>
-    
-    <form id="reg_form" method="post" action="" class="register form-horizontal">
-        {% csrf_token %}
-        
+
+    <form id="reg_form" method="post" action="." class="register form-horizontal">
         <div class="fieldWrapper consent-checkbox">
-            {{ form.consent }}
-            <label>I have read and agree to the Consent Agreement </label>
+            <div>
+                {{ form.consent_participant }}
+                <label> I have read the consent agreement and agree to participate in this study. </label>
+                {{ form.consent_participant.errors }}
+             </div>
+             <br />
+             <div>
+                {{form.consent_not_participant}}
+                <label> I would like to take the course but I do not want to participate in the study. </label>
+                {{ form.consent_not_participant.errors }}
+             </div>
         </div>
-
+ 
+       
         <div id="consent-given" style="display: none">
-                    
-            <h2 class="pagetitle signuptitle">Create your profile</h2>
-            <div><p><strong>All fields are required.</strong></p></div>        
+        
+        
+            <h2 class="pagetitle signuptitle">Sign up for an account</h2>
+            <div><p>Use the following form to create a new account to access Tobacco Cessation.</p></div>
     
-            {{ form.non_field_errors }}
-            {{ form.consent.errors }}
+            <div><p>
+            If you already have a username or password, but have forgotten either,
+                <a href="{% url "password_reset" %}">reset them here</a>.
+            </p></div>
+            <div><p><strong>All fields are required.</strong></p></div>
+
+            <div class="well">
+            <div class="fieldWrapper control-group">
+                {{ form.first_name.errors }}
+                <label class="control-label">First Name: </label>
+                <div class="controls">
+                    {{ form.first_name }}
+                </div>
+            </div>
+           
+           <div class="fieldWrapper control-group">
+                {{ form.last_name.errors }}
+                <label class="control-label">Last Name: </label>
+                <div class="controls">
+                    {{ form.last_name }}
+                </div>
+            </div>
+            <div class="fieldWrapper control-group">
+                {{ form.username.errors }}
+                <label class="control-label">Username: </label>
+                <div class="controls">
+                    {{ form.username }}
+                </div>
+            </div>
         
             <div class="fieldWrapper control-group">
-                {{ form.is_faculty.errors }}
-                <label class="control-label">Are you a faculty member or a student?</label>
+                {{ form.password1.errors }}
+                <label class="control-label">Password: </label>
                 <div class="controls">
-                    {{ form.is_faculty }}
+                    {{ form.password1 }}
                 </div>
-            </div> <br/>
-
-
+            </div>
+        
             <div class="fieldWrapper control-group">
+                {{ form.password2.errors }}
+                <label class="control-label">Confirm Password: </label>
+                <div class="controls">
+                    {{ form.password2 }}
+                </div>
+            </div>
+                    
+            <div class="fieldWrapper control-group">
+                {{ form.email.errors }}
+                <label class="control-label">Email: </label>
+                <div class="controls">
+                    {{ form.email }}
+                </div>       
+            </div>
+            </div>
+                <div class="fieldWrapper control-group">
                 {{ form.gender.errors }}
                 <label class="control-label">Gender: </label>
                 <div class="controls">
                     {{ form.gender }}
                 </div>
-            </div> <br/>
-           
-    
+            </div>
+            
             <div class="fieldWrapper control-group">
-                {{ form.specialty.errors }}
-                <label class="control-label">How would you describe your specialty?</label>
+                {{ form.is_faculty.errors }}
+                <label class="control-label">Are you a faculty memeber or a student?</label>
                 <div class="controls">
-                    {{ form.specialty }}
+                    {{ form.is_faculty }}
                 </div>
-            </div><br/>
-    
-            <div class="fieldWrapper control-group">
-                {{ form.year_of_graduation.errors }}
-                <label class="control-label">What year did you graduate?</label>
-                <div class="controls">
-                    {{ form.year_of_graduation }}
-                </div>
-            </div><br/>
-    
-            <div class="fieldWrapper control-group">
-                {{ form.age.errors }}
-                <label class="control-label">Age: </label>
-                <div class="controls">
-                    {{ form.age }}
-                </div>
-            </div><br/>
-            <input type="hidden" name="institute" value="I1">
-            <div class="fieldWrapper control-group">
-                {{ form.hispanic_latino.errors }}
-                <label class="control-label">Are you hispanic or latino?: </label>
-                <div class="controls">
-                    {{ form.hispanic_latino }}
-                </div>
-            </div><br/>
-    
-            <div class="fieldWrapper control-group">
-                {{ form.race.errors }}
-                <label class="control-label">Race: </label>
-                <div class="controls">
-                    {{ form.race }}
-                </div>
-            </div><br/>
-    
-            <input class="btn btn-primary" type="submit" id="submit-id" value="Create" />            
+            </div>
+        
+        <div class="fieldWrapper control-group">
+            {{ form.specialty.errors }}
+            <label class="control-label">How would you describe your specialty?</label>
+            <div class="controls">
+                {{ form.specialty }}
+            </div>
+        </div>
+        
+        <div class="fieldWrapper control-group">
+            {{ form.institute.errors }}
+            <label class="control-label">What institution are you associated with?</label>
+            <div class="controls">
+                {{ form.institute }}
+            </div>
+        </div>
+        
+        <div class="fieldWrapper control-group">
+            {{ form.year_of_graduation.errors }}
+            <label class="control-label">What year did you graduate?</label>
+            <div class="controls">
+                {{ form.year_of_graduation }}
+            </div>
+        </div>
+        
+        <div class="fieldWrapper control-group">
+            {{ form.age.errors }}
+            <label class="control-label">Age: </label>
+            <div class="controls">
+                {{ form.age }}
+            </div>
+        </div>
+        
+        <div class="fieldWrapper control-group">
+            {{ form.hispanic_latino.errors }}
+            <label class="control-label">Are you Hispanic or Latino?: </label>
+            <div class="controls">
+                {{ form.hispanic_latino }}
+            </div>
+        </div>
+        
+        <div class="fieldWrapper control-group">
+            {{ form.race.errors }}
+            <label class="control-label">Race: </label>
+            <div class="controls">
+                {{ form.race }}
+            </div>
+        </div>
+        <div class="well" style="text-align: center">
+        <input class="btn btn-primary btn-large" type="submit" id="submit-id" value="{% trans 'Sign up!' %}" />
         </div>
     </form>
+</div>
 {% endblock %}
+
+

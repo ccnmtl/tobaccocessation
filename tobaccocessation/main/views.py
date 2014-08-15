@@ -157,7 +157,6 @@ def create_profile(request):
 
     form = QuickFixProfileForm()
     if request.method == 'POST':
-        print request.POST
         form = QuickFixProfileForm(request.POST)
         if form.is_valid():
             user_profile.institute = form.data['institute']
