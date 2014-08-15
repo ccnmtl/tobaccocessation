@@ -23,10 +23,9 @@ class UserProfile(models.Model):
                                        choices=HISPANIC_LATINO_CHOICES)
     race = models.CharField(max_length=2, choices=RACE_CHOICES)
 
-    # I was not sure whether or not to make year_of_graduation required
-    # if someone self registers or is a student they may not have graduated
     year_of_graduation = models.PositiveIntegerField(blank=True)
-    consent = models.BooleanField(default=False)
+    consent_participant = models.BooleanField(default=False)
+    consent_not_participant = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.user.username
@@ -38,7 +37,13 @@ class UserProfile(models.Model):
         return self.user.username
 
     def has_consented(self):
-        return self.consent
+        '''We need to make sure it checks both.'''
+        if self.consent_participant is True:
+            return True
+        elif self.consent_not_participant is True:
+            return True
+        else:
+            return False
 
     def has_content(self):
         return self.role() in ['main', 'general', 'surgery', 'perio']
@@ -100,7 +105,6 @@ class UserProfile(models.Model):
 
 
 class QuickFixProfileForm(forms.Form):
-    consent = forms.BooleanField(required=True)
     is_faculty = forms.ChoiceField(choices=FACULTY_CHOICES, required=True)
     institute = forms.ChoiceField(choices=INSTITUTION_CHOICES, required=True)
     gender = forms.ChoiceField(choices=GENDER_CHOICES, required=True)
@@ -112,6 +116,8 @@ class QuickFixProfileForm(forms.Form):
                                         required=True)
     age = forms.ChoiceField(choices=AGE_CHOICES, required=True)
     specialty = forms.ChoiceField(choices=SPECIALTY_CHOICES, required=True)
+    consent_participant = forms.BooleanField(required=False)
+    consent_not_participant = forms.BooleanField(required=False)
 
     def clean_is_faculty(self):
         data = self.cleaned_data['is_faculty']
@@ -158,6 +164,20 @@ class QuickFixProfileForm(forms.Form):
         if data == '-----':
             raise forms.ValidationError("Please select a specialty.")
 
+    def clean(self):
+        cleaned_data = super(QuickFixProfileForm, self).clean()
+        participant = cleaned_data.get("consent_participant")
+        not_participant = cleaned_data.get("consent_not_participant")
+        if participant and not_participant:
+            # User should only select one field
+            raise forms.ValidationError("You can be a participant or not,"
+                                        " please select one or the other.")
+        if not participant and not not_participant:
+            # User should select at least one field
+            raise forms.ValidationError("You must consent that you have "
+                                        "read the document, whether you "
+                                        "participate or not.")
+
 
 class CreateAccountForm(RegistrationForm):
     '''This is a form class that will be used
@@ -175,7 +195,9 @@ class CreateAccountForm(RegistrationForm):
         max_length=25, widget=forms.PasswordInput, required=True,
         label="Confirm Password")
     email = forms.EmailField()
-    consent = forms.BooleanField(required=True)
+    # consent = forms.(required=True)
+    consent_participant = forms.BooleanField(required=False)
+    consent_not_participant = forms.BooleanField(required=False)
     is_faculty = forms.ChoiceField(required=True, choices=FACULTY_CHOICES)
     institute = forms.ChoiceField(choices=INSTITUTION_CHOICES, required=True)
     gender = forms.ChoiceField(required=True, initial="-----",
@@ -233,17 +255,32 @@ class CreateAccountForm(RegistrationForm):
         if data == '-----':
             raise forms.ValidationError("Please select a specialty.")
 
+    def clean(self):
+        cleaned_data = super(QuickFixProfileForm, self).clean()
+        participant = cleaned_data.get("consent_participant")
+        not_participant = cleaned_data.get("consent_not_participant")
+        if participant and not_participant:
+            # User should only select one field
+            raise forms.ValidationError("You can be a participant or not, "
+                                        "please select one or the other.")
+        if not participant and not not_participant:
+            # User should select at least one field
+            raise forms.ValidationError("You must consent that you have read"
+                                        " the document, whether you "
+                                        "participate or not.")
+
 
 def user_created(sender, user, request, **kwargs):
     form = CreateAccountForm(request.POST)
-
     try:
         profile = UserProfile.objects.get(user=user)
     except UserProfile.DoesNotExist:
         profile = UserProfile(user=user)
-
     profile.institute = form.data['institute']
-    profile.consent = True
+    profile.consent_participant = request.POST.get('consent_participant',
+                                                   False)
+    profile.consent_not_participant = \
+        request.POST.get('consent_not_participant', False)
     profile.is_faculty = form.data['is_faculty']
     profile.year_of_graduation = form.data['year_of_graduation']
     profile.specialty = form.data['specialty']
@@ -252,7 +289,6 @@ def user_created(sender, user, request, **kwargs):
     profile.race = form.data['race']
     profile.age = form.data['age']
     profile.save()
-
 
 user_registered.connect(user_created)
 
@@ -277,7 +313,6 @@ class QuestionColumn(object):
         self.hierarchy = hierarchy
         self.question = question
         self.answer = answer
-
         self._submission_cache = Submission.objects.filter(
             quiz=self.question.quiz)
         self._response_cache = Response.objects.filter(

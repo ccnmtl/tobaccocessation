@@ -1,12 +1,18 @@
+import csv
+from json import dumps
+from zipfile import ZipFile
+from StringIO import StringIO
+
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
-from json import dumps
 from django.utils.encoding import smart_str
+
 from pagetree.helpers import get_section_from_path, get_module, get_hierarchy
 from pagetree.models import Section, UserLocation, UserPageVisit, Hierarchy
+
 from tobaccocessation.activity_prescription_writing.models import \
     ActivityState as PrescriptionWritingState, PrescriptionColumn
 from tobaccocessation.activity_virtual_patient.models import \
@@ -15,9 +21,6 @@ from tobaccocessation.main.choices import RACE_CHOICES, SPECIALTY_CHOICES, \
     INSTITUTION_CHOICES, HISPANIC_LATINO_CHOICES, GENDER_CHOICES, choices_key
 from tobaccocessation.main.models import QuickFixProfileForm, UserProfile, \
     QuestionColumn
-from zipfile import ZipFile
-from StringIO import StringIO
-import csv
 
 
 UNLOCKED = ['resources', 'faculty']  # special cases
@@ -143,7 +146,7 @@ def page(request, hierarchy, path):
 
 
 def create_profile(request):
-    """We actually dont need two views - can just return
+    """We actually don't need two views - can just return
     a registration form for non Columbia ppl and a
     QuickFixProfileForm for the Columbia ppl"""
 
@@ -154,10 +157,13 @@ def create_profile(request):
 
     form = QuickFixProfileForm()
     if request.method == 'POST':
+        print request.POST
         form = QuickFixProfileForm(request.POST)
         if form.is_valid():
             user_profile.institute = form.data['institute']
-            user_profile.consent = True
+            user_profile.consent_participant = form.data['consent_participant']
+            user_profile.consent_not_participant = \
+                form.data['consent_not_participant']
             user_profile.is_faculty = form.data['is_faculty']
             user_profile.year_of_graduation = form.data['year_of_graduation']
             user_profile.specialty = form.data['specialty']
