@@ -160,9 +160,10 @@ def create_profile(request):
         form = QuickFixProfileForm(request.POST)
         if form.is_valid():
             user_profile.institute = form.data['institute']
-            user_profile.consent_participant = form.data['consent_participant']
+            user_profile.consent_participant = \
+                form.data.get('consent_participant', False)
             user_profile.consent_not_participant = \
-                form.data['consent_not_participant']
+                form.data.get('consent_not_participant', False)
             user_profile.is_faculty = form.data['is_faculty']
             user_profile.year_of_graduation = form.data['year_of_graduation']
             user_profile.specialty = form.data['specialty']
