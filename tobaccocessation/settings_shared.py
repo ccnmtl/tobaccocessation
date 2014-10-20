@@ -78,7 +78,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.debug',
     'django.core.context_processors.request',
     'stagingcontext.staging_processor',
-    # 'gacontext.ga_processor',
     'djangowind.context.context_processor',
     'django.core.context_processors.static',
 )
@@ -140,16 +139,6 @@ INSTALLED_APPS = [
 ]
 
 INTERNAL_IPS = ('127.0.0.1', )
-# DEBUG_TOOLBAR_PANELS = (
-#     'debug_toolbar.panels.versions.VersionsPanel',
-#     'debug_toolbar.panels.timer.TimerPanel',
-#     'debug_toolbar.panels.headers.HeadersPanel',
-#     'debug_toolbar.panels.request.RequestPanel',
-#     'debug_toolbar.panels.templates.TemplatesPanel',
-#     'debug_toolbar.panels.sql.SQLPanel',
-#     'debug_toolbar.panels.signals.SignalsPanel',
-# )
-
 
 DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.versions.VersionsPanel',
@@ -187,11 +176,9 @@ COMPRESS_URL = "/site_media/"
 COMPRESS_ROOT = "media/"
 
 # WIND settings
-
-AUTHENTICATION_BACKENDS = ('djangowind.auth.WindAuthBackend',
+AUTHENTICATION_BACKENDS = ('djangowind.auth.SAMLAuthBackend',
                            'django.contrib.auth.backends.ModelBackend', )
-WIND_BASE = "https://wind.columbia.edu/"
-WIND_SERVICE = "cnmtl_full_np"
+CAS_BASE = "https://cas.columbia.edu/"
 WIND_PROFILE_HANDLERS = ['djangowind.auth.CDAPProfileHandler']
 WIND_AFFIL_HANDLERS = ['djangowind.auth.AffilGroupMapper',
                        'djangowind.auth.StaffMapper',

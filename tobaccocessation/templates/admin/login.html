@@ -14,16 +14,15 @@
 <p class="errornote">{{ error_message }}</p>
 {% endif %}
 <div id="content-main">
-<form method="get" action="https://wind.columbia.edu/login">
-<input type="hidden" name="service" value="cnmtl_full_np" />
-<input type="hidden" name="destination" value="http://{{ request.get_host }}/accounts/windlogin/?next=/admin/&this_is_the_login_form=1" />
+<form method="get" action="{{CAS_BASE}}cas/login">
+<input type="hidden" name="destination" value="http{% if request.is_secure %}s{% endif %}://{{ request.get_host }}/accounts/caslogin/?next=/admin/&this_is_the_login_form=1" />
 <p>If you have a Columbia UNI:</p>
 <input type="submit" value="Click Here" />
 </form>
 <br /><br /><p>Otherwise, use this form: </p>
 
 
-<form action="{{ app_path }}" method="post" id="login-form">
+<form action="{{ app_path }}?next=/admin/" method="post" id="login-form">{% csrf_token %}
   <div class="form-row">
     <label for="id_username">{% trans 'Username:' %}</label> <input type="text" name="username" id="id_username" />
   </div>

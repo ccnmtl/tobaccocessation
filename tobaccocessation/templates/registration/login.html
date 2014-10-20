@@ -6,18 +6,17 @@
     <div style="padding-bottom: 5px">
         <h3>Log In</h3>
     </div>
-        
+
     <div style="padding-bottom: 5px">
         <h6>Columbia Users:</h6>
-        <form method="get" action="{{ wind_base }}login">
-            <input type="hidden" name="service" value="{{ wind_service }}"></input>
-            <input type="hidden" name="destination" value="http://{{ request.get_host }}/accounts/windlogin/?next={{ next }}"></input>
+        <form method="get" action="{{ CAS_BASE }}cas/login">
+            <input type="hidden" name="destination" value="http{% if request.is_secure %}s{% endif %}://{{ request.get_host }}/accounts/caslogin/?next={{ next }}" />
             <input type="submit" value="Log In with Columbia UNI" class="btn"></input>
         </form>
     </div>
-    
+
     <hr />
-    
+
     <div style="padding-top: 5px">
         <h6>All Other Users:</h6>
 
