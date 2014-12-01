@@ -4,5 +4,4 @@ python:
 install:
   - ./bootstrap.py
 script:
-  - ./ve/bin/flake8 rolf
-  - ./manage.py test
+  - make
