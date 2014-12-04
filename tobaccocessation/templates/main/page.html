@@ -12,8 +12,8 @@
 
 {% block js %}
     {{ block.super }}
-    <script type="text/javascript" src="/site_media/js/json2.js"></script>
-    <script type="text/javascript" src="/site_media/js/util.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/json2.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/util.js"></script>
     
     <script type="text/javascript">    
         jQuery(document).ready(function () {            
@@ -134,7 +134,7 @@
                         {% ifaccessible previous %}
                             <a href="{{previous.get_absolute_url}}" id="previous">« {{previous.label}}</a>
                         {% else %}
-                            <div id="prev_disabled">« {{previous.label}}<img align="top" src="/site_media/img/lock.png"/></div>
+                            <div id="prev_disabled">« {{previous.label}}<img align="top" src="{{STATIC_URL}}img/lock.png"/></div>
                         {% endifaccessible %}
                     </li>
                 </ul>
@@ -147,11 +147,11 @@
                          <input type="hidden" id="next_section_slug" name="next_section_slug" value="{{next.slug}}"/>
                          {% ifaccessible next %}
                             <a href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
-                            <div style="display: none;" id="next_disabled">{{next.label}} <img align="top" src="/site_media/img/lock.png" alt="locked"/></div>
+                            <div style="display: none;" id="next_disabled">{{next.label}} <img align="top" src="{{STATIC_URL}}img/lock.png" alt="locked"/></div>
                          {% else %}
                             <a style="display: none" href="{{next.get_absolute_url}}" id="next">{{next.label}} »</a>
                             <div id="next_disabled" title="You must complete the activities on this page before continuing.">
-                                <img align="top" src="/site_media/img/lock.png" alt="locked"/> {{next.label}} »
+                                <img align="top" src="{{STATIC_URL}}img/lock.png" alt="locked"/> {{next.label}} »
                             </div>
                          {% endifaccessible %}            
                     </li>

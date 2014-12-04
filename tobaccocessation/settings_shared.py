@@ -172,7 +172,7 @@ STATICMEDIA_MOUNTS = (
     ('/sitemedia', 'sitemedia'),
 )
 
-COMPRESS_URL = "/site_media/"
+COMPRESS_URL = "/media/"
 COMPRESS_ROOT = "media/"
 
 # WIND settings
