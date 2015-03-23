@@ -226,8 +226,8 @@ def clear_state(request):
     return HttpResponseRedirect(reverse("index"))
 
 
-#####################################################################
-## View Utility Methods
+# ####################################################################
+# View Utility Methods
 
 def _get_next(section):
     # next node in the depth-first traversal
@@ -286,8 +286,8 @@ def _unlocked(section, user, previous, profile):
     return profile.get_has_visited(previous)
 
 
-#####################################################################
-## Reporting
+# ####################################################################
+# Reporting
 
 
 def _get_columns(key, hierarchy):

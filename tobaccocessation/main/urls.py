@@ -11,7 +11,6 @@ urlpatterns = patterns('',
 
 urlpatterns += patterns(
     'tobaccocessation.main.views',
-    #(r'^profile/$', 'create_profile'),
     (r'^accessible/(?P<section_slug>.*)/$',
      'is_accessible', {}, 'is-accessible'),
 
