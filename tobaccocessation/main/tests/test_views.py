@@ -46,10 +46,7 @@ class TestViews(TestCase):
 
     def test_accessible(self):
         pass
-        #'''Need better test...'''
-        #self.user = User.objects.get(username='test_student')
-        #self.accessible = accessible(self.section1, self.user)
-        #self.assertIsNotNull(self.accessible)
+        # Need better test...
 
     def test_is_accessible(self):
         pass
