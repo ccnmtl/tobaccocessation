@@ -9,4 +9,6 @@ sys.path.append('/var/www/tobaccocessation/tobaccocessation/')
 os.environ['DJANGO_SETTINGS_MODULE'] = 'tobaccocessation.settings_staging'
 
 import django.core.handlers.wsgi
+import django
+django.setup()
 application = django.core.handlers.wsgi.WSGIHandler()
