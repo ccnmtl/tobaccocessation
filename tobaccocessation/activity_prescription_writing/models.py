@@ -26,7 +26,7 @@ class Medication(models.Model):
 
 class Block(models.Model):
     pageblocks = generic.GenericRelation(
-        PageBlock, related_name="prescription_writing_pageblocks")
+        PageBlock, related_query_name="prescription_writing_pageblocks")
     medication_name = models.CharField(max_length=25)
     allow_redo = models.BooleanField(default=True)
     template_file = "activity_prescription_writing/prescription.html"

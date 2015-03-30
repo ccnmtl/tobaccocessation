@@ -1,4 +1,4 @@
-Django==1.6.10
+Django==1.7.7
 resolver==0.2.1
 wsgiref==0.1.2
 selector==0.8.11
@@ -53,7 +53,6 @@ typogrify==2.0.0
 django-indexer==0.3.0
 django-templatetag-sugar==0.1
 django-paging==0.2.5
-South==1.0.2
 django-nose==1.2
 django-appconf==0.6
 django_compressor==1.4
