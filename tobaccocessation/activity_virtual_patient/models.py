@@ -116,7 +116,7 @@ class TreatmentOptionReasoning(models.Model):
     patient = models.ForeignKey(Patient)
     classification = models.ForeignKey(TreatmentClassification)
     medication = models.ForeignKey(Medication, blank=True, null=True)
-    combination = models.BooleanField(blank=True)
+    combination = models.BooleanField(blank=True, default=False)
     reasoning = models.TextField()
     display_order = models.IntegerField(default=0)
 
