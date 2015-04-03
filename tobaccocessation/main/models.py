@@ -13,8 +13,7 @@ from tobaccocessation.main.choices import GENDER_CHOICES, FACULTY_CHOICES, \
 
 class UserProfile(models.Model):
     #  ALL_CU group affiliations
-    user = models.ForeignKey(User, related_name="application_user",
-                             unique=True)
+    user = models.OneToOneField(User, related_name="profile", unique=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     is_faculty = models.CharField(max_length=2, choices=FACULTY_CHOICES)
     institute = models.CharField(max_length=2, choices=INSTITUTION_CHOICES)
