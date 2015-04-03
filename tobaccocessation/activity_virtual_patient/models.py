@@ -445,6 +445,7 @@ class PatientAssessmentBlock(models.Model):
 class PatientAssessmentForm(forms.ModelForm):
     class Meta:
         model = PatientAssessmentBlock
+        exclude = []
 
 
 class VirtualPatientColumn(object):

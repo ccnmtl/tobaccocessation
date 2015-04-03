@@ -115,6 +115,7 @@ class Block(models.Model):
 class PrescriptionBlockForm(forms.ModelForm):
     class Meta:
         model = Block
+        exclude = []
 
 
 class ActivityState (models.Model):
