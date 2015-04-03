@@ -184,7 +184,7 @@ def create_profile(request):
 def accessible(section, user):
     try:
         previous = section.get_previous()
-        return _unlocked(section, user, previous, user.get_profile())
+        return _unlocked(section, user, previous, user.profile)
     except AttributeError:
         return False
 
@@ -195,7 +195,7 @@ def is_accessible(request, section_slug):
     previous = section.get_previous()
     response = {}
 
-    if _unlocked(section, request.user, previous, request.user.get_profile()):
+    if _unlocked(section, request.user, previous, request.user.profile):
         response[section_slug] = "True"
 
     json = dumps(response)
@@ -205,7 +205,7 @@ def is_accessible(request, section_slug):
 @login_required
 def clear_state(request):
     try:
-        request.user.get_profile().delete()
+        request.user.profile.delete()
     except UserProfile.DoesNotExist:
         pass
 

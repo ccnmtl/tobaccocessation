@@ -54,19 +54,18 @@ class UserProfileTest(TestCase):
 
     def test_last_location(self):
         user = User.objects.get(username="test_student")
-        profile = UserProfile.objects.get(user=user)
 
         # By default, the 1st leaf is returned if there are no visits
-        self.assertEquals(profile.last_location(), self.section1)
+        self.assertEquals(user.profile.last_location(), self.section1)
 
-        profile.set_has_visited([self.section1])
-        self.assertEquals(profile.last_location(), self.section1)
+        user.profile.set_has_visited([self.section1])
+        self.assertEquals(user.profile.last_location(), self.section1)
 
-        profile.set_has_visited([self.section2])
-        self.assertEquals(profile.last_location(), self.section2)
+        user.profile.set_has_visited([self.section2])
+        self.assertEquals(user.profile.last_location(), self.section2)
 
-        profile.set_has_visited([self.section1])
-        self.assertEquals(profile.last_location(), self.section1)
+        user.profile.set_has_visited([self.section1])
+        self.assertEquals(user.profile.last_location(), self.section1)
 
     def test_user_unicode(self):
         user = User.objects.get(username="test_student")

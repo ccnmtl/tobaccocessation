@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from pagetree.models import Hierarchy, UserLocation, UserPageVisit
+from pagetree.models import Hierarchy, UserPageVisit
 from quizblock.models import Submission, Response
 from registration.forms import RegistrationForm
 from registration.signals import user_registered
@@ -13,8 +13,7 @@ from tobaccocessation.main.choices import GENDER_CHOICES, FACULTY_CHOICES, \
 
 class UserProfile(models.Model):
     #  ALL_CU group affiliations
-    user = models.ForeignKey(User, related_name="application_user",
-                             unique=True)
+    user = models.OneToOneField(User, related_name="profile", unique=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     is_faculty = models.CharField(max_length=2, choices=FACULTY_CHOICES)
     institute = models.CharField(max_length=2, choices=INSTITUTION_CHOICES)
@@ -86,12 +85,13 @@ class UserProfile(models.Model):
 
     def last_location(self):
         hierarchy = Hierarchy.get_hierarchy(self.role())
-        try:
-            UserLocation.objects.get(user=self.user,
-                                     hierarchy=hierarchy)
-            return hierarchy.get_user_section(self.user)
-        except UserLocation.DoesNotExist:
+        visits = UserPageVisit.objects.filter(
+            user=self.user).order_by('-last_visit')
+
+        if visits.count() < 1:
             return hierarchy.get_first_leaf(hierarchy.get_root())
+        else:
+            return visits.first().section
 
     def percent_complete(self):
         hierarchy = Hierarchy.get_hierarchy(self.role())
