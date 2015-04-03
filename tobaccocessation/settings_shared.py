@@ -79,6 +79,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'stagingcontext.staging_processor',
     'djangowind.context.context_processor',
     'django.core.context_processors.static',
+    'gacontext.ga_processor',
 )
 
 
@@ -132,7 +133,7 @@ INSTALLED_APPS = [
     'tobaccocessation.activity_virtual_patient',
     'quizblock',
     'registration',
-    'django_markwhat',
+    'django_markwhat'
 ]
 
 INTERNAL_IPS = ('127.0.0.1', )
