@@ -56,20 +56,18 @@
                 </p>        
                 </div>
                 <div class="span4 course-materials">
-                    <h4>Course Materials</h4>
+                    <h4>Download Materials</h4>
                     <ul>
                         <li>&nbsp;&nbsp;
-                            <a href="https://www1.columbia.edu/sec/ccnmtl/remote/static/tobaccocessation/TobaccoCessation_CourseGuide_{{profile.role|capfirst}}.pdf" target="_blank" class="btn">Download Course Guide&nbsp;<i class="icon-download"></i>
+                            <a href="https://www1.columbia.edu/sec/ccnmtl/remote/static/tobaccocessation/TobaccoCessation_CourseGuide_{{profile.role|capfirst}}.pdf" target="_blank" class="btn">Get Course Guide<br /><i class="icon-download"></i>
                             </a>
                         </li>
-                        {% comment %}
                         {% if profile.is_role_faculty or user.is_staff %}
                             <li>
-                                <a href="#" target="_blank" class="btn">Download Faculty Guide&nbsp;<i class="icon-download"></i>
+                                <a href="https://www1.columbia.edu/sec/ccnmtl/remote/static/tobaccocessation/instructorguide.pdf" target="_blank" class="btn">Get Instructor Guide<br /><i class="icon-download"></i>
                                 </a>
                             </li>
                         {% endif %}
-                        {% endcomment %} 
                     </ul>
                 </div>
             </div>           

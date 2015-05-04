@@ -675,6 +675,8 @@ div.course-materials ul {
 
 div.course-materials li a {
     margin-top: -5px;
+    width: 165px;
+    height: 40px;
 }
 
 .course-progress {
