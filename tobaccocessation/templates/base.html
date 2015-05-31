@@ -133,17 +133,19 @@
         {% endblock %}
     </div><!-- id="container" -->
     
+    <script  type="text/javascript" src="{{STATIC_URL}}js/browserdetect.js"></script>
+    <script  type="text/javascript" src="{{STATIC_URL}}js/shield.js"></script>
+
     {% compress js %}
-        <script  type="text/javascript" src="{{STATIC_URL}}js/browserdetect.js"></script>
-        <script  type="text/javascript" src="{{STATIC_URL}}js/shield.js"></script>
         <script type="text/javascript">
             jQuery(document).ready(function() {
                 /* Select from list: Chrome, Firefox, Safari, MSIE */
                 shieldbrowser({"Chrome": 1, "Firefox": 3.6, "Safari": 4, "MSIE": 8, "Mozilla": 11 });
             });
         </script>
-        {% block js %}{% endblock %}
-    {% endcompress %}
+    {% endcompress %}        
+        
+    {% block js %}{% endblock %}
     
     {% block extrajs %}{% endblock %}
     

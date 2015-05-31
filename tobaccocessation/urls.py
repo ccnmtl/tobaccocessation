@@ -12,8 +12,6 @@ from tobaccocessation.main.models import CreateAccountForm
 
 admin.autodiscover()
 
-site_media_root = os.path.join(os.path.dirname(__file__), "../media")
-
 redirect_after_logout = getattr(settings, 'LOGOUT_REDIRECT_URL', None)
 
 auth_urls = (r'^accounts/', include('django.contrib.auth.urls'))
@@ -93,8 +91,6 @@ urlpatterns = patterns(
     (r'^quizblock/',
      include('quizblock.urls')),
 
-    (r'^site_media/(?P<path>.*)$',
-     'django.views.static.serve', {'document_root': site_media_root}),
     (r'^uploads/(?P<path>.*)$', 'django.views.static.serve',
      {'document_root': settings.MEDIA_ROOT}),
 

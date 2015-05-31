@@ -1,4 +1,4 @@
-{% load user_state %}
+{% load user_state static %}
 
 {% with block.patient as patient %}
 {% getmedications block as medications %}
@@ -10,7 +10,7 @@
             <div class="row-fluid">
                 <div class="span6">
                     <h3>Treatment Feedback</h3>                
-                    <img class="pull-left" src="/activity/virtualpatient/media/images/patient_{{patient.display_order}}.jpg" />
+                    <img class="pull-left" src="{% static url %}virtualpatient/images/patient_{{patient.display_order}}.jpg" />
                     <div class="patient-description">                
                         <h4>{{patient.name}}</h4>
                         <h5>{% autoescape off %}{{ patient.description }}{% endautoescape %} </h5> 
@@ -47,9 +47,9 @@
             {% for to in patient.treatmentoptionreasoning_set.all %}
                 {% ifequal to.classification.rank 1 %}
                     {% if to.combination %}
-                        <img src='/activity/virtualpatient/media/images/combination.jpg'>
+                        <img src='{% static url %}virtualpatient/images/combination.jpg'>
                     {% else %}
-                        <img src='/activity/virtualpatient/media/images/{{to.medication.tag}}.jpg'>
+                        <img src='{% static url %}virtualpatient/images/{{to.medication.tag}}.jpg'>
                     {% endif %}
                 {% endifequal %}
             {% endfor %}
@@ -61,9 +61,9 @@
             {% for to in patient.treatmentoptionreasoning_set.all %}
                 {% ifequal to.classification.rank 2 %}
                     {% if to.combination %}
-                        <img src='/activity/virtualpatient/media/images/combination.jpg'>
+                        <img src='{% static url %}virtualpatient/images/combination.jpg'>
                     {% else %}
-                        <img src='/activity/virtualpatient/media/images/{{to.medication.tag}}.jpg'>
+                        <img src='{% static url %}virtualpatient/images/{{to.medication.tag}}.jpg'>
                     {% endif %}
                 {% endifequal %}
             {% endfor %}
@@ -75,9 +75,9 @@
             {% for to in patient.treatmentoptionreasoning_set.all %}
                 {% ifequal to.classification.rank 3 %}
                     {% if to.combination %}
-                        <img src='/activity/virtualpatient/media/images/combination.jpg'>
+                        <img src='{% static url %}virtualpatient/images/combination.jpg'>
                     {% else %}
-                        <img src='/activity/virtualpatient/media/images/{{to.medication.tag}}.jpg'>
+                        <img src='{% static url %}virtualpatient/images/{{to.medication.tag}}.jpg'>
                     {% endif %}
                 {% endifequal %}
             {% endfor %}
