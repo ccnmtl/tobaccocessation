@@ -58,7 +58,7 @@
 }
 
 #blankrx {
-   background-image: url(/activity/prescription/media/images/double_blankrx_sm.jpg);
+   background-image: url(../images/double_blankrx_sm.jpg);
    height: 456px;
    background-repeat: no-repeat;
    background-position: top center;

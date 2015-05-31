@@ -74,6 +74,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'djangowind.context.context_processor',
     'django.core.context_processors.static',
     'gacontext.ga_processor',
+    'tobaccocessation.main.views.context_processor'
 )
 
 
@@ -104,7 +105,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.flatpages',
-    'django.contrib.staticfiles',  # maybe?
+    'django.contrib.staticfiles',
     'sorl.thumbnail',
     'tagging',
     'typogrify',
@@ -202,21 +203,12 @@ PAGEBLOCKS = ['pageblocks.HTMLBlockWYSIWYG',
 
 LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL = '/'
 
-# TinyMCE settings
-
-TINYMCE_JS_URL = '/site_media/js/tiny_mce/tiny_mce.js'
-TINYMCE_JS_ROOT = 'media/js/tiny_mce'
-
-# if you set this to True, you may have to
-# override TINYMCE_JS_ROOT with the full path on production
-TINYMCE_COMPRESSOR = False
 TINYMCE_SPELLCHECKER = True
 
 TINYMCE_DEFAULT_CONFIG = {'cols': 80,
                           'rows': 30,
                           'plugins': 'table,spellchecker,paste,searchreplace',
-                          'theme': 'simple',
-                          }
+                          'theme': 'simple'}
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_SAVE_EVERY_REQUEST = True

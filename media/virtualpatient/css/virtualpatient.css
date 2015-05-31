@@ -188,7 +188,7 @@ div.virtual-patient a.btn {
 
 .prescribe .blankrx_double,
 .prescribe .blankrx_single {
-    background-image: url(/activity/prescription/media/images/blankrx_sm.jpg);
+    background-image: url(../../prescription/images/blankrx_sm.jpg);
     background-repeat: no-repeat;
     background-position: top center;
     padding: 0;
@@ -273,7 +273,7 @@ div.virtual-patient a.btn {
 }
 
 .prescribe .blankrx_double {
-    background-image: url(/activity/prescription/media/images/double_blankrx_sm.jpg);
+    background-image: url(../../prescription/images/double_blankrx_sm.jpg);
 }
 
 .prescribe .blankrx_double .patient-name { 
