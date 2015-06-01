@@ -83,8 +83,6 @@ urlpatterns = patterns(
         'tobaccocessation.main.views.create_profile',
         name="create_profile"),
 
-    (r'^activity/prescription/',
-     include('tobaccocessation.activity_prescription_writing.urls')),
     (r'^activity/virtualpatient/',
      include('tobaccocessation.activity_virtual_patient.urls')),
     (r'^activity/quiz/', include('quizblock.urls')),
