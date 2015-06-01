@@ -56,10 +56,6 @@ TIME_ZONE = 'America/New_York'
 LANGUAGE_CODE = 'en-us'
 SITE_ID = 1
 USE_I18N = False
-MEDIA_ROOT = "/var/www/tobaccocessation/uploads"
-MEDIA_URL = '/uploads/'
-STATIC_URL = '/media/'
-STATIC_ROOT = ""
 SECRET_KEY = ')ng#)ef_u@_^zvvu@dxm7ql-yb^_!a6%v3v^j3b(mp+)l+5%@h'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
@@ -78,7 +74,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE_CLASSES = [
     'django_statsd.middleware.GraphiteRequestTimingMiddleware',
     'django_statsd.middleware.GraphiteMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -86,16 +82,15 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'impersonate.middleware.ImpersonateMiddleware',
-    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'waffle.middleware.WaffleMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware'
-)
+]
 
 ROOT_URLCONF = 'tobaccocessation.urls'
 
 TEMPLATE_DIRS = (
-    "/var/www/tobaccocessation/templates/",
-    os.path.join(os.path.dirname(__file__), "templates"),
+   os.path.join(os.path.dirname(__file__), "templates"),
 )
 
 INSTALLED_APPS = [
@@ -127,7 +122,9 @@ INSTALLED_APPS = [
     'tobaccocessation.activity_virtual_patient',
     'quizblock',
     'registration',
-    'django_markwhat'
+    'django_markwhat',
+    'gunicorn',
+    'storages'
 ]
 
 INTERNAL_IPS = ('127.0.0.1', )
@@ -159,13 +156,19 @@ EMAIL_HOST = 'localhost'
 SERVER_EMAIL = "tobaccocessation@ccnmtl.columbia.edu"
 DEFAULT_FROM_EMAIL = SERVER_EMAIL
 
-# put any static media here to override app served static media
-STATICMEDIA_MOUNTS = (
-    ('/sitemedia', 'sitemedia'),
+MEDIA_URL = "/uploads/"
+MEDIA_ROOT = 'uploads'
+STATIC_URL = "/media/"
+STATIC_ROOT = "/tmp/tobaccocessation/static"
+STATICFILES_DIRS = ('media/',)
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
 )
-
 COMPRESS_URL = "/media/"
 COMPRESS_ROOT = "media/"
+AWS_QUERYSTRING_AUTH = False
 
 # WIND settings
 AUTHENTICATION_BACKENDS = ('djangowind.auth.SAMLAuthBackend',
@@ -183,13 +186,6 @@ WIND_SUPERUSER_MAPPER_GROUPS = ['anp8', 'jb2410', 'zm4', 'egr2107',
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_COOKIE_HTTPONLY = True
 LOGIN_REDIRECT_URL = "/"
-
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    # other finders..
-    'compressor.finders.CompressorFinder',
-)
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
 
@@ -213,6 +209,3 @@ TINYMCE_DEFAULT_CONFIG = {'cols': 80,
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_SAVE_EVERY_REQUEST = True
 SESSION_COOKIE_AGE = 3600
-
-AUTH_PROFILE_MODULE = 'main.UserProfile'  # what is this for again?
-# new django doc - AUTH_USER_MODEL = 'myapp.MyUser'
