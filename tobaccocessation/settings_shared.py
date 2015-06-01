@@ -89,9 +89,7 @@ MIDDLEWARE_CLASSES = [
 
 ROOT_URLCONF = 'tobaccocessation.urls'
 
-TEMPLATE_DIRS = (
-   os.path.join(os.path.dirname(__file__), "templates"),
-)
+TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), "templates"),)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
