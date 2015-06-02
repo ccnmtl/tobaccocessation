@@ -5,18 +5,25 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title>Tobacco Cessation: {% block title %}{% endblock %}</title>
 	<link rel="shortcut icon" href="{{STATIC_URL}}img/favicon.ico" type="image/x-icon" />
+
+    {% compress css %}
     <link rel="stylesheet" href="{{STATIC_URL}}bootstrap/css/bootstrap.min.css" media="screen" />
+    {% endcompress %}
+
     <link href='//fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css' />
-    
+
+    {% compress js %}    
     <script type="text/javascript" src="{{STATIC_URL}}js/jquery-1.10.1.min.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}bootstrap/js/bootstrap.min.js"></script>
-    
+    {% endcompress %}    
+
     {% compress css %}
         <link rel="stylesheet" href="{{STATIC_URL}}css/main.css" media="screen" />
         <link rel="stylesheet" href="{{STATIC_URL}}css/print.css" media="print" />
+    {% endcompress %}
     
 	    {% block css %}{% endblock %}
-    {% endcompress %}
+
     
     {% block extrahead %}{% endblock %}	
 </head>
@@ -133,8 +140,10 @@
         {% endblock %}
     </div><!-- id="container" -->
     
+    {% compress js %}
     <script  type="text/javascript" src="{{STATIC_URL}}js/browserdetect.js"></script>
     <script  type="text/javascript" src="{{STATIC_URL}}js/shield.js"></script>
+    {% endcompress %}
 
     {% compress js %}
         <script type="text/javascript">
