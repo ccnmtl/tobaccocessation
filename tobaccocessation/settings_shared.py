@@ -111,7 +111,6 @@ INSTALLED_APPS = [
     'smoketest',
     'django_extensions',
     'impersonate',
-    'tinymce',
     'smartif',
     'pagetree',
     'pageblocks',
@@ -196,13 +195,6 @@ PAGEBLOCKS = ['pageblocks.HTMLBlockWYSIWYG',
               'activity_virtual_patient.PatientAssessmentBlock']
 
 LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL = '/'
-
-TINYMCE_SPELLCHECKER = True
-
-TINYMCE_DEFAULT_CONFIG = {'cols': 80,
-                          'rows': 30,
-                          'plugins': 'table,spellchecker,paste,searchreplace',
-                          'theme': 'simple'}
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_SAVE_EVERY_REQUEST = True
