@@ -12,19 +12,19 @@
 
     <link href='//fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css' />
 
-    {% compress js %}    
+    {% compress js %}
     <script type="text/javascript" src="{{STATIC_URL}}js/jquery-1.10.1.min.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}bootstrap/js/bootstrap.min.js"></script>
-    {% endcompress %}    
+    {% endcompress %}
 
     {% compress css %}
         <link rel="stylesheet" href="{{STATIC_URL}}css/main.css" media="screen" />
         <link rel="stylesheet" href="{{STATIC_URL}}css/print.css" media="print" />
     {% endcompress %}
-    
+
 	    {% block css %}{% endblock %}
 
-    
+
     {% block extrahead %}{% endblock %}	
 </head>
 <body class="one_column {% block widthtype %}fluid{% endblock %}">
