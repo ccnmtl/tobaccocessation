@@ -1,6 +1,6 @@
 {% load markup %}
 
-<img alt="{{block.alt}}" src="{{MEDIA_URL}}/{{block.image.name}}" />
+<img alt="{{block.alt}}" src="{{MEDIA_URL}}{{block.image.name}}" />
 <div class="caption">
 {{block.caption|markdown}}
 </div>
