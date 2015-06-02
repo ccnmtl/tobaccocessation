@@ -41,7 +41,7 @@
 
 #blankrx {
    height: 221px;
-   background-image: url(/activity/prescription/media/images/blankrx_sm.jpg);
+   background-image: url(../images/blankrx_sm.jpg);
    background-repeat: no-repeat;
    background-position: top center;
    padding: 244px 0 0 334px;

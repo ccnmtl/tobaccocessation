@@ -1,5 +1,7 @@
+{% load static %}
+
 {% ifequal block.medication.0.rx_count 1 %}
-    <link href="/activity/prescription/media/css/single_prescription.css" rel="stylesheet" type="text/css" />
+    <link href="{% static url %}/prescription/css/single_prescription.css" rel="stylesheet" type="text/css" />
 {% else %}
-    <link href="/activity/prescription/media/css/double_prescription.css" rel="stylesheet" type="text/css" />
+    <link href="{% static url %}/prescription/css/double_prescription.css" rel="stylesheet" type="text/css" />
 {% endifequal %}

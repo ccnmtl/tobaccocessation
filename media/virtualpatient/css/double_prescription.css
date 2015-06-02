@@ -1,6 +1,6 @@
 #blankrx_vp {
    height: 285px;
-   background-image: url(/activity/prescription/media/images/double_blankrx_sm.jpg);
+   background-image: url(../../prescription/images/double_blankrx_sm.jpg);
    background-repeat: no-repeat;
    background-position: top left;
    padding: 170px 0 0 50px;
@@ -8,20 +8,12 @@
    width: 730px;
 }
 
-
-
-
 #blankrx_vp form {
-
-margin: 0 0 0 -155px;
-
+    margin: 0 0 0 -155px;
 }
 
 #blankrx h3, #blankrx_vp h3 {
-
-margin: 0;
-  
-   
+    margin: 0;
 }
 
 #fieldname_container, #fieldname_container2 {

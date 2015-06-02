@@ -1,4 +1,4 @@
-{% load user_state %}
+{% load user_state static %}
 
 {% gettreatments block as treatments %}
 {% with block.patient as patient %}
@@ -9,7 +9,7 @@
     <div class="row-fluid">
         <div class="span6 well about-patient">
             <h3>Patient History</h3>
-            <img class="pull-left" src="/activity/virtualpatient/media/images/patient_{{patient.display_order}}.jpg" />
+            <img class="pull-left" src="{% static url %}virtualpatient/images/patient_{{patient.display_order}}.jpg" />
             <div class="patient-description">                
                 <h4>{{patient.name}}</h4>
                 <h5>{% autoescape off %}{{ patient.description }}{% endautoescape %} </h5> 
@@ -29,7 +29,7 @@
                         {% if med.prescribe %}
                             checked="checked" disabled="disabled"
                         {% endif %} />&nbsp;
-                        <img src="/activity/virtualpatient/media/images/{{med.tag}}.jpg">  
+                        <img src="{% static url %}virtualpatient/images/{{med.tag}}.jpg">  
                     </div>
                 {% endifequal %}
             {% endfor %}
@@ -43,7 +43,7 @@
                             {% if med.combination %}
                                 checked="checked" disabled="disabled"
                             {% endif %} /> &nbsp;
-                            <img src="/activity/virtualpatient/media/images/{{med.tag}}.jpg">   
+                            <img src="{% static url %}virtualpatient/images/{{med.tag}}.jpg">   
                         </div>
                     {% endifnotequal %}
                 {% endfor %}
