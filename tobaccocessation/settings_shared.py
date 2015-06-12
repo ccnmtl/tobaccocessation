@@ -35,7 +35,6 @@ if 'test' in sys.argv or 'jenkins' in sys.argv:
             'ATOMIC_REQUESTS': True,
         }
     }
-DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
