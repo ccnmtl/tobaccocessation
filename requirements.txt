@@ -70,7 +70,7 @@ django-pagetree==1.1.5
 django-pageblocks==1.0.2
 django-pagetree_export==0.4
 django-registration==1.1
-django-quizblock==1.0.7
+django-quizblock==1.1.1
 django-ga-context==0.1.0
 gunicorn==19.3.0
 boto==2.36.0
