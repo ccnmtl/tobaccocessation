@@ -77,6 +77,6 @@ django-quizblock==1.1.1
 django-ga-context==0.1.0
 gunicorn==19.3.0
 boto==2.36.0
-python-dateutil==2.4.0
+python-dateutil==2.4.2
 django-storages-redux==1.2.2
 django-cacheds3storage==0.1.1
