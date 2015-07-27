@@ -29,7 +29,7 @@ ipython==3.0.0
 ipdb==0.8
 extras==0.0.3
 python-mimeparse==0.1.4
-testtools==0.9.35
+testtools==1.8.0
 testscenarios==0.5.0
 python-subunit==1.1.0
 lettuce==0.2.19ccnmtl
