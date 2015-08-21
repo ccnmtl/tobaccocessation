@@ -180,7 +180,7 @@ class PrescriptionColumn(object):
     def all(cls, hrchy, section, key_only=True):
         columns = []
         ctype = ContentType.objects.get(
-            app_label="activity_prescription_writing", name='block')
+            app_label="activity_prescription_writing", model='block')
 
         for activity in section.pageblock_set.filter(content_type=ctype):
             medications = Medication.objects.filter(
