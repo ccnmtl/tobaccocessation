@@ -582,7 +582,7 @@ class TestPatientAssessmentBlock(VirtualPatientTestCase):
                                                          self.patient1.id)
 
         self.c.login(username='test_student', password='testpassword')
-        self.c.get(url, follow=True)
+        self.c.get(url)
         self.assertFalse(block.unlocked(self.user))
         self.assertTrue(alt_block.unlocked(self.user))
         # these fail in 1.6.4. I think it has to do with
