@@ -386,7 +386,7 @@ class QuestionColumn(object):
     @classmethod
     def all(cls, hrchy, section, key=True):
         columns = []
-        ctype = ContentType.objects.get(name='quiz', app_label='quizblock')
+        ctype = ContentType.objects.get(app_label='quizblock', model='quiz')
 
         # quizzes
         for p in section.pageblock_set.filter(content_type=ctype):
