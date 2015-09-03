@@ -5,7 +5,8 @@
     {% if block.rhetorical %}
         <li><input name="question{{question.id}}" value="{{answer.label}}" type="radio" /> {{answer.label|safe}}</li>
     {% else %}
-        <li><div class="radio">        
+        <li><div class="radio">
+            <label>        
             {% if response %}
                 {% ifequal response.value answer.value %}
                     <input name="pageblock-{{block.pageblock.id}}-question{{question.id}}"
@@ -31,6 +32,7 @@
                        value="{{answer.value}}" type="radio" onclick="return showVideo(this);"/>
             {% endif %}
             {{answer.label|safe}}
+            </label>
         </div></li>
     {% endif %}
 {% endfor %}
