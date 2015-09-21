@@ -26,7 +26,7 @@ lxml==3.4.4
 fuzzywuzzy==0.6.0
 sure==1.2.12
 ipython==3.0.0
-ipdb==0.8
+ipdb==0.8.1
 extras==0.0.3
 python-mimeparse==0.1.4
 testtools==1.8.0
