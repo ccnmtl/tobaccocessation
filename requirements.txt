@@ -54,7 +54,7 @@ six==1.9.0
 sqlparse==0.1.16
 
 django-smartif==0.1
-djangowind==0.13.3
+djangowind==0.14.1
 sorl==3.1
 tagging==0.3-pre
 typogrify==2.0.7
