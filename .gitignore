@@ -10,3 +10,4 @@ uploads
 .DS_Store
 .settings
 media/CACHE/
+node_modules
