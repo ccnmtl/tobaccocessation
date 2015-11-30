@@ -38,7 +38,7 @@ extras==0.0.3
 python-mimeparse==0.1.4
 testtools==1.8.0
 testscenarios==0.5.0
-python-subunit==1.1.0
+python-subunit==1.2.0
 lettuce==0.2.19ccnmtl
 rdflib==4.2.1
 selenium==2.47.1
