@@ -87,3 +87,5 @@ boto==2.36.0
 python-dateutil==2.4.2
 django-storages-redux==1.2.2
 django-cacheds3storage==0.1.1
+fake-factory==0.5.3
+factory_boy==2.6.0
