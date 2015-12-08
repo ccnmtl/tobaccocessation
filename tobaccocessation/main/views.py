@@ -104,6 +104,10 @@ def page_post(request, section):
 @login_required
 @rendered_with('main/page.html')
 def page(request, hierarchy, path):
+    profile = UserProfile.objects.filter(user=request.user).first()
+    if profile is None:
+        return HttpResponseRedirect(reverse('create_profile'))
+
     section = get_section_from_path(path, hierarchy)
     h = section.hierarchy
     if request.method == "POST":
@@ -111,7 +115,6 @@ def page(request, hierarchy, path):
         return page_post(request, section)
     first_leaf = h.get_first_leaf(section)
     ancestors = first_leaf.get_ancestors()
-    profile = UserProfile.objects.filter(user=request.user)[0]
 
     # Skip to the first leaf, make sure to mark these sections as visited
     if (section != first_leaf):
