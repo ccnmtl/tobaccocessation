@@ -42,7 +42,7 @@ function vertical_line(leftElement, rightElement) {
     drawlines(x, y, x2, y, x2);
 }
 
-function drawlines (from_x, from_y, to_x, to_y, x_break) {
+function drawlines(from_x, from_y, to_x, to_y, x_break) {
     // make the left hline go all the way to the right
     // edge of the center vline. Add 2 pixels, if necessary.
     var extra = (from_y > to_y) ? 2 : 0;
@@ -51,25 +51,25 @@ function drawlines (from_x, from_y, to_x, to_y, x_break) {
     hline(x_break, to_x, to_y);
 }
 
-function hline (from, to, y) {
+function hline(from, to, y) {
     if (from > to) { var temp = to; to = from; from = temp; }
-    var newdiv = DIV({'class':'connecting_line'});
+    var newdiv = DIV({'class': 'connecting_line'});
     appendChildNodes(currentDocument().body, newdiv);
     setStyle(newdiv , {'left': from + 'px',
-                       'top' : y + 'px' ,
-                       'width' : (to - from) + 'px',
-                       'height' : '2px'});
+                       'top': y + 'px' ,
+                       'width': (to - from) + 'px',
+                       'height': '2px'});
 }
 
-function vline (from, to, x) {
+function vline(from, to, x) {
     if (from > to) { var temp = to; to = from; from = temp; }
-    var newdiv = DIV ({'class': 'connecting_line'});
+    var newdiv = DIV({'class': 'connecting_line'});
     appendChildNodes(currentDocument().body, newdiv);
     setStyle(newdiv ,
              {'left': x + 'px',
-              'top' : from + 'px' ,
-              'height' : (to - from) + 'px',
-              'width' : '2px'});
+              'top': from + 'px' ,
+              'height': (to - from) + 'px',
+              'width': '2px'});
 }
 
 function setBackgroundColor(ctrl) {

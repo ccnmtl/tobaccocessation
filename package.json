@@ -1,0 +1,22 @@
+{
+  "name": "tobaccocessation",
+  "version": "0.0.0",
+  "description": "Tobacco Cessation ==========",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ccnmtl/tobaccocessation.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/ccnmtl/tobaccocessation/issues"
+  },
+  "devDependencies": {
+    "jshint": "~2.9.1-rc1",
+    "jscs": "~2.7.0"
+  }
+}
