@@ -1,5 +1,5 @@
 function connectCallouts() {
-    if (getElement('dosage_2')) {
+    if (document.getElementById('dosage_2')) {
         connectCalloutsDouble();
     } else {
         connectCalloutsSingle();
@@ -7,15 +7,21 @@ function connectCallouts() {
 }
 
 function connectCalloutsDouble() {
-    vertical_line(getElement('dosage_callout'), getElement('dosage'));
-    vertical_line(getElement('disp_callout'), getElement('disp'));
-    vertical_line(getElement('refills_callout'), getElement('refills'));
+    vertical_line(document.getElementById('dosage_callout'),
+                  document.getElementById('dosage'));
+    vertical_line(document.getElementById('disp_callout'),
+                  document.getElementById('disp'));
+    vertical_line(document.getElementById('refills_callout'),
+                  document.getElementById('refills'));
 }
 
 function connectCalloutsSingle() {
-    vertical_line(getElement('dosage_callout'), getElement('dosage'));
-    vertical_line(getElement('disp_callout'), getElement('disp'));
-    vertical_line(getElement('refills_callout'), getElement('refills'));
+    vertical_line(document.getElementById('dosage_callout'),
+                  document.getElementById('dosage'));
+    vertical_line(document.getElementById('disp_callout'),
+                  document.getElementById('disp'));
+    vertical_line(document.getElementById('refills_callout'),
+                  document.getElementById('refills'));
 }
 
 function horizontal_line(topElement, bottomElement) {
@@ -33,11 +39,11 @@ function horizontal_line(topElement, bottomElement) {
 }
 
 function vertical_line(leftElement, rightElement) {
-    var x = getElementPosition(leftElement).x +
-        getElementDimensions(leftElement).w;
-    var x2 = getElementPosition(rightElement).x;
-    var y = getElementPosition(rightElement).y +
-        getElementDimensions(rightElement).h / 2;
+    var $leftEl = jQuery(leftElement);
+    var $rightEl = jQuery(rightElement);
+    var x = $leftEl.offset().left + $leftEl.outerWidth();
+    var x2 = $rightEl.offset().left;
+    var y = $rightEl.offset().top + ($rightEl.outerHeight() / 2);
 
     drawlines(x, y, x2, y, x2);
 }
@@ -52,58 +58,72 @@ function drawlines(from_x, from_y, to_x, to_y, x_break) {
 }
 
 function hline(from, to, y) {
-    if (from > to) { var temp = to; to = from; from = temp; }
-    var newdiv = DIV({'class': 'connecting_line'});
-    appendChildNodes(currentDocument().body, newdiv);
-    setStyle(newdiv , {'left': from + 'px',
-                       'top': y + 'px' ,
-                       'width': (to - from) + 'px',
-                       'height': '2px'});
+    if (from > to) {
+        var temp = to;
+        to = from;
+        from = temp;
+    }
+    var $newDiv = jQuery('<div class="connecting_line"></div>');
+    jQuery('body').append($newDiv);
+    $newDiv.css({
+        'left': from + 'px',
+        'top': y + 'px' ,
+        'width': (to - from) + 'px',
+        'height': '2px'
+    });
 }
 
 function vline(from, to, x) {
-    if (from > to) { var temp = to; to = from; from = temp; }
-    var newdiv = DIV({'class': 'connecting_line'});
-    appendChildNodes(currentDocument().body, newdiv);
-    setStyle(newdiv ,
-             {'left': x + 'px',
-              'top': from + 'px' ,
-              'height': (to - from) + 'px',
-              'width': '2px'});
+    if (from > to) {
+        var temp = to;
+        to = from;
+        from = temp;
+    }
+    var $newDiv = jQuery('<div class="connecting_line"></div>');
+    jQuery('body').append($newDiv);
+    $newDiv.css({
+        'left': x + 'px',
+        'top': from + 'px' ,
+        'height': (to - from) + 'px',
+        'width': '2px'
+    });
 }
 
-function setBackgroundColor(ctrl) {
-    if (ctrl.value.length > 0) {
-        setStyle(ctrl.id, {'background-color': 'white'});
+function setBackgroundColor(id) {
+    var $el = jQuery('#' + id);
+    if ($el.length > 0 && $el.val().length > 0) {
+        $el.css('background-color', 'white');
     } else {
-        setStyle(ctrl.id, {'background-color': '#f8db9f'});
+        $el.css('background-color', '#f8db9f');
     }
 }
 
 function onEditChange(ctrl) {
-    setBackgroundColor(ctrl);
+    setBackgroundColor(ctrl.id);
 }
 
 function initPage() {
-    if (!$('dosage_correct')) {
-        $('dosage').focus();
+    if (!document.getElementById('dosage_correct')) {
+        jQuery('#dosage').focus();
     }
 
-    setBackgroundColor($('dosage'));
-    setBackgroundColor($('disp'));
-    setBackgroundColor($('sig'));
-    setBackgroundColor($('refills'));
+    setBackgroundColor('dosage');
+    setBackgroundColor('disp');
+    setBackgroundColor('sig');
+    setBackgroundColor('refills');
 
-    if ($('dosage_2')) {
-        setBackgroundColor($('dosage_2'));
-        setBackgroundColor($('disp_2'));
-        setBackgroundColor($('sig_2'));
-        setBackgroundColor($('refills_2'));
+    if (document.getElementById('dosage_2')) {
+        setBackgroundColor('dosage_2');
+        setBackgroundColor('disp_2');
+        setBackgroundColor('sig_2');
+        setBackgroundColor('refills_2');
     }
 
-    if ($('dosage_correct')) {
+    if (document.getElementById('dosage_correct')) {
         connectCallouts();
     }
 }
 
-MochiKit.Signal.connect(window, 'onload', initPage);
+jQuery(document).ready(function() {
+    initPage();
+});
