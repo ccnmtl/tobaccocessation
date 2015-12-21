@@ -89,8 +89,8 @@ function vline(from, to, x) {
     });
 }
 
-function setBackgroundColor(ctrl) {
-    var $el = jQuery('#' + ctrl.id);
+function setBackgroundColor(id) {
+    var $el = jQuery('#' + id);
     if ($el.length > 0 && $el.val().length > 0) {
         $el.css('background-color', 'white');
     } else {
@@ -99,7 +99,7 @@ function setBackgroundColor(ctrl) {
 }
 
 function onEditChange(ctrl) {
-    setBackgroundColor(ctrl);
+    setBackgroundColor(ctrl.id);
 }
 
 function initPage() {
@@ -107,16 +107,16 @@ function initPage() {
         jQuery('#dosage').focus();
     }
 
-    setBackgroundColor($('dosage'));
-    setBackgroundColor($('disp'));
-    setBackgroundColor($('sig'));
-    setBackgroundColor($('refills'));
+    setBackgroundColor('dosage');
+    setBackgroundColor('disp');
+    setBackgroundColor('sig');
+    setBackgroundColor('refills');
 
     if (document.getElementById('dosage_2')) {
-        setBackgroundColor($('dosage_2'));
-        setBackgroundColor($('disp_2'));
-        setBackgroundColor($('sig_2'));
-        setBackgroundColor($('refills_2'));
+        setBackgroundColor('dosage_2');
+        setBackgroundColor('disp_2');
+        setBackgroundColor('sig_2');
+        setBackgroundColor('refills_2');
     }
 
     if (document.getElementById('dosage_correct')) {
