@@ -77,7 +77,7 @@ django-impersonate==0.9.1
 django-markwhat==1.4
 django-treebeard==3.0
 django-annoying==0.8.4
-django-pagetree==1.1.7
+django-pagetree==1.1.9
 django-pageblocks==1.0.3
 django-pagetree_export==0.4
 django-registration==1.1
