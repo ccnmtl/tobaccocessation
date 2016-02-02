@@ -418,7 +418,7 @@ def report(request):
 
         include_superusers = request.POST.get('include-superusers', False)
 
-        response = HttpResponse(mimetype='application/zip')
+        response = HttpResponse(conent_type='application/zip')
         response['Content-Disposition'] = 'attachment; filename=tobacco.zip'
 
         z = ZipFile(response, 'w')
