@@ -55,6 +55,8 @@ pylint==1.5.4
 six==1.10.0
 sqlparse==0.1.18
 contextlib2==0.5.1
+rcssmin==1.0.6
+rjsmin==1.0.12
 
 django-smartif==0.1
 djangowind==0.14.3
@@ -65,7 +67,7 @@ django-indexer==0.3.0
 django-templatetag-sugar==1.0
 django-paging==0.2.5
 django-appconf==1.0.1
-django-compressor==1.6
+django-compressor==2.0
 django-statsd-mozilla==0.3.16
 raven==5.10.1
 django-bootstrap-form==3.2
