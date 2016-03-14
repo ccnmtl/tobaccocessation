@@ -95,4 +95,4 @@ django-cacheds3storage==0.1.2
 fake-factory==0.5.3
 factory_boy==2.6.1
 
-ccnmtlsettings==0.1.5
+ccnmtlsettings==0.1.6
