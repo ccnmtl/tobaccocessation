@@ -26,7 +26,6 @@ INSTALLED_APPS += [  # noqa
     'typogrify',
     'bootstrapform',
     'django_extensions',
-    'smartif',
     'pagetree',
     'pageblocks',
     'tobaccocessation.main',
