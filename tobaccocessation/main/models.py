@@ -54,26 +54,26 @@ class UserProfile(models.Model):
         return self.is_faculty == 'FA'
 
     def role(self):
-        if (self.specialty in ['S2', 'S9', 'S10'] or
-                self.specialty is None):
+        roles = {
             # Pre-Doctoral Student, Other, Dental Public Health
-            return "main"
-        elif self.specialty in ['S1', 'S7']:
+            'S2': "main",
+            'S9': "main",
+            'S10': "main",
+            None: "main",
             # General Practice, Prosthodontics
-            return "general"
-        elif self.specialty == 'S4':
+            'S1': "general",
+            'S7': "general",
             # Oral and Maxillofacial Surgery
-            return "surgery"
-        elif self.specialty == 'S6':
+            'S4': "surgery",
             # Periodontics
-            return 'perio'
-        elif self.specialty == 'S5':
+            'S6': "perio",
             # Pediatrics
-            return "pediatrics"
-        elif self.specialty == 'S8':
-            return "orthodontics"
-        elif self.specialty == 'S3':
-            return "endodontics"
+            'S5': "pediatrics",
+            'S8': "orthodontics",
+            'S3': "endodontics",
+        }
+
+        return roles.get(self.specialty)
 
     def get_has_visited(self, section):
         return section.get_uservisit(self.user) is not None
