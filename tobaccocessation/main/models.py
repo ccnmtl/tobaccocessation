@@ -377,10 +377,13 @@ class QuestionColumn(object):
                 if self.answer.value in [res.value for res in r]:
                     return self.answer.id
             else:  # single choice
-                for a in self._answer_cache:
-                    if a.value == r[0].value:
-                        return a.id
+                return self.single_choice_answer(r)
+        return ''
 
+    def single_choice_answer(self, r):
+        for a in self._answer_cache:
+            if a.value == r[0].value:
+                return a.id
         return ''
 
     @classmethod
