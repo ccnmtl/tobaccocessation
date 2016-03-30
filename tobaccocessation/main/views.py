@@ -284,15 +284,21 @@ def _unlocked(section, user, previous, profile):
     if not previous or previous.is_root():
         return True
 
-    for pbl in previous.pageblock_set.all():
-        if hasattr(pbl.block(), 'unlocked'):
-            if not pbl.block().unlocked(user):
-                return False
+    if unlocked_blocks(previous, user):
+        return False
 
     if previous.slug in UNLOCKED:
         return True
 
     return profile.get_has_visited(previous)
+
+
+def unlocked_blocks(page, user):
+    for pbl in page.pageblock_set.all():
+        if hasattr(pbl.block(), 'unlocked'):
+            if not pbl.block().unlocked(user):
+                return True
+    return False
 
 
 # ####################################################################
