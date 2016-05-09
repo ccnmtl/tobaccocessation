@@ -38,7 +38,7 @@ backports.shutil_get_terminal_size==1.0.0
 ipython==4.2.0
 ipdb==0.9.0
 extras==0.0.3
-python-mimeparse==0.1.4
+python-mimeparse==1.5.2
 fixtures==2.0.0
 testtools==2.1.0
 testscenarios==0.5.0
