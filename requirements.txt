@@ -39,7 +39,7 @@ ipython==4.2.0
 ipdb==0.10.0
 extras==0.0.3
 python-mimeparse==1.5.2
-fixtures==2.0.0
+fixtures==3.0.0
 testtools==2.1.0
 testscenarios==0.5.0
 python-subunit==1.2.0
