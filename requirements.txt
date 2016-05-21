@@ -37,7 +37,7 @@ path.py==8.2.1
 backports.shutil_get_terminal_size==1.0.0
 ipython==4.2.0
 ipdb==0.10.0
-extras==0.0.3
+extras==1.0.0
 python-mimeparse==1.5.2
 fixtures==2.0.0
 testtools==2.1.0
