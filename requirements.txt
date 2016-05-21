@@ -37,10 +37,10 @@ path.py==8.2.1
 backports.shutil_get_terminal_size==1.0.0
 ipython==4.2.0
 ipdb==0.10.0
-extras==0.0.3
+extras==1.0.0
 python-mimeparse==1.5.2
 fixtures==3.0.0
-testtools==2.1.0
+testtools==2.2.0
 testscenarios==0.5.0
 python-subunit==1.2.0
 lettuce==0.2.19ccnmtl
@@ -69,7 +69,7 @@ django-paging==0.2.5
 django-appconf==1.0.2
 django-compressor==2.0
 django-statsd-mozilla==0.3.16
-raven==5.15.0
+raven==5.18.0
 django-bootstrap-form==3.2.1
 django-debug-toolbar==1.4
 django-waffle==0.11
