@@ -81,7 +81,7 @@ django-stagingcontext==0.1.0
 django-impersonate==1.0.1
 django-markwhat==1.5
 django-treebeard==4.0.1
-django-pagetree==1.1.14
+django-pagetree==1.1.15
 django-pageblocks==1.0.4
 django-pagetree_export==0.4
 django-registration==1.1
