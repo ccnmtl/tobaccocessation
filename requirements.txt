@@ -38,7 +38,7 @@ pickleshare==0.7.4
 simplegeneric==0.8.1
 path.py==8.2.1
 backports.shutil_get_terminal_size==1.0.0
-ipython==5.0.0
+ipython==5.1.0
 ipdb==0.10.1
 extras==1.0.0
 python-mimeparse==1.5.2
