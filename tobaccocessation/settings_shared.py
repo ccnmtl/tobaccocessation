@@ -16,9 +16,9 @@ PROJECT_APPS = [
 
 USE_TZ = True
 
-TEMPLATE_CONTEXT_PROCESSORS += [  # noqa
+TEMPLATES[0]['OPTIONS']['context_processors'].append(  # noqa
     'tobaccocessation.main.views.context_processor'
-]
+)
 
 INSTALLED_APPS += [  # noqa
     'sorl.thumbnail',
