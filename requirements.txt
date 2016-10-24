@@ -58,7 +58,7 @@ logilab-common==1.2.2
 logilab-astng==0.24.3
 pylint==1.6.4
 six==1.10.0
-sqlparse==0.2.1
+sqlparse==0.2.2
 contextlib2==0.5.4
 rcssmin==1.0.6
 rjsmin==1.0.12
