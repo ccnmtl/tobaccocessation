@@ -9,7 +9,7 @@ PasteScript==2.0.2
 feedparser==5.2.1
 Markdown==2.6.7
 pyenchant==1.6.7
-simplejson==3.8.2
+simplejson==3.9.0
 smartypants==1.8.6
 uuid==1.30
 psycopg2==2.6.2
