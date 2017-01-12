@@ -63,7 +63,7 @@ sqlparse==0.2.2
 contextlib2==0.5.4
 rcssmin==1.0.6
 rjsmin==1.0.12
-ipaddress==1.0.17
+ipaddress==1.0.18
 
 djangowind==0.16.1
 sorl==3.1
