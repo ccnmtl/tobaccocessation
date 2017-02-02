@@ -48,7 +48,7 @@ testtools==2.2.0
 testscenarios==0.5.0
 python-subunit==1.2.0
 lettuce==0.2.19ccnmtl
-rdflib==4.2.1
+rdflib==4.2.2
 selenium==2.53.6
 coverage==4.3.4
 pyasn1==0.1.9
