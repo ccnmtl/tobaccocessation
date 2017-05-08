@@ -29,7 +29,7 @@ BeautifulSoup==3.2.1
 cssselect==1.0.1
 lxml==3.7.3
 fuzzywuzzy==0.15.0
-sure==1.4.5
+sure==1.4.6
 traitlets==4.3.2
 ipython_genutils==0.2.0
 decorator==4.0.11
@@ -77,12 +77,15 @@ django-compressor==2.1.1
 django-statsd-mozilla==0.3.16
 raven==6.0.0
 django-bootstrap-form==3.2.1
-django-bootstrap3==8.2.2
+
+django-bootstrap3==8.2.3
+
 django-debug-toolbar==1.8
+
 django-waffle==0.11.1
 django-jenkins==0.110.0
 django-smoketest==1.0.0
-django-extensions==1.7.8
+django-extensions==1.7.9
 django-stagingcontext==0.1.0
 django-impersonate==1.1
 django-markwhat==1.5.1
