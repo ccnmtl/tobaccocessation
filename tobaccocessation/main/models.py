@@ -308,6 +308,7 @@ def user_created(sender, user, request, **kwargs):
     profile.age = form.data['age']
     profile.save()
 
+
 user_registered.connect(user_created)
 
 

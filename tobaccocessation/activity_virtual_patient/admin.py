@@ -31,6 +31,8 @@ class MedicationAdmin(admin.ModelAdmin):
         MedicationDosageChoiceInline,
         MedicationRefillChoiceInline
     ]
+
+
 admin.site.register(Medication, MedicationAdmin)
 
 admin.site.register(TreatmentClassification)
@@ -59,6 +61,7 @@ class PatientAdmin(admin.ModelAdmin):
         TreatmentFeedbackInline,
         TreatmentOptionReasoningInline,
     ]
+
 
 admin.site.register(Patient, PatientAdmin)
 admin.site.register(ActivityState)

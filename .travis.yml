@@ -2,6 +2,10 @@ language: python
 sudo: false
 python:
   - "2.7"
+addons:
+  apt:
+    packages:
+      - enchant
 install:
   - pip install -U pip wheel
   - pip install -U setuptools
