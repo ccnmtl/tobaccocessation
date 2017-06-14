@@ -49,7 +49,7 @@ testscenarios==0.5.0
 python-subunit==1.2.0
 lettuce==0.2.23
 rdflib==4.2.2
-selenium==2.53.6
+selenium==3.4.3
 coverage==4.4.1
 pyasn1==0.2.3
 pyOpenSSL==17.0.0
