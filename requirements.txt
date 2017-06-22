@@ -104,7 +104,7 @@ django-ga-context==0.1.0
 gunicorn==19.7.1
 boto==2.47.0
 python-dateutil==2.6.0
-django-storages==1.5.2
+django-storages==1.6.1
 django-cacheds3storage==0.1.2
 Faker==0.7.17
 factory_boy==2.8.1
