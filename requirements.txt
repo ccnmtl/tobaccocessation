@@ -96,7 +96,7 @@ django-impersonate==1.1
 django-markwhat==1.5.1
 django-treebeard==4.1.2
 django-pagetree==1.3.2
-django-pageblocks==2.0.0
+django-pageblocks==1.2.0 # pyup: <2.0.0
 requirements/src/django-pagetree_export-0.4.tar.gz
 requirements/src/django-registration-1.1.tar.gz
 django-quizblock==1.2.2
