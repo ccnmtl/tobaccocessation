@@ -1,3 +1,5 @@
+/* global is_form_complete: true */
+
 jQuery(document).ready(function() {
     // Disable checked radio buttons
     var elts = jQuery('input[type="radio"]:checked');
@@ -11,23 +13,23 @@ jQuery(document).ready(function() {
     // Treatment Options
     jQuery('div.virtualpatient.treatment-options')
         .parents('form').submit(function(evt) {
-        evt.stopImmediatePropagation();
+            evt.stopImmediatePropagation();
 
-        if (!is_form_complete(this)) {
-            alert('Please classify all treatment options.' +
+            if (!is_form_complete(this)) {
+                alert('Please classify all treatment options.' +
                   'Select at least one treatment as \'appropriate\'.');
-            return false;
-        }
+                return false;
+            }
 
-        var selector = 'div.treatment-type input[type="radio"]' +
+            var selector = 'div.treatment-type input[type="radio"]' +
             '[value="appropriate"]:checked';
-        if (jQuery(selector).length === 0) {
-            alert('Please classify at least one treatment as \'appropriate\'.');
-            return false;
-        } else {
-            return true;
-        }
-    });
+            if (jQuery(selector).length === 0) {
+                alert('Please classify at least one treatment as \'appropriate\'.');
+                return false;
+            } else {
+                return true;
+            }
+        });
 
     // Treatment Selection
     elts = jQuery('div.virtualpatient.treatment-selection')
@@ -39,33 +41,33 @@ jQuery(document).ready(function() {
 
     jQuery('div.virtualpatient.treatment-selection')
         .find('input[type="radio"]').click(function(evt) {
-        if (jQuery(this).val() === 'combination') {
-            jQuery('div.combination-therapy').show();
-        } else {
-            jQuery('div.combination-therapy').hide();
-        }
-    });
+            if (jQuery(this).val() === 'combination') {
+                jQuery('div.combination-therapy').show();
+            } else {
+                jQuery('div.combination-therapy').hide();
+            }
+        });
 
     jQuery('div.virtualpatient.treatment-selection')
         .parents('form').submit(function(evt) {
-        evt.stopImmediatePropagation();
+            evt.stopImmediatePropagation();
 
-        if (!is_form_complete(this)) {
-            alert('Please select the best treatment option for your patient.');
-            return false;
-        }
-
-        // Make sure combinations are selected if visible
-        if (jQuery('div.combination-therapy').is(':visible')) {
-            var selector = 'div.treatment-type input[type="checkbox"]:checked';
-            if (jQuery(selector).length !== 2) {
-                alert('Please select two therapies to combine.');
+            if (!is_form_complete(this)) {
+                alert('Please select the best treatment option for your patient.');
                 return false;
-            } else {
-                return true;
             }
-        }
-    });
+
+            // Make sure combinations are selected if visible
+            if (jQuery('div.combination-therapy').is(':visible')) {
+                var selector = 'div.treatment-type input[type="checkbox"]:checked';
+                if (jQuery(selector).length !== 2) {
+                    alert('Please select two therapies to combine.');
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        });
 
     // Prescriptions
     var carousel = jQuery('div.prescribe .carousel');

@@ -1,3 +1,5 @@
+/* exported onEditChange, getElementPosition, getElementDimensions */
+
 function connectCallouts() {
     if (document.getElementById('dosage_2')) {
         connectCalloutsDouble();
@@ -8,34 +10,20 @@ function connectCallouts() {
 
 function connectCalloutsDouble() {
     vertical_line(document.getElementById('dosage_callout'),
-                  document.getElementById('dosage'));
+        document.getElementById('dosage'));
     vertical_line(document.getElementById('disp_callout'),
-                  document.getElementById('disp'));
+        document.getElementById('disp'));
     vertical_line(document.getElementById('refills_callout'),
-                  document.getElementById('refills'));
+        document.getElementById('refills'));
 }
 
 function connectCalloutsSingle() {
     vertical_line(document.getElementById('dosage_callout'),
-                  document.getElementById('dosage'));
+        document.getElementById('dosage'));
     vertical_line(document.getElementById('disp_callout'),
-                  document.getElementById('disp'));
+        document.getElementById('disp'));
     vertical_line(document.getElementById('refills_callout'),
-                  document.getElementById('refills'));
-}
-
-function horizontal_line(topElement, bottomElement) {
-    var bottomPos = getElementPosition(bottomElement);
-    var bottomDim = getElementDimensions(bottomElement);
-
-    var topPos = getElementPosition(topElement);
-    var topDim = getElementDimensions(topElement);
-
-    var fromx = topPos.x + topDim.w / 2;
-    var fromy = topPos.y + topDim.h;
-    var tox = bottomPos.x + bottomDim.w / 2;
-    var toy = bottomPos.y;
-    drawlines(fromx, fromy, tox, toy, fromx);
+        document.getElementById('refills'));
 }
 
 function vertical_line(leftElement, rightElement) {
