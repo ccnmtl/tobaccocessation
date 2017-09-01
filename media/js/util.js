@@ -1,3 +1,5 @@
+/* exported is_form_complete */
+
 function showVideo(radioElt) {
     if (jQuery('div.multiple-video-quiz').length > 0) {
         // hide any videos that are currently playing
