@@ -106,7 +106,7 @@ boto==2.48.0
 python-dateutil==2.6.1
 django-storages==1.6.5
 django-cacheds3storage==0.1.2
-Faker==0.8.4
+Faker==0.8.5
 factory_boy==2.9.2
 django-smtp-ssl==1.0
 
