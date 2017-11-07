@@ -154,6 +154,7 @@ def page(request, hierarchy, path):
                 is_submitted=first_leaf.submitted(request.user))
 
 
+@login_required
 def create_profile(request):
     """We actually don't need two views - can just return
     a registration form for non Columbia ppl and a
