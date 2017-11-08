@@ -87,3 +87,9 @@ urlpatterns = [
     url(r'^pages/(?P<hierarchy>\w+)/edit/(?P<path>.*)$', edit_page),
     url(r'^pages/(?P<hierarchy>\w+)/(?P<path>.*)$', page),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ]
