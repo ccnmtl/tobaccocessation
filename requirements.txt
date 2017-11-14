@@ -108,7 +108,7 @@ python-dateutil==2.6.1
 django-storages==1.6.5
 django-cacheds3storage==0.1.2
 text-unidecode==1.1  # for faker
-Faker==0.8.6
+Faker==0.8.7
 factory_boy==2.9.2
 django-smtp-ssl==1.0
 
