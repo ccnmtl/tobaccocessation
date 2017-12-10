@@ -7,7 +7,7 @@ PasteDeploy==1.5.2
 PasteScript==2.0.2
 feedparser==5.2.1
 Markdown==2.6.10
-pyenchant==1.6.11
+pyenchant==2.0.0
 simplejson==3.13.2
 smartypants==2.0.0
 uuid==1.30
