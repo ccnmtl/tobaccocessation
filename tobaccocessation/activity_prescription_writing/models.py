@@ -1,9 +1,10 @@
+import json
+
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-import json
 from pagetree.models import PageBlock
 
 
@@ -25,7 +26,7 @@ class Medication(models.Model):
 
 
 class Block(models.Model):
-    pageblocks = generic.GenericRelation(
+    pageblocks = GenericRelation(
         PageBlock, related_query_name="prescription_writing_pageblocks")
     medication_name = models.CharField(max_length=25)
     allow_redo = models.BooleanField(default=True)
