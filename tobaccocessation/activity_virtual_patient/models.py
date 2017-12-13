@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models.query_utils import Q
@@ -204,7 +204,7 @@ class PatientAssessmentBlock(models.Model):
         (VIEW_RESULTS, 'Results')
     )
 
-    pageblocks = generic.GenericRelation(PageBlock)
+    pageblocks = GenericRelation(PageBlock)
     patient = models.ForeignKey(Patient)
     view = models.IntegerField(choices=VIEW_CHOICES)
 

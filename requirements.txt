@@ -1,4 +1,4 @@
-Django==1.8.18 # pyup: <1.9
+Django==1.9.13 # pyup: <1.10
 resolver==0.2.1
 wsgiref==0.1.2
 selector==0.10.1
@@ -73,7 +73,6 @@ ipaddress==1.0.18
 
 djangowind==1.1.0
 requirements/src/sorl-3.1.tar.gz
-typogrify==2.0.7
 django-indexer==0.3.0
 django-templatetag-sugar==1.0
 django-paging==0.2.5
@@ -99,7 +98,7 @@ django-treebeard==4.2.0
 django-pagetree==1.4.1
 django-pageblocks==1.2.0 # pyup: <2.0.0
 requirements/src/django-pagetree_export-0.4.tar.gz
-requirements/src/django-registration-1.1.tar.gz
+django-registration-redux==1.9
 django-quizblock==1.2.3
 django-ga-context==0.1.0
 gunicorn==19.7.1
