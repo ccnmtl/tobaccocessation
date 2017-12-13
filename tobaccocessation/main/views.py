@@ -8,7 +8,6 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, render
-from django.template import RequestContext
 from django.utils.encoding import smart_str
 from pagetree.helpers import get_section_from_path, get_module, get_hierarchy
 from pagetree.models import Section, UserLocation, UserPageVisit, Hierarchy
@@ -34,10 +33,7 @@ class rendered_with(object):
         def rendered_func(request, *args, **kwargs):
             items = func(request, *args, **kwargs)
             if isinstance(items, type({})):
-                ctx = RequestContext(request)
-                return render_to_response(self.template_name,
-                                          items,
-                                          context_instance=ctx)
+                return render_to_response(self.template_name, items, {})
             else:
                 return items
 
