@@ -34,7 +34,7 @@ if hasattr(settings, 'CAS_BASE'):
                       djangowind.views.logout,
                       {'next_page': redirect_after_logout})
     admin_logout_page = url(r'^admin/logout/$',
-                            'djangowind.views.logout',
+                            djangowind.views.logout,
                             {'next_page': redirect_after_logout})
 
 
