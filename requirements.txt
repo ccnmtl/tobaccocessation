@@ -69,7 +69,7 @@ sqlparse==0.2.4
 contextlib2==0.5.5
 rcssmin==1.0.6
 rjsmin==1.0.12
-ipaddress==1.0.18
+ipaddress==1.0.19
 
 djangowind==1.1.0
 requirements/src/sorl-3.1.tar.gz
