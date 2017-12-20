@@ -9,7 +9,7 @@ feedparser==5.2.1
 Markdown==2.6.10
 pyenchant==2.0.0
 simplejson==3.13.2
-smartypants==2.0.0
+smartypants==2.0.1
 uuid==1.30
 psycopg2==2.7.3.2
 olefile==0.44
