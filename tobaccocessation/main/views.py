@@ -7,7 +7,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render
 from django.utils.encoding import smart_str
 from pagetree.helpers import get_section_from_path, get_module, get_hierarchy
 from pagetree.models import Section, UserLocation, UserPageVisit, Hierarchy
@@ -25,21 +25,6 @@ from tobaccocessation.main.models import QuickFixProfileForm, UserProfile, \
 UNLOCKED = ['resources', 'faculty']  # special cases
 
 
-class rendered_with(object):
-    def __init__(self, template_name):
-        self.template_name = template_name
-
-    def __call__(self, func):
-        def rendered_func(request, *args, **kwargs):
-            items = func(request, *args, **kwargs)
-            if isinstance(items, type({})):
-                return render_to_response(self.template_name, items, {})
-            else:
-                return items
-
-        return rendered_func
-
-
 def context_processor(request):
     ctx = {}
     ctx['MEDIA_URL'] = settings.MEDIA_URL
@@ -47,7 +32,6 @@ def context_processor(request):
 
 
 @login_required
-@rendered_with('main/index.html')
 def index(request):
     """Need to determine here whether to redirect
     to profile creation or registraion and profile creation"""
@@ -59,22 +43,23 @@ def index(request):
     if profile is not None and profile.has_consented():
         profile = UserProfile.objects.get(user=request.user)
         hierarchy = get_hierarchy(name=profile.role())
-        return {'user': request.user,
-                'profile': profile,
-                'hierarchy': hierarchy,
-                'root': hierarchy.get_root()}
+        ctx = {'user': request.user,
+               'profile': profile,
+               'hierarchy': hierarchy,
+               'root': hierarchy.get_root()}
+        return render(request, 'main/index.html', ctx)
     else:
         return HttpResponseRedirect(reverse('create_profile'))
 
 
 @user_passes_test(lambda u: u.is_staff)
-@rendered_with('main/edit_page.html')
 def edit_page(request, hierarchy, path):
     section = get_section_from_path(path, hierarchy)
-    return dict(section=section,
-                hierarchy=section.hierarchy,
-                module=get_module(section),
-                root=section.hierarchy.get_root())
+    ctx = dict(section=section,
+               hierarchy=section.hierarchy,
+               module=get_module(section),
+               root=section.hierarchy.get_root())
+    return render(request, 'main/edit_page.html', ctx)
 
 
 def page_post(request, section):
@@ -98,7 +83,6 @@ def page_post(request, section):
 
 
 @login_required
-@rendered_with('main/page.html')
 def page(request, hierarchy, path):
     profile = UserProfile.objects.filter(user=request.user).first()
     if profile is None:
@@ -135,19 +119,20 @@ def page(request, hierarchy, path):
     if needs_submit:
         allow_redo = first_leaf.allow_redo()
 
-    return dict(request=request,
-                ancestors=ancestors,
-                profile=profile,
-                hierarchy=h,
-                section=first_leaf,
-                can_access=can_access,
-                module=module,
-                root=ancestors[0],
-                previous=prev_page,
-                next=next_page,
-                needs_submit=needs_submit,
-                allow_redo=allow_redo,
-                is_submitted=first_leaf.submitted(request.user))
+    ctx = dict(request=request,
+               ancestors=ancestors,
+               profile=profile,
+               hierarchy=h,
+               section=first_leaf,
+               can_access=can_access,
+               module=module,
+               root=ancestors[0],
+               previous=prev_page,
+               next=next_page,
+               needs_submit=needs_submit,
+               allow_redo=allow_redo,
+               is_submitted=first_leaf.submitted(request.user))
+    return render(request, 'main/page.html', ctx)
 
 
 @login_required
@@ -387,7 +372,7 @@ def _all_results(output, hierarchy, include_superusers):
     writer.writerow(headers)
 
     # Only look at users who have create a profile + consented
-    profiles = UserProfile.objects.filter(consent=True)
+    profiles = UserProfile.objects.filter(consent_participant=True)
     if not include_superusers:
         profiles = profiles.filter(user__is_superuser=False)
 
@@ -408,20 +393,20 @@ def _all_results(output, hierarchy, include_superusers):
 
 
 @user_passes_test(lambda u: u.is_superuser)
-@rendered_with("main/report.html")
 def report(request):
     if request.method == "GET":
         exclusions = ['faculty', 'resources']
         hierarchies = Hierarchy.objects.all().exclude(
             name__in=exclusions).order_by("id")
-        return {'hierarchies': hierarchies}
+        return render(
+            request, 'main/report.html', {'hierarchies': hierarchies})
     else:
         hierarchy_id = request.POST.get('hierarchy-id', None)
         hierarchy = Hierarchy.objects.get(id=hierarchy_id)
 
         include_superusers = request.POST.get('include-superusers', False)
 
-        response = HttpResponse(conent_type='application/zip')
+        response = HttpResponse(content_type='application/zip')
         response['Content-Disposition'] = 'attachment; filename=tobacco.zip'
 
         z = ZipFile(response, 'w')
