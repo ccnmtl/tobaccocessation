@@ -103,7 +103,7 @@ django-quizblock==1.2.3
 django-ga-context==0.1.0
 gunicorn==19.8.1
 boto==2.48.0
-python-dateutil==2.7.2
+python-dateutil==2.7.3
 django-storages==1.6.6
 django-cacheds3storage==0.1.2
 text-unidecode==1.2  # for faker
