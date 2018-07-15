@@ -63,7 +63,7 @@ requests==2.19.1
 logilab-common==1.4.2
 logilab-astng==0.24.3
 editdistance==0.4
-pylint==1.9.2
+pylint==2.0.0
 six==1.11.0
 sqlparse==0.2.4
 contextlib2==0.5.5
