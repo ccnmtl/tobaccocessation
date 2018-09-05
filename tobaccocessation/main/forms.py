@@ -108,6 +108,11 @@ class CreateAccountForm(RegistrationForm):
         return cleaned_data
 
 
+def get_boolean(d, name, default_value):
+    value = d.get(name, default_value)
+    return value in ('True', True, 'on')
+
+
 def user_created(sender, user, request, **kwargs):
     form = CreateAccountForm(request.POST)
     try:
@@ -115,10 +120,10 @@ def user_created(sender, user, request, **kwargs):
     except UserProfile.DoesNotExist:
         profile = UserProfile(user=user)
     profile.institute = form.data['institute']
-    profile.consent_participant = request.POST.get('consent_participant',
-                                                   False)
-    profile.consent_not_participant = \
-        request.POST.get('consent_not_participant', False)
+    profile.consent_participant = get_boolean(
+        request.POST, 'consent_participant', False)
+    profile.consent_not_participant = get_boolean(
+        request.POST, 'consent_not_participant', False)
     profile.is_faculty = form.data['is_faculty']
     profile.year_of_graduation = form.data['year_of_graduation']
     profile.specialty = form.data['specialty']
