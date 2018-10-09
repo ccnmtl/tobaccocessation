@@ -101,7 +101,7 @@ requirements/src/django-pagetree_export-0.4.tar.gz
 django-registration-redux==2.4
 django-quizblock==1.2.3
 django-ga-context==0.1.0
-gunicorn==19.8.1
+gunicorn==19.9.0
 boto==2.49.0
 python-dateutil==2.7.3
 django-storages==1.7.1
