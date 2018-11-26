@@ -4,7 +4,7 @@ wsgiref==0.1.2
 selector==0.10.1
 Paste==3.0.4
 PasteDeploy==1.5.2
-PasteScript==2.0.2
+PasteScript==3.0.0
 feedparser==5.2.1
 Markdown==2.6.11
 pyenchant==2.0.0
