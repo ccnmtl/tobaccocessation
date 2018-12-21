@@ -239,7 +239,8 @@ class PatientAssessmentBlock(models.Model):
                 patient_state[data[k]][k] = 'true'
             elif k == 'combination':
                 for m in data[k]:
-                    patient_state[m][k] = 'true'
+                    if m in patient_state:
+                        patient_state[m][k] = 'true'
         return patient_state
 
     def submit_write_prescription(self, data, patient_state):
