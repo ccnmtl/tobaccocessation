@@ -1,6 +1,9 @@
+from __future__ import unicode_literals
+
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.test.client import RequestFactory, Client
+from django.utils.encoding import smart_text
 from pagetree.helpers import get_section_from_path
 from pagetree.models import Hierarchy
 from tobaccocessation.activity_prescription_writing.models import Block, \
@@ -18,7 +21,7 @@ class TestBlock(TestCase):
                                         refills=1,
                                         sort_order=10)
 
-        self.assertEquals(med.__unicode__(), "something")
+        self.assertEquals(smart_text(med), "something")
         self.assertEquals(med.rx_count, 1)
 
     def test_default(self):

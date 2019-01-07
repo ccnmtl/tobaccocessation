@@ -1,6 +1,9 @@
+from __future__ import unicode_literals
+
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.test.client import Client
+from django.utils.encoding import smart_text
 from pagetree.helpers import get_section_from_path
 from pagetree.models import Hierarchy, Section
 from quizblock.models import Quiz, Question, Answer
@@ -70,7 +73,7 @@ class UserProfileTest(TestCase):
     def test_user_unicode(self):
         user = User.objects.get(username="test_student")
         profile = UserProfile.objects.get(user=user)
-        uni_name = UserProfile.__unicode__(profile)
+        uni_name = smart_text(profile)
         self.assertEqual(uni_name, "test_student")
 
     def test_user_display_name(self):
@@ -208,7 +211,7 @@ class TestQuestionColumn(TestCase):
         idt = "%s_%s" % (self.hierarchy.id, question.id)
         self.assertEquals(column.identifier(), idt)
 
-        key_row = [idt, "main", "Quiz", "long text", "foo"]
+        key_row = [idt, "main", "Quiz", "long text", b"foo"]
         self.assertEquals(column.key_row(), key_row)
 
         # no data
@@ -234,7 +237,7 @@ class TestQuestionColumn(TestCase):
         self.assertEquals(column.identifier(), answer_id)
 
         key_row = [question_id, "main", "Quiz", "single choice",
-                   "foo", answer.id, "one"]
+                   b"foo", answer.id, b"one"]
         self.assertEquals(column.key_row(), key_row)
 
         # no data
@@ -266,7 +269,7 @@ class TestQuestionColumn(TestCase):
         self.assertEquals(column.identifier(), answer_id)
 
         key_row = [question_id, "main", "Quiz", "multiple choice",
-                   "foo", answer1.id, "one"]
+                   b"foo", answer1.id, b"one"]
         self.assertEquals(column.key_row(), key_row)
 
         # no data
@@ -310,4 +313,4 @@ class TestQuestionColumn(TestCase):
 
     def test_clean_header(self):
         s = "<p></p></div>\n\r<>'\"foobar,"
-        self.assertEquals(clean_header(s), 'foobar')
+        self.assertEquals(clean_header(s), b'foobar')

@@ -5,9 +5,11 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible, smart_text
 from pagetree.models import PageBlock
 
 
+@python_2_unicode_compatible
 class Medication(models.Model):
     name = models.CharField(max_length=25)
     dosage = models.CharField(max_length=25)
@@ -21,10 +23,11 @@ class Medication(models.Model):
     refills_callout = models.TextField(blank=True, null=True)
     rx_count = models.IntegerField(default=1)
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s" % (self.name)
 
 
+@python_2_unicode_compatible
 class Block(models.Model):
     pageblocks = GenericRelation(
         PageBlock, related_query_name="prescription_writing_pageblocks")
@@ -38,8 +41,9 @@ class Block(models.Model):
     def pageblock(self):
         return self.pageblocks.all()[0]
 
-    def __unicode__(self):
-        return "%s -- %s" % (unicode(self.pageblock()), self.medication_name)
+    def __str__(self):
+        return "%s -- %s" % (
+            smart_text(self.pageblock()), self.medication_name)
 
     @classmethod
     def add_form(self):

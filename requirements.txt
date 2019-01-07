@@ -1,6 +1,5 @@
 Django==1.11.18 # pyup: <2.0
 resolver==0.2.1
-wsgiref==0.1.2
 selector==0.10.1
 Paste==3.0.5
 PasteDeploy==2.0.1
@@ -23,7 +22,6 @@ enum34==1.1.6; python_version < '3.4'
 configparser==3.5.0
 flake8==3.6.0
 tornado==4.5.3 # pyup: <5.0
-BeautifulSoup==3.2.1
 cssselect==1.0.3
 lxml==4.2.5
 fuzzywuzzy==0.17.0
@@ -36,7 +34,6 @@ pexpect==4.6.0
 pickleshare==0.7.5
 simplegeneric==0.8.1
 path.py==11.5.0
-backports.shutil_get_terminal_size==1.0.0
 ipython==5.8.0 # pyup: <6.0.0
 ipdb==0.11
 extras==1.0.0
@@ -50,8 +47,10 @@ rdflib==4.2.2
 selenium==3.141.0
 coverage==4.5.2
 pyasn1==0.4.5
-pyOpenSSL==18.0.0
-ndg-httpsclient==0.5.1
+
+cffi==1.11.5  # cryptography
+asn1crypto==0.24.0  # cryptography
+cryptography==2.4.2
 
 chardet==3.0.4
 idna==2.8
@@ -96,7 +95,7 @@ django-markwhat==1.6.1
 django-treebeard==4.3
 django-pagetree==1.4.1
 django-pageblocks==1.2.0 # pyup: <2.0.0
-requirements/src/django-pagetree_export-0.4.tar.gz
+requirements/src/django_pagetree_export-0.4-py2.py3-none-any.whl
 django-registration-redux==2.5
 django-quizblock==1.2.3
 django-ga-context==0.1.0
