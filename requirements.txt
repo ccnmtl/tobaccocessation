@@ -2,7 +2,7 @@ Django==1.11.17 # pyup: <2.0
 resolver==0.2.1
 wsgiref==0.1.2
 selector==0.10.1
-Paste==3.0.5
+Paste==3.0.6
 PasteDeploy==2.0.1
 PasteScript==3.0.0
 feedparser==5.2.1
