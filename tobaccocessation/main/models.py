@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 from pagetree.models import Hierarchy, UserPageVisit
 from quizblock.models import Submission, Response
 
@@ -10,6 +11,7 @@ from tobaccocessation.main.choices import GENDER_CHOICES, FACULTY_CHOICES, \
     HISPANIC_LATINO_CHOICES
 
 
+@python_2_unicode_compatible
 class UserProfile(models.Model):
     #  ALL_CU group affiliations
     user = models.OneToOneField(User, related_name="profile", unique=True)
@@ -25,7 +27,7 @@ class UserProfile(models.Model):
     consent_participant = models.BooleanField(default=False)
     consent_not_participant = models.BooleanField(default=False)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.user.username
 
     class Meta:

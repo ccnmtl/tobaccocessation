@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible, smart_text
 from django.db.models.query_utils import Q
 from django.db.models.signals import pre_save, post_init
 from django.dispatch.dispatcher import receiver
@@ -11,6 +12,7 @@ from operator import itemgetter
 from pagetree.models import PageBlock, Hierarchy
 
 
+@python_2_unicode_compatible
 class Medication(models.Model):
     name = models.CharField(max_length=25)
     instructions = models.TextField()
@@ -21,7 +23,7 @@ class Medication(models.Model):
     class Meta:
         ordering = ['display_order']
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s" % (self.name)
 
 
@@ -46,6 +48,7 @@ class RefillChoice(models.Model):
     display_order = models.IntegerField()
 
 
+@python_2_unicode_compatible
 class Patient(models.Model):
     GENDER_CHOICES = (
         ('F', 'Female'),
@@ -60,7 +63,7 @@ class Patient(models.Model):
                               default='F',
                               choices=GENDER_CHOICES)
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s. %s" % (self.display_order, self.name)
 
     def treatments(self):
@@ -81,11 +84,12 @@ class Patient(models.Model):
         return self.treatmentoptionreasoning_set.filter(classification__rank=3)
 
 
+@python_2_unicode_compatible
 class TreatmentClassification(models.Model):
     rank = models.IntegerField()
     description = models.CharField(max_length=50)
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s. %s" % (self.rank, self.description)
 
     @classmethod
@@ -98,6 +102,7 @@ class TreatmentClassification(models.Model):
             return 3
 
 
+@python_2_unicode_compatible
 class TreatmentOption(models.Model):
     patient = models.ForeignKey(Patient)
     classification = models.ForeignKey(TreatmentClassification)
@@ -106,12 +111,13 @@ class TreatmentOption(models.Model):
     medication_two = models.ForeignKey(
         Medication, related_name="medication_two", blank=True, null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return "Option: %s [%s, %s]" % (self.classification.description,
                                         self.medication_one,
                                         self.medication_two)
 
 
+@python_2_unicode_compatible
 class TreatmentOptionReasoning(models.Model):
     patient = models.ForeignKey(Patient)
     classification = models.ForeignKey(TreatmentClassification)
@@ -120,7 +126,7 @@ class TreatmentOptionReasoning(models.Model):
     reasoning = models.TextField()
     display_order = models.IntegerField(default=0)
 
-    def __unicode__(self):
+    def __str__(self):
         return "OptionReasoning: %s [%s, %s]" % \
             (self.classification.description, self.medication, self.reasoning)
 
@@ -128,6 +134,7 @@ class TreatmentOptionReasoning(models.Model):
         ordering = ['display_order', 'id']
 
 
+@python_2_unicode_compatible
 class TreatmentFeedback(models.Model):
     patient = models.ForeignKey(Patient)
     classification = models.ForeignKey(TreatmentClassification)
@@ -135,7 +142,7 @@ class TreatmentFeedback(models.Model):
     combination_therapy = models.BooleanField(blank=True, default=False)
     feedback = models.TextField()
 
-    def __unicode__(self):
+    def __str__(self):
         return "Feedback: %s %s" % \
             (self.patient, self.classification.description)
 
@@ -191,6 +198,7 @@ def pre_save_activity_state(sender, instance, *args, **kwargs):
     instance.json = json.dumps(instance.data)
 
 
+@python_2_unicode_compatible
 class PatientAssessmentBlock(models.Model):
     CLASSIFY_TREATMENTS = 0
     BEST_TREATMENT_OPTION = 1
@@ -213,8 +221,8 @@ class PatientAssessmentBlock(models.Model):
     js_template_file = "activity_virtual_patient/patient_js.html"
     display_name = "Virtual Patient"
 
-    def __unicode__(self):
-        return unicode(self.pageblock())
+    def __str__(self):
+        return smart_text(self.pageblock())
 
     def pageblock(self):
         return self.pageblocks.all()[0]
