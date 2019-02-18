@@ -48,7 +48,7 @@ selenium==3.141.0
 coverage==4.5.2
 pyasn1==0.4.5
 
-cffi==1.11.5  # cryptography
+cffi==1.12.1  # cryptography
 asn1crypto==0.24.0  # cryptography
 cryptography==2.5
 
@@ -117,5 +117,5 @@ stevedore>=1.20.0 # Apache-2.0
 bandit==1.5.1
 pytz==2018.9
 
-functools32==3.2.3-2
+functools32==3.2.3-2; python_version < '3'
 entrypoints==0.3
