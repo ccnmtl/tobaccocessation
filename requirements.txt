@@ -48,7 +48,7 @@ selenium==3.141.0
 coverage==4.5.2
 pyasn1==0.4.5
 
-cffi==1.12.1  # cryptography
+cffi==1.12.2  # cryptography
 asn1crypto==0.24.0  # cryptography
 cryptography==2.5
 
