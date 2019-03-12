@@ -60,7 +60,7 @@ certifi==2019.3.9
 requests==2.21.0
 logilab-common==1.4.2
 logilab-astng==0.24.3
-editdistance==0.5.2
+editdistance==0.5.3
 pylint==1.9.4 # pyup: <2.0.0
 six==1.12.0
 sqlparse==0.2.4
