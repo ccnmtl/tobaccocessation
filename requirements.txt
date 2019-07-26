@@ -56,7 +56,7 @@ idna==2.8
 certifi==2019.6.16
 
 requests==2.22.0
-logilab-common==1.4.2
+logilab-common==1.4.3
 logilab-astng==0.24.3
 editdistance==0.5.3
 pylint==1.9.5 # pyup: <2.0.0
