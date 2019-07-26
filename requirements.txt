@@ -35,7 +35,7 @@ pickleshare==0.7.5
 simplegeneric==0.8.1
 path.py==11.5.2 # pyup: <12
 ipython==5.8.0 # pyup: <6.0.0
-ipdb==0.12
+ipdb==0.12.1
 extras==1.0.0
 python-mimeparse==1.6.0
 fixtures==3.0.0
