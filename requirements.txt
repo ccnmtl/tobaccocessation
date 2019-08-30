@@ -87,7 +87,7 @@ django-smoketest==1.1.0
 django-extensions==2.2.1
 django-stagingcontext==0.1.0
 django-impersonate==1.4.1
-django-markwhat==1.6.1
+django-markwhat==1.6.2
 django-treebeard==4.3
 django-pagetree==1.4.1
 django-pageblocks==1.2.0 # pyup: <2.0.0
