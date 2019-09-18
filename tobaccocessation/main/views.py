@@ -1,5 +1,5 @@
-from io import StringIO
 import csv
+from io import StringIO
 from json import dumps
 from zipfile import ZipFile
 
@@ -7,6 +7,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
+from django.http.response import Http404
 from django.shortcuts import render
 from django.utils.encoding import smart_str
 from pagetree.helpers import get_section_from_path, get_module, get_hierarchy
@@ -96,6 +97,9 @@ def page(request, hierarchy, path):
         return page_post(request, section)
     first_leaf = h.get_first_leaf(section)
     ancestors = first_leaf.get_ancestors()
+
+    if len(ancestors) < 1:
+        raise Http404('Page does not exist')
 
     # Skip to the first leaf, make sure to mark these sections as visited
     if (section != first_leaf):
