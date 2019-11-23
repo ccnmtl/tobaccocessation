@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
                 ('year_of_graduation', models.PositiveIntegerField(blank=True)),
                 ('consent_participant', models.BooleanField(default=False)),
                 ('consent_not_participant', models.BooleanField(default=False)),
-                ('user', models.ForeignKey(related_name='application_user', to=settings.AUTH_USER_MODEL, unique=True)),
+                ('user', models.ForeignKey(related_name='application_user', to=settings.AUTH_USER_MODEL, unique=True, on_delete=models.CASCADE)),
             ],
             options={
                 'ordering': ['user'],

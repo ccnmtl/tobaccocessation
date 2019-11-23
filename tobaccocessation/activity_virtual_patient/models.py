@@ -28,21 +28,21 @@ class Medication(models.Model):
 
 
 class ConcentrationChoice(models.Model):
-    medication = models.ForeignKey(Medication)
+    medication = models.ForeignKey(Medication, on_delete=models.CASCADE)
     concentration = models.CharField(max_length=50)
     correct = models.BooleanField(default=False)
     display_order = models.IntegerField()
 
 
 class DosageChoice(models.Model):
-    medication = models.ForeignKey(Medication)
+    medication = models.ForeignKey(Medication, on_delete=models.CASCADE)
     dosage = models.CharField(max_length=50)
     correct = models.BooleanField(default=False)
     display_order = models.IntegerField()
 
 
 class RefillChoice(models.Model):
-    medication = models.ForeignKey(Medication)
+    medication = models.ForeignKey(Medication, on_delete=models.CASCADE)
     refill = models.CharField(max_length=50)
     correct = models.BooleanField(default=False)
     display_order = models.IntegerField()
@@ -104,12 +104,15 @@ class TreatmentClassification(models.Model):
 
 @python_2_unicode_compatible
 class TreatmentOption(models.Model):
-    patient = models.ForeignKey(Patient)
-    classification = models.ForeignKey(TreatmentClassification)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    classification = models.ForeignKey(TreatmentClassification,
+                                       on_delete=models.CASCADE)
     medication_one = models.ForeignKey(
-        Medication, related_name="medication_one")
+        Medication, related_name="medication_one",
+        on_delete=models.CASCADE)
     medication_two = models.ForeignKey(
-        Medication, related_name="medication_two", blank=True, null=True)
+        Medication, related_name="medication_two", blank=True, null=True,
+        on_delete=models.CASCADE)
 
     def __str__(self):
         return "Option: %s [%s, %s]" % (self.classification.description,
@@ -119,9 +122,11 @@ class TreatmentOption(models.Model):
 
 @python_2_unicode_compatible
 class TreatmentOptionReasoning(models.Model):
-    patient = models.ForeignKey(Patient)
-    classification = models.ForeignKey(TreatmentClassification)
-    medication = models.ForeignKey(Medication, blank=True, null=True)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    classification = models.ForeignKey(TreatmentClassification,
+                                       on_delete=models.CASCADE)
+    medication = models.ForeignKey(Medication, blank=True, null=True,
+                                   on_delete=models.CASCADE)
     combination = models.BooleanField(blank=True, default=False)
     reasoning = models.TextField()
     display_order = models.IntegerField(default=0)
@@ -136,8 +141,9 @@ class TreatmentOptionReasoning(models.Model):
 
 @python_2_unicode_compatible
 class TreatmentFeedback(models.Model):
-    patient = models.ForeignKey(Patient)
-    classification = models.ForeignKey(TreatmentClassification)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    classification = models.ForeignKey(TreatmentClassification,
+                                       on_delete=models.CASCADE)
     correct_dosage = models.BooleanField(blank=True, default=False)
     combination_therapy = models.BooleanField(blank=True, default=False)
     feedback = models.TextField()
@@ -149,8 +155,9 @@ class TreatmentFeedback(models.Model):
 
 class ActivityState (models.Model):
     user = models.ForeignKey(User,
-                             related_name="virtual_patient_user")
-    hierarchy = models.ForeignKey(Hierarchy)
+                             related_name="virtual_patient_user",
+                             on_delete=models.CASCADE)
+    hierarchy = models.ForeignKey(Hierarchy, on_delete=models.CASCADE)
     json = models.TextField()
 
     class Meta:
@@ -213,7 +220,7 @@ class PatientAssessmentBlock(models.Model):
     )
 
     pageblocks = GenericRelation(PageBlock)
-    patient = models.ForeignKey(Patient)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     view = models.IntegerField(choices=VIEW_CHOICES)
 
     template_file = "activity_virtual_patient/patient.html"

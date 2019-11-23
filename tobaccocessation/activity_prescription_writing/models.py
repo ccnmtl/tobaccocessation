@@ -124,8 +124,9 @@ class PrescriptionBlockForm(forms.ModelForm):
 
 
 class ActivityState (models.Model):
-    user = models.ForeignKey(User, related_name="prescription_writing_user")
-    block = models.ForeignKey(Block)
+    user = models.ForeignKey(User, related_name="prescription_writing_user",
+                             on_delete=models.CASCADE)
+    block = models.ForeignKey(Block, on_delete=models.CASCADE)
     json = models.TextField(blank=True)
 
     class Meta:

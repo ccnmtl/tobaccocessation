@@ -57,13 +57,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='activitystate',
             name='block',
-            field=models.ForeignKey(to='activity_prescription_writing.Block'),
+            field=models.ForeignKey(to='activity_prescription_writing.Block', on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='activitystate',
             name='user',
-            field=models.ForeignKey(related_name='prescription_writing_user', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(related_name='prescription_writing_user', to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AlterUniqueTogether(

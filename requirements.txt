@@ -1,11 +1,11 @@
-Django==1.11.26 # pyup: <2.0
+Django==2.2.7
 resolver==0.2.1
 selector==0.10.1
 Paste==3.2.2
 PasteDeploy==2.0.1
 PasteScript==3.2.0
 feedparser==5.2.1
-Markdown==2.6.11 # pyup: < 3
+Markdown==3.1.1
 pyenchant==2.0.0
 simplejson==3.17.0
 smartypants==2.0.1
@@ -20,7 +20,7 @@ mccabe==0.6.1
 pycodestyle==2.5.0
 configparser==4.0.2
 flake8==3.7.9
-tornado==4.5.3 # pyup: <5.0
+tornado==6.0.3
 cssselect==1.1.0
 lxml==4.4.1
 fuzzywuzzy==0.17.0
@@ -32,8 +32,8 @@ ptyprocess==0.6.0
 pexpect==4.7.0
 pickleshare==0.7.5
 simplegeneric==0.8.1
-path.py==11.5.2 # pyup: <12
-ipython==5.8.0 # pyup: <6.0.0
+path.py==12.0.2
+ipython==7.9.0
 ipdb==0.12.2
 extras==1.0.0
 python-mimeparse==1.6.0
@@ -58,7 +58,7 @@ requests==2.22.0
 logilab-common==1.4.4
 logilab-astng==0.24.3
 editdistance==0.5.3
-pylint==1.9.5 # pyup: <2.0.0
+pylint==2.4.3
 six==1.13.0
 sqlparse==0.3.0
 contextlib2==0.6.0.post1

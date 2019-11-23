@@ -5,10 +5,10 @@ from zipfile import ZipFile
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponse
 from django.http.response import Http404
 from django.shortcuts import render
+from django.urls.base import reverse
 from django.utils.encoding import smart_str
 from pagetree.helpers import get_section_from_path, get_module, get_hierarchy
 from pagetree.models import Section, UserLocation, UserPageVisit, Hierarchy
