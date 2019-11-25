@@ -16,7 +16,8 @@ class Migration(migrations.Migration):
             model_name='userprofile',
             name='user',
             field=models.OneToOneField(related_name='profile',
-                                       to=settings.AUTH_USER_MODEL),
+                                       to=settings.AUTH_USER_MODEL,
+                                       on_delete=models.CASCADE),
             preserve_default=True,
         ),
     ]

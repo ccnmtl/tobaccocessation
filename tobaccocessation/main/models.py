@@ -14,7 +14,8 @@ from tobaccocessation.main.choices import GENDER_CHOICES, FACULTY_CHOICES, \
 @python_2_unicode_compatible
 class UserProfile(models.Model):
     #  ALL_CU group affiliations
-    user = models.OneToOneField(User, related_name="profile", unique=True)
+    user = models.OneToOneField(User, related_name="profile", unique=True,
+                                on_delete=models.CASCADE)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     is_faculty = models.CharField(max_length=2, choices=FACULTY_CHOICES)
     institute = models.CharField(max_length=2, choices=INSTITUTION_CHOICES)

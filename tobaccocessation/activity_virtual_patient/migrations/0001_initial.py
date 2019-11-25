@@ -19,8 +19,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('json', models.TextField()),
-                ('hierarchy', models.ForeignKey(to='pagetree.Hierarchy')),
-                ('user', models.ForeignKey(related_name='virtual_patient_user', to=settings.AUTH_USER_MODEL)),
+                ('hierarchy', models.ForeignKey(to='pagetree.Hierarchy', on_delete=models.CASCADE)),
+                ('user', models.ForeignKey(related_name='virtual_patient_user', to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
             },
@@ -84,7 +84,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('view', models.IntegerField(choices=[(0, b'Treatment Options'), (1, b'Best Treatment Option'), (2, b'Prescription'), (3, b'Results')])),
-                ('patient', models.ForeignKey(to='activity_virtual_patient.Patient')),
+                ('patient', models.ForeignKey(to='activity_virtual_patient.Patient', on_delete=models.CASCADE)),
             ],
             options={
             },
@@ -97,7 +97,7 @@ class Migration(migrations.Migration):
                 ('refill', models.CharField(max_length=50)),
                 ('correct', models.BooleanField(default=False)),
                 ('display_order', models.IntegerField()),
-                ('medication', models.ForeignKey(to='activity_virtual_patient.Medication')),
+                ('medication', models.ForeignKey(to='activity_virtual_patient.Medication', on_delete=models.CASCADE)),
             ],
             options={
             },
@@ -121,8 +121,8 @@ class Migration(migrations.Migration):
                 ('correct_dosage', models.BooleanField(default=False)),
                 ('combination_therapy', models.BooleanField(default=False)),
                 ('feedback', models.TextField()),
-                ('classification', models.ForeignKey(to='activity_virtual_patient.TreatmentClassification')),
-                ('patient', models.ForeignKey(to='activity_virtual_patient.Patient')),
+                ('classification', models.ForeignKey(to='activity_virtual_patient.TreatmentClassification', on_delete=models.CASCADE)),
+                ('patient', models.ForeignKey(to='activity_virtual_patient.Patient', on_delete=models.CASCADE)),
             ],
             options={
             },
@@ -132,10 +132,10 @@ class Migration(migrations.Migration):
             name='TreatmentOption',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('classification', models.ForeignKey(to='activity_virtual_patient.TreatmentClassification')),
-                ('medication_one', models.ForeignKey(related_name='medication_one', to='activity_virtual_patient.Medication')),
-                ('medication_two', models.ForeignKey(related_name='medication_two', blank=True, to='activity_virtual_patient.Medication', null=True)),
-                ('patient', models.ForeignKey(to='activity_virtual_patient.Patient')),
+                ('classification', models.ForeignKey(to='activity_virtual_patient.TreatmentClassification', on_delete=models.CASCADE)),
+                ('medication_one', models.ForeignKey(related_name='medication_one', to='activity_virtual_patient.Medication', on_delete=models.CASCADE)),
+                ('medication_two', models.ForeignKey(related_name='medication_two', blank=True, to='activity_virtual_patient.Medication', null=True, on_delete=models.CASCADE)),
+                ('patient', models.ForeignKey(to='activity_virtual_patient.Patient', on_delete=models.CASCADE)),
             ],
             options={
             },
@@ -148,9 +148,9 @@ class Migration(migrations.Migration):
                 ('combination', models.BooleanField()),
                 ('reasoning', models.TextField()),
                 ('display_order', models.IntegerField(default=0)),
-                ('classification', models.ForeignKey(to='activity_virtual_patient.TreatmentClassification')),
-                ('medication', models.ForeignKey(blank=True, to='activity_virtual_patient.Medication', null=True)),
-                ('patient', models.ForeignKey(to='activity_virtual_patient.Patient')),
+                ('classification', models.ForeignKey(to='activity_virtual_patient.TreatmentClassification', on_delete=models.CASCADE)),
+                ('medication', models.ForeignKey(blank=True, to='activity_virtual_patient.Medication', null=True, on_delete=models.CASCADE)),
+                ('patient', models.ForeignKey(to='activity_virtual_patient.Patient', on_delete=models.CASCADE)),
             ],
             options={
                 'ordering': ['display_order', 'id'],
@@ -160,13 +160,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='dosagechoice',
             name='medication',
-            field=models.ForeignKey(to='activity_virtual_patient.Medication'),
+            field=models.ForeignKey(to='activity_virtual_patient.Medication', on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='concentrationchoice',
             name='medication',
-            field=models.ForeignKey(to='activity_virtual_patient.Medication'),
+            field=models.ForeignKey(to='activity_virtual_patient.Medication', on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AlterUniqueTogether(
