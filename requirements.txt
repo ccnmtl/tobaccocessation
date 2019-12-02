@@ -114,7 +114,7 @@ Faker==2.0.4
 factory_boy==2.12.0
 django-smtp-ssl==1.0
 
-ccnmtlsettings==1.5.0
+ccnmtlsettings==1.7.0
 
 pbr==5.4.4
 PyYAML>=3.10.0 # MIT
