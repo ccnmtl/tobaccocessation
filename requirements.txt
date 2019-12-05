@@ -1,4 +1,4 @@
-Django==2.2.7
+Django==2.2.7 # pyup: < 3
 resolver==0.2.1
 selector==0.10.1
 Paste==3.2.3
@@ -25,16 +25,7 @@ cssselect==1.1.0
 lxml==4.4.2
 fuzzywuzzy==0.17.0
 sure==1.4.11
-traitlets==4.3.3
-ipython_genutils==0.2.0
-decorator==4.4.1
-ptyprocess==0.6.0
-pexpect==4.7.0
-pickleshare==0.7.5
-simplegeneric==0.8.1
-path.py==12.4.0
-ipython==7.10.1
-ipdb==0.12.2
+ipdb==0.12.3
 extras==1.0.0
 python-mimeparse==1.6.0
 fixtures==3.0.0
@@ -52,7 +43,7 @@ cryptography==2.8
 
 chardet==3.0.4
 idna==2.8
-certifi==2019.9.11  # sentry-sdk
+certifi==2019.11.28  # sentry-sdk
 
 requests==2.22.0
 logilab-common==1.5.1
@@ -114,7 +105,7 @@ Faker==2.0.4
 factory_boy==2.12.0
 django-smtp-ssl==1.0
 
-ccnmtlsettings==1.5.0
+ccnmtlsettings==1.7.0
 
 pbr==5.4.4
 PyYAML>=3.10.0 # MIT
