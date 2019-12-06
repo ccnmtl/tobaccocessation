@@ -25,15 +25,6 @@ cssselect==1.1.0
 lxml==4.4.2
 fuzzywuzzy==0.17.0
 sure==1.4.11
-traitlets==4.3.3
-ipython_genutils==0.2.0
-decorator==4.4.1
-ptyprocess==0.6.0
-pexpect==4.7.0
-pickleshare==0.7.5
-simplegeneric==0.8.1
-path.py==12.4.0
-ipython==7.9.0
 ipdb==0.12.3
 extras==1.0.0
 python-mimeparse==1.6.0
