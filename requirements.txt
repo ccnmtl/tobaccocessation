@@ -50,7 +50,7 @@ logilab-common==1.5.2
 logilab-astng==0.24.3
 editdistance==0.5.3
 pylint==2.4.4
-six==1.13.0
+six==1.14.0
 sqlparse==0.3.0
 contextlib2==0.6.0.post1
 rcssmin==1.0.6
