@@ -1,4 +1,4 @@
-Django==2.2.9 # pyup: < 3
+Django==2.2.10 # pyup: < 3
 resolver==0.2.1
 selector==0.10.1
 Paste==3.3.0
