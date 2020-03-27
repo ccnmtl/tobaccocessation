@@ -76,7 +76,7 @@ django-debug-toolbar==2.2
 django-waffle==0.20.0
 
 django-smoketest==1.1.0
-django-extensions==2.2.8
+django-extensions==2.2.9
 django-stagingcontext==0.1.0
 django-impersonate==1.5
 django-markwhat==1.6.2
