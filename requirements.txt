@@ -39,7 +39,7 @@ pyasn1==0.4.8
 
 cffi==1.14.0  # cryptography
 asn1crypto==1.3.0  # cryptography
-cryptography==2.8
+cryptography==2.9
 
 chardet==3.0.4
 idna==2.9
