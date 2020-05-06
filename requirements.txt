@@ -46,7 +46,7 @@ idna==2.9
 certifi==2020.4.5.1  # sentry-sdk
 
 requests==2.23.0
-logilab-common==1.5.2
+logilab-common==1.6.1
 logilab-astng==0.24.3
 editdistance==0.5.3
 pylint==2.5.2
