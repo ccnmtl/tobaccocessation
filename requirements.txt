@@ -54,7 +54,7 @@ six==1.14.0
 sqlparse==0.3.1
 contextlib2==0.6.0.post1
 rcssmin==1.0.6
-rjsmin==1.0.12
+rjsmin==1.1.0
 ipaddress==1.0.23
 
 djangowind==1.2.3
