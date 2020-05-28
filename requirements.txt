@@ -48,11 +48,11 @@ idna==2.9
 certifi==2020.4.5.1  # sentry-sdk
 
 requests==2.23.0
-logilab-common==1.6.3
+logilab-common==1.6.4
 astroid==2.4.1
 editdistance==0.5.3
 pylint==2.5.2
-six==1.14.0
+six==1.15.0
 sqlparse==0.3.1
 contextlib2==0.6.0.post1
 rcssmin==1.0.6
@@ -77,7 +77,7 @@ django-debug-toolbar==2.2
 
 django-waffle==0.20.0
 
-django-smoketest==1.1.0
+django-smoketest==1.1.2
 django-extensions==2.2.9
 django-stagingcontext==0.1.0
 django-impersonate==1.5
