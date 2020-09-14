@@ -4,7 +4,7 @@ from pagetree.tests.factories import UserFactory
 from tobaccocessation.main.models import UserProfile
 
 
-class UserProfileFactory(factory.DjangoModelFactory):
+class UserProfileFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = UserProfile
 
