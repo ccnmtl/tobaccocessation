@@ -1,7 +1,7 @@
 Django>=2.2.12,<3
 resolver==0.2.1
 selector==0.10.1
-Paste==3.4.6
+Paste==3.5.0
 PasteDeploy==2.1.1
 PasteScript==3.2.0
 feedparser==6.0.1
@@ -68,7 +68,7 @@ django-appconf==1.0.4
 django-compressor==2.4
 django-statsd-mozilla==0.4.0
 raven==6.10.0
-sentry-sdk==0.18.0
+sentry-sdk==0.19.0
 django-bootstrap-form==3.4
 
 django-bootstrap3==14.1.0
