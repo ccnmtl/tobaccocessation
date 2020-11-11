@@ -9,8 +9,6 @@ from quizblock.models import Submission, Response
 from tobaccocessation.main.choices import GENDER_CHOICES, FACULTY_CHOICES, \
     INSTITUTION_CHOICES, SPECIALTY_CHOICES, RACE_CHOICES, AGE_CHOICES, \
     HISPANIC_LATINO_CHOICES
-
-
 @python_2_unicode_compatible
 class UserProfile(models.Model):
     #  ALL_CU group affiliations
