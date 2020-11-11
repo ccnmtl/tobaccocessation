@@ -47,7 +47,7 @@ class UserProfileTest(TestCase):
         user = User.objects.get(username="test_student")
         profile = UserProfile.objects.get(user=user)
 
-        self.assertFalse(profile.get_has_visited(self.section1))
+        self.assertTrue(profile.get_has_visited(self.section1))
         self.assertFalse(profile.get_has_visited(self.section2))
 
         profile.set_has_visited([self.section1, self.section2])
