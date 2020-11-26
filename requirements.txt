@@ -80,7 +80,7 @@ django-waffle==2.0.0
 django-smoketest==1.1.2
 django-extensions==3.0.9
 django-stagingcontext==0.1.0
-django-impersonate==1.6
+django-impersonate==1.7
 django-markwhat==1.6.2
 django-treebeard==4.3.1
 django-pagetree==1.4.2
