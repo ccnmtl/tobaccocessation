@@ -1,3 +1,5 @@
+[![Actions Status](https://github.com/ccnmtl/tobaccocessation/workflows/build-and-test/badge.svg)](https://github.com/ccnmtl/tobaccocessation/actions)
+
 Tobacco Cessation
 ==========
 
