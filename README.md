@@ -9,5 +9,5 @@ Tobacco Cessation is an educational website that provides students in the Columb
 
 REQUIREMENTS
 ------------
-Python 2.7  
+Python 3 
 Postgres  
