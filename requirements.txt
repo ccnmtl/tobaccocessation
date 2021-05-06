@@ -54,7 +54,7 @@ astroid==2.5.6
 editdistance==0.5.3
 
 pylint==2.8.2
-six==1.15.0
+six==1.16.0
 sqlparse==0.4.1
 contextlib2==0.6.0.post1
 rcssmin==1.0.6
