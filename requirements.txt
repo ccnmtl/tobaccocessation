@@ -27,7 +27,7 @@ tornado==6.1
 cssselect==1.1.0
 lxml==4.6.3
 fuzzywuzzy==0.18.0
-sure==1.4.11
+sure==2.0.0
 ipdb==0.13.9
 extras==1.0.0
 python-mimeparse==1.6.0
