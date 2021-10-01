@@ -31,7 +31,7 @@
             jQuery("#children-order-list li").each(function(index,element) {
                worktodo = 1;
                var id = jQuery(element).attr('id').split("-")[1];
-               url += "section_id_" + index + "=" + id + ";";
+               url += "section_id_" + index + "=" + id + "&";
             });
             if (worktodo == 1) {
                 var req = new XMLHttpRequest();
@@ -39,14 +39,14 @@
                 req.send(null);
             }
         };
-        
+
         var saveOrderOfPageBlocks = function() {
             var url = "{% url 'reorder-pageblocks' section.id %}?";
             var worktodo = 0;
             jQuery("#edit-blocks-tab>div.block-dragger").each(function(index,element) {
                 worktodo = 1;
                 var id = jQuery(element).attr('id').split("-")[1];
-                url += "pageblock_id_" + index + "=" + id + ";";
+                url += "pageblock_id_" + index + "=" + id + "&";
             });
             if (worktodo == 1) {
                 /* only bother submitting if there are elements to be sorted */
@@ -54,9 +54,8 @@
                 req.open("POST",url,true);
                 req.send(null);
             }
-        
         }
-    
+
         jQuery(document).ready(function () {    
             jQuery("#children-order-list").sortable({
                 containment : 'parent',
@@ -76,7 +75,6 @@
                 tolerance: 'pointer',
                 stop: function (event,ui) { saveOrderOfPageBlocks();}
             });
-        
             jQuery("#edit-blocks-tab").disableSelection();
         });
     </script>
