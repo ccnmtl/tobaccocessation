@@ -14,14 +14,13 @@
 <p class="errornote">{{ error_message }}</p>
 {% endif %}
 <div id="content-main">
-<form method="get" action="{{CAS_BASE}}cas/login">
-<input type="hidden" name="destination" value="http{% if request.is_secure %}s{% endif %}://{{ request.get_host }}/accounts/caslogin/?next=/admin/&this_is_the_login_form=1" />
+<form method="get" action="/cas/login">
+<input type="hidden" name="next" value="{{next|default:'/'}}" />
 <p>If you have a Columbia UNI:</p>
 <input type="submit" value="Click Here" />
 </form>
+{% if debug %}
 <br /><br /><p>Otherwise, use this form: </p>
-
-
 <form action="{{ app_path }}?next=/admin/" method="post" id="login-form">{% csrf_token %}
   <div class="form-row">
     <label for="id_username">{% trans 'Username:' %}</label> <input type="text" name="username" id="id_username" />
@@ -35,7 +34,7 @@
     <label>&nbsp;</label><input type="submit" value="{% trans 'Log in' %}" />
   </div>
 </form>
-
+{% endif %}
 <script type="text/javascript">
 document.getElementById('id_username').focus()
 </script>

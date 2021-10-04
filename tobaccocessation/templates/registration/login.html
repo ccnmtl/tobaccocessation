@@ -9,8 +9,8 @@
 
     <div style="padding-bottom: 5px">
         <h6>Columbia Users:</h6>
-        <form method="get" action="{{ CAS_BASE }}cas/login">
-            <input type="hidden" name="destination" value="http{% if request.is_secure %}s{% endif %}://{{ request.get_host }}/accounts/caslogin/?next={{ next }}" />
+        <form method="get" action="/cas/login">
+            <input type="hidden" name="next" value="{{next|default:'/'}}" />
             <input type="submit" value="Log In with Columbia UNI" class="btn"></input>
         </form>
     </div>

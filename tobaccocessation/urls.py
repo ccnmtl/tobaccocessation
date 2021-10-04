@@ -1,10 +1,11 @@
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.urls import path
 from django.views.generic import TemplateView
 from django.views.static import serve
+from django_cas_ng import views as cas_views
 from registration.backends.default.views import RegistrationView
-
 from tobaccocessation.main.forms import CreateAccountForm
 from tobaccocessation.main.views import (
     index, edit_page, page, create_profile,
@@ -13,13 +14,7 @@ from tobaccocessation.main.views import (
 
 admin.autodiscover()
 
-auth_urls = url(r'^accounts/', include('django.contrib.auth.urls'))
-if hasattr(settings, 'CAS_BASE'):
-    auth_urls = url(r'^accounts/', include('djangowind.urls'))
-
-
 urlpatterns = [
-    auth_urls,
     url(r'^about/', TemplateView.as_view(
         template_name="flatpages/about.html")),
     url(r'^help/', TemplateView.as_view(
@@ -30,7 +25,11 @@ urlpatterns = [
 
     url(r'^accounts/register/$', RegistrationView.as_view(
         form_class=CreateAccountForm), name='registration_register'),
-    url(r'^accounts/', include('registration.backends.default.urls')),
+    url(r'^accounts/', include('django.contrib.auth.urls')),
+    path('cas/login', cas_views.LoginView.as_view(),
+         name='cas_ng_login'),
+    path('cas/logout', cas_views.LogoutView.as_view(),
+         name='cas_ng_logout'),
 
     url(r'^admin/', admin.site.urls),
     url(r'^smoketest/', include('smoketest.urls')),
