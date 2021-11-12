@@ -25,6 +25,7 @@ urlpatterns = [
 
     url(r'^accounts/register/$', RegistrationView.as_view(
         form_class=CreateAccountForm), name='registration_register'),
+    path('accounts/', include('registration.backends.default.urls')),
     url(r'^accounts/', include('django.contrib.auth.urls')),
     path('cas/login', cas_views.LoginView.as_view(),
          name='cas_ng_login'),
