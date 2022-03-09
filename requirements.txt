@@ -39,7 +39,7 @@ coverage==6.2
 pyasn1==0.4.8
 
 cffi==1.15.0  # cryptography
-asn1crypto==1.4.0  # cryptography
+asn1crypto==1.5.0  # cryptography
 cryptography==36.0.1
 
 chardet==4.0.0
