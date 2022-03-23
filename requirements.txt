@@ -48,7 +48,7 @@ certifi==2021.10.8  # sentry-sdk
 
 requests==2.27.1
 logilab-common==1.8.3
-astroid==2.11.0
+astroid==2.11.1
 editdistance==0.6.0
 
 pylint==2.12.2
