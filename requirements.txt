@@ -1,4 +1,4 @@
-Django>=2.2.12,<3
+Django==3.2.12
 resolver==0.2.1
 selector==0.10.1
 Paste==3.5.0
@@ -86,7 +86,7 @@ django-pagetree==1.4.3
 django-pageblocks==1.2.0 # pyup: <2.0.0
 requirements/src/django_pagetree_export-0.4-py2.py3-none-any.whl
 django-registration-redux==2.9
-django-quizblock==1.2.6
+django-quizblock==1.2.7
 django-ga-context==0.1.0
 gunicorn==20.1.0
 
@@ -118,3 +118,4 @@ entrypoints==0.4
 
 python-cas==1.6.0
 requirements/src/django_cas_ng-4.2.2ctl-py2.py3-none-any.whl
+asgiref==3.4.1
