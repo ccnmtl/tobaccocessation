@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n admin_static %}
+{% load i18n static %}
 {% block title %}Sign up for an account{% endblock %}
 
 {% block js %}
@@ -17,13 +17,13 @@
                     jQuery("#consent-given").hide();
                 }
             });
-            
+
             if (jQuery('#id_consent_participant').attr('checked')) {
                 jQuery("#consent-given").show();
                 jQuery("#consent-form").hide();
                 jQuery("div.consent-checkbox").hide();
             }
-            
+
             jQuery('#id_consent_not_participant').change(function() {
                 if (jQuery('#id_consent_not_participant').is(':checked')) {
                     jQuery("#consent-form").hide();
@@ -40,8 +40,8 @@
                 jQuery("#consent-form").hide();
                 jQuery("div.consent-checkbox").hide();
             }
-            
-            
+
+
         });
     </script>
 
@@ -53,7 +53,7 @@
         <p>Welcome to Columbia University's online tobacco cessation education website. This educational website was produced, through the collaborative efforts of Dr. David Albert from the College of Dental Medicine and the Columbia Center for New Media Teaching and Learning (CCNMTL)</p>
 
         <p>The purpose of this course is to train dentists to provide evidence-based tobacco cessation education. In addition to completing the course, you are being asked to take part in a research project that will help us to learn more about how to best educate dentists about tobacco cessation.</p>
-        
+
         <p>As part of the course, we will ask you some questions about yourself and your training as a dentist. You will also complete a pre-test assessment, periodic knowledge questions throughout the modules and a final post-test. If you consent to the research portion of this program, the information you provide will be analyzed to help us determine if the course is effective.</p>
 
 		<p>You are not required to participate in the research portion of the project. If you do not wish to participate, the data you provide will not be included in any research analysis. Participation is confidential; if you do not wish to participate in the research you will be able to complete the course.</p>
@@ -62,7 +62,7 @@
 
 		<p>If you decide later that you no longer wish to participate, you may withdraw your consent. If you have questions or concerns please contact the Principal Investigator, Dr. David Albert at the Columbia University College of Dental Medicine at 212-342-8588 or by email at daa1@columbia.edu.
 		You may also contact the CUMC Institutional Review Board (IRB) at 212-305-5883 (reference # IRB- AAAL4455).</p>
-      
+
 
 
 		<form id="reg_form" method="post" action="." class="register form-horizontal">
@@ -88,7 +88,7 @@
             <strong>All fields are required.</strong>
         </p>
     </div>
-            
+
 
 
      <div class="fieldWrapper control-group">
@@ -98,7 +98,7 @@
               {{ form.gender }}
           </div>
      </div>
-            
+
      <div class="fieldWrapper control-group">
           {{ form.is_faculty.errors }}
           <label class="control-label">Are you a faculty member or a student?</label>
@@ -106,7 +106,7 @@
                 {{ form.is_faculty }}
            </div>
      </div>
-        
+
      <div class="fieldWrapper control-group">
          {{ form.specialty.errors }}
          <label class="control-label">How would you describe your specialty?</label>
@@ -114,7 +114,7 @@
              {{ form.specialty }}
          </div>
      </div>
-        
+
       <div class="fieldWrapper control-group">
           {{ form.institute.errors }}
           <label class="control-label">What institution are you associated with?</label>
@@ -122,7 +122,7 @@
               {{ form.institute }}
           </div>
       </div>
-        
+
       <div class="fieldWrapper control-group">
           {{ form.year_of_graduation.errors }}
           <label class="control-label">What year did you graduate?</label>
@@ -130,7 +130,7 @@
                 {{ form.year_of_graduation }}
            </div>
       </div>
-        
+
         <div class="fieldWrapper control-group">
             {{ form.age.errors }}
             <label class="control-label">Age: </label>
@@ -138,7 +138,7 @@
                 {{ form.age }}
             </div>
         </div>
-        
+
         <div class="fieldWrapper control-group">
             {{ form.hispanic_latino.errors }}
             <label class="control-label">Are you Hispanic or Latino?: </label>
@@ -146,7 +146,7 @@
                 {{ form.hispanic_latino }}
             </div>
         </div>
-        
+
         <div class="fieldWrapper control-group">
             {{ form.race.errors }}
             <label class="control-label">Race: </label>
@@ -154,12 +154,10 @@
                 {{ form.race }}
             </div>
         </div>
-        
+
         <div class="well" style="text-align: center">
             <input class="btn btn-primary btn-large" type="submit" id="submit-id" value="{% trans 'Sign up!' %}" />
         </div>
     </form>
 </div><!-- End of consent-given -->
 {% endblock %}
-
-

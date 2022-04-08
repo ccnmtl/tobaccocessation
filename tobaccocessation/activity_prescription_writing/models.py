@@ -5,11 +5,10 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible, smart_text
+from django.utils.encoding import smart_text
 from pagetree.models import PageBlock
 
 
-@python_2_unicode_compatible
 class Medication(models.Model):
     name = models.CharField(max_length=25)
     dosage = models.CharField(max_length=25)
@@ -27,7 +26,6 @@ class Medication(models.Model):
         return "%s" % (self.name)
 
 
-@python_2_unicode_compatible
 class Block(models.Model):
     pageblocks = GenericRelation(
         PageBlock, related_query_name="prescription_writing_pageblocks")

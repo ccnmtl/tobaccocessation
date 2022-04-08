@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
 from pagetree.models import Hierarchy, UserPageVisit
 from quizblock.models import Submission, Response
 
@@ -11,18 +10,17 @@ from tobaccocessation.main.choices import GENDER_CHOICES, FACULTY_CHOICES, \
     HISPANIC_LATINO_CHOICES
 
 
-@python_2_unicode_compatible
 class UserProfile(models.Model):
     #  ALL_CU group affiliations
     user = models.OneToOneField(User, related_name="profile", unique=True,
                                 on_delete=models.CASCADE)
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
-    is_faculty = models.CharField(max_length=2, choices=FACULTY_CHOICES)
-    institute = models.CharField(max_length=2, choices=INSTITUTION_CHOICES)
-    specialty = models.CharField(max_length=3, choices=SPECIALTY_CHOICES)
-    hispanic_latino = models.CharField(max_length=1,
+    gender = models.CharField(max_length=5, choices=GENDER_CHOICES)
+    is_faculty = models.CharField(max_length=5, choices=FACULTY_CHOICES)
+    institute = models.CharField(max_length=5, choices=INSTITUTION_CHOICES)
+    specialty = models.CharField(max_length=5, choices=SPECIALTY_CHOICES)
+    hispanic_latino = models.CharField(max_length=5,
                                        choices=HISPANIC_LATINO_CHOICES)
-    race = models.CharField(max_length=2, choices=RACE_CHOICES)
+    race = models.CharField(max_length=5, choices=RACE_CHOICES)
 
     year_of_graduation = models.PositiveIntegerField(blank=True)
     consent_participant = models.BooleanField(default=False)

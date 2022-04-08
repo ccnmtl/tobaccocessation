@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible, smart_text
+from django.utils.encoding import smart_text
 from django.db.models.query_utils import Q
 from django.db.models.signals import pre_save, post_init
 from django.dispatch.dispatcher import receiver
@@ -12,7 +12,6 @@ from operator import itemgetter
 from pagetree.models import PageBlock, Hierarchy
 
 
-@python_2_unicode_compatible
 class Medication(models.Model):
     name = models.CharField(max_length=25)
     instructions = models.TextField()
@@ -48,7 +47,6 @@ class RefillChoice(models.Model):
     display_order = models.IntegerField()
 
 
-@python_2_unicode_compatible
 class Patient(models.Model):
     GENDER_CHOICES = (
         ('F', 'Female'),
@@ -84,7 +82,6 @@ class Patient(models.Model):
         return self.treatmentoptionreasoning_set.filter(classification__rank=3)
 
 
-@python_2_unicode_compatible
 class TreatmentClassification(models.Model):
     rank = models.IntegerField()
     description = models.CharField(max_length=50)
@@ -102,7 +99,6 @@ class TreatmentClassification(models.Model):
             return 3
 
 
-@python_2_unicode_compatible
 class TreatmentOption(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     classification = models.ForeignKey(TreatmentClassification,
@@ -120,7 +116,6 @@ class TreatmentOption(models.Model):
                                         self.medication_two)
 
 
-@python_2_unicode_compatible
 class TreatmentOptionReasoning(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     classification = models.ForeignKey(TreatmentClassification,
@@ -139,7 +134,6 @@ class TreatmentOptionReasoning(models.Model):
         ordering = ['display_order', 'id']
 
 
-@python_2_unicode_compatible
 class TreatmentFeedback(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     classification = models.ForeignKey(TreatmentClassification,
@@ -205,7 +199,6 @@ def pre_save_activity_state(sender, instance, *args, **kwargs):
     instance.json = json.dumps(instance.data)
 
 
-@python_2_unicode_compatible
 class PatientAssessmentBlock(models.Model):
     CLASSIFY_TREATMENTS = 0
     BEST_TREATMENT_OPTION = 1

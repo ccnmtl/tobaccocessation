@@ -62,6 +62,7 @@ AUTHENTICATION_BACKENDS = [
 CAS_SERVER_URL = 'https://cas.columbia.edu/cas/'
 CAS_VERSION = '3'
 CAS_ADMIN_REDIRECT = False
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 TEMPLATES = [
     {
