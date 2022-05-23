@@ -4,7 +4,7 @@ selector==0.10.1
 Paste==3.5.0
 PasteDeploy==2.1.1
 PasteScript==3.2.1
-feedparser==6.0.8
+feedparser==6.0.10
 Markdown==3.3.7
 pyenchant==3.2.2
 simplejson==3.17.6
