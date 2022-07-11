@@ -38,7 +38,7 @@ python-subunit==1.4.0
 coverage==6.4.1
 pyasn1==0.4.8
 
-cffi==1.15.0  # cryptography
+cffi==1.15.1  # cryptography
 asn1crypto==1.5.1  # cryptography
 cryptography==37.0.4
 
