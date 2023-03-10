@@ -28,7 +28,7 @@ cssselect==1.2.0
 lxml==4.9.2
 fuzzywuzzy==0.18.0
 sure==2.0.1
-ipdb==0.13.11
+ipdb==0.13.13
 extras==1.0.0
 python-mimeparse==1.6.0
 fixtures==4.0.1
