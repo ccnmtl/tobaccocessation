@@ -7,7 +7,7 @@ PasteScript==3.3.0
 feedparser==6.0.10
 Markdown==3.4.1
 pyenchant==3.2.2
-simplejson==3.18.3
+simplejson==3.18.4
 smartypants==2.0.1
 psycopg2==2.9.5
 olefile==0.46
