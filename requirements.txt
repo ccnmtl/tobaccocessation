@@ -32,7 +32,7 @@ ipdb==0.13.13
 extras==1.0.0
 python-mimeparse==1.6.0
 fixtures==4.0.1
-testtools==2.5.0
+testtools==2.6.0
 testscenarios==0.5.0
 python-subunit==1.4.2
 coverage==7.2.2
