@@ -5,7 +5,7 @@ Paste==3.5.2
 PasteDeploy==3.0.1
 PasteScript==3.3.0
 feedparser==6.0.10
-Markdown==3.4.2
+Markdown==3.4.3
 pyenchant==3.2.2
 simplejson==3.18.4
 smartypants==2.0.1
