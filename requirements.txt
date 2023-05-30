@@ -31,7 +31,7 @@ sure==2.0.1
 ipdb==0.13.13
 extras==1.0.0
 python-mimeparse==1.6.0
-fixtures==4.0.1
+fixtures==4.1.0
 testtools==2.6.0
 testscenarios==0.5.0
 python-subunit==1.4.2
