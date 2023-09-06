@@ -118,5 +118,5 @@ pytz==2023.3.post1
 entrypoints==0.4
 
 python-cas==1.6.0
-django-cas-ng==4.3.0
+django-cas-ng==5.0.0
 asgiref==3.7.2
