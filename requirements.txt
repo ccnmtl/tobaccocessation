@@ -85,7 +85,7 @@ django-treebeard==4.7
 django-pagetree==1.4.3
 django-pageblocks==1.2.0 # pyup: <2.0.0
 requirements/src/django_pagetree_export-0.4-py2.py3-none-any.whl
-django-registration-redux==2.12
+django-registration-redux==2.13
 django-quizblock==1.2.8
 django-ga-context==0.1.0
 gunicorn==21.2.0
