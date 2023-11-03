@@ -1,6 +1,6 @@
 # Django settings for tobaccocessation project.
 import os.path
-from ccnmtlsettings.shared import common
+from ctlsettings.shared import common
 
 project = 'tobaccocessation'
 base = os.path.dirname(__file__)
@@ -17,10 +17,7 @@ PROJECT_APPS = [
 MIDDLEWARE += [  # noqa
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_cas_ng.middleware.CASMiddleware'
 ]
-
-USE_TZ = True
 
 INSTALLED_APPS += [  # noqa
     'sorl.thumbnail',
@@ -33,10 +30,7 @@ INSTALLED_APPS += [  # noqa
     'tobaccocessation.activity_virtual_patient',
     'quizblock',
     'registration',
-    'django_cas_ng'
 ]
-
-INSTALLED_APPS.remove('djangowind') # noqa
 
 # Pageblocks/Pagetree settings
 PAGEBLOCKS = [
@@ -54,24 +48,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_SAVE_EVERY_REQUEST = True
 SESSION_COOKIE_AGE = 3600
 
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'django_cas_ng.backends.CASBackend'
-]
-
-CAS_SERVER_URL = 'https://cas.columbia.edu/cas/'
-CAS_VERSION = '3'
-CAS_ADMIN_REDIRECT = False
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
-
-# Translate CUIT's CAS user attributes to the Django user model.
-# https://cuit.columbia.edu/content/cas-3-ticket-validation-response
-CAS_APPLY_ATTRIBUTES_TO_USER = True
-CAS_RENAME_ATTRIBUTES = {
-    'givenName': 'first_name',
-    'lastName': 'last_name',
-    'mail': 'email',
-}
 
 TEMPLATES = [
     {

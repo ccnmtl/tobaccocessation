@@ -12,8 +12,6 @@ DATABASES = {
     }
 }
 
-COMPRESS_ROOT = "/var/www/tobaccocessation/tobaccocessation/media/"
-
 DEBUG = False
 
 try:
