@@ -59,7 +59,7 @@ rcssmin==1.1.2
 rjsmin==1.2.2
 ipaddress==1.0.23
 
-requirements/src/sorl-3.2ctl-py2.py3-none-any.whl
+requirements/src/sorl-3.3-py2.py3-none-any.whl
 django-indexer==0.3.0
 django-templatetag-sugar==1.0
 django-paging==0.2.5
