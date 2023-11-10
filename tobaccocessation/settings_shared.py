@@ -30,6 +30,7 @@ INSTALLED_APPS += [  # noqa
     'tobaccocessation.activity_virtual_patient',
     'quizblock',
     'registration',
+    'django_markwhat',
 ]
 
 # Pageblocks/Pagetree settings
