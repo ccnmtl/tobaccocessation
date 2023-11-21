@@ -36,7 +36,7 @@ testtools==2.7.1
 testscenarios==0.5.0
 python-subunit==1.4.4
 coverage==7.3.2
-pyasn1==0.5.0
+pyasn1==0.5.1
 
 cffi==1.16.0  # cryptography
 asn1crypto==1.5.1  # cryptography
