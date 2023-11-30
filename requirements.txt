@@ -87,7 +87,7 @@ gunicorn==21.2.0
 
 # boto3 deps
 urllib3==2.1.0 # sentry-sdk
-s3transfer==0.8.1
+s3transfer==0.8.2
 jmespath==1.0.1
 
 botocore>=1.15.0,<1.34.0
