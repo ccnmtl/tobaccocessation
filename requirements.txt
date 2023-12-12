@@ -51,7 +51,7 @@ logilab-common==2.0.0
 astroid==3.0.1
 editdistance==0.6.2
 
-pylint==3.0.2
+pylint==3.0.3
 six==1.16.0
 sqlparse==0.4.4
 contextlib2==21.6.0
