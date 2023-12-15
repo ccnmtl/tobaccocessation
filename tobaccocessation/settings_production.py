@@ -1,8 +1,5 @@
-from django.conf import settings
 from tobaccocessation.settings_shared import *  # noqa: F403
 from ctlsettings.production import common
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
 
 
 locals().update(
@@ -15,12 +12,6 @@ locals().update(
     ))
 
 try:
-    from tobaccocessation.local_settings import *  # noqa: F403
+    from tobaccocessation.local_settings import *  # noqa: F403 F401
 except ImportError:
     pass
-
-if hasattr(settings, 'SENTRY_DSN'):
-    sentry_sdk.init(
-        dsn=SENTRY_DSN,  # noqa: F405
-        integrations=[DjangoIntegration()],
-    )
