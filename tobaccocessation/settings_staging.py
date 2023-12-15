@@ -10,8 +10,3 @@ locals().update(
         INSTALLED_APPS=INSTALLED_APPS,  # noqa: F405
         s3prefix='ccnmtl'
     ))
-
-try:
-    from tobaccocessation.local_settings import *  # noqa: F403 F401
-except ImportError:
-    pass
