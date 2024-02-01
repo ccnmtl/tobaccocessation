@@ -76,7 +76,7 @@ django-extensions==3.2.3
 django-stagingcontext==0.1.0
 django-impersonate==1.9.2
 django-markwhat==1.6.2
-django-treebeard==4.7
+django-treebeard==4.7.1
 django-pagetree==1.4.3
 django-pageblocks==1.2.0 # pyup: <2.0.0
 requirements/src/django_pagetree_export-0.4-py2.py3-none-any.whl
