@@ -3,7 +3,7 @@ resolver==0.2.1
 selector==0.10.1
 Paste==3.7.1
 PasteDeploy==3.1.0
-PasteScript==3.4.0
+PasteScript==3.5.1
 feedparser==6.0.11
 Markdown==3.6
 pyenchant==3.2.2
