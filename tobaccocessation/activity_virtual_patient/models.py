@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.utils.encoding import smart_text
+from django.utils.encoding import smart_str
 from django.db.models.query_utils import Q
 from django.db.models.signals import pre_save, post_init
 from django.dispatch.dispatcher import receiver
@@ -222,7 +222,7 @@ class PatientAssessmentBlock(models.Model):
     display_name = "Virtual Patient"
 
     def __str__(self):
-        return smart_text(self.pageblock())
+        return smart_str(self.pageblock())
 
     def pageblock(self):
         return self.pageblocks.all()[0]

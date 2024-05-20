@@ -64,6 +64,10 @@ def edit_page(request, hierarchy, path):
     return render(request, 'main/edit_page.html', ctx)
 
 
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
+
 def page_post(request, section):
     proceed = True
     for p in section.pageblock_set.all():
@@ -74,7 +78,7 @@ def page_post(request, section):
         if hasattr(p.block(), 'needs_submit') and p.block().needs_submit():
             proceed = section.submit(request.POST, request.user)
 
-    if request.is_ajax():
+    if is_ajax(request):
         json = dumps({'submitted': 'True'})
         return HttpResponse(json, 'application/json')
     elif request.POST.get('proceed', False) or proceed:

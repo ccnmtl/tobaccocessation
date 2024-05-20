@@ -8,22 +8,22 @@
 {% with root.get_children.0 as s %}             
     <ul class="nav pull-right">
         <li class="dropdown
-            {% ifequal s.slug module.slug %}
+            {% if s.slug == module.slug %}
                 active
-            {% else %}{% ifequal s.slug section.slug %}
+            {% else %}{% if s.slug == section.slug %}
                 active
-            {% endifequal %}{% endifequal %}">
+            {% endif %}{% endif %}">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 Resources <b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
                 <li><a href="https://www1.columbia.edu/sec/ccnmtl/remote/static/tobaccocessation/TobaccoCessation_CourseGuide_{{profile.role|capfirst}}.pdf" target="_blank" >Course Guide</a></li>
                 
-                {% ifequal profile.role "main" %}
+                {% if profile.role == "main" %}
                     <li><a href="https://www1.columbia.edu/sec/ccnmtl/remote/static/tobaccocessation/PharmacotherapyTable_Main.pdf" target="_blank" >Pharmacotherapy Guide</a></li>
                 {% else %}
                     <li><a href="https://www1.columbia.edu/sec/ccnmtl/remote/static/tobaccocessation/PharmacotherapyTable.pdf" target="_blank" >Pharmacotherapy Guide</a></li>
-                {% endifequal %}
+                {% endif %}
                 
                 <li><a href="https://www1.columbia.edu/sec/ccnmtl/remote/static/tobaccocessation/CDM_Excuses_NotQuitting.pdf" target="_blank" >Excuses For Not Quiting</a></li>
                 <li><a href="https://www1.columbia.edu/sec/ccnmtl/remote/static/tobaccocessation/CDM_Examples_Empathy.pdf" target="_blank" >Examples of Empathy</a></li>

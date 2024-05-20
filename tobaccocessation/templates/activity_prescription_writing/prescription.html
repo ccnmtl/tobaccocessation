@@ -8,7 +8,7 @@
     <h5>Fill out the prescription form below, then click Submit.</h5>
 {% endif %}
     
-{% ifequal block.medication.0.rx_count 1 %}
+{% if block.medication.0.rx_count == 1 %}
     <div id="blankrx">
        <input id="dosage" class="required_field" name='pageblock-{{block.pageblock.id}}-dosage'
         type='text' onkeyup="onEditChange(this)" value="{{prescription.dosage}}"
@@ -133,4 +133,4 @@
            </div>
         {% endif %}       
    </div>
-{% endifequal %}
+{% endif %}

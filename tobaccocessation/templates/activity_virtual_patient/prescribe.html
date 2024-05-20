@@ -4,7 +4,7 @@
 {% with block.patient as patient %}
 
 <div class="virtualpatient prescribe">
-    {% ifequal medications|length 2 %}
+    {% if medications|length == 2 %}
         <h5>Step 3: Write prescriptions for <b>{{medications.0.name}}</b> and <b>{{medications.1.name}}</b>. Select the correct dosage and concentration for these medications.</h5> 
     
         <div id="double-prescription" class="carousel slide">
@@ -38,6 +38,6 @@
         {% with medications.0 as medicine %}
             {% include "activity_virtual_patient/prescription.html" %}
         {% endwith %}
-    {% endifequal %}
+    {% endif %}
 </div>
 {% endwith %}

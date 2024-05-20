@@ -1,4 +1,4 @@
-{% load markup %}
+{% load markdownify %}
 
 <select name="pageblock-{{block.pageblock.id}}-question{{question.id}}">
   {% for answer in question.answer_set.all %}

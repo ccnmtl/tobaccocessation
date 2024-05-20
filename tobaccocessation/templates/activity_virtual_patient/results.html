@@ -45,13 +45,13 @@
             <h4>More Appropriate</h4>
             <div>
             {% for to in patient.treatmentoptionreasoning_set.all %}
-                {% ifequal to.classification.rank 1 %}
+                {% if to.classification.rank == 1 %}
                     {% if to.combination %}
                         <img src='{% static url %}virtualpatient/images/combination.jpg'>
                     {% else %}
                         <img src='{% static url %}virtualpatient/images/{{to.medication.tag}}.jpg'>
                     {% endif %}
-                {% endifequal %}
+                {% endif %}
             {% endfor %}
             </div>
         </div>
@@ -59,13 +59,13 @@
             <h4>Less Appropriate</h4>
             <div>
             {% for to in patient.treatmentoptionreasoning_set.all %}
-                {% ifequal to.classification.rank 2 %}
+                {% if to.classification.rank == 2 %}
                     {% if to.combination %}
                         <img src='{% static url %}virtualpatient/images/combination.jpg'>
                     {% else %}
                         <img src='{% static url %}virtualpatient/images/{{to.medication.tag}}.jpg'>
                     {% endif %}
-                {% endifequal %}
+                {% endif %}
             {% endfor %}
             </div>
         </div>
@@ -73,13 +73,13 @@
             <h4>Potentially Harmful</h4>
             <div>
             {% for to in patient.treatmentoptionreasoning_set.all %}
-                {% ifequal to.classification.rank 3 %}
+                {% if to.classification.rank == 3 %}
                     {% if to.combination %}
                         <img src='{% static url %}virtualpatient/images/combination.jpg'>
                     {% else %}
                         <img src='{% static url %}virtualpatient/images/{{to.medication.tag}}.jpg'>
                     {% endif %}
-                {% endifequal %}
+                {% endif %}
             {% endfor %}
             </div>
         </div>

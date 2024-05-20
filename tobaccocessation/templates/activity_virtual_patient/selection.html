@@ -23,7 +23,7 @@
         <div class="span6 treatment-prescription">
             <b>From your more appropriate treatment choices, click one to prescribe:</b>
             {% for med in treatments %}
-                {% ifequal med.classification "appropriate" %}
+                {% if med.classification == "appropriate" %}
                     <div class="treatment-type">
                         <input name="pageblock-{{block.pageblock.id}}-prescribe" value="{{med.tag}}" type="radio"
                         {% if med.prescribe %}
@@ -31,7 +31,7 @@
                         {% endif %} />&nbsp;
                         <img src="{% static url %}virtualpatient/images/{{med.tag}}.jpg">  
                     </div>
-                {% endifequal %}
+                {% endif %}
             {% endfor %}
             
             <div class="combination-therapy" style="display: none">

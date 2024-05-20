@@ -3,29 +3,29 @@
 <ul class="nav">
     {% for s in root.get_descendants %}
         {% if s.get_children %}
-            <li class="{% ifequal s.slug module.slug %}
+            <li class="{% if s.slug == module.slug %}
                            active
-                       {% else %}{% ifequal s.slug section.slug %}
+                       {% else %}{% if s.slug == section.slug %}
                            active
-                       {% endifequal %}{% endifequal %}            
-                       {% ifequal s.depth 2 %}
+                       {% endif %}{% endif %}            
+                       {% if s.depth == 2 %}
                            dropdown
-                       {% else %}{% ifequal s.depth 3 %} 
+                       {% else %}{% if s.depth == 3 %} 
                            dropdown-submenu
-                       {% else %}{% ifequal s.depth 4 %}
+                       {% else %}{% if s.depth == 4 %}
                            nav-header 
-                       {% endifequal %}{% endifequal %}{% endifequal %}">
-                {% ifequal s.depth 4 %}
+                       {% endif %}{% endif %}{% endif %}">
+                {% if s.depth == 4 %}
                     {{s.label}}
                     <ul>
                 {% else %}
                     <a href="#"
                         class="dropdown-toggle {% ifaccessible s %}{% else %}grayout{%endifaccessible %}"
                         data-toggle="dropdown">{{s.label}}
-                        {% ifequal s.depth 2 %}<b class="caret"></b>{% endifequal %}
+                        {% if s.depth == 2 %}<b class="caret"></b>{% endif %}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-{{s.depth}} {{s.slug}}">
-                {% endifequal %}        
+                {% endif %}        
         {% else %}
             <li>
                 {% ifaccessible s %}

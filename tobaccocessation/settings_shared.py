@@ -30,14 +30,13 @@ INSTALLED_APPS += [  # noqa
     'tobaccocessation.activity_virtual_patient',
     'quizblock',
     'registration',
-    'django_markwhat',
+    'markdownify.apps.MarkdownifyConfig',
 ]
 
 # Pageblocks/Pagetree settings
 PAGEBLOCKS = [
     'pageblocks.HTMLBlockWYSIWYG',
     'pageblocks.HTMLBlock',
-    'pageblocks.ImageBlock',
     'quizblock.Quiz',
     'activity_prescription_writing.Block',
     'activity_virtual_patient.PatientAssessmentBlock',

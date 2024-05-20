@@ -6,7 +6,7 @@
             {% if gated %}
                 {% ifaccessible s %}                 
                     <a href="{{s.get_absolute_url}}">
-                        {{s.label}}{% ifequal s last_location %} <i class="icon-hand-left"></i>{% endifequal %}
+                        {{s.label}}{% if s == last_location %} <i class="icon-hand-left"></i>{% endif %}
                     </a>
                 {% else %}
                     <span class="disabled">{{s.label}}</span>
@@ -17,7 +17,7 @@
                 {% else %}
                     <a href="{{s.get_absolute_url}}">
                 {% endif %}
-                    {{s.label}}{% ifequal s last_location %} <i class="icon-hand-left"></i>{% endifequal %}
+                    {{s.label}}{% if s == last_location %} <i class="icon-hand-left"></i>{% endif %}
                 </a>            
             {% endif %}
             {% if s.get_children %}
