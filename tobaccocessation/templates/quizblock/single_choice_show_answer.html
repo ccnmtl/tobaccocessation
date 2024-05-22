@@ -1,4 +1,4 @@
-{% load markup %}
+{% load markdownify %}
 
 {% if block.rhetorical %}
       <div class="casesanswerdisplay">
@@ -7,7 +7,7 @@
             {% if question.correct_answer_letter %}
               <b>The correct answer is {{question.correct_answer_letter}}</b>
             {% endif %} 
-            {{question.explanation|markdown}}
+            {{question.explanation|markdownify}}
           </p>
         </div>
       </div>
@@ -15,13 +15,13 @@
     <div class="well">
         <div class="personalized-feedback">
             <p>
-                {% ifequal response.value|upper question.correct_answer_letter %}
+                {% if response.value|upper == question.correct_answer_letter %}
                     <div class="correct">Correct</div>
                     <b>The correct answer is: {{question.correct_answer_letter}}. You are right! Nice work!</b>
                 {% else %}
                     <div class="incorrect">Incorrect</div>
                     <b>The correct answer is: {{question.correct_answer_letter}}. You chose {{response.value|upper}}. Oops!</b>
-                {% endifequal %}
+                {% endif %}
             </p>
         </div>
         <div class="generic-feedback">
@@ -31,7 +31,7 @@
                 {% endif %} 
             </p>
         </div>        
-        <p>{{question.explanation|markdown}}</p>
+        <p>{{question.explanation}}</p>
     </div>
 {% endif %}
 

@@ -56,8 +56,8 @@ class GetPrescriptionNodeTest(TestCase):
         self.assertTrue('state' in context)
 
         state = context['state']
-        self.assertEquals(state['dosage'], '1.0mg')
-        self.assertEquals(state['disp'], '5 tablets')
-        self.assertEquals(state['sig'], 'instructions go here')
-        self.assertEquals(state['refills'], '2')
+        self.assertEqual(state['dosage'], '1.0mg')
+        self.assertEqual(state['disp'], '5 tablets')
+        self.assertEqual(state['sig'], 'instructions go here')
+        self.assertEqual(state['refills'], '2')
         self.assertTrue(state['complete'])

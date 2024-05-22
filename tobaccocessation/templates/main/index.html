@@ -74,7 +74,7 @@
             <div class="row-fluid">
                 <div class="span12">
                     {% with profile.last_location as last_location %}
-                        {% ifequal profile.percent_complete 0 %}
+                        {% if profile.percent_complete == 0 %}
                             <a href="{{last_location.get_absolute_url}}" class="btn btn-large btn-primary">Begin the Course <i class="icon-arrow-right icon-white"></i></a>
                         {% else %}
                             <div class="course-progress">
@@ -87,7 +87,7 @@
                                 Continue <i class="icon-arrow-right"></i>
                             </a>
                             </div>
-                        {% endifequal %}
+                        {% endif %}
                     {% endwith %}
                 </div>
             </div>

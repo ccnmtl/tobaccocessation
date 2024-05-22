@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.utils.encoding import smart_text
+from django.utils.encoding import smart_str
 from pagetree.models import PageBlock
 
 
@@ -41,7 +41,7 @@ class Block(models.Model):
 
     def __str__(self):
         return "%s -- %s" % (
-            smart_text(self.pageblock()), self.medication_name)
+            smart_str(self.pageblock()), self.medication_name)
 
     @classmethod
     def add_form(self):

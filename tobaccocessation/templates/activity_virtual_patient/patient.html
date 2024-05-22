@@ -1,12 +1,12 @@
-{% ifequal block.view block.CLASSIFY_TREATMENTS %}
+{% if block.view == block.CLASSIFY_TREATMENTS %}
     {% include "activity_virtual_patient/options.html" %}
-{% else %}{% ifequal block.view block.BEST_TREATMENT_OPTION %}
+{% else %}{% if block.view == block.BEST_TREATMENT_OPTION %}
     {% include "activity_virtual_patient/selection.html" %}
-{% else %}{% ifequal block.view block.WRITE_PRESCRIPTION %}
+{% else %}{% if block.view == block.WRITE_PRESCRIPTION %}
     {% include "activity_virtual_patient/prescribe.html" %}
-{% else %}{% ifequal block.view block.VIEW_RESULTS %}
+{% else %}{% if block.view == block.VIEW_RESULTS %}
     {% include "activity_virtual_patient/results.html" %}
-{% endifequal %}{% endifequal %}{% endifequal %}{% endifequal %}
+{% endif %}{% endif %}{% endif %}{% endif %}
 
 
 {% if not needs_submit or is_submitted %}

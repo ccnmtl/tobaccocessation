@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.test.client import Client
-from django.utils.encoding import smart_text
+from django.utils.encoding import smart_str
 from pagetree.helpers import get_section_from_path
 from pagetree.models import Hierarchy, Section
 from quizblock.models import Quiz, Question, Answer
@@ -59,21 +59,21 @@ class UserProfileTest(TestCase):
         user = User.objects.get(username="test_student")
 
         # By default, the 1st leaf is returned if there are no visits
-        self.assertEquals(user.profile.last_location(), self.section1)
+        self.assertEqual(user.profile.last_location(), self.section1)
 
         user.profile.set_has_visited([self.section1])
-        self.assertEquals(user.profile.last_location(), self.section1)
+        self.assertEqual(user.profile.last_location(), self.section1)
 
         user.profile.set_has_visited([self.section2])
-        self.assertEquals(user.profile.last_location(), self.section2)
+        self.assertEqual(user.profile.last_location(), self.section2)
 
         user.profile.set_has_visited([self.section1])
-        self.assertEquals(user.profile.last_location(), self.section1)
+        self.assertEqual(user.profile.last_location(), self.section1)
 
     def test_user_unicode(self):
         user = User.objects.get(username="test_student")
         profile = UserProfile.objects.get(user=user)
-        uni_name = smart_text(profile)
+        uni_name = smart_str(profile)
         self.assertEqual(uni_name, "test_student")
 
     def test_user_display_name(self):
@@ -86,19 +86,19 @@ class UserProfileTest(TestCase):
         user = User.objects.get(username="test_student")
         profile = UserProfile.objects.get(user=user)
 
-        self.assertEquals(0, profile.percent_complete())
+        self.assertEqual(0, profile.percent_complete())
 
         profile.set_has_visited([self.root, self.section1])
-        self.assertEquals(66, profile.percent_complete())
+        self.assertEqual(66, profile.percent_complete())
         profile.set_has_visited([self.section2])
-        self.assertEquals(100, profile.percent_complete())
+        self.assertEqual(100, profile.percent_complete())
 
     def test_percent_complete_null_hierarchy(self):
         user = User.objects.get(username="test_student")
         profile = UserProfile.objects.get(user=user)
         profile.speciality = "pediatrics"
 
-        self.assertEquals(0, profile.percent_complete())
+        self.assertEqual(0, profile.percent_complete())
 
     def test_is_role_student(self):
         user = User.objects.get(username="test_student")
@@ -123,59 +123,59 @@ class UserProfileTest(TestCase):
         user = User.objects.get(username="test_student")
         profile = UserProfile.objects.get(user=user)
 
-        self.assertEquals("main", profile.role())
+        self.assertEqual("main", profile.role())
 
     def test_role(self):
         user = User.objects.get(username="test_student")
         profile = UserProfile.objects.get(user=user)
 
         # pre-doctoral
-        self.assertEquals(profile.role(), "main")
+        self.assertEqual(profile.role(), "main")
 
         # verify being a faculty doesn't change this selection
         profile.is_faculty = "FA"
         profile.save()
-        self.assertEquals(profile.role(), "main")
+        self.assertEqual(profile.role(), "main")
 
         profile.specialty = "S1"
         profile.save()
-        self.assertEquals(profile.role(), "general")
+        self.assertEqual(profile.role(), "general")
 
         profile.specialty = "S2"  # Pre-Doctoral Student"
         profile.save()
-        self.assertEquals(profile.role(), "main")
+        self.assertEqual(profile.role(), "main")
 
         profile.specialty = "S3"  # Endodontics
         profile.save()
-        self.assertEquals(profile.role(), "endodontics")
+        self.assertEqual(profile.role(), "endodontics")
 
         profile.specialty = "S4"  # Oral and Maxillofacial Surgery"
         profile.save()
-        self.assertEquals(profile.role(), "surgery")
+        self.assertEqual(profile.role(), "surgery")
 
         profile.specialty = "S5"  # Pediatric Dentistry
         profile.save()
-        self.assertEquals(profile.role(), "pediatrics")
+        self.assertEqual(profile.role(), "pediatrics")
 
         profile.specialty = "S6"  # Periodontics
         profile.save()
-        self.assertEquals(profile.role(), "perio")
+        self.assertEqual(profile.role(), "perio")
 
         profile.specialty = "S7"  # Prosthodontics
         profile.save()
-        self.assertEquals(profile.role(), "general")
+        self.assertEqual(profile.role(), "general")
 
         profile.specialty = "S8"  # Orthodontics
         profile.save()
-        self.assertEquals(profile.role(), "orthodontics")
+        self.assertEqual(profile.role(), "orthodontics")
 
         profile.specialty = "S9"  # Other
         profile.save()
-        self.assertEquals(profile.role(), "main")
+        self.assertEqual(profile.role(), "main")
 
         profile.specialty = "S10"  # Dental Public Health
         profile.save()
-        self.assertEquals(profile.role(), "main")
+        self.assertEqual(profile.role(), "main")
 
 
 class TestQuestionColumn(TestCase):
@@ -209,18 +209,18 @@ class TestQuestionColumn(TestCase):
         column = QuestionColumn(self.hierarchy, question)
 
         idt = "%s_%s" % (self.hierarchy.id, question.id)
-        self.assertEquals(column.identifier(), idt)
+        self.assertEqual(column.identifier(), idt)
 
         key_row = [idt, "main", "Quiz", "long text", b"foo"]
-        self.assertEquals(column.key_row(), key_row)
+        self.assertEqual(column.key_row(), key_row)
 
         # no data
-        self.assertEquals(column.user_value(self.user), "")
+        self.assertEqual(column.user_value(self.user), "")
 
         data_id = "question%s" % question.id
         data = {data_id: "here is my long text"}
         quiz.submit(self.user, data)
-        self.assertEquals(column.user_value(self.user), "here is my long text")
+        self.assertEqual(column.user_value(self.user), "here is my long text")
 
     def test_single_choice_question(self):
         choice_quiz = self.create_quizblock(self.section)
@@ -234,19 +234,19 @@ class TestQuestionColumn(TestCase):
 
         question_id = "%s_%s" % (self.hierarchy.id, question.id)
         answer_id = "%s_%s_%s" % (self.hierarchy.id, question.id, answer.id)
-        self.assertEquals(column.identifier(), answer_id)
+        self.assertEqual(column.identifier(), answer_id)
 
         key_row = [question_id, "main", "Quiz", "single choice",
                    b"foo", answer.id, b"one"]
-        self.assertEquals(column.key_row(), key_row)
+        self.assertEqual(column.key_row(), key_row)
 
         # no data
-        self.assertEquals(column.user_value(self.user), "")
+        self.assertEqual(column.user_value(self.user), "")
 
         data_id = "question%s" % question.id
         data = {data_id: "1"}
         choice_quiz.submit(self.user, data)
-        self.assertEquals(column.user_value(self.user), answer.id)
+        self.assertEqual(column.user_value(self.user), answer.id)
 
     def test_multiple_choice_question(self):
         choice_quiz = self.create_quizblock(self.section)
@@ -266,21 +266,21 @@ class TestQuestionColumn(TestCase):
 
         question_id = "%s_%s" % (self.hierarchy.id, question.id)
         answer_id = "%s_%s_%s" % (self.hierarchy.id, question.id, answer1.id)
-        self.assertEquals(column.identifier(), answer_id)
+        self.assertEqual(column.identifier(), answer_id)
 
         key_row = [question_id, "main", "Quiz", "multiple choice",
                    b"foo", answer1.id, b"one"]
-        self.assertEquals(column.key_row(), key_row)
+        self.assertEqual(column.key_row(), key_row)
 
         # no data
-        self.assertEquals(column.user_value(self.user), "")
+        self.assertEqual(column.user_value(self.user), "")
 
         data_id = "question%s" % question.id
         data = {data_id: ["2", "1"]}
         choice_quiz.submit(self.user, data)
-        self.assertEquals(column.user_value(self.user), answer1.id)
-        self.assertEquals(column2.user_value(self.user), answer2.id)
-        self.assertEquals(column3.user_value(self.user), "")
+        self.assertEqual(column.user_value(self.user), answer1.id)
+        self.assertEqual(column2.user_value(self.user), answer2.id)
+        self.assertEqual(column3.user_value(self.user), "")
 
     def test_all(self):
         choice_quiz = self.create_quizblock(self.section)
@@ -296,21 +296,21 @@ class TestQuestionColumn(TestCase):
             quiz=text_quiz, text="foo", question_type="long text")
 
         columns = QuestionColumn.all(self.hierarchy, self.section, True)
-        self.assertEquals(len(columns), 3)
-        self.assertEquals(columns[0].question, quest1)
-        self.assertEquals(columns[0].answer, a1)
-        self.assertEquals(columns[1].question, quest1)
-        self.assertEquals(columns[1].answer, a2)
-        self.assertEquals(columns[2].question, quest2)
-        self.assertEquals(columns[2].answer, None)
+        self.assertEqual(len(columns), 3)
+        self.assertEqual(columns[0].question, quest1)
+        self.assertEqual(columns[0].answer, a1)
+        self.assertEqual(columns[1].question, quest1)
+        self.assertEqual(columns[1].answer, a2)
+        self.assertEqual(columns[2].question, quest2)
+        self.assertEqual(columns[2].answer, None)
 
         columns = QuestionColumn.all(self.hierarchy, self.section, False)
-        self.assertEquals(len(columns), 2)
-        self.assertEquals(columns[0].question, quest1)
-        self.assertEquals(columns[0].answer, None)
-        self.assertEquals(columns[1].question, quest2)
-        self.assertEquals(columns[1].answer, None)
+        self.assertEqual(len(columns), 2)
+        self.assertEqual(columns[0].question, quest1)
+        self.assertEqual(columns[0].answer, None)
+        self.assertEqual(columns[1].question, quest2)
+        self.assertEqual(columns[1].answer, None)
 
     def test_clean_header(self):
         s = "<p></p></div>\n\r<>'\"foobar,"
-        self.assertEquals(clean_header(s), b'foobar')
+        self.assertEqual(clean_header(s), b'foobar')

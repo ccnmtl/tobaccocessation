@@ -35,9 +35,9 @@
                     {% for med in treatments %}
                         <div class="{{med.tag}} treatment-type">
                             <input name="pageblock-{{block.pageblock.id}}-{{med.tag}}" value="appropriate" type="radio"
-                            {% ifequal med.classification "appropriate" %}
+                            {% if med.classification == "appropriate" %}
                                 checked="checked"
-                            {% endifequal %} />  
+                            {% endif %} />  
                         </div>
                     {% endfor %}
                 </div>
@@ -46,9 +46,9 @@
                     {% for med in treatments %}
                         <div class="{{med.tag}} treatment-type">
                             <input name="pageblock-{{block.pageblock.id}}-{{med.tag}}" value="ineffective" type="radio"
-                                {% ifequal med.classification "ineffective" %}
+                                {% if med.classification == "ineffective" %}
                                     checked="checked"
-                                {% endifequal %} />                        
+                                {% endif %} />                        
                         </div>
                     {% endfor %}                        
                 </div>
@@ -57,9 +57,9 @@
                     {% for med in treatments %}
                         <div class="{{med.tag}} treatment-type">
                             <input name="pageblock-{{block.pageblock.id}}-{{med.tag}}" value="harmful" type="radio"
-                                {% ifequal med.classification "ineffective" %}
+                                {% if med.classification == "ineffective" %}
                                     checked="checked"
-                                {% endifequal %} />
+                                {% endif %} />
                         </div>
                     {% endfor %}
                 </div>

@@ -1,4 +1,4 @@
-{% ifequal medicine.rx_count 1 %}
+{% if medicine.rx_count == 1 %}
     <div class="blankrx_single">        
         <div class="prompt dosage">Dosage</div> 
         <div class="prompt quantity">Quantity to Dispense</div>
@@ -14,22 +14,22 @@
         <select name="pageblock-{{block.pageblock.id}}-concentration-{{medicine.choices.0.id}}" class="field concentration">
               <option value="-----">-----</option>
 	          {% for cc in medicine.choices.0.concentrationchoice_set.all|dictsort:"display_order"  %}
-	            {% ifequal cc.id medicine.choices.0.selected_concentration %}
+	            {% if cc.id == medicine.choices.0.selected_concentration %}
 	               <option selected="selected" value="{{cc.id}}">{{cc.concentration}}</option>
 	            {% else %}
 	               <option value="{{cc.id}}">{{cc.concentration}}</option>
-	            {% endifequal %}
+	            {% endif %}
 	          {% endfor %}
 	    </select>
 
         <select name="pageblock-{{block.pageblock.id}}-dosage-{{medicine.choices.0.id}}" class="field dosage">
           <option value="-----">-----</option>
           {% for dc in medicine.choices.0.dosagechoice_set.all|dictsort:"display_order"  %}
-             {% ifequal dc.id medicine.choices.0.selected_dosage %}
+             {% if dc.id == medicine.choices.0.selected_dosage %}
                <option selected="selected" value="{{dc.id}}">{{dc.dosage}}</option>
              {% else %}
                <option value="{{dc.id}}">{{dc.dosage}}</option>
-             {% endifequal %}
+             {% endif %}
           {% endfor %}
         </select>
 
@@ -59,22 +59,22 @@
         <select name="pageblock-{{block.pageblock.id}}-concentration-{{medicine.choices.0.id}}" class="field concentration">
               <option value="-----">-----</option>
               {% for cc in medicine.choices.0.concentrationchoice_set.all|dictsort:"display_order"  %}
-                {% ifequal cc.id medicine.choices.0.selected_concentration %}
+                {% if cc.id == medicine.choices.0.selected_concentration %}
                    <option selected="selected" value="{{cc.id}}">{{cc.concentration}}</option>
                 {% else %}
                    <option value="{{cc.id}}">{{cc.concentration}}</option>
-                {% endifequal %}
+                {% endif %}
               {% endfor %}
         </select>
 
         <select name="pageblock-{{block.pageblock.id}}-dosage-{{medicine.choices.0.id}}" class="field dosage">
           <option value="-----">-----</option>
           {% for dc in medicine.choices.0.dosagechoice_set.all|dictsort:"display_order"  %}
-             {% ifequal dc.id medicine.choices.0.selected_dosage %}
+             {% if dc.id == medicine.choices.0.selected_dosage %}
                <option selected="selected" value="{{dc.id}}">{{dc.dosage}}</option>
              {% else %}
                <option value="{{dc.id}}">{{dc.dosage}}</option>
-             {% endifequal %}
+             {% endif %}
           {% endfor %}
         </select>
 
@@ -96,22 +96,22 @@
         <select name="pageblock-{{block.pageblock.id}}-concentration-{{medicine.choices.1.id}}" class="field concentration two">
               <option value="-----">-----</option>
               {% for cc in medicine.choices.1.concentrationchoice_set.all|dictsort:"display_order"  %}
-                {% ifequal cc.id medicine.choices.1.selected_concentration %}
+                {% if cc.id == medicine.choices.1.selected_concentration %}
                    <option selected="selected" value="{{cc.id}}">{{cc.concentration}}</option>
                 {% else %}
                    <option value="{{cc.id}}">{{cc.concentration}}</option>
-                {% endifequal %}
+                {% endif %}
               {% endfor %}
         </select>
 
         <select name="pageblock-{{block.pageblock.id}}-dosage-{{medicine.choices.1.id}}" class="field dosage two">
           <option value="-----">-----</option>
           {% for dc in medicine.choices.1.dosagechoice_set.all|dictsort:"display_order"  %}
-             {% ifequal dc.id medicine.choices.1.selected_dosage %}
+             {% if dc.id == medicine.choices.1.selected_dosage %}
                <option selected="selected" value="{{dc.id}}">{{dc.dosage}}</option>
              {% else %}
                <option value="{{dc.id}}">{{dc.dosage}}</option>
-             {% endifequal %}
+             {% endif %}
           {% endfor %}
         </select>
 
@@ -123,4 +123,4 @@
 
         <div class="field refills two">{{medicine.choices.1.refillchoice_set.all.0.refill}}</div>        
     </div>
-{% endifequal %}
+{% endif %}

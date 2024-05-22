@@ -1,4 +1,4 @@
-{% load markup %}
+{% load markdownify %}
 
 <ol class="caseanswers">
 {% for answer in question.answer_set.all %}
@@ -8,7 +8,7 @@
         <li><div class="radio">
             <label>        
             {% if response %}
-                {% ifequal response.value answer.value %}
+                {% if response.value == answer.value %}
                     <input name="pageblock-{{block.pageblock.id}}-question{{question.id}}"
                            checked="checked"
                            value="{{answer.value}}" type="radio"
@@ -17,7 +17,7 @@
                     <input name="pageblock-{{block.pageblock.id}}-question{{question.id}}"
                            value="{{answer.value}}" type="radio"
                            onclick="return showVideo(this);"></input>
-                {% endifequal %}
+                {% endif %}
                 {% if answer.correct %}
                     <div class="alert alert-success">
                         <b>Correct</b>

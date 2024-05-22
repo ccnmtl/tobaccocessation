@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.test.client import RequestFactory, Client
-from django.utils.encoding import smart_text
+from django.utils.encoding import smart_str
 from pagetree.helpers import get_section_from_path
 from pagetree.models import Hierarchy
 from tobaccocessation.activity_prescription_writing.models import Block, \
@@ -21,14 +21,14 @@ class TestBlock(TestCase):
                                         refills=1,
                                         sort_order=10)
 
-        self.assertEquals(smart_text(med), "something")
-        self.assertEquals(med.rx_count, 1)
+        self.assertEqual(smart_str(med), "something")
+        self.assertEqual(med.rx_count, 1)
 
     def test_default(self):
         block = Block(medication_name='Nicotine Patch')
         block.save()
 
-        self.assertEquals(block.medication_name, 'Nicotine Patch')
+        self.assertEqual(block.medication_name, 'Nicotine Patch')
         self.assertTrue(block.allow_redo)
         self.assertTrue(block.needs_submit())
         self.assertTrue(block.redirect_to_self_on_submit())
@@ -47,7 +47,7 @@ class TestBlock(TestCase):
         self.assertIsNotNone(form)
         self.assertTrue('medication_name' in form.fields)
         self.assertTrue('allow_redo' in form.fields)
-        self.assertEquals(form.initial['medication_name'], 'Nicotine Patch')
+        self.assertEqual(form.initial['medication_name'], 'Nicotine Patch')
         self.assertTrue(form.initial['allow_redo'])
 
     def test_create(self):
@@ -56,13 +56,13 @@ class TestBlock(TestCase):
                                {'medication_name': 'Nicotine Patch',
                                 'allow_redo': False})
         block = Block.create(post_request)
-        self.assertEquals(block.medication_name, 'Nicotine Patch')
+        self.assertEqual(block.medication_name, 'Nicotine Patch')
         self.assertFalse(block.allow_redo)
 
     def test_edit(self):
         block = Block(medication_name='Nicotine Patch')
         block.save()
-        self.assertEquals(block.medication_name, 'Nicotine Patch')
+        self.assertEqual(block.medication_name, 'Nicotine Patch')
         self.assertTrue(block.allow_redo)
 
         rf = RequestFactory()
@@ -71,7 +71,7 @@ class TestBlock(TestCase):
                                 'allow_redo': False})
 
         block.edit(post_request.POST, None)
-        self.assertEquals(block.medication_name, 'Nicotine Gum')
+        self.assertEqual(block.medication_name, 'Nicotine Gum')
         self.assertFalse(block.allow_redo)
 
     def test_single_prescription(self):
@@ -86,9 +86,9 @@ class TestBlock(TestCase):
         self.assertFalse(block.unlocked(user))
 
         meds = block.medication()
-        self.assertEquals(len(meds), 1)
-        self.assertEquals(meds[0],
-                          Medication.objects.get(name='Nicotine Patch'))
+        self.assertEqual(len(meds), 1)
+        self.assertEqual(meds[0],
+                         Medication.objects.get(name='Nicotine Patch'))
 
         data = {
             'dosage': '1.0mg',
@@ -110,17 +110,17 @@ class TestBlock(TestCase):
         self.assertFalse(block.unlocked(user))
 
         meds = block.medication()
-        self.assertEquals(len(meds), 2)
-        self.assertEquals(meds[0].refills, 0)
-        self.assertEquals(meds[0].dispensing, '11 tablets')
+        self.assertEqual(len(meds), 2)
+        self.assertEqual(meds[0].refills, 0)
+        self.assertEqual(meds[0].dispensing, '11 tablets')
 
-        self.assertEquals(meds[0].refills, 0)
-        self.assertEquals(meds[0].dispensing, '11 tablets')
-        self.assertEquals(meds[0].dosage, '0.5mg')
+        self.assertEqual(meds[0].refills, 0)
+        self.assertEqual(meds[0].dispensing, '11 tablets')
+        self.assertEqual(meds[0].dosage, '0.5mg')
 
-        self.assertEquals(meds[1].refills, 2)
-        self.assertEquals(meds[1].dispensing, '56 tablets')
-        self.assertEquals(meds[1].dosage, '1.0mg')
+        self.assertEqual(meds[1].refills, 2)
+        self.assertEqual(meds[1].dispensing, '56 tablets')
+        self.assertEqual(meds[1].dosage, '1.0mg')
 
         data = {
             'dosage': '0.5mg',
@@ -213,11 +213,11 @@ class TestPrescriptionColumn(TestCase):
         column = PrescriptionColumn(self.hierarchy, block, medication, "sig")
 
         idt = "%s_%s_sig" % (self.hierarchy.id, medication.id)
-        self.assertEquals(column.identifier(), idt)
+        self.assertEqual(column.identifier(), idt)
 
         key_row = [idt, "main", 'Prescription Writing Exercise',
                    'short text', 'Nicotine Patch sig']
-        self.assertEquals(column.key_row(), key_row)
+        self.assertEqual(column.key_row(), key_row)
 
     def test_user_value_none(self):
         medication_name = 'Varenicline'
@@ -227,7 +227,7 @@ class TestPrescriptionColumn(TestCase):
 
         column = PrescriptionColumn(self.hierarchy, block, med, "dosage_2")
         # no data
-        self.assertEquals(column.user_value(self.user), '')
+        self.assertEqual(column.user_value(self.user), '')
 
     def test_user_value_single(self):
         medication_name = 'Nicotine Patch'
@@ -242,7 +242,7 @@ class TestPrescriptionColumn(TestCase):
             'refills': '2'
         }
         block.submit(self.user, data)
-        self.assertEquals(column.user_value(self.user), 'instructions go here')
+        self.assertEqual(column.user_value(self.user), 'instructions go here')
 
     def test_user_value_double(self):
         medication_name = 'Varenicline'
@@ -261,33 +261,33 @@ class TestPrescriptionColumn(TestCase):
             'refills_2': '2'
         }
         block.submit(self.user, data)
-        self.assertEquals(column.user_value(self.user), '1.0mg')
+        self.assertEqual(column.user_value(self.user), '1.0mg')
 
     def test_all_single(self):
         self.create_block(self.section, "Bupropion")
         columns = PrescriptionColumn.all(self.hierarchy, self.section, True)
-        self.assertEquals(len(columns), 4)
-        self.assertEquals(columns[0].field, "dosage")
-        self.assertEquals(columns[0].medication.name, "Bupropion")
-        self.assertEquals(columns[0].hierarchy.name, "main")
+        self.assertEqual(len(columns), 4)
+        self.assertEqual(columns[0].field, "dosage")
+        self.assertEqual(columns[0].medication.name, "Bupropion")
+        self.assertEqual(columns[0].hierarchy.name, "main")
 
-        self.assertEquals(columns[1].field, "disp")
-        self.assertEquals(columns[2].field, "sig")
-        self.assertEquals(columns[3].field, "refills")
+        self.assertEqual(columns[1].field, "disp")
+        self.assertEqual(columns[2].field, "sig")
+        self.assertEqual(columns[3].field, "refills")
 
     def test_all_double(self):
         self.create_block(self.section, "Varenicline")
         columns = PrescriptionColumn.all(self.hierarchy, self.section, True)
-        self.assertEquals(len(columns), 8)
-        self.assertEquals(columns[0].field, "dosage")
-        self.assertEquals(columns[0].medication.name, "Varenicline")
-        self.assertEquals(columns[0].hierarchy.name, "main")
+        self.assertEqual(len(columns), 8)
+        self.assertEqual(columns[0].field, "dosage")
+        self.assertEqual(columns[0].medication.name, "Varenicline")
+        self.assertEqual(columns[0].hierarchy.name, "main")
 
-        self.assertEquals(columns[1].field, "disp")
-        self.assertEquals(columns[2].field, "sig")
-        self.assertEquals(columns[3].field, "refills")
+        self.assertEqual(columns[1].field, "disp")
+        self.assertEqual(columns[2].field, "sig")
+        self.assertEqual(columns[3].field, "refills")
 
-        self.assertEquals(columns[4].field, "dosage_2")
-        self.assertEquals(columns[5].field, "disp_2")
-        self.assertEquals(columns[6].field, "sig_2")
-        self.assertEquals(columns[7].field, "refills_2")
+        self.assertEqual(columns[4].field, "dosage_2")
+        self.assertEqual(columns[5].field, "disp_2")
+        self.assertEqual(columns[6].field, "sig_2")
+        self.assertEqual(columns[7].field, "refills_2")
