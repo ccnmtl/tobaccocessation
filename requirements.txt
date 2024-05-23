@@ -9,7 +9,7 @@ Markdown==3.6
 pyenchant==3.2.2
 simplejson==3.19.2
 smartypants==2.0.1
-psycopg==3.1.12
+psycopg==3.1.19
 olefile==0.47
 Pillow==10.3.0
 versiontools==1.9.1
