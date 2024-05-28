@@ -68,7 +68,7 @@ django-bootstrap-form==3.4
 
 django-bootstrap3==24.2
 
-django-debug-toolbar==4.4.1
+django-debug-toolbar==4.4.2
 
 django-smoketest==1.2.1
 django-extensions==3.2.3
