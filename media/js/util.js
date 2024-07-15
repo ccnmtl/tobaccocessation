@@ -39,6 +39,7 @@ jQuery(document).ready(function() {
     }
 });
 
+// eslint-disable-next-line no-unused-vars
 function is_form_complete(form) {
     var complete = true;
 
