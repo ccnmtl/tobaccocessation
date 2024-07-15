@@ -86,6 +86,7 @@ function setBackgroundColor(id) {
     }
 }
 
+// eslint-disable-next-line no-unused-vars
 function onEditChange(ctrl) {
     setBackgroundColor(ctrl.id);
 }
