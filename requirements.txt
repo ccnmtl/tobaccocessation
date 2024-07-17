@@ -1,4 +1,4 @@
-Django>=4.2.13,<5
+Django>=4.2.14,<5
 resolver==0.2.1
 selector==0.10.1
 Paste==3.10.1
