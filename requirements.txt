@@ -81,7 +81,7 @@ requirements/src/django_pagetree_export-0.4-py2.py3-none-any.whl
 django-registration-redux==2.13
 django-quizblock==1.3.2
 django-ga-context==0.1.0
-gunicorn==22.0.0
+gunicorn==23.0.0
 
 # boto3 deps
 urllib3==2.2.2 # sentry-sdk
