@@ -30,7 +30,7 @@ fuzzywuzzy==0.18.0
 sure==2.0.1
 ipdb==0.13.13
 extras==1.0.0
-python-mimeparse==1.6.0
+python-mimeparse==2.0.0
 fixtures==4.1.0
 testtools==2.7.2
 testscenarios==0.5.0
