@@ -1,5 +1,6 @@
+from django.conf import settings
 from tobaccocessation.settings_shared import *  # noqa: F403
-from ctlsettings.production import common
+from ctlsettings.production import common, init_sentry
 
 
 locals().update(
@@ -10,3 +11,7 @@ locals().update(
         INSTALLED_APPS=INSTALLED_APPS,  # noqa: F405
         s3prefix='ccnmtl'
     ))
+
+
+if hasattr(settings, 'SENTRY_DSN'):
+    init_sentry(SENTRY_DSN)  # noqa F405
