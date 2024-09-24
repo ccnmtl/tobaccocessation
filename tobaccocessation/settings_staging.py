@@ -12,6 +12,11 @@ locals().update(
         s3prefix='ccnmtl'
     ))
 
+try:
+    from tobaccocessation.local_settings import *  # noqa: F403 F401
+except ImportError:
+    pass
+
 
 if hasattr(settings, 'SENTRY_DSN'):
     init_sentry(SENTRY_DSN)  # noqa F405
