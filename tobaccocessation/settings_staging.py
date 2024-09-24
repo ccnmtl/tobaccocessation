@@ -1,6 +1,6 @@
 from django.conf import settings
-from tobaccocessation.settings_shared import *  # noqa: F403
 from ctlsettings.staging import common, init_sentry
+from tobaccocessation.settings_shared import *  # noqa: F403
 
 
 locals().update(
