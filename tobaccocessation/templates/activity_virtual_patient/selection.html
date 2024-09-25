@@ -37,7 +37,7 @@
             <div class="combination-therapy" style="display: none">
                 <b>Now select two therapies to combine:</b>
                 {% for med in treatments %}
-                    {% ifnotequal med.tag "combination" %} 
+                    {% if med.tag != "combination" %}
                         <div class="treatment-type">
                             <input name="pageblock-{{block.pageblock.id}}-combination" value="{{med.tag}}" type="checkbox"
                             {% if med.combination %}
@@ -45,7 +45,7 @@
                             {% endif %} /> &nbsp;
                             <img src="{% static url %}virtualpatient/images/{{med.tag}}.jpg">   
                         </div>
-                    {% endifnotequal %}
+                    {% endif %}
                 {% endfor %}
             </div>
         </div>
