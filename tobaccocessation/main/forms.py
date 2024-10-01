@@ -24,6 +24,9 @@ class CreateAccountForm(RegistrationForm):
         max_length=25, widget=forms.PasswordInput, required=True,
         label="Confirm Password")
     email = forms.EmailField()
+    # consent = forms.(required=True)
+    consent_participant = forms.BooleanField(required=False)
+    consent_not_participant = forms.BooleanField(required=False)
     is_faculty = forms.ChoiceField(required=True, choices=FACULTY_CHOICES)
     institute = forms.ChoiceField(choices=INSTITUTION_CHOICES, required=True)
     gender = forms.ChoiceField(required=True, initial="-----",
@@ -89,6 +92,21 @@ class CreateAccountForm(RegistrationForm):
             raise forms.ValidationError("Please select a specialty.")
         return data
 
+    def clean(self):
+        cleaned_data = super(CreateAccountForm, self).clean()
+        participant = cleaned_data.get("consent_participant")
+        not_participant = cleaned_data.get("consent_not_participant")
+        if participant and not_participant:
+            # User should only select one field
+            raise forms.ValidationError("You can be a participant or not, "
+                                        "please select one or the other.")
+        if not participant and not not_participant:
+            # User should select at least one field
+            raise forms.ValidationError("You must consent that you have read"
+                                        " the document, whether you "
+                                        "participate or not.")
+        return cleaned_data
+
 
 def get_boolean(d, name, default_value):
     value = d.get(name, default_value)
@@ -102,6 +120,10 @@ def user_created(sender, user, request, **kwargs):
     except UserProfile.DoesNotExist:
         profile = UserProfile(user=user)
     profile.institute = form.data['institute']
+    profile.consent_participant = get_boolean(
+        request.POST, 'consent_participant', False)
+    profile.consent_not_participant = get_boolean(
+        request.POST, 'consent_not_participant', False)
     profile.is_faculty = form.data['is_faculty']
     profile.year_of_graduation = form.data['year_of_graduation']
     profile.specialty = form.data['specialty']
