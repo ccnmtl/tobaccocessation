@@ -19,6 +19,7 @@ from tobaccocessation.activity_virtual_patient.models import \
     ActivityState as VirtualPatientActivityState, VirtualPatientColumn
 from tobaccocessation.main.choices import RACE_CHOICES, SPECIALTY_CHOICES, \
     INSTITUTION_CHOICES, HISPANIC_LATINO_CHOICES, GENDER_CHOICES, choices_key
+from tobaccocessation.main.forms import get_boolean
 from tobaccocessation.main.models import QuickFixProfileForm, UserProfile, \
     QuestionColumn
 
@@ -41,7 +42,7 @@ def index(request):
     except UserProfile.DoesNotExist:
         profile = None
 
-    if profile is not None:
+    if profile is not None and profile.has_consented():
         profile = UserProfile.objects.get(user=request.user)
         hierarchy = get_hierarchy(name=profile.role())
         ctx = {'user': request.user,
@@ -159,6 +160,10 @@ def create_profile(request):
         form = QuickFixProfileForm(request.POST)
         if form.is_valid():
             user_profile.institute = form.data['institute']
+            user_profile.consent_participant = \
+                get_boolean(form.data, 'consent_participant', False)
+            user_profile.consent_not_participant = \
+                get_boolean(form.data, 'consent_not_participant', False)
             user_profile.is_faculty = form.data['is_faculty']
             user_profile.year_of_graduation = form.data['year_of_graduation']
             user_profile.specialty = form.data['specialty']
@@ -323,7 +328,7 @@ def _all_results_key(output, hierarchy):
 
     # key to profile choices / values
     # username, e-mail, gender, is_faculty, institution, specialty
-    #    hispanic/latino, race, year_of_graduation, % complete
+    #    hispanic/latino, race, year_of_graduation, consent, % complete
     writer.writerow(['username', 'profile', '', 'string', 'Username'])
     writer.writerow(['email', 'profile', '', 'string', 'User E-mail'])
     choices_key(writer, GENDER_CHOICES, 'gender', 'single_choice')
@@ -335,6 +340,7 @@ def _all_results_key(output, hierarchy):
     choices_key(writer, RACE_CHOICES, 'race', 'single_choice')
     writer.writerow(['year_of_graduation',
                      'profile', '', 'number', 'Graduation Year'])
+    writer.writerow(['consent', 'profile', '', 'boolean', 'Has Consented'])
     writer.writerow(['complete', 'profile', '', 'percent', 'Percent Complete'])
 
     # quizzes, prescription writing, virtual patient keys -- data / values
@@ -369,13 +375,13 @@ def _all_results(output, hierarchy, include_superusers):
 
     headers = ['username', 'email', 'gender', 'faculty', 'institution',
                'specialty', 'hispanic_latino', 'race', 'year_of_graduation',
-               'percent_complete']
+               'consent', 'percent_complete']
     for column in columns:
         headers += [column.identifier()]
     writer.writerow(headers)
 
-    # Only look at users who have create a profile
-    profiles = UserProfile.objects.all()
+    # Only look at users who have create a profile + consented
+    profiles = UserProfile.objects.filter(consent_participant=True)
     if not include_superusers:
         profiles = profiles.filter(user__is_superuser=False)
 
@@ -383,7 +389,8 @@ def _all_results(output, hierarchy, include_superusers):
         row = [profile.user.username, profile.user.email, profile.gender,
                profile.is_role_faculty(), profile.institute,
                profile.specialty, profile.hispanic_latino, profile.race,
-               profile.year_of_graduation, profile.percent_complete()]
+               profile.year_of_graduation, profile.has_consented(),
+               profile.percent_complete()]
 
         for column in columns:
             v = smart_str(column.user_value(profile.user))

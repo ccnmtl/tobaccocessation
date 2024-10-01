@@ -35,6 +35,8 @@ class VirtualPatientTestCase(TestCase):
                                           is_faculty='ST',
                                           institute='I1',
                                           specialty='S1',
+                                          consent_participant=True,
+                                          consent_not_participant=False,
                                           hispanic_latino='Y',
                                           year_of_graduation=2015)
 
