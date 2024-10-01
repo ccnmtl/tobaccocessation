@@ -552,6 +552,12 @@ body.fluid #footer
     font-size: 80%;
 }
 
+/* ---- Consent Agreement & Registration ---------- */
+
+#consent-form {
+    margin: 50px 20px 20px 20px;
+}
+
 #reg_form {
     margin: 20px;
 }
