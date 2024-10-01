@@ -15,5 +15,3 @@ class UserProfileFactory(factory.django.DjangoModelFactory):
     specialty = 'S1'
     hispanic_latino = 'Y'
     year_of_graduation = 2015
-    consent_participant = True
-    consent_not_participant = False
