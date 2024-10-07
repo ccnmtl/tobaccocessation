@@ -23,9 +23,7 @@ class UserProfileTest(TestCase):
                                           institute="I1",
                                           specialty="S2",
                                           hispanic_latino="Y",
-                                          year_of_graduation=2015,
-                                          consent_participant=True,
-                                          consent_not_participant=False)
+                                          year_of_graduation=2015)
 
         self.hierarchy = Hierarchy(name="main", base_url="/")
         self.hierarchy.save()

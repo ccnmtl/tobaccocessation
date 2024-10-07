@@ -24,39 +24,6 @@ class TestViews(TestCase):
     def test_smoke(self):
         self.client.get("/smoketest/")
 
-    def test_consent_no_profile(self):
-        self.client.login(username=self.user.username, password='test')
-        response = self.client.get('/', follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.redirect_chain[0][1], 302)
-        self.assertEqual(response.templates[0].name,
-                         "main/create_profile.html")
-
-    def test_consent_incomplete_profile(self):
-        # User has a profile, but does not have "consent" or other
-        # special fields filled out. Redirect to create profile
-        UserProfileFactory(user=self.user,
-                           consent_participant=False,
-                           consent_not_participant=False)
-
-        self.client.login(username=self.user.username, password='test')
-        response = self.client.get('/', follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.templates[0].name,
-                         "main/create_profile.html")
-        self.assertEqual(response.redirect_chain[0][1], 302)
-
-    def test_consent_complete_profile(self):
-        # User has a complete profile
-        UserProfileFactory(user=self.user)
-
-        self.client.login(username=self.user.username, password='test')
-        response = self.client.get('/', follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.templates[0].name,
-                         "main/index.html")
-        self.assertEqual(len(response.redirect_chain), 0)
-
     def test_page_no_profile(self):
         self.client.login(username=self.user.username, password='test')
         response = self.client.get(self.section.get_absolute_url(),

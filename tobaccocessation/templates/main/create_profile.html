@@ -2,86 +2,8 @@
 {% load i18n static %}
 {% block title %}Sign up for an account{% endblock %}
 
-{% block js %}
-    {{ block.super }}
-    <script type="text/javascript">
-        jQuery(document).ready(function() {
-            jQuery('#id_consent_participant').change(function() {
-                if (jQuery('#id_consent_participant').is(':checked')) {
-                    jQuery("#consent-form").hide();
-                    jQuery("div.consent-checkbox").hide();
-                    jQuery("#consent-given").show();
-                } else {
-                    jQuery("#consent-form").show();
-                    jQuery("div.consent-checkbox").show();
-                    jQuery("#consent-given").hide();
-                }
-            });
-
-            if (jQuery('#id_consent_participant').attr('checked')) {
-                jQuery("#consent-given").show();
-                jQuery("#consent-form").hide();
-                jQuery("div.consent-checkbox").hide();
-            }
-
-            jQuery('#id_consent_not_participant').change(function() {
-                if (jQuery('#id_consent_not_participant').is(':checked')) {
-                    jQuery("#consent-form").hide();
-                    jQuery("div.consent-checkbox").hide();
-                    jQuery("#consent-given").show();
-                } else {
-                    jQuery("#consent-form").show();
-                    jQuery("div.consent-checkbox").show();
-                    jQuery("#consent-given").hide();
-                }
-            });
-            if (jQuery('#id_consent_not_participant').attr('checked')) {
-                jQuery("#consent-given").show();
-                jQuery("#consent-form").hide();
-                jQuery("div.consent-checkbox").hide();
-            }
-
-
-        });
-    </script>
-
-{% endblock %}
-
 {% block content %}
-<div class="well tc" id="consent-form">
-        <h2>Consent Agreement</h2>
-        <p>Welcome to Columbia University's online tobacco cessation education website. This educational website was produced, through the collaborative efforts of Dr. David Albert from the College of Dental Medicine and the Columbia Center for New Media Teaching and Learning (CCNMTL)</p>
-
-        <p>The purpose of this course is to train dentists to provide evidence-based tobacco cessation education. In addition to completing the course, you are being asked to take part in a research project that will help us to learn more about how to best educate dentists about tobacco cessation.</p>
-
-        <p>As part of the course, we will ask you some questions about yourself and your training as a dentist. You will also complete a pre-test assessment, periodic knowledge questions throughout the modules and a final post-test. If you consent to the research portion of this program, the information you provide will be analyzed to help us determine if the course is effective.</p>
-
-		<p>You are not required to participate in the research portion of the project. If you do not wish to participate, the data you provide will not be included in any research analysis. Participation is confidential; if you do not wish to participate in the research you will be able to complete the course.</p>
-
-		<p>The data we collect will be stored securely and accessible only to study staff. Data may also be viewed by the Columbia University Medical Center (CUMC) Review Board (IRB), the Office for Human Research Protections. Identifying information will be destroyed and any data included in reports or publications that results from this research will be anonymous.</p>
-
-		<p>If you decide later that you no longer wish to participate, you may withdraw your consent. If you have questions or concerns please contact the Principal Investigator, Dr. David Albert at the Columbia University College of Dental Medicine at 212-342-8588 or by email at daa1@columbia.edu.
-		You may also contact the CUMC Institutional Review Board (IRB) at 212-305-5883 (reference # IRB- AAAL4455).</p>
-
-
-
-		<form id="reg_form" method="post" action="." class="register form-horizontal">
-            <div class="fieldWrapper consent-checkbox">
-                <div>
-                {{ form.consent_participant }}
-                <label> I have read the consent agreement and agree to participate in this study. </label>
-                {{ form.consent_participant.errors }}
-                </div>
-                 <br />
-                 <div>
-                    {{form.consent_not_participant}}
-                    <label> I would like to take the course but I do not want to participate in the study. </label>
-                    {{ form.consent_not_participant.errors }}
-                 </div>
-             </div>
-</div><!-- End of consent-form note: not end of actual form-->
-
-<div id="consent-given" style="display: none"><!-- Begin consent-given shown when a consent box is selected-->
+<form id="reg_form" method="post" action="." class="register form-horizontal">
     <h2 class="pagetitle signuptitle">Create Your Profile</h2>
     <div>
         <p>
@@ -89,75 +11,72 @@
         </p>
     </div>
 
+    <div class="fieldWrapper control-group">
+        {{ form.gender.errors }}
+        <label class="control-label">Gender: </label>
+        <div class="controls">
+            {{ form.gender }}
+        </div>
+    </div>
 
-
-     <div class="fieldWrapper control-group">
-         {{ form.gender.errors }}
-         <label class="control-label">Gender: </label>
-         <div class="controls">
-              {{ form.gender }}
-          </div>
-     </div>
-
-     <div class="fieldWrapper control-group">
-          {{ form.is_faculty.errors }}
-          <label class="control-label">Are you a faculty member or a student?</label>
-           <div class="controls">
+    <div class="fieldWrapper control-group">
+        {{ form.is_faculty.errors }}
+        <label class="control-label">Are you a faculty member or a student?</label>
+        <div class="controls">
                 {{ form.is_faculty }}
-           </div>
-     </div>
+        </div>
+    </div>
 
-     <div class="fieldWrapper control-group">
-         {{ form.specialty.errors }}
-         <label class="control-label">How would you describe your specialty?</label>
-         <div class="controls">
-             {{ form.specialty }}
-         </div>
-     </div>
+    <div class="fieldWrapper control-group">
+        {{ form.specialty.errors }}
+        <label class="control-label">How would you describe your specialty?</label>
+        <div class="controls">
+            {{ form.specialty }}
+        </div>
+    </div>
 
-      <div class="fieldWrapper control-group">
-          {{ form.institute.errors }}
-          <label class="control-label">What institution are you associated with?</label>
-          <div class="controls">
-              {{ form.institute }}
-          </div>
-      </div>
+    <div class="fieldWrapper control-group">
+        {{ form.institute.errors }}
+        <label class="control-label">What institution are you associated with?</label>
+        <div class="controls">
+            {{ form.institute }}
+        </div>
+    </div>
 
-      <div class="fieldWrapper control-group">
-          {{ form.year_of_graduation.errors }}
-          <label class="control-label">What year did you graduate?</label>
-           <div class="controls">
+    <div class="fieldWrapper control-group">
+        {{ form.year_of_graduation.errors }}
+        <label class="control-label">What year did you graduate?</label>
+        <div class="controls">
                 {{ form.year_of_graduation }}
-           </div>
-      </div>
-
-        <div class="fieldWrapper control-group">
-            {{ form.age.errors }}
-            <label class="control-label">Age: </label>
-            <div class="controls">
-                {{ form.age }}
-            </div>
         </div>
+    </div>
 
-        <div class="fieldWrapper control-group">
-            {{ form.hispanic_latino.errors }}
-            <label class="control-label">Are you Hispanic or Latino?: </label>
-            <div class="controls">
-                {{ form.hispanic_latino }}
-            </div>
+    <div class="fieldWrapper control-group">
+        {{ form.age.errors }}
+        <label class="control-label">Age: </label>
+        <div class="controls">
+            {{ form.age }}
         </div>
+    </div>
 
-        <div class="fieldWrapper control-group">
-            {{ form.race.errors }}
-            <label class="control-label">Race: </label>
-            <div class="controls">
-                {{ form.race }}
-            </div>
+    <div class="fieldWrapper control-group">
+        {{ form.hispanic_latino.errors }}
+        <label class="control-label">Are you Hispanic or Latino?: </label>
+        <div class="controls">
+            {{ form.hispanic_latino }}
         </div>
+    </div>
 
-        <div class="well" style="text-align: center">
-            <input class="btn btn-primary btn-large" type="submit" id="submit-id" value="{% trans 'Sign up!' %}" />
+    <div class="fieldWrapper control-group">
+        {{ form.race.errors }}
+        <label class="control-label">Race: </label>
+        <div class="controls">
+            {{ form.race }}
         </div>
-    </form>
-</div><!-- End of consent-given -->
+    </div>
+
+    <div class="well" style="text-align: center">
+        <input class="btn btn-primary btn-large" type="submit" id="submit-id" value="{% trans 'Sign up!' %}" />
+    </div>
+</form>
 {% endblock %}
