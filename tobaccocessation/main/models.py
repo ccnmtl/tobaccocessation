@@ -23,8 +23,6 @@ class UserProfile(models.Model):
     race = models.CharField(max_length=5, choices=RACE_CHOICES)
 
     year_of_graduation = models.PositiveIntegerField(blank=True)
-    consent_participant = models.BooleanField(default=False)
-    consent_not_participant = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username
@@ -34,15 +32,6 @@ class UserProfile(models.Model):
 
     def display_name(self):
         return self.user.username
-
-    def has_consented(self):
-        '''We need to make sure it checks both.'''
-        if self.consent_participant is True:
-            return True
-        elif self.consent_not_participant is True:
-            return True
-        else:
-            return False
 
     def has_content(self):
         return self.role() in ['main', 'general', 'surgery', 'perio']
@@ -116,8 +105,6 @@ class QuickFixProfileForm(forms.Form):
                                         required=True)
     age = forms.ChoiceField(choices=AGE_CHOICES, required=True)
     specialty = forms.ChoiceField(choices=SPECIALTY_CHOICES, required=True)
-    consent_participant = forms.BooleanField(required=False)
-    consent_not_participant = forms.BooleanField(required=False)
 
     def clean_is_faculty(self):
         data = self.cleaned_data['is_faculty']
@@ -171,21 +158,6 @@ class QuickFixProfileForm(forms.Form):
         if data == '-----':
             raise forms.ValidationError("Please select a specialty.")
         return data
-
-    def clean(self):
-        cleaned_data = super(QuickFixProfileForm, self).clean()
-        participant = cleaned_data.get("consent_participant")
-        not_participant = cleaned_data.get("consent_not_participant")
-        if participant and not_participant:
-            # User should only select one field
-            raise forms.ValidationError("You can be a participant or not,"
-                                        " please select one or the other.")
-        if not participant and not not_participant:
-            # User should select at least one field
-            raise forms.ValidationError("You must consent that you have "
-                                        "read the document, whether you "
-                                        "participate or not.")
-        return cleaned_data
 
 
 def clean_header(s):
