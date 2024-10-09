@@ -9,19 +9,34 @@
 
     <link href='//fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css' />
 
+    <script>
+        window.sentryOnLoad = function () {
+            Sentry.init({
+                {% if STAGING_ENV %}
+                environment: 'staging'
+                {% elif debug %}
+                environment: 'development'
+                {% else %}
+                environment: 'production'
+                {% endif %}
+            });
+        };
+    </script>
+    <script
+        src="https://js.sentry-cdn.com/544cf86fc7664f4d9af2ca307be58190.min.js"
+        crossorigin="anonymous"></script>
+
     <script type="text/javascript" src="{{STATIC_URL}}js/jquery-1.10.1.min.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}bootstrap/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="{{STATIC_URL}}css/main.css" media="screen" />
     <link rel="stylesheet" href="{{STATIC_URL}}css/print.css" media="print" />
 
-	    {% block css %}{% endblock %}
-
+    {% block css %}{% endblock %}
 
     {% block extrahead %}{% endblock %}	
     <link rel="stylesheet" href="https://search.sites.columbia.edu/cu-privacy-notice/cu-privacy-notice.css" />
     <script src="https://search.sites.columbia.edu/cu-privacy-notice/cu-privacy-notice.js"></script>
-
 </head>
 <body class="one_column {% block widthtype %}fluid{% endblock %}">
     <div id="container">    
