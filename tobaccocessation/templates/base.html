@@ -9,22 +9,7 @@
 
     <link href='//fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css' />
 
-    <script>
-        window.sentryOnLoad = function () {
-            Sentry.init({
-                {% if STAGING_ENV %}
-                environment: 'staging'
-                {% elif debug %}
-                environment: 'development'
-                {% else %}
-                environment: 'production'
-                {% endif %}
-            });
-        };
-    </script>
-    <script
-        src="https://js.sentry-cdn.com/544cf86fc7664f4d9af2ca307be58190.min.js"
-        crossorigin="anonymous"></script>
+    {% include "ctlsettings/sentry_js.html" %}
 
     <script type="text/javascript" src="{{STATIC_URL}}js/jquery-1.10.1.min.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}bootstrap/js/bootstrap.min.js"></script>

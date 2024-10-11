@@ -31,6 +31,7 @@ INSTALLED_APPS += [  # noqa
     'quizblock',
     'registration',
     'markdownify.apps.MarkdownifyConfig',
+    'ctlsettings',
 ]
 
 # Pageblocks/Pagetree settings
@@ -69,6 +70,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.messages.context_processors.messages',
                 'stagingcontext.staging_processor',
+                'ctlsettings.context_processors.env',
                 'gacontext.ga_processor',
                 'tobaccocessation.main.views.context_processor'
             ],
