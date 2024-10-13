@@ -31,7 +31,6 @@ INSTALLED_APPS += [  # noqa
     'quizblock',
     'registration',
     'markdownify.apps.MarkdownifyConfig',
-    'ctlsettings',
 ]
 
 # Pageblocks/Pagetree settings
