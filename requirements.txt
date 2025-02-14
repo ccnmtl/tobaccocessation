@@ -60,7 +60,7 @@ requirements/src/sorl-3.4-py3-none-any.whl
 django-indexer==0.3.0
 django-templatetag-sugar==1.0
 django-paging==0.2.5
-django-appconf==1.0.6
+django-appconf==1.1.0
 django-statsd-mozilla==0.4.0
 sentry-sdk==2.20.0
 django-bootstrap-form==3.4
