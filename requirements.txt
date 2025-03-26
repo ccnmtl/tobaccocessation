@@ -35,7 +35,7 @@ fixtures==4.2.4.post1
 testtools==2.7.2
 testscenarios==0.5.0
 python-subunit==1.4.4
-coverage==7.7.0
+coverage==7.7.1
 pyasn1==0.6.1
 
 cffi==1.17.1  # cryptography
