@@ -70,7 +70,7 @@ django-bootstrap3==25.1
 django-debug-toolbar==5.1.0
 
 django-smoketest==1.2.1
-django-extensions==4.0
+django-extensions==4.1
 django-stagingcontext==0.1.0
 django-impersonate==1.9.5
 django-treebeard==4.7.1
