@@ -50,7 +50,7 @@ requests==2.32.5
 logilab-common==2.1.0
 astroid==3.3.11
 
-pylint==3.3.8
+pylint==3.3.9
 six==1.17.0
 sqlparse==0.5.3
 contextlib2==21.6.0
