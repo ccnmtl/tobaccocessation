@@ -17,6 +17,7 @@ PROJECT_APPS = [
 MIDDLEWARE += [  # noqa
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 INSTALLED_APPS += [  # noqa
@@ -31,6 +32,7 @@ INSTALLED_APPS += [  # noqa
     'quizblock',
     'registration',
     'markdownify.apps.MarkdownifyConfig',
+    'debug_toolbar',
 ]
 
 # Pageblocks/Pagetree settings
