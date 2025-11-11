@@ -34,7 +34,7 @@ python-mimeparse==2.0.0
 fixtures==4.2.6
 testtools==2.8.0
 testscenarios==0.5.0
-python-subunit==1.4.4
+python-subunit==1.4.5
 coverage==7.11.0
 pyasn1==0.6.1
 
