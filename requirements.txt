@@ -51,7 +51,7 @@ astroid==4.0.2
 
 pylint==4.0.3
 six==1.17.0
-sqlparse==0.5.3
+sqlparse==0.5.4
 contextlib2==21.6.0
 ipaddress==1.0.23
 
