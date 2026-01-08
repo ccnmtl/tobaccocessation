@@ -82,7 +82,7 @@ django-ga-context==0.1.0
 gunicorn==23.0.0
 
 # boto3 deps
-urllib3==2.6.2 # sentry-sdk
+urllib3==2.6.3 # sentry-sdk
 s3transfer==0.16.0
 jmespath==1.0.1
 
