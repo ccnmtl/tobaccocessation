@@ -8,7 +8,7 @@ DATABASES = {
         'HOST': '',
         'PORT': '',
         'USER': '',
-        'PASSWORD': '',
+        'PASSWORD': '',  # nosec
     }
 }
 
