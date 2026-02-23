@@ -41,7 +41,7 @@ cffi==2.0.0  # cryptography
 asn1crypto==1.5.1  # cryptography
 cryptography==46.0.5
 
-chardet==5.2.0
+chardet==6.0.0.post1
 idna==3.11
 certifi==2026.1.4  # sentry-sdk
 
