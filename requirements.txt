@@ -34,7 +34,7 @@ python-mimeparse==2.0.0
 fixtures==4.3.2
 testtools==2.9.1
 testscenarios==0.6.1
-python-subunit==1.4.5
+python-subunit==1.4.6
 pyasn1==0.6.3
 
 cffi==2.0.0  # cryptography
