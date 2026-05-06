@@ -108,7 +108,7 @@ pytz==2026.2
 entrypoints==0.4
 
 python-cas==1.7.1
-django-cas-ng==5.1.0
+django-cas-ng==5.1.1
 asgiref==3.11.1
 
 backports.zoneinfo;python_version<"3.9"
