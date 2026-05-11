@@ -42,7 +42,7 @@ asn1crypto==1.5.1  # cryptography
 cryptography==48.0.0
 
 chardet==7.4.3
-idna==3.13
+idna==3.14
 certifi==2026.4.22  # sentry-sdk
 
 requests==2.33.1
