@@ -45,7 +45,7 @@ chardet==7.4.3
 idna==3.15
 certifi==2026.4.22  # sentry-sdk
 
-requests==2.34.1
+requests==2.34.2
 logilab-common==2.1.0
 astroid==4.1.2
 
