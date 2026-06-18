@@ -43,7 +43,7 @@ cryptography==49.0.0
 
 chardet==7.4.3
 idna==3.18
-certifi==2026.5.20  # sentry-sdk
+certifi==2026.6.17  # sentry-sdk
 
 requests==2.34.2
 logilab-common==2.1.0
