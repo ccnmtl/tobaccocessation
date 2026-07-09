@@ -35,7 +35,7 @@ fixtures==4.3.2
 testtools==2.9.1
 testscenarios==0.6.2
 python-subunit==1.4.6
-pyasn1==0.6.3
+pyasn1==0.6.4
 
 cffi==2.1.0  # cryptography
 asn1crypto==1.5.1  # cryptography
