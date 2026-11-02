@@ -105,7 +105,7 @@ pytz==2026.5
 entrypoints==0.4.2
 
 python-cas==1.7.2
-django-cas-ng==5.1.1
+django-cas-ng==5.1.2
 
 asgiref==3.13.0
 
