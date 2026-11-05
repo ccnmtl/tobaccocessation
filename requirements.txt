@@ -48,7 +48,7 @@ certifi==2026.10.23  # sentry-sdk
 requests==2.34.2
 logilab-common==2.1.0
 six==1.17.0
-sqlparse==0.6.0
+sqlparse==0.6.1
 contextlib2==21.6.0
 ipaddress==1.0.23
 
